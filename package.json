@@ -1,0 +1,40 @@
+{
+  "name": "godown",
+  "version": "1.1.4",
+  "main": "./index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node ./dev.js",
+    "build": "tsc --watch",
+    "pub": "node ./pub.js",
+    "roll": "rollup -c"
+  },
+  "keywords": [
+    "godown",
+    "components",
+    "lit",
+    "html",
+    "react",
+    "custom elements"
+  ],
+  "author": "startracex",
+  "license": "MIT",
+  "description": "simple,sylized,semantic components",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/startracex/godown.git"
+  },
+  "dependencies": {
+    "@lit-labs/react": "*",
+    "lit": "*",
+    "react": "*"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.0",
+    "@types/react": "^18.0.28",
+    "@web/dev-server": "^0.1.35",
+    "@web/rollup-plugin-html": "^1.11.0",
+    "rollup": "^2.73.0",
+    "rollup-plugin-minify-html-literals": "^1.2.6"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "files.exclude": {
+    ".git": true,
+    "node_modules/": true,
+    "**/*.d.ts*": true,
+    "**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "LICENSE": true,
+    "{rollup.,ts}config.js*": true,
+    "*lock*": true,
+  },
+}
