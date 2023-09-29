@@ -1,5 +1,4 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.exclude": {
     ".git": true,
     "node_modules/": true,
@@ -8,7 +7,21 @@
       "when": "$(basename).ts"
     },
     "LICENSE": true,
-    // "{rollup.,ts}config.js*": true,
+    "{rollup.,ts}config.js*": true,
     "*lock*": true,
+    ".eslintrc": true,
+    ".prettierrc": true
   },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
