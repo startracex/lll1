@@ -1,2 +1,2 @@
 import { GLOBSTD } from "../deps.js";
-export default class GroupSTD extends GLOBSTD { }
+export default class GroupSTD extends GLOBSTD {}

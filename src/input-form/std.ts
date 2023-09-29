@@ -6,23 +6,26 @@ export default class InputFormSTD extends GLOBSTD {
   _input: HTMLInputElement;
   compositing: boolean;
   autofocus: boolean;
-  static styles = [GLOBSTD.styles, css`
-:host{
-  ${cssvar}--text:rgb(240 240 240);
-  ${cssvar}--input-outline: rgb(25 130 180);
-  ${cssvar}--input-outline-focus: rgb(29 155 180);
-  ${cssvar}--input-background: rgb(24 24 24);
-  ${cssvar}--input-background-hover: rgb(42 42 42);
-  ${cssvar}--input-control:rgb(244 244 244);
-  ${cssvar}--input-true: rgb(47 129 237);
-  ${cssvar}--input-false: rgb(204 204 204);
-  ${cssvar}--input-width: 10.6rem;
-}
-::-webkit-calendar-picker-indicator {
-  background-color: var(${cssvar}--input-true);
-  border-radius: .1rem;
-}
-`];
+  static styles = [
+    GLOBSTD.styles,
+    css`
+      :host {
+        ${cssvar}--text:rgb(240 240 240);
+        ${cssvar}--input-outline: rgb(25 130 180);
+        ${cssvar}--input-outline-focus: rgb(29 155 180);
+        ${cssvar}--input-background: rgb(24 24 24);
+        ${cssvar}--input-background-hover: rgb(42 42 42);
+        ${cssvar}--input-control:rgb(244 244 244);
+        ${cssvar}--input-true: rgb(47 129 237);
+        ${cssvar}--input-false: rgb(204 204 204);
+        ${cssvar}--input-width: 10.6rem;
+      }
+      ::-webkit-calendar-picker-indicator {
+        background-color: var(${cssvar}--input-true);
+        border-radius: 0.1rem;
+      }
+    `,
+  ];
   namevalue() {
     return [this.name, this.value];
   }
@@ -48,8 +51,7 @@ export default class InputFormSTD extends GLOBSTD {
   _compositionCheck() {
     this._input?.addEventListener("compositionstart", () => {
       this.compositing = true;
-    }
-    );
+    });
     this._input?.addEventListener("compositionend", (e) => {
       this.compositing = false;
       this._handleInput(e);

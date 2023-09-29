@@ -2,7 +2,8 @@ import { html, css, property, define } from "../deps.js";
 import STD from "./std.js";
 @define("div-line")
 export class DivLine extends STD {
-  static styles = css`:host{
+  static styles = css`
+    :host {
       display: block;
       color: currentColor;
       background: none;
@@ -10,12 +11,12 @@ export class DivLine extends STD {
     div {
       display: flex;
       align-items: center;
-      border-radius:inherit;
+      border-radius: inherit;
       width: 100%;
       height: 100%;
     }
     hr {
-      border-radius:inherit;
+      border-radius: inherit;
       margin: 0;
       border: 0;
       flex: 1;
@@ -25,7 +26,8 @@ export class DivLine extends STD {
       height: 100%;
       display: flex;
       flex-direction: column;
-    }`;
+    }
+  `;
   @property() pre = "auto";
   @property() suf = "auto";
   @property({ type: Boolean }) v = false;
@@ -33,9 +35,13 @@ export class DivLine extends STD {
   render() {
     var hrstyle = `.before{height:${this.b};max-width:${this.pre}}.after{height:${this.b};max-width:${this.suf}}.v .before{width:${this.b};max-height:${this.pre}}.v .after{width:${this.b};max-height:${this.suf}}`;
     return html`<div class=${this.v ? "v" : "h"}>
-  <hr class="before"/><slot></slot><hr class="after"/>
-  <style>${hrstyle}</style>
-</div>`;
+      <hr class="before" />
+      <slot></slot>
+      <hr class="after" />
+      <style>
+        ${hrstyle}
+      </style>
+    </div>`;
   }
 }
 export default DivLine;

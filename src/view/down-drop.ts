@@ -2,37 +2,41 @@ import { html, css, query, define } from "../deps.js";
 import STD from "../layout/std.js";
 @define("down-drop")
 export class DownDrop extends STD {
-  static styles = [STD.styles, css`
-  :host{
-    height: 100%;
-    width: 100%;
-  }
-  main{
-    height: inherit;
-    width: inherit;
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    align-items: center;
-  }
-  div{
-    background-color:inherit;
-    position: absolute;
-    visibility: hidden;
-    top:100%;
-  }
-  slot[name="hover"]:hover~div,div:hover{
-    visibility: visible;
-  }
-  `];
+  static styles = [
+    STD.styles,
+    css`
+      :host {
+        height: 100%;
+        width: 100%;
+      }
+      main {
+        height: inherit;
+        width: inherit;
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        align-items: center;
+      }
+      div {
+        background-color: inherit;
+        position: absolute;
+        visibility: hidden;
+        top: 100%;
+      }
+      slot[name="hover"]:hover ~ div,
+      div:hover {
+        visibility: visible;
+      }
+    `,
+  ];
   @query("div") _div: HTMLDivElement;
   _timer: any;
   render() {
     return html`<main>
-  <slot name="hover"></slot>
-  <slot name="focus" @click=${this.toggle}></slot>
-  <div style="transform:translateX(0)"><slot></slot></div>
-</main>`;
+      <slot name="hover"></slot>
+      <slot name="focus" @click=${this.toggle}></slot>
+      <div style="transform:translateX(0)"><slot></slot></div>
+    </main>`;
   }
   async firstUpdated() {
     if (this.querySelector(`[slot="focus"]`)) {
@@ -44,15 +48,13 @@ export class DownDrop extends STD {
     }
     await this.updateComplete;
     this.resize();
-    window.addEventListener("resize",
-      () => {
-        clearTimeout(this._timer);
-        this._timer = setTimeout(() => {
-          this._div.style.transform = `translateX(0)`;
-          this.resize();
-        }, 250);
-      }
-    );
+    window.addEventListener("resize", () => {
+      clearTimeout(this._timer);
+      this._timer = setTimeout(() => {
+        this._div.style.transform = `translateX(0)`;
+        this.resize();
+      }, 250);
+    });
   }
   resize() {
     const offsets = this.offsetParent?.getBoundingClientRect() || document.body.getBoundingClientRect();

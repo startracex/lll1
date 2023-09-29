@@ -4,10 +4,12 @@ import STD from "./std.js";
 export class DragBox extends STD {
   @property() x = "auto";
   @property() y = "auto";
-  static styles = css`:host{
-    position:relative;
-    display: inline-flex;
-  }`;
+  static styles = css`
+    :host {
+      position: relative;
+      display: inline-flex;
+    }
+  `;
   get offsetsWidth() {
     return this.offsetParent?.clientWidth ?? document.body.offsetWidth;
   }
@@ -15,8 +17,7 @@ export class DragBox extends STD {
     return this.offsetParent?.clientHeight ?? document.body.offsetHeight;
   }
   render() {
-    return html`
-    <div @mousedown=${this._startDrag} @mouseup=${this._endDrag} >
+    return html` <div @mousedown=${this._startDrag} @mouseup=${this._endDrag}>
       <slot></slot>
     </div>`;
   }
@@ -47,17 +48,14 @@ export class DragBox extends STD {
     var nt = e.clientY - (this.cy - this.t);
     if (nl < 0) {
       this.style.left = "0";
-    } else if (
-      nl < this.offsetsWidth - this.offsetWidth
-    ) {
+    } else if (nl < this.offsetsWidth - this.offsetWidth) {
       this.style.left = `${nl}px`;
     } else {
       this.style.left = `${this.offsetsWidth - this.offsetWidth}"px"`;
     }
     if (nt < 0) {
       this.style.top = "0";
-    } else if (nt < this.offsetsHeight - this.offsetHeight
-    ) {
+    } else if (nt < this.offsetsHeight - this.offsetHeight) {
       this.style.top = `${nt}px`;
     } else {
       this.style.top = `${this.offsetsHeight - this.offsetHeight}px`;

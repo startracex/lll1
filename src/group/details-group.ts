@@ -4,9 +4,11 @@ import STD from "./std.js";
 export class DetailsGroup extends STD {
   @property({ type: Number }) index = -1;
   @property({ type: Boolean }) only = false;
-  static styles = css`:host{
-    display:block;
-  }`;
+  static styles = css`
+    :host {
+      display: block;
+    }
+  `;
   render() {
     return html`<slot></slot>`;
   }

@@ -2,7 +2,8 @@ import { html, css, property, define } from "../deps.js";
 import STD from "./std.js";
 @define("dialog-item")
 export class DialogItem extends STD {
-  static styles = css`:host {
+  static styles = css`
+    :host {
       position: fixed;
       height: 100%;
       width: 100%;
@@ -10,7 +11,7 @@ export class DialogItem extends STD {
       bottom: 0;
       left: 0;
       right: 0;
-      transition: all .3s;
+      transition: all 0.3s;
       display: flex;
       visibility: hidden;
       background: rgb(0 0 0 / 0%);
@@ -19,14 +20,14 @@ export class DialogItem extends STD {
       visibility: visible;
     }
     :host([open][modal]) {
-      backdrop-filter: blur(.25px);
+      backdrop-filter: blur(0.25px);
       background: rgb(0 0 0 / 20%);
     }
     [open] slot {
       opacity: 1 !important;
       transform: translateY(0) translateX(0) !important;
     }
-    div{
+    div {
       height: 100%;
       width: 100%;
       display: flex;
@@ -36,35 +37,35 @@ export class DialogItem extends STD {
       display: block;
       width: fit-content;
       height: fit-content;
-      margin:auto;
+      margin: auto;
       opacity: 0;
       transition: inherit;
       pointer-events: all;
     }
-    .center{
-      transform:translateY(-15%);
-    }
-    .top{
-      width: 100%;
-      margin-top:0;
+    .center {
       transform: translateY(-15%);
     }
-    .right{
+    .top {
+      width: 100%;
+      margin-top: 0;
+      transform: translateY(-15%);
+    }
+    .right {
       height: 100%;
-      margin-right:0;
+      margin-right: 0;
       transform: translateX(15%);
     }
-    .bottom{
+    .bottom {
       width: 100%;
-      margin-bottom:0;
+      margin-bottom: 0;
       transform: translateY(15%);
     }
-    .left{
+    .left {
       height: 100%;
-      margin-left:0;
+      margin-left: 0;
       transform: translateX(-15%);
     }
-    `;
+  `;
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ type: String }) key = "Escape";
   @property({ type: Boolean }) scale = false;
@@ -75,19 +76,16 @@ export class DialogItem extends STD {
   }
   render() {
     return html`<div ?open=${this.open} ?modal=${this.modal}>
-  <slot class=${this.call}></slot>
-</div>`;
+      <slot class=${this.call}></slot>
+    </div>`;
   }
   firstUpdated() {
-    this.addEventListener("submit", e => {
+    this.addEventListener("submit", (e) => {
       if ((e.target as HTMLFormElement).method === "dialog") this.close();
     });
-    if (this.scale)
-      this.addEventListener("wheel", this._handleWheel);
-    if (this.key)
-      document.addEventListener("keydown", e => this._handleKeydown(e));
-    if (this.open)
-      this.show();
+    if (this.scale) this.addEventListener("wheel", this._handleWheel);
+    if (this.key) document.addEventListener("keydown", (e) => this._handleKeydown(e));
+    if (this.open) this.show();
   }
   show() {
     this.open = true;
@@ -102,8 +100,7 @@ export class DialogItem extends STD {
   }
   close() {
     this.open = false;
-    if (this.modal)
-      this._div.removeEventListener("click", this._handleModal);
+    if (this.modal) this._div.removeEventListener("click", this._handleModal);
   }
   _handleWheel(e) {
     let s = this._div.style.transform.match(/scale\((.*)\)/);
@@ -114,7 +111,7 @@ export class DialogItem extends STD {
     this._div.style.transform = `scale(${scale})`;
   }
   _handleKeydown(e: KeyboardEvent) {
-    const keys = this.key.split(/[^a-zA-Z0-9]/).filter(e => e !== "");
+    const keys = this.key.split(/[^a-zA-Z0-9]/).filter((e) => e !== "");
     if (keys.includes(e.key) || keys.includes(e.code)) this.close();
   }
   _handleModal(e: Event) {

@@ -5,25 +5,25 @@ import { createComponent } from "@lit-labs/react";
 export const DetailsExpand = createComponent({
   tagName: "details-expand",
   elementClass: X.DetailsExpand,
-  react: React
+  react: React,
 });
 export const DownDrop = createComponent({
   tagName: "down-drop",
   elementClass: X.DownDrop,
-  react: React
+  react: React,
 });
 export const MenuList = createComponent({
   tagName: "menu-list",
   elementClass: X.MenuList,
-  react: React
+  react: React,
 });
 export const RouteView = createComponent({
   tagName: "route-view",
   elementClass: X.RouteView,
-  react: React
+  react: React,
 });
 export const ScrollX = createComponent({
   tagName: "scroll-x",
   elementClass: X.ScrollX,
-  react: React
+  react: React,
 });

@@ -8,7 +8,7 @@
       "when": "$(basename).ts"
     },
     "LICENSE": true,
-    "{rollup.,ts}config.js*": true,
+    // "{rollup.,ts}config.js*": true,
     "*lock*": true,
   },
 }

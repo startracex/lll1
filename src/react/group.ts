@@ -5,15 +5,15 @@ import { createComponent } from "@lit-labs/react";
 export const AvatarGroup = createComponent({
   tagName: "avatar-group",
   elementClass: X.AvatarGroup,
-  react: React
+  react: React,
 });
 export const ButtonGroup = createComponent({
   tagName: "button-group",
   elementClass: X.ButtonGroup,
-  react: React
+  react: React,
 });
 export const DetailsGroup = createComponent({
   tagName: "details-group",
   elementClass: X.DetailsGroup,
-  react: React
+  react: React,
 });

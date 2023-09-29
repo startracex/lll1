@@ -10,32 +10,31 @@ export class TWText extends STD {
   @state() len = 0;
   @state() _timer = [];
   static styles = css`
-  :host{
-    font-family: monospace;
-    white-space: nowrap;
-  }
-  i{
-    border-right: 1px solid;
-    margin: 1px;
-    animation: s 1.5s steps(1) infinite;
-  }
-  @keyframes s {
-  0%{
-    border-color: currentColor;
-  }
-  50% {
-    border-color: transparent
-  }
-  }`;
+    :host {
+      font-family: monospace;
+      white-space: nowrap;
+    }
+    i {
+      border-right: 1px solid;
+      margin: 1px;
+      animation: s 1.5s steps(1) infinite;
+    }
+    @keyframes s {
+      0% {
+        border-color: currentColor;
+      }
+      50% {
+        border-color: transparent;
+      }
+    }
+  `;
   render() {
     return html`<slot></slot><i></i>`;
   }
   firstUpdated() {
-    if (!this.text)
-      this.text = this.shadowRoot.querySelector("slot").assignedNodes()[0]?.textContent.trim() || "";
+    if (!this.text) this.text = this.shadowRoot.querySelector("slot").assignedNodes()[0]?.textContent.trim() || "";
     this.len = this.text.length;
-    if (!this.stopped && this.len)
-      this.rewrite();
+    if (!this.stopped && this.len) this.rewrite();
   }
   rewrite() {
     for (const timer of this._timer) {
@@ -54,13 +53,13 @@ export class TWText extends STD {
           if (this.len === text.textContent.length) {
             this.dispatchEvent(new CustomEvent("done", { detail: delay }));
           }
-        }, delay));
+        }, delay),
+      );
       delay += autochange;
       if (!this.autochange) {
         autochange = random(this.min, this.max);
       }
-    }
-    );
+    });
   }
   stop() {
     for (const timer of this._timer) {

@@ -1,5 +1,5 @@
-import resolve from '@rollup/plugin-node-resolve';
-import terser from '@rollup/plugin-terser';
+import resolve from "@rollup/plugin-node-resolve";
+import terser from "@rollup/plugin-terser";
 import _minifyHTML from "rollup-plugin-minify-html-literals";
 const minifyHTML = _minifyHTML.default;
 export default {
@@ -14,21 +14,21 @@ export default {
   input: "public/index.js",
   output: [
     {
-      file: 'build/es.js',
+      file: "build/es.js",
       format: "es",
-      sourcemap: true
+      sourcemap: true,
     },
     {
-      file: 'build/umd.js',
+      file: "build/umd.js",
       format: "umd",
       name: "GodownWebComponents",
-      sourcemap: true
+      sourcemap: true,
     },
     {
-      file: 'build/iife.js',
+      file: "build/iife.js",
       format: "iife",
       name: "GodownWebComponents",
-      sourcemap: true
-    }
+      sourcemap: true,
+    },
   ],
 };

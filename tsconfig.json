@@ -3,11 +3,7 @@
     "target": "es2019",
     "module": "es2020",
     "moduleResolution": "node",
-    "lib": [
-      "es2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["es2020", "DOM", "DOM.Iterable"],
     "declaration": true,
     "declarationMap": true,
     "experimentalDecorators": true,
@@ -18,7 +14,5 @@
     "rootDir": "./src",
     "outDir": "./public"
   },
-  "include": [
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }

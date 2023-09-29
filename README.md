@@ -13,14 +13,13 @@ npm i godown
 html
 
 ```html
-
 <alert-item title="Alert"></alert-item>
 ```
 
 js
 
 ```js
-import {AlertItem} from "godown";
+import { AlertItem } from "godown";
 
 const item = new AlertItem();
 item.title = "Alert";
@@ -30,10 +29,10 @@ document.body.appendChild(item);
 react
 
 ```jsx
-import {AlertItem} from "godown/react";
+import { AlertItem } from "godown/react";
 
 export default function () {
-    return <AlertItem title="Alert"/>;
+  return <AlertItem title="Alert" />;
 }
 ```
 
@@ -61,6 +60,12 @@ Generate minified
 
 ```sh
 npm run roll
+```
+
+Format code
+
+```sh
+npm run fmt
 ```
 
 ## Directory Structure

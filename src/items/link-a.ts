@@ -6,27 +6,28 @@ export class LinkAnchor extends SuperAnchor {
   @property() active = "";
   @property({ type: Boolean }) replace = false;
   static styles = css`
-  :host{
-    display: inline-block;
-    color:currentColor;
-    text-decoration: none;
-    cursor: default;
-  }
-  :host([href]){
-    cursor: pointer;
-  }
-  a{
-    width: 100%;
-    display: flex;
-    color: inherit;
-    text-decoration: inherit;
-    justify-content: space-between;
-    align-items: center;
-  }
-  i{
-    display: inline-flex;
-    border-radius: 20%;
-  }`;
+    :host {
+      display: inline-block;
+      color: currentColor;
+      text-decoration: none;
+      cursor: default;
+    }
+    :host([href]) {
+      cursor: pointer;
+    }
+    a {
+      width: 100%;
+      display: flex;
+      color: inherit;
+      text-decoration: inherit;
+      justify-content: space-between;
+      align-items: center;
+    }
+    i {
+      display: inline-flex;
+      border-radius: 20%;
+    }
+  `;
   firstUpdated() {
     this.shadowRoot.querySelector("a").addEventListener("click", this._handleClick.bind(this));
     if (this.active) {
