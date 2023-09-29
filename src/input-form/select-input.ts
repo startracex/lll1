@@ -106,19 +106,19 @@ export class SelectInput extends STD {
         @input=${this._handleInput}
         placeholder=${this.pla}
       />
-      <label for="input"
-        ><svg viewBox="0 0 48 48" fill="none"><path d="M36 19L24 31L12 19H36Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round" /></svg
-      ></label>
+      <label for="input">
+        <svg viewBox="0 0 48 48" fill="none"><path d="M36 19L24 31L12 19H36Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round" /></svg>
+      </label>
       <aside ?open=${this.open}><slot></slot></aside>
     </div>`;
   }
   lists() {
-    var itemTemplates = [];
+    const itemTemplates = [];
     if (this.value.length)
       for (const i in this.value) {
         itemTemplates.push(
-          html`<i class="selected-item"
-            >${this.text[i] || this.value[i]}
+          html`<i class="selected-item">
+            ${this.text[i] || this.value[i]}
             <svg
               @click=${() => {
                 this.select(this.value[i]);

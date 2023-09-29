@@ -108,11 +108,11 @@ export class AvatarAnchor extends STD {
     if (this.src) {
       return html`<img src=${this.src} />`;
     } else if (this.name) {
-      var name = this.name.slice(0, 2);
+      let name = this.name.slice(0, 2);
       name = name[0].toUpperCase() + name.slice(1);
       return html`<span>${name}</span>`;
     } else if (this.more) {
-      var more = this.more > 99 ? "..." : this.more;
+      const more = this.more > 99 ? "..." : this.more;
       return html`<span>+${more}</span>`;
     }
     return html`<slot name="avatar"></slot>`;

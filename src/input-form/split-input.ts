@@ -95,7 +95,6 @@ export class SplitInput extends STD {
     if (e.data === null) {
       if (this.currentValue[this.current] !== null) {
         this.currentValue[this.current] = null;
-        this.current = this.current;
       } else {
         this.currentValue[this.current - 1] = null;
         this.current = this.current - 1 < 0 ? 0 : this.current - 1;

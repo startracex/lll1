@@ -124,7 +124,7 @@ export class SearchInput extends STD {
         document.querySelector(this.target).replaceChildren();
         return;
       }
-      for (let e of queryElementCollection) {
+      for (const e of queryElementCollection) {
         if (e.textContent.includes(value)) {
           targetElement.appendChild(e.cloneNode(true));
         }

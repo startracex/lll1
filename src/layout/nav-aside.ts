@@ -30,10 +30,10 @@ export class NavAside extends STD {
     `,
   ];
   render() {
-    var p = this.position.split(" ")[0] || "sticky";
-    var pm = this.position.split(" ")[1] || "fixed";
-    var m = this.m || "720px";
-    var styled = `:host{position:${p} !important;}@media(min-width:${m}){:host{position:${pm} !important;width:fit-content !important;height:100% !important;}nav{display: flex !important;justify-content: space-between !important;flex-direction: column !important;align-content: flex-start !important;align-items: stretch !important;}}`;
+    const p = this.position.split(" ")[0] || "sticky";
+    const pm = this.position.split(" ")[1] || "fixed";
+    const m = this.m || "720px";
+    const styled = `:host{position:${p} !important;}@media(min-width:${m}){:host{position:${pm} !important;width:fit-content !important;height:100% !important;}nav{display: flex !important;justify-content: space-between !important;flex-direction: column !important;align-content: flex-start !important;align-items: stretch !important;}}`;
     return html`<nav><slot></slot></nav>
       <style>
         ${styled}

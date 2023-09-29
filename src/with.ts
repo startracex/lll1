@@ -50,11 +50,11 @@ export const create = (args: string | { tag: any; props?: any; children?: any; h
  */
 export const retag = (map) => {
   if (!map) return;
-  for (let [key, args] of map) {
+  for (const [key, args] of map) {
     for (let i = document.querySelectorAll(key).length - 1; i >= 0; i--) {
       const element = document.querySelectorAll(key)[i];
       const tag = (typeof args === "string" ? args : args?.tag) || "div";
-      let props = args.props || {};
+      const props = args.props || {};
       const { children, html = "" } = args;
       [...element.attributes].reduce((acc, attr) => {
         acc[attr.name] = attr.args;

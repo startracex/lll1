@@ -44,8 +44,8 @@ export class DragBox extends STD {
   }
   _handleDrag(e: MouseEvent) {
     if (!this.drag) return;
-    var nl = e.clientX - (this.cx - this.l);
-    var nt = e.clientY - (this.cy - this.t);
+    const nl = e.clientX - (this.cx - this.l);
+    const nt = e.clientY - (this.cy - this.t);
     if (nl < 0) {
       this.style.left = "0";
     } else if (nl < this.offsetsWidth - this.offsetWidth) {

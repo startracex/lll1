@@ -44,17 +44,17 @@ export class SignForm extends STD {
         node.reset();
       }
     });
-    var form: any = document.createElement("form");
-    for (let slot of this.shadowRoot.querySelectorAll("slot"))
-      for (let i of slot.assignedNodes() as any) {
+    const form: any = document.createElement("form");
+    for (const slot of this.shadowRoot.querySelectorAll("slot"))
+      for (const i of slot.assignedNodes() as any) {
         if (i.reset) {
           i.reset();
         }
         form.appendChild(i.cloneNode(true));
       }
     form.reset();
-    for (let slot of this.shadowRoot.querySelectorAll("slot"))
-      for (let i of slot.assignedNodes() as any) {
+    for (const slot of this.shadowRoot.querySelectorAll("slot"))
+      for (const i of slot.assignedNodes() as any) {
         if (i.name && form[i.name]) {
           i.value = form[i.name].value;
         }
@@ -62,13 +62,13 @@ export class SignForm extends STD {
     form.remove();
   }
   namevalue() {
-    var x = {};
-    var form = document.createElement("form");
+    const x = {};
+    const form = document.createElement("form");
     form.enctype = "multipart/form-data";
-    for (let slot of this.shadowRoot.querySelectorAll("slot"))
-      for (let i of slot.assignedNodes() as any) {
+    for (const slot of this.shadowRoot.querySelectorAll("slot"))
+      for (const i of slot.assignedNodes() as any) {
         if (i.namevalue) {
-          var [name, value] = i.namevalue();
+          const [name, value] = i.namevalue();
           if (name) {
             x[name] = value;
           }
@@ -76,13 +76,13 @@ export class SignForm extends STD {
           form.appendChild(i.cloneNode(true));
         }
       }
-    var y = new FormData(form);
-    for (let [key, value] of y) {
+    const y = new FormData(form);
+    for (const [key, value] of y) {
       x[key] = value;
     }
     each(this._form, (node: any) => {
       if (node.namevalue) {
-        var [name, value] = node.namevalue();
+        const [name, value] = node.namevalue();
         if (name) {
           x[name] = value;
         }
@@ -92,29 +92,29 @@ export class SignForm extends STD {
     return [this.name, x];
   }
   FormData() {
-    var x = {};
-    var form = document.createElement("form");
+    const x = {};
+    const form = document.createElement("form");
     form.enctype = "multipart/form-data";
-    for (let slot of this.shadowRoot.querySelectorAll("slot"))
-      for (let i of slot.assignedNodes() as any) {
+    for (const slot of this.shadowRoot.querySelectorAll("slot"))
+      for (const i of slot.assignedNodes() as any) {
         if (i.FormData) {
-          for (let [key, value] of i.FormData()) {
+          for (const [key, value] of i.FormData()) {
             x[key] = value;
           }
         } else {
           form.appendChild(i.cloneNode(true));
         }
       }
-    var y = new FormData(form);
+    const y = new FormData(form);
     each(this._form, (node: any) => {
       if (node.namevalue) {
-        var [name, value] = node.namevalue();
+        const [name, value] = node.namevalue();
         if (name) {
           y.append(name, value);
         }
       }
     });
-    for (let key in x) {
+    for (const key in x) {
       y.append(key, x[key]);
     }
     form.remove();
@@ -124,7 +124,7 @@ export class SignForm extends STD {
 function each(node: Node, callback: (node: Node) => void) {
   if (node) {
     callback(node);
-    for (let i of node.childNodes) {
+    for (const i of node.childNodes) {
       each(i, callback);
     }
   }

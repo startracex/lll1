@@ -33,7 +33,7 @@ export class DivLine extends STD {
   @property({ type: Boolean }) v = false;
   @property() b = "2.2px";
   render() {
-    var hrstyle = `.before{height:${this.b};max-width:${this.pre}}.after{height:${this.b};max-width:${this.suf}}.v .before{width:${this.b};max-height:${this.pre}}.v .after{width:${this.b};max-height:${this.suf}}`;
+    const hrstyle = `.before{height:${this.b};max-width:${this.pre}}.after{height:${this.b};max-width:${this.suf}}.v .before{width:${this.b};max-height:${this.pre}}.v .after{width:${this.b};max-height:${this.suf}}`;
     return html`<div class=${this.v ? "v" : "h"}>
       <hr class="before" />
       <slot></slot>

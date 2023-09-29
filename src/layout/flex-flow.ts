@@ -12,8 +12,8 @@ export class FlexFlow extends STD {
   render() {
     const flexflow = this.flexflow.split(/\s+/);
     const style = `:host{flex-direction:${flexflow[0] || "row"};flex-wrap:${flexflow[1] || "nowrap"};}@media(max-width: ${this.m || "720px"}){:host{flex-direction:${flexflow[2] || flexflow[0] || "colom"};flex-wrap:${flexflow[3] || flexflow[1] || "nowrap"}}`;
-    return html`<slot></slot
-      ><style>
+    return html`<slot></slot>
+    <style>
         ${style}
       </style>`;
   }

@@ -3,7 +3,7 @@ import { CSSResultGroup, LitElement, css, unsafeCSS } from "lit";
 /**
  * Custom CSS variable,join with "--" ,only allow `a-Z,0-9,-`
  */
-export const cssvar = unsafeCSS("--" + conf.cssvar.replace(/[^a-zA-Z0-9\-]/g, ""));
+export const cssvar = unsafeCSS("--" + conf.cssvar.replace(/[^a-zA-Z0-9\\-]/g, ""));
 export class GLOBSTD extends LitElement {
   static styles = css`
     :host {

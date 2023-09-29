@@ -53,16 +53,15 @@ export class RouteView extends LitElement {
       this.path = window.location.pathname;
     });
     if (!this.override) return;
-    const self = this;
     const pushHistory = history.pushState;
     history.pushState = function () {
       pushHistory.apply(this, arguments);
-      self.path = window.location.pathname;
+      this.path = window.location.pathname;
     };
     const replaceHistory = history.replaceState;
     history.replaceState = function () {
       replaceHistory.apply(this, arguments);
-      self.path = window.location.pathname;
+      this.path = window.location.pathname;
     };
   }
   render_united() {

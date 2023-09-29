@@ -52,13 +52,13 @@ export class ROPort extends STD {
   }
   render() {
     return html`<div>
-      <a @click=${this.prev} prev
-        ><svg viewBox="0 0 48 48" fill="none"><path d="M31 36L19 24L31 12" stroke="#1e293b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg
-      ></a>
+      <a @click=${this.prev} prev>
+        <svg viewBox="0 0 48 48" fill="none"><path d="M31 36L19 24L31 12" stroke="#1e293b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </a>
       <section><slot></slot></section>
       <a @click=${this.next} next
-        ><svg viewBox="0 0 48 48" fill="none"><path d="M19 12L31 24L19 36" stroke="#1e293b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg
-      ></a>
+        ><svg viewBox="0 0 48 48" fill="none"><path d="M19 12L31 24L19 36" stroke="#1e293b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </a>
     </div>`;
   }
   firstUpdated() {

@@ -120,8 +120,9 @@ export class SwitchInput extends STD {
       <aside>
         <div class="false"><slot name="false"></slot></div>
         <div class="always"><slot></slot><slot name="always"></slot></div>
-        <div class="true"><slot name="true"></slot></div></aside
-    ></span>`;
+        <div class="true"><slot name="true"></slot></div>
+      </aside>
+    </span>`;
   }
   reset() {
     this.checked = this.def === "true";

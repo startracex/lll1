@@ -19,7 +19,6 @@ export class BaseInput extends STD {
   @property({ type: Boolean }) autofocus = false;
   static styles = [
     STD.styles,
-    ,
     css`
       :host {
         width: var(${cssvar}--input-width);

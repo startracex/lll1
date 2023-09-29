@@ -103,8 +103,8 @@ export class DialogItem extends STD {
     if (this.modal) this._div.removeEventListener("click", this._handleModal);
   }
   _handleWheel(e) {
-    let s = this._div.style.transform.match(/scale\((.*)\)/);
-    var scale = 1;
+    const s = this._div.style.transform.match(/scale\((.*)\)/);
+    let scale = 1;
     if (s) scale = Number(s[1]);
     if (e.deltaY > 0) scale -= 0.1;
     else scale += 0.1;
