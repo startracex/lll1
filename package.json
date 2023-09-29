@@ -7,7 +7,8 @@
     "dev": "node ./dev.js",
     "build": "tsc --watch",
     "pub": "node ./pub.js",
-    "roll": "rollup -c"
+    "roll": "tsc && rollup -c",
+    "fmt": "prettier --write ."
   },
   "keywords": [
     "godown",
@@ -30,11 +31,13 @@
     "react": "*"
   },
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@rollup/plugin-terser": "^0.4.3",
     "@types/react": "^18.0.28",
     "@web/dev-server": "^0.1.35",
     "@web/rollup-plugin-html": "^1.11.0",
-    "rollup": "^2.73.0",
+    "prettier": "^3.0.3",
+    "rollup": "^3.29.4",
     "rollup-plugin-minify-html-literals": "^1.2.6"
   }
 }
