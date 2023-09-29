@@ -68,6 +68,12 @@ Format code
 npm run fmt
 ```
 
+Lint code
+
+```sh
+npm run lint
+```
+
 ## Directory Structure
 
 files
