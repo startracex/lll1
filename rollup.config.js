@@ -1,6 +1,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
-import minifyHTML from 'rollup-plugin-minify-html-literals';
+import _minifyHTML from "rollup-plugin-minify-html-literals";
+const minifyHTML = _minifyHTML.default;
 export default {
   plugins: [
     resolve(),
