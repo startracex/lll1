@@ -3,4 +3,5 @@ node_modules
 /public/*
 !/public/README.md
 /*lock*
-/build
+build
+.idea
