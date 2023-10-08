@@ -263,7 +263,7 @@ export class SelectInput extends STD {
     }
     this.dispatchEvent(new CustomEvent("input", { detail: this.namevalue() }));
   }
-  namevalue() {
+  namevalue(): [string, any[]] | [string, any] {
     if (!this.only) {
       return [this.name, this.value];
     }

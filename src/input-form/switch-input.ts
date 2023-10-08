@@ -141,7 +141,7 @@ export class SwitchInput extends STD {
     this.dispatchEvent(new CustomEvent("input", { detail: this.checked, bubbles: true, composed: true }));
     this.dispatchEvent(new CustomEvent("change", { detail: this.checked, composed: true }));
   }
-  namevalue() {
+  namevalue(): [string, boolean] {
     return [this.name, this.checked];
   }
 }

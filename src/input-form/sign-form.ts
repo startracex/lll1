@@ -61,7 +61,7 @@ export class SignForm extends STD {
       }
     form.remove();
   }
-  namevalue() {
+  namevalue(): [string, { [key: string]: any }] {
     const x = {};
     const form = document.createElement("form");
     form.enctype = "multipart/form-data";
@@ -91,7 +91,7 @@ export class SignForm extends STD {
     form.remove();
     return [this.name, x];
   }
-  FormData() {
+  FormData(): FormData {
     const x = {};
     const form = document.createElement("form");
     form.enctype = "multipart/form-data";

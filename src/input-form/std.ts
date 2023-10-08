@@ -26,7 +26,7 @@ export default class InputFormSTD extends GLOBSTD {
       }
     `,
   ];
-  namevalue() {
+  namevalue(): [string, any] {
     return [this.name, this.value];
   }
   reset() {
