@@ -10,6 +10,7 @@
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["*/*.js"],
   "rules": {
     "semi": ["warn", "always"],
     "quotes": ["warn", "double"],
