@@ -6,9 +6,9 @@ export class NavAside extends STD {
   @property() position = "sticky fixed";
   static styles = [
     STD.styles,
+    navstyle,
     css`
       :host {
-        ${navstyle}
         color: var(${cssvar}--nav-text);
         background: var(${cssvar}--nav-background);
         top: 0;

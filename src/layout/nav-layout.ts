@@ -5,9 +5,9 @@ import STD, { navstyle } from "./std.js";
 export class NavLayout extends STD {
   static styles = [
     STD.styles,
+    navstyle,
     css`
       :host {
-        ${navstyle}
         ${cssvar}--nav-height:2.4em;
         ${cssvar}--nav-h1-size:calc(var(${cssvar}--nav-height)/2);
         width: 100%;
