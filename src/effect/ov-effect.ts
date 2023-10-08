@@ -192,9 +192,9 @@ export class OVText extends STD {
       }
     `,
   ];
-  @property() t1 = `t1 unset.`;
-  @property() t2 = `t2 unset..`;
-  @property() t3 = `t3 unset...`;
+  @property() t1 = "t1 unset.";
+  @property() t2 = "t2 unset..";
+  @property() t3 = "t3 unset...";
   render() {
     return html`<div class="overbreath">
       <span class="overbreathpart"><span class="overbreathroot">${this.t1}</span><span class="overbreathtext">${this.t1}</span></span>

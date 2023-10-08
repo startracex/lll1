@@ -80,7 +80,7 @@ export class ROPort extends STD {
     (this.shadowRoot.querySelector("section").style as any).width = "100%";
     this.assigned.forEach((e, index) => {
       if (index == i) {
-        e.style.width = `100%`;
+        e.style.width = "100%";
         e.style.transition = "";
       } else {
         e.style.width = 0;

@@ -51,7 +51,7 @@ export class DownDrop extends STD {
     window.addEventListener("resize", () => {
       clearTimeout(this._timer);
       this._timer = setTimeout(() => {
-        this._div.style.transform = `translateX(0)`;
+        this._div.style.transform = "translateX(0)";
         this.resize();
       }, 250);
     });
@@ -67,7 +67,7 @@ export class DownDrop extends STD {
     } else if (divRight > offsets.right) {
       this._div.style.transform = `translateX(${RightWidth}px)`;
     } else {
-      this._div.style.transform = `translateX(0)`;
+      this._div.style.transform = "translateX(0)";
     }
   }
   close() {
