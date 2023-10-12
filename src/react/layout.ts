@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import * as X from "../layout/index.js";
-import { createComponent } from "@lit-labs/react";
+import { createComponent } from "@lit/react";
 export const NavLayout = createComponent({
   tagName: "nav-layout",
   elementClass: X.NavLayout,

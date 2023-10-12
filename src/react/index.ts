@@ -1,4 +1,4 @@
-export { createComponent } from "@lit-labs/react";
+export { createComponent } from "@lit/react";
 export * from "./effect.js";
 export * from "./group.js";
 export * from "./input-form.js";

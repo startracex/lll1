@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import * as X from "../input-form/index.js";
-import { createComponent } from "@lit-labs/react";
+import { createComponent } from "@lit/react";
 const stdevent = {
   onInput: "input",
   onChange: "change",

@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import * as X from "../items/index.js";
-import { createComponent } from "@lit-labs/react";
+import { createComponent } from "@lit/react";
 export const AvatarAnchor = createComponent({
   tagName: "avatar-anchor",
   elementClass: X.AvatarAnchor,

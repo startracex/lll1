@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import * as X from "../view/index.js";
-import { createComponent } from "@lit-labs/react";
+import { createComponent } from "@lit/react";
 export const DetailsExpand = createComponent({
   tagName: "details-expand",
   elementClass: X.DetailsExpand,

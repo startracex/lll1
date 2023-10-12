@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import * as X from "../group/index.js";
-import { createComponent } from "@lit-labs/react";
+import { createComponent } from "@lit/react";
 export const AvatarGroup = createComponent({
   tagName: "avatar-group",
   elementClass: X.AvatarGroup,

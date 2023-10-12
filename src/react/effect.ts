@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import * as X from "../effect/index.js";
-import { createComponent } from "@lit-labs/react";
+import { createComponent } from "@lit/react";
 export const OVText = createComponent({
   tagName: "ov-text",
   elementClass: X.OVText,
