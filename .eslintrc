@@ -13,7 +13,13 @@
   "ignorePatterns": ["*/*.js"],
   "rules": {
     "semi": ["warn", "always"],
-    "quotes": ["warn", "double"],
+    "quotes": [
+      "warn",
+      "double",
+      {
+        "allowTemplateLiterals": true
+      }
+    ],
     "prefer-rest-params": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "off"
