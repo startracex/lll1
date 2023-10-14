@@ -1,4 +1,4 @@
-import { html, css, property, classMap, ifDefined, define } from "../deps.js";
+import { html, css, property, classMap, ifDefined, define, cssvar } from "../deps.js";
 import STD from "./std.js";
 const originstyle = css`
   :host {
@@ -8,13 +8,13 @@ const originstyle = css`
   }
   .ghost,
   .ghost:hover {
-    color: var(--background);
-    border-color: var(--background);
+    color: var(${cssvar}--background);
+    border-color: var(${cssvar}--background);
     background-color: transparent;
   }
   .ghost:active {
-    color: var(--active);
-    background-color: var(--background-active);
+    color: var(${cssvar}--active);
+    background-color: var(${cssvar}--background-active);
   }
   a {
     display: flex;
@@ -32,100 +32,100 @@ const originstyle = css`
     cursor: inherit;
     text-decoration: inherit;
     transition: all 0.2s ease-in;
-    color: var(--color);
-    border-color: var(--border);
-    background-color: var(--background);
+    color: var(${cssvar}--color);
+    border-color: var(${cssvar}--border);
+    background-color: var(${cssvar}--background);
   }
   a:hover {
-    color: var(--hover);
-    border-color: var(--border-hover);
-    background-color: var(--background-hover);
+    color: var(${cssvar}--hover);
+    border-color: var(${cssvar}--border-hover);
+    background-color: var(${cssvar}--background-hover);
   }
   a:active {
     transition: 0s;
-    color: var(--active);
-    border-color: var(--border-active);
-    background-color: var(--background-active);
+    color: var(${cssvar}--active);
+    border-color: var(${cssvar}--border-active);
+    background-color: var(${cssvar}--background-active);
   }
   a[disabled],
   a[disabled]:hover,
   a[disabled]:active {
-    color: var(--color-disabled);
-    border-color: var(--border-disabled);
-    background-color: var(--background-disabled);
+    color: var(${cssvar}--color-disabled);
+    border-color: var(${cssvar}--border-disabled);
+    background-color: var(${cssvar}--background-disabled);
   }
 `;
 const colorful = css`
   .black {
-    --color: #f0f0f0;
-    --border: #444444;
-    --background: #2c2c2c;
-    --hover: #fafafa;
-    --border-hover: #707070;
-    --background-hover: #303030;
-    --active: #fafafa;
-    --border-active: #5a5a5a;
-    --background-active: #3a3a3a;
+    ${cssvar}--color: #f0f0f0;
+    ${cssvar}--border: #444444;
+    ${cssvar}--background: #2c2c2c;
+    ${cssvar}--hover: #fafafa;
+    ${cssvar}--border-hover: #707070;
+    ${cssvar}--background-hover: #303030;
+    ${cssvar}--active: #fafafa;
+    ${cssvar}--border-active: #5a5a5a;
+    ${cssvar}--background-active: #3a3a3a;
   }
   .white {
-    --color: #2c2c2c;
-    --border: #44444450;
-    --background: #f8f8f8;
-    --hover: #707070;
-    --border-hover: #44444450;
-    --background-hover: #f4f4f4;
-    --border-active: #aaaaaa;
-    --background-active: #aaaaaa;
+    ${cssvar}--color: #2c2c2c;
+    ${cssvar}--border: #44444450;
+    ${cssvar}--background: #f8f8f8;
+    ${cssvar}--hover: #707070;
+    ${cssvar}--border-hover: #44444450;
+    ${cssvar}--background-hover: #f4f4f4;
+    ${cssvar}--border-active: #aaaaaa;
+    ${cssvar}--background-active: #aaaaaa;
   }
   .yellow {
-    --color: #fafafa;
-    --border: #44444450;
-    --background: #ebb10d;
-    --hover: #ececec;
-    --border-hover: #44444450;
-    --background-hover: #f9bd10;
-    --background-active: #d7a422;
-    --border-active: #44444420;
+    ${cssvar}--color: #fafafa;
+    ${cssvar}--border: #44444450;
+    ${cssvar}--background: #ebb10d;
+    ${cssvar}--hover: #ececec;
+    ${cssvar}--border-hover: #44444450;
+    ${cssvar}--background-hover: #f9bd10;
+    ${cssvar}--background-active: #d7a422;
+    ${cssvar}--border-active: #44444420;
   }
   .gary {
-    --color: #fafafa;
-    --border: #44444450;
-    --background: #51535e;
-    --hover: #ececec;
-    --border-hover: #44444450;
-    --background-hover: #5e616d;
-    --background-active: #3f3d47;
-    --border-active: #44444420;
+    ${cssvar}--color: #fafafa;
+    ${cssvar}--border: #44444450;
+    ${cssvar}--background: #51535e;
+    ${cssvar}--hover: #ececec;
+    ${cssvar}--border-hover: #44444450;
+    ${cssvar}--background-hover: #5e616d;
+    ${cssvar}--background-active: #3f3d47;
+    ${cssvar}--border-active: #44444420;
   }
   .red {
-    --color: #fafafa;
-    --border: #44444450;
-    --background: #d11a2d;
-    --hover: #ececec;
-    --border-hover: #44444450;
-    --background-hover: #c62828;
-    --background-active: #a61b29;
-    --border-active: #44444420;
+    ${cssvar}--color: #fafafa;
+    ${cssvar}--border: #44444450;
+    ${cssvar}--background: #d11a2d;
+    ${cssvar}--hover: #ececec;
+    ${cssvar}--border-hover: #44444450;
+    ${cssvar}--background-hover: #c62828;
+    ${cssvar}--background-active: #a61b29;
+    ${cssvar}--border-active: #44444420;
   }
   .blue {
-    --color: #fafafa;
-    --border: #44444450;
-    --background: #1177b0;
-    --hover: #ececec;
-    --border-hover: #44444450;
-    --background-hover: #11659a;
-    --background-active: #144a74;
-    --border-active: #44444420;
+    ${cssvar}--color: #fafafa;
+    ${cssvar}--border: #44444450;
+    ${cssvar}--background: #1177b0;
+    ${cssvar}--hover: #ececec;
+    ${cssvar}--border-hover: #44444450;
+    ${cssvar}--background-hover: #11659a;
+    ${cssvar}--background-active: #144a74;
+    ${cssvar}--border-active: #44444420;
   }
   .green {
-    --color: #fafafa;
-    --border: #44444450;
-    --background: #12aa8c;
-    --hover: #ececec;
-    --border-hover: #44444450;
-    --background-hover: #1db68f;
-    --background-active: #248067;
-    --border-active: #44444420;
+    ${cssvar}--color: #fafafa;
+    ${cssvar}--border: #44444450;
+    ${cssvar}--background: #12aa8c;
+    ${cssvar}--hover: #ececec;
+    ${cssvar}--border-hover: #44444450;
+    ${cssvar}--background-hover: #1db68f;
+    ${cssvar}--background-active: #248067;
+    ${cssvar}--border-active: #44444420;
   }
 `;
 @define("base-button")

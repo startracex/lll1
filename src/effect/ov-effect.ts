@@ -1,20 +1,20 @@
-import { css, define, html, property } from "../deps.js";
+import { css, cssvar, define, html, property } from "../deps.js";
 import STD from "./std.js";
 const theme = css`
   :host {
-    --ov-text: aliceblue;
-    --ov-border: 0.275em;
-    --ov-port: #1a1a1a;
-    --ov-1-1: #ae0ca5;
-    --ov-1-2: #ffd802;
-    --ov-2-1: #1fe173;
-    --ov-2-2: #582bca;
-    --ov-3-1: #00b4f0;
-    --ov-3-2: #e614e6;
-    --ov-deg: 60deg;
-    --ov-1: linear-gradient(var(--ov-deg), var(--ov-1-1), var(--ov-1-2));
-    --ov-2: linear-gradient(var(--ov-deg), var(--ov-2-1), var(--ov-2-2));
-    --ov-3: linear-gradient(var(--ov-deg), var(--ov-3-1), var(--ov-3-2));
+    ${cssvar}--ov-text: aliceblue;
+    ${cssvar}--ov-border: 0.275em;
+    ${cssvar}--ov-port: #1a1a1a;
+    ${cssvar}--ov-1-1: #ae0ca5;
+    ${cssvar}--ov-1-2: #ffd802;
+    ${cssvar}--ov-2-1: #1fe173;
+    ${cssvar}--ov-2-2: #582bca;
+    ${cssvar}--ov-3-1: #00b4f0;
+    ${cssvar}--ov-3-2: #e614e6;
+    ${cssvar}--ov-deg: 60deg;
+    ${cssvar}--ov-1: linear-gradient(var(${cssvar}--ov-deg), var(${cssvar}--ov-1-1), var(${cssvar}--ov-1-2));
+    ${cssvar}--ov-2: linear-gradient(var(${cssvar}--ov-deg), var(${cssvar}--ov-2-1), var(${cssvar}--ov-2-2));
+    ${cssvar}--ov-3: linear-gradient(var(${cssvar}--ov-deg), var(${cssvar}--ov-3-1), var(${cssvar}--ov-3-2));
   }
   .overbreathflow {
     animation: 8s linear infinite breathflow;
@@ -27,11 +27,11 @@ const theme = css`
     0%,
     100% {
       opacity: 1;
-      background-image: var(--ov-1);
+      background-image: var(${cssvar}--ov-1);
     }
     33.33% {
       opacity: 1;
-      background-image: var(--ov-2);
+      background-image: var(${cssvar}--ov-2);
     }
     16.66%,
     50.33%,
@@ -40,7 +40,7 @@ const theme = css`
     }
     66.67% {
       opacity: 1;
-      background-image: var(--ov-3);
+      background-image: var(${cssvar}--ov-3);
     }
   }
 `;
@@ -98,15 +98,15 @@ export class OVText extends STD {
       }
       .overbreathpart:nth-child(1) .overbreathtext {
         animation: overbreathtext1 8s infinite;
-        background-image: var(--ov-1);
+        background-image: var(${cssvar}--ov-1);
       }
       .overbreathpart:nth-child(2) .overbreathtext {
         animation: 8s ease 0s infinite normal none running overbreathtext2;
-        background-image: var(--ov-2);
+        background-image: var(${cssvar}--ov-2);
       }
       .overbreathpart:nth-child(3) .overbreathtext {
         animation: 8s ease 0s infinite normal none running overbreathtext3;
-        background-image: var(--ov-3);
+        background-image: var(${cssvar}--ov-3);
       }
       .overbreathpart:nth-child(1) .overbreathroot {
         animation: overbreath1 8s infinite;
@@ -236,8 +236,8 @@ export class OVButton extends STD {
         display: inline-block;
         width: fit-content;
         height: fit-content;
-        background: var(--ov-port);
-        color: var(--ov-text);
+        background: var(${cssvar}--ov-port);
+        color: var(${cssvar}--ov-text);
         border-radius: 0.375em;
         font-size: 1em;
       }
@@ -255,7 +255,7 @@ export class OVButton extends STD {
         color: currentColor;
         background: inherit;
         width: 100%;
-        margin: var(--ov-border);
+        margin: var(${cssvar}--ov-border);
         position: relative;
         z-index: 1;
         border: 0;

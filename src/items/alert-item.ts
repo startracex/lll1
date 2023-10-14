@@ -1,4 +1,4 @@
-import { html, css, property, define } from "../deps.js";
+import { html, css, property, define, cssvar } from "../deps.js";
 import STD from "./std.js";
 @define("alert-item")
 export class AlertItem extends STD {
@@ -13,28 +13,28 @@ export class AlertItem extends STD {
       transform: translateY(-50%);
     }
     .success {
-      --color: #3c763d;
-      --super: #2b542c;
-      --background: #dff0d8;
-      --border: #d6e9c6;
+      ${cssvar}--color: #3c763d;
+      ${cssvar}--super: #2b542c;
+      ${cssvar}--background: #dff0d8;
+      ${cssvar}--border: #d6e9c6;
     }
     .info {
-      --color: #31708f;
-      --background: #d9edf7;
-      --border: #bce8f1;
-      --super: #245269;
+      ${cssvar}--color: #31708f;
+      ${cssvar}--background: #d9edf7;
+      ${cssvar}--border: #bce8f1;
+      ${cssvar}--super: #245269;
     }
     .warning {
-      --color: #8a6d3b;
-      --background: #fcf8e3;
-      --border: #faebcc;
-      --super: #66512c;
+      ${cssvar}--color: #8a6d3b;
+      ${cssvar}--background: #fcf8e3;
+      ${cssvar}--border: #faebcc;
+      ${cssvar}--super: #66512c;
     }
     .danger {
-      --color: #a94442;
-      --background: #f2dede;
-      --border: #ebccd1;
-      --super: #843534;
+      ${cssvar}--color: #a94442;
+      ${cssvar}--background: #f2dede;
+      ${cssvar}--border: #ebccd1;
+      ${cssvar}--super: #843534;
     }
     .alert {
       display: flex;
@@ -43,9 +43,9 @@ export class AlertItem extends STD {
       border: 1px solid transparent;
       border-radius: 4px;
       transition: all 0.25s;
-      color: var(--color);
-      background-color: var(--background);
-      border-color: var(--border);
+      color: var(${cssvar}--color);
+      background-color: var(${cssvar}--background);
+      border-color: var(${cssvar}--border);
       animation: alert 0.25s ease-in-out;
     }
     @keyframes alert {
@@ -78,15 +78,15 @@ export class AlertItem extends STD {
       width: 1.6em;
     }
     aside.close:hover path {
-      stroke: var(--super);
+      stroke: var(${cssvar}--super);
     }
     path {
-      stroke: var(--color);
+      stroke: var(${cssvar}--color);
       transition: all 0.3s;
     }
     .alert ::slotted(a) {
       font-weight: bold;
-      color: var(--super);
+      color: var(${cssvar}--super);
     }
   `;
   @property() call: "success" | "info" | "warning" | "danger" | "hide" = "info";
