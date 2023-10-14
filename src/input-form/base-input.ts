@@ -1,6 +1,6 @@
 import { html, css, property, query, ifDefined, define, cssvar } from "../deps.js";
 import STD from "./std.js";
-type inputtype = "hidden" | "text" | "search" | "tel" | "url" | "email" | "password" | "datetime" | "date" | "month" | "week" | "time" | "datetime-local" | "number" | "range" | "color" | "checkbox" | "radio" | "file" | "image";
+import type { InputType } from "./std.js";
 @define("base-input")
 export class BaseInput extends STD {
   @query("input") _input: HTMLInputElement;
@@ -9,7 +9,7 @@ export class BaseInput extends STD {
   @property() label = "";
   @property() name = "";
   @property() pla = undefined;
-  @property() type: inputtype = "text";
+  @property() type: InputType = "text";
   @property() value: string | File | FileList = undefined;
   @property() def: string = "";
   @property({ type: Boolean }) only = false;

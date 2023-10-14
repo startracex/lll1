@@ -1,9 +1,10 @@
-import { html, css, property, query, ifDefined, define, cssvar } from "../deps.js";
+import { html, css, property, query, define, cssvar } from "../deps.js";
 import STD from "./std.js";
-type inputtype = "hidden" | "text" | "search" | "tel" | "url" | "email" | "password" | "datetime" | "date" | "month" | "week" | "time" | "datetime-local" | "number" | "range" | "color" | "checkbox" | "radio" | "file" | "image";
+import type { InputType } from "./std.js";
+
 @define("label-input")
 export class LabelInput extends STD {
-  @property() type: inputtype = "text";
+  @property() type: InputType = "text";
   @property() label = "";
   @property() def = "";
   @property() pla = undefined;

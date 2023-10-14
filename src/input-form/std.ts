@@ -1,4 +1,7 @@
 import { GLOBSTD, css, cssvar } from "../deps.js";
+
+export type InputType = "hidden" | "text" | "search" | "tel" | "url" | "email" | "password" | "datetime" | "date" | "month" | "week" | "time" | "datetime-local" | "number" | "range" | "color" | "checkbox" | "radio" | "file" | "image";
+
 export default class InputFormSTD extends GLOBSTD {
   name: string;
   value: any;

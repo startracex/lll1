@@ -1,6 +1,6 @@
 import { html, css, property, query, define, cssvar, classMap } from "../deps.js";
+import type { InputType } from "./std.js";
 import STD from "./std.js";
-type inputtype = "hidden" | "text" | "search" | "tel" | "url" | "email" | "password" | "datetime" | "date" | "month" | "week" | "time" | "datetime-local" | "number" | "range" | "color" | "checkbox" | "radio" | "file" | "image";
 @define("exp-input")
 export class ExpInput extends STD {
   static styles = [
@@ -150,7 +150,7 @@ export class ExpInput extends STD {
   @property() label = "";
   @property() name = "";
   @property() pla = undefined;
-  @property() type: inputtype | "textarea" = "text";
+  @property() type: InputType | "textarea" = "text";
   @property() value = "";
   @property() def = "";
   @property() base: "outline" | "filed" | "underline" = "outline";

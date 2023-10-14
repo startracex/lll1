@@ -1,4 +1,4 @@
-import { html, css, property, query, define, LitElement } from "../deps.js";
+import { html, css, property, query, define } from "../deps.js";
 import STD from "./std.js";
 import "./label-input.js";
 @define("sign-form")

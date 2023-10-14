@@ -1,4 +1,4 @@
-import { html, css, property, classMap, ifDefined, define } from "../deps.js";
+import { html, css, property, classMap, ifDefined, define, cssvar } from "../deps.js";
 import STD from "./std.js";
 @define("avatar-anchor")
 export class AvatarAnchor extends STD {
@@ -38,14 +38,14 @@ export class AvatarAnchor extends STD {
       height: 100%;
     }
     div {
-      --ava: 2.5em;
+      ${cssvar}--ava: 2.5em;
     }
     a {
       color: inherit;
-      height: var(--ava);
-      width: var(--ava);
-      min-height: var(--ava);
-      min-width: var(--ava);
+      height: var(${cssvar}--ava);
+      width: var(${cssvar}--ava);
+      min-height: var(${cssvar}--ava);
+      min-width: var(${cssvar}--ava);
       display: flex;
       position: relative;
     }
@@ -58,13 +58,13 @@ export class AvatarAnchor extends STD {
       justify-content: center;
     }
     .left.gap {
-      margin-right: var(--ava);
+      margin-right: var(${cssvar}--ava);
     }
     .right.gap {
-      margin-left: var(--ava);
+      margin-left: var(${cssvar}--ava);
     }
     slot[name="bar"]::slotted(*) {
-      height: var(--ava);
+      height: var(${cssvar}--ava);
     }
     slot[name="state"] {
       position: absolute;
@@ -76,7 +76,7 @@ export class AvatarAnchor extends STD {
     }
     .left section,
     .right section {
-      min-height: var(--ava);
+      min-height: var(${cssvar}--ava);
       display: flex;
       flex-direction: column;
       flex: 1;
