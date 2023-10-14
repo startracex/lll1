@@ -1,4 +1,4 @@
-import { html, css, property, query, define, conf, cssvar, DisableWarning, LitElement } from "../deps.js";
+import { html, css, property, query, define, conf, cssvar, DisableWarning, LitElement, CSSResultGroup } from "../deps.js";
 import STD from "./std.js";
 
 @define("select-input")
@@ -81,7 +81,7 @@ export class SelectInput extends STD {
         visibility: visible;
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   @property({ type: Boolean, reflect: true }) open = false;
   @property() selcls = `${conf.tag("select-input")}-selected`;
   @property() pla?: string = undefined;

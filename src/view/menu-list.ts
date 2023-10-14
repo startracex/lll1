@@ -1,4 +1,4 @@
-import { html, css, property, define, state, query } from "../deps.js";
+import { html, css, property, define, state, query, CSSResultGroup } from "../deps.js";
 import STD, { DLsharecss } from "./std.js";
 @define("menu-list")
 export class MenuList extends STD {
@@ -31,7 +31,7 @@ export class MenuList extends STD {
         display: none;
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   render() {
     const notitle = !this.summary && !this.querySelector(`[slot="summary"]`);
     if (notitle) {

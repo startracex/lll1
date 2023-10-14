@@ -1,4 +1,4 @@
-import { html, css, property, define, cssvar } from "../deps.js";
+import { html, css, property, define, cssvar, CSSResultGroup } from "../deps.js";
 import STD, { navstyle } from "./std.js";
 @define("nav-aside")
 export class NavAside extends STD {
@@ -28,7 +28,7 @@ export class NavAside extends STD {
         box-sizing: border-box;
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   render() {
     const p = this.position.split(" ")[0] || "sticky";
     const pm = this.position.split(" ")[1] || "fixed";

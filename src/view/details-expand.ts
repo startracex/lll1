@@ -1,4 +1,4 @@
-import { html, css, property, define } from "../deps.js";
+import { html, css, property, define, CSSResultGroup } from "../deps.js";
 import STD, { DLsharecss } from "./std.js";
 @define("details-expand")
 export class DetailsExpand extends STD {
@@ -35,7 +35,7 @@ export class DetailsExpand extends STD {
         position: absolute;
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   render() {
     return html`<dl>
       <dt ?open=${this.open} @click=${() => this.toggle()} style="flex-direction:row${this.reverse ? "-reverse" : ""}">

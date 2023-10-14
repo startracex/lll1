@@ -1,4 +1,4 @@
-import { html, css, property, classMap, define, state, cssvar } from "../deps.js";
+import { html, css, property, classMap, define, state, cssvar, CSSResultGroup } from "../deps.js";
 import STD from "./std.js";
 import InputFormSTD from "../input-form/std.js";
 @define("load-track")
@@ -43,7 +43,7 @@ export class LoadTrack extends STD {
         width: 20%;
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   @state() current = 20;
   @state() isValue: boolean = false;
   @property({ type: Number }) max = 1;

@@ -1,4 +1,4 @@
-import { html, css, property, define, query, cssvar } from "../deps.js";
+import { html, css, property, define, query, cssvar, CSSResultGroup } from "../deps.js";
 import STD from "./std.js";
 @define("search-input")
 export class SearchInput extends STD {
@@ -81,7 +81,7 @@ export class SearchInput extends STD {
         font-size: 1rem;
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   render() {
     return html`<form action=${this.action} method=${this.method}>
       <div>

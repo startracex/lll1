@@ -1,4 +1,4 @@
-import { html, css, property, define, cssvar } from "../deps.js";
+import { html, css, property, define, cssvar, CSSResultGroup } from "../deps.js";
 import "../view/down-drop.js";
 import STD, { navstyle } from "./std.js";
 @define("nav-layout")
@@ -102,7 +102,7 @@ export class NavLayout extends STD {
         }
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   @property() host = "";
   @property() subhead = "";
   @property({ type: Number }) set: 0 | 1 | 2 = 0;

@@ -1,4 +1,4 @@
-import { html, css, property, query, define, cssvar } from "../deps.js";
+import { html, css, property, query, define, cssvar, CSSResultGroup } from "../deps.js";
 import STD from "./std.js";
 @define("switch-input")
 export class SwitchInput extends STD {
@@ -106,7 +106,7 @@ export class SwitchInput extends STD {
         display: none;
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
   @property() base: "fat" | "rect" = "rect";

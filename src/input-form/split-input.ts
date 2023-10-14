@@ -1,4 +1,4 @@
-import { html, css, property, query, queryAll, define, cssvar } from "../deps.js";
+import { html, css, property, query, queryAll, define, cssvar, CSSResultGroup } from "../deps.js";
 import STD from "./std.js";
 @define("split-input")
 export class SplitInput extends STD {
@@ -54,7 +54,7 @@ export class SplitInput extends STD {
         outline: 0.12em solid var(${cssvar}--input-true);
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   @property() name = "";
   @property() value = "";
   @property({ type: Number }) max = 6;

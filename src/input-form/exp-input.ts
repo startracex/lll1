@@ -1,4 +1,4 @@
-import { html, css, property, query, define, cssvar, classMap } from "../deps.js";
+import { html, css, property, query, define, cssvar, classMap, CSSResultGroup } from "../deps.js";
 import type { InputType } from "./std.js";
 import STD from "./std.js";
 @define("exp-input")
@@ -146,7 +146,7 @@ export class ExpInput extends STD {
         transform: translateY(-0.19em) scale(0.7);
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   @property() label = "";
   @property() name = "";
   @property() pla = undefined;

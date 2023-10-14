@@ -1,4 +1,4 @@
-import { html, css, query, define } from "../deps.js";
+import { html, css, query, define, CSSResultGroup } from "../deps.js";
 import STD from "../layout/std.js";
 @define("down-drop")
 export class DownDrop extends STD {
@@ -28,7 +28,7 @@ export class DownDrop extends STD {
         visibility: visible;
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   @query("div") _div: HTMLDivElement;
   _timer: any;
   render() {

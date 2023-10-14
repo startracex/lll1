@@ -1,4 +1,4 @@
-import { html, css, property, query, define, cssvar } from "../deps.js";
+import { html, css, property, query, define, cssvar, CSSResultGroup } from "../deps.js";
 import STD from "./std.js";
 import type { InputType } from "./std.js";
 
@@ -82,7 +82,7 @@ export class LabelInput extends STD {
         display: none;
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   render() {
     if (!this.name) this.name = this.label?.toLowerCase() || this.type;
     return html`<label for=${this.name}>

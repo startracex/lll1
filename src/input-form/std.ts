@@ -1,4 +1,4 @@
-import { GLOBSTD, css, cssvar } from "../deps.js";
+import { CSSResultGroup, GLOBSTD, css, cssvar } from "../deps.js";
 
 export type InputType = "hidden" | "text" | "search" | "tel" | "url" | "email" | "password" | "datetime" | "date" | "month" | "week" | "time" | "datetime-local" | "number" | "range" | "color" | "checkbox" | "radio" | "file" | "image";
 
@@ -28,7 +28,7 @@ export default class InputFormSTD extends GLOBSTD {
         border-radius: 0.1rem;
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   namevalue(): [string, any] {
     return [this.name, this.value];
   }

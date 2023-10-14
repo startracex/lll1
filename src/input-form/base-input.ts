@@ -1,4 +1,4 @@
-import { html, css, property, query, ifDefined, define, cssvar } from "../deps.js";
+import { html, css, property, query, ifDefined, define, cssvar, CSSResultGroup } from "../deps.js";
 import STD from "./std.js";
 import type { InputType } from "./std.js";
 @define("base-input")
@@ -115,7 +115,7 @@ export class BaseInput extends STD {
         box-shadow: 0 0.1em 0.1em var(${cssvar}--shadow);
       }
     `,
-  ];
+  ] as CSSResultGroup[];
   render() {
     if (!this.name) this.name = this.label?.toLowerCase() || this.type;
     return html`<label for="input">
