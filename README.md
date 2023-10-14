@@ -50,6 +50,12 @@ Start development server
 npm run dev
 ```
 
+Compile and watch
+
+```sh
+npm run watch
+```
+
 Compile
 
 ```sh

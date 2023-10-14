@@ -3,10 +3,11 @@
   "version": "1.1.6",
   "main": "./index.js",
   "type": "module",
+  "private":true,
   "scripts": {
     "dev": "node ./dev.js",
-    "build": "tsc --watch",
-    "pub": "node ./pub.js",
+    "watch":"tsc --watch",
+    "build": "tsc && node ./pub.js",
     "roll": "tsc && rollup -c",
     "fmt": "prettier --write .",
     "lint": "eslint --ext .ts ./src/"

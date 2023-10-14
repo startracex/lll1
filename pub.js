@@ -1,7 +1,14 @@
 import fs from "fs";
 
 const target = "public";
-const files = ["LICENSE", "package.json"];
+
+const packageJSON = JSON.parse(fs.readFileSync("package.json", "utf8"));
+
+delete packageJSON.private;
+
+fs.writeFileSync(`${target}/package.json`, JSON.stringify(packageJSON, null, 2), "utf8");
+
+const files = ["LICENSE"];
 
 files.forEach((file) => {
   fs.copyFileSync(`${file}`, `${target}/${file}`);
