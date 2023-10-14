@@ -1,5 +1,6 @@
-import { html, css, property, query, state, define, conf, cssvar } from "../deps.js";
+import { html, css, property, query, define, conf, cssvar, DisableWarning, LitElement } from "../deps.js";
 import STD from "./std.js";
+
 @define("select-input")
 export class SelectInput extends STD {
   static styles = [
@@ -83,13 +84,14 @@ export class SelectInput extends STD {
   ];
   @property({ type: Boolean, reflect: true }) open = false;
   @property() selcls = `${conf.tag("select-input")}-selected`;
-  @property() pla = undefined;
-  @property({ type: Boolean }) only = false;
-  @property() def = "";
+  @property() pla?: string = undefined;
+  @property({ type: Boolean, reflect: true }) only = false;
+  @property() def: string = "";
   @property({ type: Array }) value = [];
-  @property() name = "select";
-  @state() text: Array<string> = [];
+  @property({ reflect: true }) name = "select";
+  @property({ type: Array }) text: Array<string> = [];
   @property({ type: Boolean }) autofocus = false;
+
   get assigned(): any {
     return this.shadowRoot.querySelector("slot").assignedElements();
   }
@@ -123,12 +125,10 @@ export class SelectInput extends STD {
               @click=${() => {
                 this.select(this.value[i]);
               }}
-              t="1678769821062"
               viewBox="0 0 1024 1024"
               version="1.1"
-              p-id="2770"
             >
-              <path d="M960 512c0-249.6-198.4-448-448-448S64 262.4 64 512s198.4 448 448 448 448-198.4 448-448zM691.2 736L512 556.8 332.8 736c-12.8 12.8-32 12.8-44.8 0-12.8-12.8-12.8-32 0-44.8L467.2 512 288 332.8c-12.8-12.8-12.8-32 0-44.8 12.8-12.8 32-12.8 44.8 0L512 467.2 691.2 288c12.8-12.8 32-12.8 44.8 0 12.8 12.8 12.8 32 0 44.8L556.8 512 736 691.2c12.8 12.8 12.8 32 0 44.8-12.8 12.8-32 12.8-44.8 0z" fill="currentColor" p-id="2771"></path>
+              <path d="M960 512c0-249.6-198.4-448-448-448S64 262.4 64 512s198.4 448 448 448 448-198.4 448-448zM691.2 736L512 556.8 332.8 736c-12.8 12.8-32 12.8-44.8 0-12.8-12.8-12.8-32 0-44.8L467.2 512 288 332.8c-12.8-12.8-12.8-32 0-44.8 12.8-12.8 32-12.8 44.8 0L512 467.2 691.2 288c12.8-12.8 32-12.8 44.8 0 12.8 12.8 12.8 32 0 44.8L556.8 512 736 691.2c12.8 12.8 12.8 32 0 44.8-12.8 12.8-32 12.8-44.8 0z" fill="currentColor"></path>
             </svg>
           </i>`,
         );
@@ -141,26 +141,43 @@ export class SelectInput extends STD {
       this.open = true;
     }
   }
-  focus(options?: FocusOptions): void {
+  focus(options?: FocusOptions) {
     this._input?.focus(options);
     this.open = true;
   }
+  connectedCallback() {
+    LitElement.prototype.connectedCallback.call(this);
+  }
+  getIndexFunc(option: HTMLOptionElement | any) {
+    return this.getIndexFunc(option);
+  }
   firstUpdated() {
+    if (this.def) {
+      if (this.only) {
+        this.select(this.def);
+      } else {
+        for (const i of this.def.split(";")) {
+          if (i.trim()) {
+            this.select(i);
+          }
+        }
+      }
+    }
     this._focusCheck();
-    this.assigned.forEach((option: { value: any; addEventListener: (arg0: string, arg1: () => void) => void; innerText: any; children: any }) => {
-      if (option.value) {
+    this.assigned.forEach((option: HTMLOptionElement) => {
+      if (this.getIndexFunc(option)) {
         option.addEventListener("click", () => {
-          this.select(option.value, option.innerText);
+          this.select(this.getIndexFunc(option), option.innerText);
         });
       } else if (option.children) {
-        [...option.children].forEach((option) => {
+        [...option.children].forEach((option: HTMLOptionElement) => {
           option.addEventListener("click", () => {
-            this.select(option.value, option.innerText);
+            this.select(this.getIndexFunc(option), option.innerText);
           });
         });
       }
     });
-    this.addEventListener("change", (e) => {
+    this.addEventListener("change", () => {
       this.open = !this.only;
     });
     document.addEventListener("click", (e) => {
@@ -169,16 +186,29 @@ export class SelectInput extends STD {
       }
     });
   }
+  disconnectedCallback(): void {
+    this.assigned.forEach((option: HTMLOptionElement) => {
+      if (this.getIndexFunc(option)) {
+        option.removeEventListener("click", () => {});
+      } else if (option.children) {
+        [...option.children].forEach((option: HTMLOptionElement) => {
+          option.removeEventListener("click", () => {
+            this.select(this.getIndexFunc(option), option.innerText);
+          });
+        });
+      }
+    });
+  }
   select(value: string, text?: string) {
     if (text === undefined || text === null) {
       this.assigned.forEach((option: { value: any; innerText: any; children: any }) => {
-        if (option.value) {
-          if (option.value == value) {
+        if (this.getIndexFunc(option)) {
+          if (this.getIndexFunc(option) == value) {
             text = option.innerText;
           }
         } else if (option.children) {
           [...option.children].forEach((option) => {
-            if (option.value == value) {
+            if (this.getIndexFunc(option) == value) {
               text = option.innerText;
             }
           });
@@ -203,15 +233,15 @@ export class SelectInput extends STD {
       }
     }
     this.assigned.forEach((option: { value: any; classList: { add: (arg0: string) => void; remove: (arg0: string) => void }; children: any }) => {
-      if (option.value) {
-        if (this.value.includes(option.value)) {
+      if (this.getIndexFunc(option)) {
+        if (this.value.includes(this.getIndexFunc(option))) {
           option.classList.add(this.selcls);
         } else {
           option.classList.remove(this.selcls);
         }
       } else if (option.children) {
         [...option.children].forEach((option) => {
-          if (this.value.includes(option.value)) {
+          if (this.value.includes(this.getIndexFunc(option))) {
             option.classList.add(this.selcls);
           } else {
             option.classList.remove(this.selcls);
@@ -229,7 +259,7 @@ export class SelectInput extends STD {
       value = value.split(";").pop().trim();
     }
     this.assigned.forEach((option) => {
-      if (option.value) {
+      if (this.getIndexFunc(option)) {
         option.style.display = "block";
       }
       if (option.children) {
@@ -241,15 +271,15 @@ export class SelectInput extends STD {
     });
     if (value) {
       this.assigned.forEach((option) => {
-        if (option.value) {
-          if (option.value.toLowerCase().includes(value.toLowerCase()) || option.innerText.toLowerCase().includes(value.toLowerCase())) {
+        if (this.getIndexFunc(option)) {
+          if (this.getIndexFunc(option).toLowerCase().includes(value.toLowerCase()) || option.innerText.toLowerCase().includes(value.toLowerCase())) {
             option.style.display = "block";
           } else {
             option.style.display = "none";
           }
         } else if (option.children) {
           [...option.children].forEach((option) => {
-            if (option.value.toLowerCase().includes(value.toLowerCase()) || option.innerText.toLowerCase().includes(value.toLowerCase())) {
+            if (this.getIndexFunc(option).toLowerCase().includes(value.toLowerCase()) || option.innerText.toLowerCase().includes(value.toLowerCase())) {
               option.style.display = "block";
             } else {
               option.style.display = "none";
@@ -274,7 +304,7 @@ export class SelectInput extends STD {
     this.text = [];
     this._input.value = "";
     this.assigned.forEach((option: { value: any; classList: { remove: (arg0: string) => void }; children: any }) => {
-      if (option.value) {
+      if (this.getIndexFunc(option)) {
         option.classList.remove(this.selcls);
       } else if (option.children) {
         [...option.children].forEach((option) => {
@@ -293,6 +323,8 @@ export class SelectInput extends STD {
     }
   }
 }
+DisableWarning(SelectInput);
+
 export default SelectInput;
 declare global {
   interface HTMLElementTagNameMap {
