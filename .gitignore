@@ -2,6 +2,5 @@ node_modules
 /test
 /public/*
 !/public/README.md
-/*lock*
 build
 .idea
