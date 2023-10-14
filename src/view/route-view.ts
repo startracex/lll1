@@ -1,6 +1,6 @@
 import type { TemplateResult } from "lit";
 import { conf, css, define, html, LitElement, property } from "../deps.js";
-import { unsafeHTML } from "lit/directives/unsafe-html.js";
+type WithRecord<T extends string> = Record<string, any> & Record<T, string>;
 @define("route-view")
 export class RouteView extends LitElement {
   _routes: Array<{ path: string; [key: string]: any }> = [];
@@ -9,7 +9,7 @@ export class RouteView extends LitElement {
   @property() type: "united" | "child" | "slotted" | "field" = "united";
   @property() baseURL = "";
   @property() path = "";
-  @property({ type: Boolean }) override = false;
+  @property({ type: Boolean }) override = true;
   @property({ type: Object }) compoent = null;
   set routes(v) {
     if (Object.prototype.toString.call(v) !== "[object Array]") {
@@ -49,10 +49,10 @@ export class RouteView extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
     this.path = window.location.pathname;
-    window.addEventListener("popstate", (e) => {
+    if (!this.override) return;
+    window.addEventListener("popstate", () => {
       this.path = window.location.pathname;
     });
-    if (!this.override) return;
     const pushHistory = history.pushState;
     history.pushState = function () {
       pushHistory.apply(this, arguments);
@@ -100,9 +100,9 @@ export class RouteView extends LitElement {
     if (!usedRouteTemplate) return;
     const route = this.routes.find((r) => r.path === usedRouteTemplate);
     if (!route) return null;
-    return route.component || (route.html ? unsafeHTML(route.html) : null);
+    return route.component;
   }
-  slottedCompoent(usedRouteTemplate: string, ObjectArrayIncludePath: Array<{ path: string; slotElement?: string; [key: string]: any }>): null | TemplateResult {
+  slottedCompoent(usedRouteTemplate: string, ObjectArrayIncludePath: Array<WithRecord<"path" | "slotElement">>): null | TemplateResult {
     if (!usedRouteTemplate) return;
     const slotElement = ObjectArrayIncludePath.find((s) => s.path === usedRouteTemplate);
     if (!slotElement) return null;
@@ -110,7 +110,7 @@ export class RouteView extends LitElement {
     this.params = RouterParmasObject;
     return html`<slot name="${slotElement.slotname}"></slot>` as TemplateResult;
   }
-  static sortRoutesPaths(ObjectArrayIncludePath: Array<{ path: string; [key: string]: any }>): Array<{ path: string }> {
+  static sortRoutesPaths(ObjectArrayIncludePath: Array<WithRecord<"path">>): Array<WithRecord<"path">> {
     const all = ObjectArrayIncludePath.map((route: { path: string }) => {
       const path = route.path;
       const pathArray = path.split("/");
@@ -141,7 +141,7 @@ export class RouteView extends LitElement {
     });
     return [...sigle, ...multi];
   }
-  static useWhichRoute(ObjectArrayIncludePath: Array<{ path: string; [key: string]: any }>, path: string, baseURL: string = "") {
+  static useWhichRoute(ObjectArrayIncludePath: Array<WithRecord<"path">>, path: string, baseURL: string = "") {
     const originpath = baseURL + path;
     const originsplits = originpath.split("/").slice(1);
     const routes = ObjectArrayIncludePath;
