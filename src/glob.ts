@@ -1,5 +1,5 @@
 import { conf } from "./conf.js";
-import { CSSResultGroup, LitElement, css, unsafeCSS } from "lit";
+import { CSSResultGroup, LitElement, WarningKind, css, unsafeCSS } from "lit";
 /**
  * Custom CSS variable,join with "--" ,only allow `a-Z,0-9,-`
  */
@@ -22,4 +22,14 @@ export class GLOBSTD extends LitElement {
       background: var(${cssvar}--text-selection-background);
     }
   ` as CSSResultGroup;
+}
+
+export function DisableWarning(e: { disableWarning?: (warningKind: WarningKind) => void }, ...w: WarningKind[]) {
+  if (w.length) {
+    for (const ww of w) {
+      e.disableWarning?.(ww);
+    }
+  } else {
+    e.disableWarning?.("change-in-update");
+  }
 }
