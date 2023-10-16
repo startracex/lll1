@@ -116,4 +116,6 @@ directories
 npm run build
 
 npm publish ./public
+# or
+pnpm publish
 ```
