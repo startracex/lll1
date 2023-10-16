@@ -9,9 +9,9 @@
     "directory": "public"
   },
   "scripts": {
-    "dev": "node ./dev.js",
+    "dev": "node ./scripts/dev.js",
     "watch": "tsc --watch",
-    "build": "tsc && node ./pub.js",
+    "build": "tsc && node ./scripts/pub.js",
     "roll": "tsc && rollup -c",
     "fmt": "prettier --write .",
     "lint": "eslint --ext .ts ./src/"
