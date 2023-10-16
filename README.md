@@ -113,7 +113,7 @@ directories
 ## Publish
 
 ```sh
-npm run pub
+npm run build
 
 npm publish ./public
 ```
