@@ -1,4 +1,4 @@
-const defconf: conftype = {
+const defconf: ConfType = {
   prefix: "",
   suffix: "",
   tag(origin) {
@@ -10,10 +10,10 @@ const defconf: conftype = {
   cssvar: "godown-c",
 };
 
-export const conf: conftype = init(globalThis.GodownWebComponentsCONF, defconf);
+export const conf: ConfType = init(globalThis.GodownWebComponentsCONF, defconf);
 export default conf;
 
-export function init(CONFObject: conftype, source = conf) {
+export function init(CONFObject: Partial<ConfType>, source: ConfType = conf) {
   Object.assign(source, CONFObject);
   if (source.reflect) {
     // Reflect conf to globalThis
@@ -26,15 +26,15 @@ export function init(CONFObject: conftype, source = conf) {
 
 declare global {
   interface globalThis {
-    GodownWebComponentsCONF: conftype;
+    GodownWebComponentsCONF: ConfType;
   }
 }
-type conftype = {
-  prefix?: string;
-  suffix?: string;
-  tag?: (origin: string) => string;
-  enabled?: any[];
-  namemap?: Map<string, string>;
-  reflect?: boolean;
-  cssvar?: string;
+type ConfType = {
+  prefix: string;
+  suffix: string;
+  tag: (origin: string) => string;
+  enabled: string[];
+  namemap: Map<string, string>;
+  reflect: boolean;
+  cssvar: string;
 };
