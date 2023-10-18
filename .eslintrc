@@ -12,7 +12,6 @@
   "plugins": ["@typescript-eslint"],
   "ignorePatterns": ["*/*.js"],
   "rules": {
-
     "semi": ["warn", "always"],
     "quotes": [
       "warn",
@@ -22,7 +21,7 @@
       }
     ],
     "prefer-rest-params": "off",
-    
+
     "sort-imports": [
       "warn",
       {

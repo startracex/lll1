@@ -13,8 +13,8 @@
     "watch": "tsc --watch",
     "build": "tsc && node ./scripts/pub.js",
     "roll": "tsc && rollup -c",
-    "fmt": "prettier --write .",
-    "lint": "eslint --ext .ts ./src/"
+    "fmt": "prettier --write ./src",
+    "lint": "eslint --ext .ts ./src"
   },
   "keywords": [
     "godown",
