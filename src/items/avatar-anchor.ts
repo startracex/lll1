@@ -1,4 +1,4 @@
-import { html, css, property, classMap, ifDefined, define, cssvar } from "../deps.js";
+import { classMap, css, cssvar, define, html, ifDefined, property } from "../deps.js";
 import STD from "./std.js";
 @define("avatar-anchor")
 export class AvatarAnchor extends STD {
@@ -12,6 +12,7 @@ export class AvatarAnchor extends STD {
     :host {
       display: inline-block;
       height: fit-content;
+      ${cssvar}--ava: 2.5em;
     }
     * {
       border-radius: inherit;
@@ -37,9 +38,6 @@ export class AvatarAnchor extends STD {
       width: 100%;
       height: 100%;
     }
-    div {
-      ${cssvar}--ava: 2.5em;
-    }
     a {
       color: inherit;
       height: var(${cssvar}--ava);
@@ -57,6 +55,7 @@ export class AvatarAnchor extends STD {
       align-items: center;
       justify-content: center;
     }
+
     .left.gap {
       margin-right: var(${cssvar}--ava);
     }
@@ -93,7 +92,7 @@ export class AvatarAnchor extends STD {
     return html`<div class=${classMap({ gap: this.gap, [this.call]: this.call })}>
       <header>
         <a href=${ifDefined(this.href)}>
-          ${this.ava()}
+          ${this.render_ava()}
           <slot name="state"></slot>
         </a>
         <section>
@@ -104,7 +103,7 @@ export class AvatarAnchor extends STD {
       ${!this.gap ? html`<article><slot></slot></article>` : ""}
     </div>`;
   }
-  ava() {
+  render_ava() {
     if (this.src) {
       return html`<img src=${this.src} />`;
     } else if (this.name) {

@@ -1,6 +1,6 @@
-import { html, css, property, query, ifDefined, define, cssvar, CSSResultGroup } from "../deps.js";
-import STD from "./std.js";
+import { css, CSSResultGroup, cssvar, define, html, ifDefined, property, query } from "../deps.js";
 import type { InputType } from "./std.js";
+import STD from "./std.js";
 @define("base-input")
 export class BaseInput extends STD {
   @query("input") _input: HTMLInputElement;

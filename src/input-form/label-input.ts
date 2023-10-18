@@ -1,6 +1,6 @@
-import { html, css, property, query, define, cssvar, CSSResultGroup } from "../deps.js";
-import STD from "./std.js";
+import { css, CSSResultGroup, cssvar, define, html, property, query } from "../deps.js";
 import type { InputType } from "./std.js";
+import STD from "./std.js";
 
 @define("label-input")
 export class LabelInput extends STD {

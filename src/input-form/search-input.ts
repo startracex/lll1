@@ -1,4 +1,4 @@
-import { html, css, property, define, query, cssvar, CSSResultGroup } from "../deps.js";
+import { css, CSSResultGroup, cssvar, define, html, property, query } from "../deps.js";
 import STD from "./std.js";
 @define("search-input")
 export class SearchInput extends STD {

@@ -1,4 +1,4 @@
-import { html, css, property, define, cssvar, CSSResultGroup } from "../deps.js";
+import { css, CSSResultGroup, cssvar, define, html, property } from "../deps.js";
 import STD, { navstyle } from "./std.js";
 @define("nav-aside")
 export class NavAside extends STD {

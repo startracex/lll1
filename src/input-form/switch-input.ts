@@ -1,4 +1,4 @@
-import { html, css, property, query, define, cssvar, CSSResultGroup } from "../deps.js";
+import { css, CSSResultGroup, cssvar, define, html, property, query } from "../deps.js";
 import STD from "./std.js";
 @define("switch-input")
 export class SwitchInput extends STD {

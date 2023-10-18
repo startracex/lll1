@@ -12,6 +12,7 @@
   "plugins": ["@typescript-eslint"],
   "ignorePatterns": ["*/*.js"],
   "rules": {
+
     "semi": ["warn", "always"],
     "quotes": [
       "warn",
@@ -21,6 +22,17 @@
       }
     ],
     "prefer-rest-params": "off",
+    
+    "sort-imports": [
+      "warn",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+        "allowSeparatedGroups": false
+      }
+    ],
     "@typescript-eslint/no-explicit-any": "off"
   }
 }

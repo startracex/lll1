@@ -1,4 +1,4 @@
-import { GLOBSTD, css, cssvar } from "../deps.js";
+import { css, cssvar, GLOBSTD } from "../deps.js";
 export default class LayoutSTD extends GLOBSTD {}
 export const navstyle = css`
   :host {

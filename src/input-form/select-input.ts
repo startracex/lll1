@@ -1,4 +1,4 @@
-import { html, css, property, query, define, conf, cssvar, DisableWarning, LitElement, CSSResultGroup } from "../deps.js";
+import { conf, css, CSSResultGroup, cssvar, define, DisableWarning, html, LitElement, property, query } from "../deps.js";
 import STD from "./std.js";
 
 @define("select-input")

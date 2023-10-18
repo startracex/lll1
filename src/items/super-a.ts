@@ -1,4 +1,4 @@
-import { html, css, property, ifDefined, define } from "../deps.js";
+import { css, define, html, ifDefined, property } from "../deps.js";
 import STD from "./std.js";
 @define("super-a")
 export class SuperAnchor extends STD {

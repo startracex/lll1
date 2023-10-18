@@ -1,4 +1,4 @@
-import { html, css, property, query, queryAll, define, cssvar, CSSResultGroup } from "../deps.js";
+import { css, CSSResultGroup, cssvar, define, html, property, query, queryAll } from "../deps.js";
 import STD from "./std.js";
 @define("split-input")
 export class SplitInput extends STD {

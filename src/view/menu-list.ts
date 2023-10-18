@@ -1,4 +1,4 @@
-import { html, css, property, define, state, query, CSSResultGroup } from "../deps.js";
+import { css, CSSResultGroup, define, html, property, query, state } from "../deps.js";
 import STD, { DLsharecss } from "./std.js";
 @define("menu-list")
 export class MenuList extends STD {

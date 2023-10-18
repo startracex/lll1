@@ -1,4 +1,4 @@
-import { html, css, property, define } from "../deps.js";
+import { css, define, html, property } from "../deps.js";
 import STD from "./std.js";
 @define("div-line")
 export class DivLine extends STD {

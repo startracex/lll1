@@ -1,4 +1,4 @@
-import { CSSResultGroup, GLOBSTD, css, cssvar } from "../deps.js";
+import { css, CSSResultGroup, cssvar, GLOBSTD } from "../deps.js";
 
 export type InputType = "hidden" | "text" | "search" | "tel" | "url" | "email" | "password" | "datetime" | "date" | "month" | "week" | "time" | "datetime-local" | "number" | "range" | "color" | "checkbox" | "radio" | "file" | "image";
 

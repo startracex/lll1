@@ -1,6 +1,6 @@
-import { css, property, define } from "../deps.js";
-import { SuperAnchor } from "./super-a.js";
+import { css, define, property } from "../deps.js";
 import { RouteView } from "../view/route-view.js";
+import { SuperAnchor } from "./super-a.js";
 @define("link-a")
 export class LinkAnchor extends SuperAnchor {
   @property() active = "";

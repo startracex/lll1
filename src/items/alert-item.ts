@@ -1,4 +1,4 @@
-import { html, css, property, define, cssvar } from "../deps.js";
+import { css, cssvar, define, html, property } from "../deps.js";
 import STD from "./std.js";
 @define("alert-item")
 export class AlertItem extends STD {

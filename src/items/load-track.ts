@@ -1,6 +1,6 @@
-import { html, css, property, classMap, define, state, cssvar, CSSResultGroup } from "../deps.js";
-import STD from "./std.js";
+import { classMap, css, CSSResultGroup, cssvar, define, html, property, state } from "../deps.js";
 import InputFormSTD from "../input-form/std.js";
+import STD from "./std.js";
 @define("load-track")
 export class LoadTrack extends STD {
   static styles = [

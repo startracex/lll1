@@ -1,4 +1,4 @@
-import { html, css, property, define, CSSResultGroup } from "../deps.js";
+import { css, CSSResultGroup, define, html, property } from "../deps.js";
 import STD, { DLsharecss } from "./std.js";
 @define("details-expand")
 export class DetailsExpand extends STD {

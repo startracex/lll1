@@ -1,5 +1,6 @@
-import type { TemplateResult } from "lit";
 import { conf, css, define, html, LitElement, property } from "../deps.js";
+import type { TemplateResult } from "lit";
+
 type WithRecord<T extends string> = Record<string, any> & Record<T, string>;
 @define("route-view")
 export class RouteView extends LitElement {

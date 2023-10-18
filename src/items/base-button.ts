@@ -1,4 +1,4 @@
-import { html, css, property, classMap, ifDefined, define, cssvar } from "../deps.js";
+import { classMap, css, cssvar, define, html, ifDefined, property } from "../deps.js";
 import STD from "./std.js";
 const originstyle = css`
   :host {
