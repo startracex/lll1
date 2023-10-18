@@ -54,6 +54,9 @@ const originstyle = css`
     border-color: var(${cssvar}--border-disabled);
     background-color: var(${cssvar}--background-disabled);
   }
+  .noborder {
+    border: none;
+  }
 `;
 const colorful = css`
   .black {
@@ -84,6 +87,7 @@ const colorful = css`
     ${cssvar}--hover: #ececec;
     ${cssvar}--border-hover: #44444450;
     ${cssvar}--background-hover: #f9bd10;
+    ${cssvar}--active: #fafafa;
     ${cssvar}--background-active: #d7a422;
     ${cssvar}--border-active: #44444420;
   }
@@ -94,6 +98,7 @@ const colorful = css`
     ${cssvar}--hover: #ececec;
     ${cssvar}--border-hover: #44444450;
     ${cssvar}--background-hover: #5e616d;
+    ${cssvar}--active: #fafafa;
     ${cssvar}--background-active: #3f3d47;
     ${cssvar}--border-active: #44444420;
   }
@@ -104,6 +109,7 @@ const colorful = css`
     ${cssvar}--hover: #ececec;
     ${cssvar}--border-hover: #44444450;
     ${cssvar}--background-hover: #c62828;
+    ${cssvar}--active: #fafafa;
     ${cssvar}--background-active: #a61b29;
     ${cssvar}--border-active: #44444420;
   }
@@ -114,6 +120,7 @@ const colorful = css`
     ${cssvar}--hover: #ececec;
     ${cssvar}--border-hover: #44444450;
     ${cssvar}--background-hover: #11659a;
+    ${cssvar}--active: #fafafa;
     ${cssvar}--background-active: #144a74;
     ${cssvar}--border-active: #44444420;
   }
@@ -124,6 +131,7 @@ const colorful = css`
     ${cssvar}--hover: #ececec;
     ${cssvar}--border-hover: #44444450;
     ${cssvar}--background-hover: #1db68f;
+    ${cssvar}--active: #fafafa;
     ${cssvar}--background-active: #248067;
     ${cssvar}--border-active: #44444420;
   }
@@ -133,11 +141,12 @@ export class BaseButton extends STD {
   static styles = [originstyle, colorful];
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) ghost = false;
+  @property({ type: Boolean }) noborder = false;
   @property() href: string = undefined;
   @property() target: string = undefined;
-  @property() color: "black" | "white" | "yellow" | "gary" | "red" | "blue" | "green" = "black";
+  @property() color: "black" | "white" | "yellow" | "gary" | "red" | "blue" | "green" | "none" = "black";
   render() {
-    return html`<a href=${ifDefined(this.href)} target=${ifDefined(this.target)} ?disabled=${this.disabled} class=${classMap({ ghost: this.ghost, [this.color]: this.color })}> <slot name="pre"></slot><slot></slot><slot name="suf"></slot> </a>`;
+    return html`<a href=${ifDefined(this.href)} target=${ifDefined(this.target)} ?disabled=${this.disabled} class=${classMap({ ghost: this.ghost, [this.color]: this.color, noborder: this.noborder })}> <slot name="pre"></slot><slot></slot><slot name="suf"></slot> </a>`;
   }
 }
 export default BaseButton;

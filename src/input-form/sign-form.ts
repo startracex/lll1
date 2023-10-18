@@ -1,10 +1,9 @@
-import { html, css, property, query, define, CSSResultGroup } from "../deps.js";
+import { css, CSSResultGroup, define, html, property, query } from "../deps.js";
 import STD from "./std.js";
-import "./label-input.js";
-@define("sign-form")
-export class SignForm extends STD {
+
+@define("base-form")
+export class BaseForm extends STD {
   @property() name = "";
-  @property({ type: Number }) set: 0 | 1 | 2 = 2;
   static styles = [
     STD.styles,
     css`
@@ -27,16 +26,11 @@ export class SignForm extends STD {
   render() {
     return html`<form enctype="multipart/form-data">
       <slot name="pre"></slot>
-      <main>${this.opt()}<slot></slot></main>
+      <main>
+        <slot></slot>
+      </main>
       <slot name="suf"></slot>
     </form>`;
-  }
-  opt() {
-    const result = [];
-    for (let i = 0; i <= this.set - 1; i++) {
-      opts[i] && result.push(opts[i]);
-    }
-    return result;
   }
   reset() {
     each(this._form, (node: any) => {
@@ -61,10 +55,10 @@ export class SignForm extends STD {
       }
     form.remove();
   }
-  namevalue(): [string, { [key: string]: any }] {
+  namevalue(enctype = "multipart/form-data"): [string, Record<string, any>] {
     const x = {};
     const form = document.createElement("form");
-    form.enctype = "multipart/form-data";
+    form.enctype = enctype;
     for (const slot of this.shadowRoot.querySelectorAll("slot"))
       for (const i of slot.assignedNodes() as any) {
         if (i.namevalue) {
@@ -129,14 +123,9 @@ function each(node: Node, callback: (node: Node) => void) {
     }
   }
 }
-const opts = [html`<label-input label="E-mail" style="margin: 0.25em 0;" type="email"></label-input>`, html`<label-input label="Password" style="margin: 0.25em 0;" type="password"></label-input>`];
-@define("base-form")
-export class BaseForm extends SignForm {
-  constructor() {
-    super();
-    this.set = 0;
-  }
-}
+@define("sign-form")
+export class SignForm extends BaseForm {}
+
 export default SignForm;
 declare global {
   interface HTMLElementTagNameMap {
