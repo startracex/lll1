@@ -9,8 +9,6 @@ export class LoadTrack extends STD {
       :host,
       div {
         display: inline-flex;
-      }
-      div {
         position: relative;
         width: 10em;
         height: 0.5em;
