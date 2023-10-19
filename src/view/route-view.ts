@@ -4,7 +4,7 @@ import type { TemplateResult } from "lit";
 type WithRecord<T extends string> = Record<string, any> & Record<T, string>;
 @define("route-view")
 export class RouteView extends LitElement {
-  _routes: Array<{ path: string; [key: string]: any }> = [];
+  _routes: WithRecord<"path">[] = [];
   params: Record<string, string> = {};
   @property({ type: Boolean }) static = false;
   @property() type: "united" | "child" | "slotted" | "field" = "united";
@@ -79,7 +79,7 @@ export class RouteView extends LitElement {
         path: this.baseURL + slotname,
         slotname,
       };
-    }) as Array<{ path: string; slotname: string }>;
+    }) as WithRecord<"path" | "slotname">[];
     let slotsSort: any[];
     if (this.static) {
       slotsSort = slots;
@@ -103,7 +103,7 @@ export class RouteView extends LitElement {
     if (!route) return null;
     return route.component;
   }
-  slottedCompoent(usedRouteTemplate: string, ObjectArrayIncludePath: Array<WithRecord<"path" | "slotElement">>): null | TemplateResult {
+  slottedCompoent(usedRouteTemplate: string, ObjectArrayIncludePath: WithRecord<"path" | "slotElement">[]): null | TemplateResult {
     if (!usedRouteTemplate) return;
     const slotElement = ObjectArrayIncludePath.find((s) => s.path === usedRouteTemplate);
     if (!slotElement) return null;
@@ -111,7 +111,7 @@ export class RouteView extends LitElement {
     this.params = RouterParmasObject;
     return html`<slot name="${slotElement.slotname}"></slot>` as TemplateResult;
   }
-  static sortRoutesPaths(ObjectArrayIncludePath: Array<WithRecord<"path">>): Array<WithRecord<"path">> {
+  static sortRoutesPaths(ObjectArrayIncludePath: WithRecord<"path">[]): WithRecord<"path">[] {
     const all = ObjectArrayIncludePath.map((route: { path: string }) => {
       const path = route.path;
       const pathArray = path.split("/");
@@ -142,7 +142,7 @@ export class RouteView extends LitElement {
     });
     return [...sigle, ...multi];
   }
-  static useWhichRoute(ObjectArrayIncludePath: Array<WithRecord<"path">>, path: string, baseURL: string = "") {
+  static useWhichRoute(ObjectArrayIncludePath: WithRecord<"path">[], path: string, baseURL = "") {
     const originpath = baseURL + path;
     const originsplits = originpath.split("/").slice(1);
     const routes = ObjectArrayIncludePath;
@@ -208,8 +208,8 @@ export class RouteView extends LitElement {
   }
   static updateAll() {
     const routeViewTagName = conf.namemap.get("route-view");
-    const routeViewArray = document.querySelectorAll(`${routeViewTagName}:not([override])`) as unknown as Array<RouteView>;
-    for (let index: number = 0, ArrayItem: RouteView; (ArrayItem = routeViewArray[index]); index++) {
+    const routeViewArray = document.querySelectorAll(`${routeViewTagName}:not([override])`) as unknown as RouteView[];
+    for (let index = 0, ArrayItem: RouteView; (ArrayItem = routeViewArray[index]); index++) {
       ArrayItem.path = window.location.pathname;
     }
   }

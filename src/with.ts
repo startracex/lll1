@@ -69,8 +69,8 @@ export function retag(matched: HTMLElement[], args: string | EleArgs | HTMLEleme
   }
 }
 
-export type EleArgs = {
+export interface EleArgs {
   tag: string;
   props?: Record<string, any>;
-  children?: Array<string | HTMLElement | EleArgs>;
-};
+  children?: (string | HTMLElement | EleArgs)[];
+}

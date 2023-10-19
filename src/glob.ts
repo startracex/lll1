@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, LitElement, unsafeCSS, WarningKind } from "lit";
+import { css, CSSResultGroup, LitElement, unsafeCSS, type WarningKind } from "lit";
 import { conf } from "./conf.js";
 /**
  * Custom CSS variable,join with "--" ,only allow `a-Z,0-9,-`

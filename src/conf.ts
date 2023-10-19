@@ -29,7 +29,7 @@ declare global {
     GodownWebComponentsCONF: ConfType;
   }
 }
-type ConfType = {
+interface ConfType {
   prefix: string;
   suffix: string;
   tag: (origin: string) => string;
@@ -37,4 +37,4 @@ type ConfType = {
   namemap: Map<string, string>;
   reflect: boolean;
   cssvar: string;
-};
+}
