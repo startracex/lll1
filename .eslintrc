@@ -21,12 +21,11 @@
       }
     ],
     "prefer-rest-params": "off",
-
     "sort-imports": [
       "warn",
       {
         "ignoreCase": true,
-        "memberSyntaxSortOrder": ["none",  "multiple", "single","all"]
+        "memberSyntaxSortOrder": ["none", "multiple", "single", "all"]
       }
     ],
     "@typescript-eslint/no-explicit-any": "off",

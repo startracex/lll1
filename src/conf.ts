@@ -1,16 +1,16 @@
-const defconf: ConfType = {
+const defaultConfig: ConfType = {
+  cssvar: "godown",
+  enabled: [],
+  namemap: new Map(),
   prefix: "",
+  reflect: false,
   suffix: "",
   tag(origin) {
     return this.prefix + origin + this.suffix;
   },
-  enabled: [],
-  namemap: new Map(),
-  reflect: false,
-  cssvar: "godown-c",
 };
 
-export const conf: ConfType = init(globalThis.GodownWebComponentsCONF, defconf);
+export const conf: ConfType = init(globalThis.GodownWebComponentsCONF, defaultConfig);
 export default conf;
 
 export function init(CONFObject: Partial<ConfType>, source: ConfType = conf) {
@@ -29,12 +29,13 @@ declare global {
     GodownWebComponentsCONF: ConfType;
   }
 }
+
 interface ConfType {
-  prefix: string;
-  suffix: string;
-  tag: (origin: string) => string;
+  cssvar: string;
   enabled: string[];
   namemap: Map<string, string>;
+  prefix: string;
   reflect: boolean;
-  cssvar: string;
+  suffix: string;
+  tag: (origin: string) => string;
 }

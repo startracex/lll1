@@ -1,7 +1,7 @@
 import { html, svg } from "lit";
 /**
- * @param fill undefined: currentColor, 0 | null| "": none
- * @param stroke undefined: currentColor, 0 | null| "": none
+ * @param fill undefined: "currentColor". 0, null, "": "none"
+ * @param stroke undefined: "currentColor". 0, null, "": "none"
  * @returns path
  */
 export const path = (fill: string | undefined | null | 0 = "currentColor", stroke: string | undefined | null | 0 = "currentColor") => {
