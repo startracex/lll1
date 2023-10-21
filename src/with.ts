@@ -1,10 +1,11 @@
 import { conf } from "./conf.js";
+
 export const define = (name: string, options?: ElementDefinitionOptions) => (constructor: CustomElementConstructor) => {
-  const tagname = conf.tag(name);
-  if (customElements.get(tagname) === undefined) {
-    customElements.define(tagname, constructor, options);
+  const tagName = conf.tag(name);
+  if (customElements.get(tagName) === undefined) {
+    customElements.define(tagName, constructor, options);
     conf.enabled.push(name);
-    conf.namemap.set(name, tagname);
+    conf.namemap.set(name, tagName);
   }
 };
 
@@ -51,8 +52,8 @@ export function create(args: string | EleArgs | HTMLElement): HTMLElement {
 
 /**
  * Replace elements
- * @param matched: Element array to be replaced
- * @param args: New element arguments will call create
+ * @param matched
+ * @param args
  */
 export function retag(matched: HTMLElement[], args: string | EleArgs | HTMLElement) {
   for (let i = matched.length - 1; i >= 0; i--) {
@@ -69,8 +70,41 @@ export function retag(matched: HTMLElement[], args: string | EleArgs | HTMLEleme
   }
 }
 
-export interface EleArgs {
+interface EleArgs {
   tag: string;
   props?: Record<string, any>;
   children?: (string | HTMLElement | EleArgs)[];
+}
+
+/**
+ * @param vars css properties key array
+ * @param selectorProperties keys: raw name, as selector. values: css properties value array
+ * @param selectorFunc change raw name to a new selector
+ * @param propertyFunc form key and value into new key:value; pairs.
+ * @returns css text
+ */
+export function constructCSS(vars: LikeString[], selectorProperties: Record<string, LikeString[]>, selectorFunc?: (raw: LikeString) => string, propertyFunc?: (k: LikeString, v: LikeString) => string) {
+  let cssString = "";
+  Object.keys(selectorProperties).forEach((sel) => {
+    const classProperties = vars.map((propertyKey, index) => {
+      const propertyValue = selectorProperties[sel][index];
+      if (propertyValue === undefined || propertyValue === null) {
+        return;
+      }
+      if (propertyFunc) {
+        return propertyFunc(propertyKey as string, propertyValue as string);
+      }
+      return `${propertyKey}:${propertyValue}`;
+    });
+    const filtedProperties = classProperties.filter((p) => p);
+    if (selectorFunc) {
+      sel = selectorFunc(sel);
+    }
+    cssString = `${cssString}${sel}{${filtedProperties.join(";")}}`;
+  });
+  return cssString;
+}
+
+interface LikeString {
+  toString(): string;
 }
