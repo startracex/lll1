@@ -1,4 +1,5 @@
 import { html, svg } from "lit";
+
 /**
  * @param fill undefined: "currentColor". 0, null, "": "none"
  * @param stroke undefined: "currentColor". 0, null, "": "none"
@@ -12,7 +13,12 @@ export const path = (fill: string | undefined | null | 0 = "currentColor", strok
   };
 };
 
-export const htmlSlot = (name?: "pre" | "suf") => {
+interface HtmlSlot {
+  (name?: "pre" | "suf"): ReturnType<typeof html>;
+  (name?: string): ReturnType<typeof html>;
+}
+
+export const htmlSlot: HtmlSlot = (name?: string) => {
   if (name) {
     return html`<slot name="${name}"></slot>`;
   }
