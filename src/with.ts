@@ -4,7 +4,7 @@ export const define = (name: string, options?: ElementDefinitionOptions) => (con
   const tagName = conf.tag(name);
   if (customElements.get(tagName) === undefined) {
     customElements.define(tagName, constructor, options);
-    conf.enabled.push(name);
+    conf.enabled.add(name);
     conf.namemap.set(name, tagName);
   }
 };

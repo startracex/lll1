@@ -1,7 +1,7 @@
 const defaultConfig: ConfType = {
   cssvar: "godown",
-  enabled: [],
-  namemap: new Map(),
+  enabled: new Set<string>(),
+  namemap: new Map<string, string>(),
   prefix: "",
   reflect: false,
   suffix: "",
@@ -32,7 +32,7 @@ declare global {
 
 interface ConfType {
   cssvar: string;
-  enabled: string[];
+  enabled: Set<string>;
   namemap: Map<string, string>;
   prefix: string;
   reflect: boolean;
