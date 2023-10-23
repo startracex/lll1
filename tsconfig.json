@@ -6,10 +6,10 @@
     "lib": ["es2020", "DOM", "DOM.Iterable"],
     "declaration": true,
     "declarationMap": true,
+    "sourceMap": false,
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": false,
     "allowJs": false,
     "rootDir": "./src",
     "outDir": "./public"

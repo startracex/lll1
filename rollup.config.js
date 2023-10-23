@@ -1,17 +1,20 @@
+import _minifyHTML from "rollup-plugin-minify-html-literals";
 import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
-import _minifyHTML from "rollup-plugin-minify-html-literals";
+import typescript from "@rollup/plugin-typescript";
+
 const minifyHTML = _minifyHTML.default;
 export default {
   plugins: [
     resolve(),
+    typescript(),
     minifyHTML(),
     terser({
       ecma: 2020,
       module: true,
     }),
   ],
-  input: "public/index.js",
+  input: "src/index.ts",
   output: [
     {
       file: "build/es.js",
