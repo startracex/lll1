@@ -1,6 +1,6 @@
 # Godown
 
-The **simple, sylized, semantic components** for standard HTML and other frameworks.
+The **simple, stylized, semantic components** for standard HTML and other frameworks.
 
 ## Install
 
