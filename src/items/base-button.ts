@@ -16,8 +16,8 @@ const outlineBoxShadow = `0 0 0 var(${cssvar}--ghost-width) var(${cssvar}--ghost
 
 @define("base-button")
 export class BaseButton extends ItemsSTD {
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) outline = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) outline = false;
   @property({ type: Boolean, reflect: true }) ghost = false;
   @property({ type: Boolean, reflect: true }) active = false;
   @property({ reflect: true }) color: "none" | keyof typeof colors = "black";
