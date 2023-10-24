@@ -113,6 +113,13 @@ export class AlertItem extends ItemsSTD {
       this.remove();
     }, 300);
   }
+
+  static alert(root: HTMLElement, option: Partial<AlertItem>): AlertItem {
+    const ai = new AlertItem();
+    Object.assign(ai, option);
+    root.appendChild(ai);
+    return ai;
+  }
 }
 
 export default AlertItem;
