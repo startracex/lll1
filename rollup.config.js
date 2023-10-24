@@ -7,7 +7,10 @@ const minifyHTML = _minifyHTML.default;
 export default {
   plugins: [
     resolve(),
-    typescript(),
+    typescript({
+      declaration: false,
+      declarationMap: false,
+    }),
     minifyHTML(),
     terser({
       ecma: 2020,
