@@ -1,5 +1,6 @@
 import { css, cssvar, define, html, property } from "../deps.js";
-import STD from "./std.js";
+import EffectSTD from "./std.js";
+
 const theme = css`
   :host {
     ${cssvar}--ov-text: aliceblue;
@@ -44,8 +45,9 @@ const theme = css`
     }
   }
 `;
-@define("ov-text")
-export class OVText extends STD {
+
+@define("overbreath-text")
+export class OverbreathText extends EffectSTD {
   static styles = [
     theme,
     css`
@@ -56,32 +58,34 @@ export class OVText extends STD {
         font-size: clamp(4.4rem, 9vw, 5rem);
         align-items: center;
       }
+
       @media screen and (max-width: 1280px) {
         :host {
           flex-direction: column;
         }
       }
+
+      span {
+        display: flex;
+      }
+
       *::selection {
         background: none;
       }
-      .overbreath {
-        font-size: inherit;
-        padding-bottom: 1rem;
-        display: flex;
-        align-items: inherit;
-        flex-direction: inherit;
-      }
-      .overbreathpart {
+
+      .rel {
         line-height: 1;
         position: relative;
       }
-      .overbreathroot {
+
+      .abs {
         color: currentColor;
         position: absolute;
         top: 0;
       }
-      .overbreathtext,
-      .overbreathroot {
+
+      .ani,
+      .abs {
         white-space: nowrap;
         box-sizing: border-box;
         padding-right: 2.5px;
@@ -92,32 +96,40 @@ export class OVText extends STD {
         font-weight: 800;
         font-size: inherit;
       }
-      .overbreathtext {
+
+      .ani {
         box-sizing: border-box;
         -webkit-text-fill-color: transparent;
       }
-      .overbreathpart:nth-child(1) .overbreathtext {
-        animation: overbreathtext1 8s infinite;
+
+      .rel:nth-child(1) .ani {
+        animation: ani1 8s infinite;
         background-image: var(${cssvar}--ov-1);
       }
-      .overbreathpart:nth-child(2) .overbreathtext {
-        animation: 8s ease 0s infinite normal none running overbreathtext2;
+
+      .rel:nth-child(2) .ani {
+        animation: 8s ease 0s infinite normal none running ani2;
         background-image: var(${cssvar}--ov-2);
       }
-      .overbreathpart:nth-child(3) .overbreathtext {
-        animation: 8s ease 0s infinite normal none running overbreathtext3;
+
+      .rel:nth-child(3) .ani {
+        animation: 8s ease 0s infinite normal none running ani3;
         background-image: var(${cssvar}--ov-3);
       }
-      .overbreathpart:nth-child(1) .overbreathroot {
+
+      .rel:nth-child(1) .abs {
         animation: overbreath1 8s infinite;
       }
-      .overbreathpart:nth-child(2) .overbreathroot {
+
+      .rel:nth-child(2) .abs {
         animation: overbreath2 8s infinite;
       }
-      .overbreathpart:nth-child(3) .overbreathroot {
+
+      .rel:nth-child(3) .abs {
         animation: overbreath3 8s infinite;
       }
-      @keyframes overbreathtext1 {
+
+      @keyframes ani1 {
         0%,
         16.667%,
         to {
@@ -128,7 +140,7 @@ export class OVText extends STD {
           opacity: 0;
         }
       }
-      @keyframes overbreathtext2 {
+      @keyframes ani2 {
         0%,
         to {
           opacity: 0;
@@ -142,7 +154,7 @@ export class OVText extends STD {
           opacity: 0;
         }
       }
-      @keyframes overbreathtext3 {
+      @keyframes ani3 {
         0%,
         50%,
         to {
@@ -195,85 +207,25 @@ export class OVText extends STD {
   @property() t1 = "t1 unset.";
   @property() t2 = "t2 unset..";
   @property() t3 = "t3 unset...";
+
   render() {
-    return html`<div class="overbreath">
-      <span class="overbreathpart"><span class="overbreathroot">${this.t1}</span><span class="overbreathtext">${this.t1}</span></span>
-      <span class="overbreathpart"><span class="overbreathroot">${this.t2}</span><span class="overbreathtext">${this.t2}</span></span>
-      <span class="overbreathpart"><span class="overbreathroot">${this.t3}</span><span class="overbreathtext">${this.t3}</span></span>
-    </div>`;
+    return html` <span class="rel">
+        <span class="abs">${this.t1}</span>
+        <span class="ani">${this.t1}</span>
+      </span>
+      <span class="rel">
+        <span class="abs">${this.t2}</span>
+        <span class="ani">${this.t2}</span>
+      </span>
+      <span class="rel">
+        <span class="abs">${this.t3}</span>
+        <span class="ani">${this.t3}</span>
+      </span>`;
   }
 }
-@define("ov-port")
-export class OVPort extends STD {
-  static styles = [
-    theme,
-    css`
-      :host {
-        z-index: 1;
-        display: block;
-        position: relative;
-        width: 100%;
-        height: 100%;
-        border-radius: inherit;
-        overflow: hidden;
-      }
-      .overbreathflow {
-        z-index: -1;
-      }
-    `,
-  ];
-  render() {
-    return html`<div class="overbreathflow"></div>
-      <slot></slot>`;
-  }
-}
-@define("ov-button")
-export class OVButton extends STD {
-  static styles = [
-    theme,
-    css`
-      :host {
-        display: inline-block;
-        width: fit-content;
-        height: fit-content;
-        background: var(${cssvar}--ov-port);
-        color: var(${cssvar}--ov-text);
-        border-radius: 0.375em;
-        font-size: 1em;
-      }
-      .overbreathboard {
-        color: currentColor;
-        background: inherit;
-        border-radius: inherit;
-        display: flex;
-        position: relative;
-        width: 100%;
-        height: 100%;
-      }
-      button {
-        font-size: inherit;
-        color: currentColor;
-        background: inherit;
-        width: 100%;
-        margin: var(${cssvar}--ov-border);
-        position: relative;
-        z-index: 1;
-        border: 0;
-        border-radius: inherit;
-      }
-    `,
-  ];
-  render() {
-    return html`<div class="overbreathboard">
-      <div class="overbreathflow"></div>
-      <button><slot></slot></button>
-    </div>`;
-  }
-}
+
 declare global {
   interface HTMLElementTagNameMap {
-    "ov-text": OVText;
-    "ov-port": OVPort;
-    "ov-button": OVButton;
+    "overbreath-text": OverbreathText;
   }
 }
