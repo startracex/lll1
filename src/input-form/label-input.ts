@@ -1,25 +1,20 @@
 import { css, CSSResultGroup, cssvar, define, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot, svgEye } from "../tmpl.js";
-import InputFormSTD, { InputType } from "./std.js";
+import { InputSTD, type InputType } from "./std.js";
 
 @define("label-input")
-export class LabelInput extends InputFormSTD {
+export class LabelInput extends InputSTD {
   @property({ reflect: true }) type: InputType = "text";
-  @property() label = "";
-  @property() def = "";
-  @property() pla?: string = undefined;
-  @property() name = "";
-  @property() value = "";
   @property({ type: Boolean }) autofocus = false;
   @query("input") _input: HTMLInputElement;
   static styles = [
-    InputFormSTD.styles,
+    InputSTD.styles,
     css`
       :host {
         max-width: calc(2 * var(${cssvar}--input-width));
         background-color: inherit;
         display: block;
-        border-radius: 4px;
+        border-radius: 0.2em;
       }
 
       label {
@@ -41,16 +36,14 @@ export class LabelInput extends InputFormSTD {
         padding: 0 0.125em;
         background-color: transparent;
         font-size: 102.5%;
-        border: 0;
         border-radius: inherit;
-        outline: 0;
         flex: 1;
         width: 100%;
         height: inherit;
       }
 
       fieldset:focus-within {
-        outline: 0.18em solid var(${cssvar}--input-outline-focus);
+        outline: 0.18em solid var(${cssvar}--input-outline-color);
       }
 
       @media screen and (max-width: 540px) {
@@ -108,7 +101,7 @@ export class LabelInput extends InputFormSTD {
           this._input.type = "password";
         }}"
       >
-        ${!this.querySelector("[slot=\"suf\"]") ? svgEye() : htmlSlot("suf")}
+        ${!this.querySelector("[slot=suf]") ? svgEye() : htmlSlot("suf")}
       </i>`;
     } else {
       return html`<i>${htmlSlot("suf")}</i>`;

@@ -1,9 +1,9 @@
 import { css, CSSResultGroup, define, html, property, query, queryAll } from "../deps.js";
+import { FormSTD } from "./std.js";
 import { htmlSlot } from "../tmpl.js";
-import InputFormSTD from "./std.js";
 
 @define("base-form")
-export class BaseForm extends InputFormSTD {
+export class BaseForm extends FormSTD {
   @property() enctype = "multipart/form-data";
   static styles = [
     css`

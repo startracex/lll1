@@ -1,24 +1,24 @@
 import { conf, css, CSSResultGroup, cssvar, define, DisableWarning, html, ifDefined, LitElement, property, query } from "../deps.js";
 import { htmlSlot, svgDelta, svgX } from "../tmpl.js";
-import InputFormSTD from "./std.js";
+import { InputSTD } from "./std.js";
 
 @define("select-input")
-export class SelectInput extends InputFormSTD {
+export class SelectInput extends InputSTD {
   static styles = [
-    InputFormSTD.styles,
+    InputSTD.styles,
     css`
       :host {
         background: var(${cssvar}--input-background);
         color: var(${cssvar}--text);
         display: inline-flex;
-        outline: 0.145em solid transparent;
-        border-radius: 0.25em;
-        height: 1.5em;
+        outline: var(${cssvar}--input-outline-width) solid transparent;
+        height: var(${cssvar}--input-height);
         width: var(${cssvar}--input-width);
+        border-radius: 0.2em;
       }
 
       :host([open]) {
-        outline-color: var(${cssvar}--input-outline-focus);
+        outline-color: var(${cssvar}--input-outline-color);
       }
 
       input {
@@ -95,9 +95,7 @@ export class SelectInput extends InputFormSTD {
   ] as CSSResultGroup[];
   @property({ type: Boolean, reflect: true }) open = false;
   @property() selectedClass = `${conf.tag("select-input")}-selected`;
-  @property() pla?: string = undefined;
   @property({ type: Boolean, reflect: true }) only = false;
-  @property() def = "";
   @property({ type: Array }) value = [];
   @property({ reflect: true }) name = "select";
   @property({ type: Array }) text: string[] = [];
@@ -111,7 +109,7 @@ export class SelectInput extends InputFormSTD {
   @query("aside") _aside: HTMLInputElement;
 
   render() {
-    return html`<div>
+    return html` <div>
       <section>${this.render_list()}</section>
       <input
         id="input"

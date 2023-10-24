@@ -1,11 +1,11 @@
 import { css, CSSResultGroup, cssvar, define, html, property, query } from "../deps.js";
 import { htmlSlot } from "../tmpl.js";
-import InputFormSTD from "./std.js";
+import { InputSTD } from "./std.js";
 
 @define("switch-input")
-export class SwitchInput extends InputFormSTD {
+export class SwitchInput extends InputSTD {
   static styles = [
-    InputFormSTD.styles,
+    InputSTD.styles,
     css`
       :host {
         width: 3em;

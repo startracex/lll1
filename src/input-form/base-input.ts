@@ -1,23 +1,23 @@
 import { css, CSSResultGroup, cssvar, define, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot } from "../tmpl.js";
-import InputFormSTD from "./std.js";
+import { InputSTD } from "./std.js";
 import type { InputType } from "./std.js";
 
 @define("base-input")
-export class BaseInput extends InputFormSTD {
+export class BaseInput extends InputSTD {
   static styles = [
-    InputFormSTD.styles,
+    InputSTD.styles,
     css`
       :host {
         ${cssvar}--input-control: rgb(240 240 240);
         ${cssvar}--input-control-edge: var(${cssvar}--input-true);
-        width: var(${cssvar}--input-width);
-        height: 1.6em;
         display: inline-flex;
+        width: var(${cssvar}--input-width);
+        height: var(${cssvar}--input-height);
         background-color: var(${cssvar}--input-background);
-        border-radius: 0.2em;
         outline: transparent solid var(${cssvar}--input-outline-width);
         color: var(${cssvar}--text);
+        border-radius: 0.2em;
       }
 
       :host([type="range"]) {
@@ -59,8 +59,6 @@ export class BaseInput extends InputFormSTD {
         height: 100%;
         width: 100%;
         font-size: 0.8em;
-        outline: 0;
-        border: 0;
         margin: 0;
         border: none;
         color: inherit;
@@ -119,12 +117,8 @@ export class BaseInput extends InputFormSTD {
   @query("input") _input: HTMLInputElement;
   @query(".range i") _ranged: HTMLElement;
   @property() accept = undefined;
-  @property() label = "";
-  @property() name = "";
-  @property() pla?: string = undefined;
   @property({ reflect: true }) type: InputType = "text";
   @property() value: string | File | FileList = undefined;
-  @property() def = "";
   @property({ type: Boolean }) only = false;
   @property({ type: Number }) min = 0;
   @property({ type: Number }) max = 100;

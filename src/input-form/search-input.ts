@@ -1,9 +1,9 @@
 import { css, CSSResultGroup, cssvar, define, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot, svgSearch } from "../tmpl.js";
-import InputFormSTD from "./std.js";
+import { InputSTD } from "./std.js";
 
 @define("search-input")
-export class SearchInput extends InputFormSTD {
+export class SearchInput extends InputSTD {
   @query("input") _input!: HTMLInputElement;
   @property() query = "";
   @property() target = "";
@@ -12,7 +12,6 @@ export class SearchInput extends InputFormSTD {
   @property() action = "./";
   @property() method: "get" | "post" = "get";
   @property() name = "q";
-  @property() value = "";
   @property() pla?: string = undefined;
   @property({ type: Array }) list: any[] = [];
   @property({ type: Boolean }) autofocus = false;
@@ -25,11 +24,10 @@ export class SearchInput extends InputFormSTD {
     return ["Undefined: useInfer", `Use: useInfer(${x} :string)`, "Return Array<string>"];
   };
   static styles = [
-    InputFormSTD.styles,
+    InputSTD.styles,
     css`
       :host {
-        outline-width: 0.18em;
-        outline-style: solid;
+        outline: var(${cssvar}--input-outline-width) solid;
         color: var(${cssvar}--text);
         display: inline-block;
         min-height: 1.5rem;
@@ -71,9 +69,7 @@ export class SearchInput extends InputFormSTD {
 
       button,
       input {
-        border: 0;
         background: none;
-        outline: none;
       }
 
       button {
@@ -98,15 +94,15 @@ export class SearchInput extends InputFormSTD {
   ] as CSSResultGroup[];
 
   render() {
-    return html`<form action="${this.action}" method="${this.method}">
+    return html` <form action="${this.action}" method="${this.method}">
       <div>
         <input name="${this.name}" @input="${this._handleInput}" @change="${this._handleChange}" title="" placeholder="${ifDefined(this.pla)}" />
         <button @click="${this._handleSubmit}">${svgSearch()}</button>
       </div>
       ${htmlSlot()}
       ${this.list?.length
-        ? html`<ul>
-            ${this.list.map((v, i) => html`<li key="${i}">${v}</li>`)}
+        ? html` <ul>
+            ${this.list.map((v, i) => html` <li key="${i}">${v}</li>`)}
           </ul>`
         : undefined}
     </form>`;

@@ -1,10 +1,10 @@
 import { css, CSSResultGroup, cssvar, define, html, property, query, queryAll } from "../deps.js";
-import InputFormSTD from "./std.js";
+import { InputSTD } from "./std.js";
 
 @define("split-input")
-export class SplitInput extends InputFormSTD {
+export class SplitInput extends InputSTD {
   static styles = [
-    InputFormSTD.styles,
+    InputSTD.styles,
     css`
       :host {
         ${cssvar}--splited-width: .12em;
@@ -60,8 +60,6 @@ export class SplitInput extends InputFormSTD {
       }
     `,
   ] as CSSResultGroup[];
-  @property() name = "code";
-  @property() value = "";
   @property({ type: Number }) max = 6;
   @property({ type: Number }) index = -1;
   @property({ type: Boolean }) autofocus = false;
