@@ -1,21 +1,23 @@
-import { css, CSSResultGroup, define, html, property, query } from "../deps.js";
-import STD from "./std.js";
+import { css, CSSResultGroup, define, html, property, query, queryAll } from "../deps.js";
+import { htmlSlot } from "../tmpl.js";
+import InputFormSTD from "./std.js";
 
 @define("base-form")
-export class BaseForm extends STD {
-  @property() name = "";
+export class BaseForm extends InputFormSTD {
+  @property() enctype = "multipart/form-data";
   static styles = [
-    STD.styles,
     css`
       :host {
         display: flow-root;
       }
+
       form {
         display: flex;
         flex-direction: column;
         align-items: center;
         margin: 0;
       }
+
       main {
         display: flex;
         flex-direction: column;
@@ -23,17 +25,18 @@ export class BaseForm extends STD {
     `,
   ] as CSSResultGroup[];
   @query("form") _form: HTMLFormElement;
+  @queryAll("slot") _slots: HTMLSlotElement[];
+
   render() {
     return html`<form enctype="multipart/form-data">
-      <slot name="pre"></slot>
-      <main>
-        <slot></slot>
-      </main>
-      <slot name="suf"></slot>
+      ${htmlSlot("pre")}
+      <main>${htmlSlot()}</main>
+      ${htmlSlot("suf")}
     </form>`;
   }
+
   reset() {
-    each(this._form, (node: any) => {
+    each(this._form, (node: HTMLFormElement | BaseForm) => {
       if (node.reset) {
         node.reset();
       }
@@ -55,7 +58,8 @@ export class BaseForm extends STD {
       }
     form.remove();
   }
-  namevalue(enctype = "multipart/form-data"): [string, Record<string, any>] {
+
+  namevalue(enctype = this.enctype): [string, Record<string, any>] {
     const x = {};
     const form = document.createElement("form");
     form.enctype = enctype;
@@ -85,11 +89,12 @@ export class BaseForm extends STD {
     form.remove();
     return [this.name, x];
   }
+
   FormData(): FormData {
     const x = {};
     const form = document.createElement("form");
     form.enctype = "multipart/form-data";
-    for (const slot of this.shadowRoot.querySelectorAll("slot"))
+    for (const slot of this._slots)
       for (const i of slot.assignedNodes() as any) {
         if (i.FormData) {
           for (const [key, value] of i.FormData()) {
@@ -115,6 +120,7 @@ export class BaseForm extends STD {
     return y;
   }
 }
+
 function each(node: Node, callback: (node: Node) => void) {
   if (node) {
     callback(node);
@@ -123,6 +129,7 @@ function each(node: Node, callback: (node: Node) => void) {
     }
   }
 }
+
 @define("sign-form")
 export class SignForm extends BaseForm {}
 

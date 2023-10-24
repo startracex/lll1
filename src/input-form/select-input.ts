@@ -1,10 +1,11 @@
-import { conf, css, CSSResultGroup, cssvar, define, DisableWarning, html, LitElement, property, query } from "../deps.js";
-import STD from "./std.js";
+import { conf, css, CSSResultGroup, cssvar, define, DisableWarning, html, ifDefined, LitElement, property, query } from "../deps.js";
+import { htmlSlot, svgDelta, svgX } from "../tmpl.js";
+import InputFormSTD from "./std.js";
 
 @define("select-input")
-export class SelectInput extends STD {
+export class SelectInput extends InputFormSTD {
   static styles = [
-    STD.styles,
+    InputFormSTD.styles,
     css`
       :host {
         background: var(${cssvar}--input-background);
@@ -15,11 +16,13 @@ export class SelectInput extends STD {
         height: 1.5em;
         width: var(${cssvar}--input-width);
       }
+
       :host([open]) {
         outline-color: var(${cssvar}--input-outline-focus);
       }
+
       input {
-        padding: 0px 0px 0px 0.25em;
+        padding: 0 0 0 0.25em;
         background: none;
         cursor: inherit;
         height: 100%;
@@ -30,6 +33,7 @@ export class SelectInput extends STD {
         border-radius: inherit;
         flex: 1;
       }
+
       div {
         display: inline-flex;
         position: relative;
@@ -37,9 +41,11 @@ export class SelectInput extends STD {
         border-radius: inherit;
         z-index: inherit;
       }
+
       label svg {
         height: 100%;
       }
+
       aside {
         margin-top: 1px;
         position: absolute;
@@ -49,6 +55,7 @@ export class SelectInput extends STD {
         z-index: 1;
         border-radius: inherit;
       }
+
       section {
         max-width: calc(100% - 1.2em);
         height: 100%;
@@ -57,6 +64,7 @@ export class SelectInput extends STD {
         border-radius: inherit;
         z-index: inherit;
       }
+
       i.selected-item {
         background: var(${cssvar}--input-true);
         border-radius: inherit;
@@ -68,89 +76,96 @@ export class SelectInput extends STD {
         padding-left: 0.1em;
         margin-left: 0.065em;
       }
+
       i:first-child {
         margin-left: 0;
       }
+
       i.selected-item svg {
         width: 1em;
         padding: 0 0.12em;
         height: 0.8em;
         pointer-events: all;
       }
+
       aside[open] {
         visibility: visible;
       }
     `,
   ] as CSSResultGroup[];
   @property({ type: Boolean, reflect: true }) open = false;
-  @property() selcls = `${conf.tag("select-input")}-selected`;
+  @property() selectedClass = `${conf.tag("select-input")}-selected`;
   @property() pla?: string = undefined;
   @property({ type: Boolean, reflect: true }) only = false;
-  @property() def: string = "";
+  @property() def = "";
   @property({ type: Array }) value = [];
   @property({ reflect: true }) name = "select";
-  @property({ type: Array }) text: Array<string> = [];
+  @property({ type: Array }) text: string[] = [];
   @property({ type: Boolean }) autofocus = false;
 
-  get assigned(): any {
-    return this.shadowRoot.querySelector("slot").assignedElements();
+  get assigned() {
+    return super.assigned as any;
   }
+
   @query("input") _input: HTMLInputElement;
   @query("aside") _aside: HTMLInputElement;
+
   render() {
     return html`<div>
-      <section>${this.lists()}</section>
+      <section>${this.render_list()}</section>
       <input
         id="input"
-        @focus=${() => {
+        @focus="${() => {
           this.open = true;
-        }}
-        @input=${this._handleInput}
-        placeholder=${this.pla}
+        }}"
+        @input="${this._handleInput}"
+        placeholder="${ifDefined(this.pla)}"
       />
-      <label for="input">
-        <svg viewBox="0 0 48 48" fill="none"><path d="M36 19L24 31L12 19H36Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round" /></svg>
-      </label>
-      <aside ?open=${this.open}><slot></slot></aside>
+      <label for="input">${svgDelta()}</label>
+      <aside ?open="${this.open}">${htmlSlot()}</aside>
     </div>`;
   }
-  lists() {
+
+  protected render_list() {
     const itemTemplates = [];
     if (this.value.length)
       for (const i in this.value) {
         itemTemplates.push(
           html`<i class="selected-item">
             ${this.text[i] || this.value[i]}
-            <svg
-              @click=${() => {
+            <div
+              @click="${() => {
                 this.select(this.value[i]);
-              }}
-              viewBox="0 0 1024 1024"
-              version="1.1"
+              }}"
             >
-              <path d="M960 512c0-249.6-198.4-448-448-448S64 262.4 64 512s198.4 448 448 448 448-198.4 448-448zM691.2 736L512 556.8 332.8 736c-12.8 12.8-32 12.8-44.8 0-12.8-12.8-12.8-32 0-44.8L467.2 512 288 332.8c-12.8-12.8-12.8-32 0-44.8 12.8-12.8 32-12.8 44.8 0L512 467.2 691.2 288c12.8-12.8 32-12.8 44.8 0 12.8 12.8 12.8 32 0 44.8L556.8 512 736 691.2c12.8 12.8 12.8 32 0 44.8-12.8 12.8-32 12.8-44.8 0z" fill="currentColor"></path>
-            </svg>
+              ${svgX()}
+            </div>
           </i>`,
         );
       }
     return itemTemplates;
   }
+
   _focusCheck() {
     if (this.autofocus) {
       this._input?.focus();
       this.open = true;
     }
   }
+
   focus(options?: FocusOptions) {
     this._input?.focus(options);
     this.open = true;
   }
+
   connectedCallback() {
     LitElement.prototype.connectedCallback.call(this);
   }
+
   getIndexFunc(option: HTMLOptionElement | any) {
-    return this.getIndexFunc(option);
+    return option.value || option.getAttribute("value");
   }
+
   firstUpdated() {
     if (this.def) {
       if (this.only) {
@@ -166,39 +181,27 @@ export class SelectInput extends STD {
     this._focusCheck();
     this.assigned.forEach((option: HTMLOptionElement) => {
       if (this.getIndexFunc(option)) {
-        option.addEventListener("click", () => {
+        this.addEvent(option, "click", () => {
           this.select(this.getIndexFunc(option), option.innerText);
         });
       } else if (option.children) {
         [...option.children].forEach((option: HTMLOptionElement) => {
-          option.addEventListener("click", () => {
+          this.addEvent(option, "click", () => {
             this.select(this.getIndexFunc(option), option.innerText);
           });
         });
       }
     });
-    this.addEventListener("change", () => {
+    this.addEvent(this, "change", () => {
       this.open = !this.only;
     });
-    document.addEventListener("click", (e) => {
+    this.addEvent(document, "click", (e) => {
       if (!this.contains(e.target as Node)) {
         this.open = false;
       }
     });
   }
-  disconnectedCallback(): void {
-    this.assigned.forEach((option: HTMLOptionElement) => {
-      if (this.getIndexFunc(option)) {
-        option.removeEventListener("click", () => {});
-      } else if (option.children) {
-        [...option.children].forEach((option: HTMLOptionElement) => {
-          option.removeEventListener("click", () => {
-            this.select(this.getIndexFunc(option), option.innerText);
-          });
-        });
-      }
-    });
-  }
+
   select(value: string, text?: string) {
     if (text === undefined || text === null) {
       this.assigned.forEach((option: { value: any; innerText: any; children: any }) => {
@@ -235,16 +238,16 @@ export class SelectInput extends STD {
     this.assigned.forEach((option: { value: any; classList: { add: (arg0: string) => void; remove: (arg0: string) => void }; children: any }) => {
       if (this.getIndexFunc(option)) {
         if (this.value.includes(this.getIndexFunc(option))) {
-          option.classList.add(this.selcls);
+          option.classList.add(this.selectedClass);
         } else {
-          option.classList.remove(this.selcls);
+          option.classList.remove(this.selectedClass);
         }
       } else if (option.children) {
         [...option.children].forEach((option) => {
           if (this.value.includes(this.getIndexFunc(option))) {
-            option.classList.add(this.selcls);
+            option.classList.add(this.selectedClass);
           } else {
-            option.classList.remove(this.selcls);
+            option.classList.remove(this.selectedClass);
           }
         });
       }
@@ -253,6 +256,7 @@ export class SelectInput extends STD {
     this.dispatchEvent(new CustomEvent("change", { detail: this.namevalue() }));
     this.requestUpdate();
   }
+
   _handleInput() {
     let value = this._input.value.trim();
     if (!this.only && value.includes(";")) {
@@ -293,22 +297,24 @@ export class SelectInput extends STD {
     }
     this.dispatchEvent(new CustomEvent("input", { detail: this.namevalue() }));
   }
+
   namevalue(): [string, any[]] | [string, any] {
     if (!this.only) {
       return [this.name, this.value];
     }
     return [this.name, this.value[0]];
   }
+
   reset() {
     this.value = [];
     this.text = [];
     this._input.value = "";
     this.assigned.forEach((option: { value: any; classList: { remove: (arg0: string) => void }; children: any }) => {
       if (this.getIndexFunc(option)) {
-        option.classList.remove(this.selcls);
+        option.classList.remove(this.selectedClass);
       } else if (option.children) {
         [...option.children].forEach((option) => {
-          option.classList.remove(this.selcls);
+          option.classList.remove(this.selectedClass);
         });
       }
     });
@@ -323,6 +329,7 @@ export class SelectInput extends STD {
     }
   }
 }
+
 DisableWarning(SelectInput);
 
 export default SelectInput;
