@@ -15,6 +15,7 @@ export const path = (fill: string | undefined | null | 0 = "currentColor", strok
 
 interface HtmlSlot {
   (name?: "pre" | "suf"): ReturnType<typeof html>;
+
   (name?: string): ReturnType<typeof html>;
 }
 
