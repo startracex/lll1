@@ -1,26 +1,32 @@
 import { css, define, html } from "../deps.js";
-import STD from "./std.js";
+import { htmlSlot } from "../tmpl.js";
+import ViewSTD from "./std.js";
+
 @define("scroll-x")
-export class ScrollX extends STD {
+export class ScrollX extends ViewSTD {
   static styles = css`
     :host {
       display: block;
       width: 100%;
       height: fit-content;
     }
+
     section {
       overflow: auto;
       position: relative;
       transform-origin: 0 0;
       transform: rotate(-90deg) translateX(-100%);
     }
+
     section::-webkit-scrollbar {
       display: none;
     }
+
     span {
       height: 500px;
       display: flex;
     }
+
     main {
       width: auto;
       position: absolute;
@@ -29,25 +35,28 @@ export class ScrollX extends STD {
       transform: rotate(90deg);
     }
   `;
+
   get _section() {
     return this.shadowRoot.querySelector("section");
   }
+
   render() {
-    return html`<section>
+    return html`<section @scroll="${this._handelScroll}">
       <main>
-        <span><slot></slot></span>
+        <span>${htmlSlot()}</span>
       </main>
     </section>`;
   }
-  firstUpdated() {
-    this._section.addEventListener("scroll", (e: any) => {
-      this.dispatchEvent(new CustomEvent("scroll", { detail: e.target.scrollTop }));
-    });
-    this.resize();
-    window.addEventListener("resize", () => {
-      this.resize();
-    });
+
+  protected _handelScroll(e: any) {
+    this.dispatchEvent(new CustomEvent("scroll", { detail: e.target.scrollTop }));
   }
+
+  firstUpdated() {
+    this.resize();
+    this.addEvent(window, "resize", this.resize.bind(this));
+  }
+
   resize() {
     const child = this.firstElementChild;
     if (!child) return;
@@ -63,6 +72,7 @@ export class ScrollX extends STD {
     }
   }
 }
+
 export default ScrollX;
 declare global {
   interface HTMLElementTagNameMap {

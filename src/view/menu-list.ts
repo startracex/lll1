@@ -1,14 +1,17 @@
 import { css, CSSResultGroup, define, html, property, query, state } from "../deps.js";
-import STD, { DLsharecss } from "./std.js";
+import { htmlSlot, svgArrow } from "../tmpl.js";
+import ViewSTD, { dlShareCSS } from "./std.js";
+
 @define("menu-list")
-export class MenuList extends STD {
+export class MenuList extends ViewSTD {
   @property() summary = "";
+  @property({ type: Boolean, reflect: true }) float = false;
   @property({ type: Boolean, reflect: true }) open = false;
   @state() def: boolean;
   @query("section") _section: HTMLElement;
   static styles = [
-    STD.styles,
-    DLsharecss,
+    ViewSTD.styles,
+    dlShareCSS,
     css`
       i {
         width: 1.2em;
@@ -18,40 +21,51 @@ export class MenuList extends STD {
         border-radius: 20%;
         transition: inherit;
       }
+
       dt i {
         background-color: rgb(0 0 0 / 0.055);
       }
+
       dt i:hover {
         background-color: rgb(0 0 0 /0.075);
       }
-      [open] svg {
+
+      :host([open]) svg {
         transform: rotate(90deg);
       }
-      [notitle] {
+
+      .noTitle {
         display: none;
       }
     `,
   ] as CSSResultGroup[];
+
   render() {
-    const notitle = !this.summary && !this.querySelector(`[slot="summary"]`);
-    if (notitle) {
+    const noTitle = !this.summary && !this.querySelector("[slot=summary]") ? "noTitle" : "";
+    if (noTitle) {
       this.open = true;
     }
     return html`<dl>
-      <dt ?open=${this.open} ?notitle=${notitle}>
+      <dt class="${noTitle}">
         <span>${this.summary}<slot name="summary"></slot></span>
-        <i @click=${() => this.toggle()}>${!this.querySelector(`[slot="icon"]`) ? html`<svg viewBox="0 0 48 48" fill="none"><path d="M19 12L31 24L19 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>` : html`<slot name="icon"></slot>`}</i>
+        <i @click="${this._handelClick}"> ${!this.querySelector("[slot=icon]") ? svgArrow() : htmlSlot("icon")} </i>
       </dt>
-      <dd ?open=${this.open}>
-        <section><slot></slot></section>
+      <dd>
+        <section>${htmlSlot()}</section>
       </dd>
     </dl>`;
   }
+
+  protected _handelClick() {
+    this.toggle();
+  }
+
   toggle(to = !this.open) {
     this.open = to;
     this.dispatchEvent(new CustomEvent("change", { detail: this.open }));
   }
 }
+
 export default MenuList;
 declare global {
   interface HTMLElementTagNameMap {

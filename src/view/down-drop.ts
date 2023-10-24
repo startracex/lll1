@@ -1,14 +1,17 @@
-import { css, CSSResultGroup, define, html, query } from "../deps.js";
-import STD from "../layout/std.js";
+import { css, CSSResultGroup, define, html, property, query } from "../deps.js";
+import { htmlSlot } from "../tmpl.js";
+import ViewSTD from "./std.js";
+
 @define("down-drop")
-export class DownDrop extends STD {
+export class DownDrop extends ViewSTD {
   static styles = [
-    STD.styles,
+    ViewSTD.styles,
     css`
       :host {
         height: 100%;
         width: 100%;
       }
+
       main {
         height: inherit;
         width: inherit;
@@ -17,45 +20,59 @@ export class DownDrop extends STD {
         flex-direction: column;
         align-items: center;
       }
+
       div {
         background-color: inherit;
-        position: absolute;
         visibility: hidden;
         top: 100%;
       }
+
       slot[name="hover"]:hover ~ div,
       div:hover {
         visibility: visible;
       }
+
+      :host([open]) div {
+        visibility: visible;
+      }
     `,
   ] as CSSResultGroup[];
+  @property({ type: Boolean, reflect: true }) open = false;
+  @property({ type: Boolean }) float = false;
   @query("div") _div: HTMLDivElement;
-  _timer: any;
+  _timer: number;
+
   render() {
     return html`<main>
       <slot name="hover"></slot>
-      <slot name="focus" @click=${this.toggle}></slot>
-      <div style="transform:translateX(0)"><slot></slot></div>
+      <slot name="focus" @click="${this.toggle}"></slot>
+      <div style="transform:translateX(0);position: ${this.float ? "absolute" : "relative"};">${htmlSlot()}</div>
     </main>`;
   }
+
   async firstUpdated() {
-    if (this.querySelector(`[slot="focus"]`)) {
-      document.addEventListener("click", (e) => {
-        if (!this.contains(e.target as HTMLElement)) {
-          this.close();
-        }
-      });
+    if (this.querySelector("[slot=focus]")) {
+      this.addEvent(document, "click", this._handelClick.bind(this));
     }
     await this.updateComplete;
     this.resize();
-    window.addEventListener("resize", () => {
-      clearTimeout(this._timer);
-      this._timer = setTimeout(() => {
-        this._div.style.transform = "translateX(0)";
-        this.resize();
-      }, 250);
-    });
+    this.addEvent(window, "resize", this._handelResize.bind(this));
   }
+
+  protected _handelClick(e: MouseEvent) {
+    if (!this.contains(e.target as HTMLElement)) {
+      this.close();
+    }
+  }
+
+  protected _handelResize() {
+    clearTimeout(this._timer);
+    this._timer = setTimeout(() => {
+      this._div.style.transform = "translateX(0)";
+      this.resize();
+    }, 250);
+  }
+
   resize() {
     const offsets = this.offsetParent?.getBoundingClientRect() || document.body.getBoundingClientRect();
     const divLeft = this._div.getBoundingClientRect().left;
@@ -70,18 +87,22 @@ export class DownDrop extends STD {
       this._div.style.transform = "translateX(0)";
     }
   }
+
   close() {
-    this._div.style.visibility = "hidden";
+    this.open = false;
     this.dispatchEvent(new CustomEvent("change", { detail: false }));
   }
-  open() {
-    this._div.style.visibility = "visible";
+
+  show() {
+    this.open = true;
     this.dispatchEvent(new CustomEvent("change", { detail: true }));
   }
+
   toggle() {
-    this._div.style.visibility === "visible" ? this.close() : this.open();
+    this.open ? this.close() : this.show();
   }
 }
+
 export default DownDrop;
 declare global {
   interface HTMLElementTagNameMap {
