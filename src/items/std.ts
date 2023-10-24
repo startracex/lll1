@@ -1,2 +1,2 @@
-import { GLOBSTD } from "../deps.js";
-export default class ItemsSTD extends GLOBSTD {}
+import { GlobalSTD } from "../deps.js";
+export default class ItemsSTD extends GlobalSTD {}

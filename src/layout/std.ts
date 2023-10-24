@@ -1,6 +1,7 @@
-import { css, cssvar, GLOBSTD } from "../deps.js";
-export default class LayoutSTD extends GLOBSTD {}
-export const navstyle = css`
+import { css, cssvar, GlobalSTD } from "../deps.js";
+
+export default class LayoutSTD extends GlobalSTD {}
+export const navStyle = css`
   :host {
     ${cssvar}--nav-text: rgb(240 240 240);
     ${cssvar}--nav-background: rgb(28 28 30);
