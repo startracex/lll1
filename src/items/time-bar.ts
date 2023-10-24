@@ -1,4 +1,5 @@
-import { define, html, property } from "../deps.js";
+import { css, CSSResultGroup, define, html, property } from "../deps.js";
+import { htmlSlot } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
 @define("time-bar")
@@ -10,8 +11,17 @@ export class TimeBar extends ItemsSTD {
   @property({ type: Number }) gap = 0;
   intervalID: number;
 
+  static styles: CSSResultGroup = [
+    ItemsSTD.styles,
+    css`
+      :host {
+        text-align: center;
+      }
+    `,
+  ];
+
   render() {
-    return html`${this.value}`;
+    return html`${htmlSlot("pre")}${this.value}${htmlSlot()}`;
   }
 
   connectedCallback(): void {
