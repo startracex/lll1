@@ -1,154 +1,193 @@
-import { classMap, css, cssvar, define, html, ifDefined, property } from "../deps.js";
-import STD from "./std.js";
-const originstyle = css`
-  :host {
-    display: inline-block;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  .ghost,
-  .ghost:hover {
-    color: var(${cssvar}--background);
-    border-color: var(${cssvar}--background);
-    background-color: transparent;
-  }
-  .ghost:active {
-    color: var(${cssvar}--active);
-    background-color: var(${cssvar}--background-active);
-  }
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: inherit;
-    padding: 0;
-    box-sizing: border-box;
-    height: 100%;
-    width: 100%;
-    font-size: inherit;
-    border-radius: inherit;
-    border-width: 0.08em;
-    border-style: solid;
-    cursor: inherit;
-    text-decoration: inherit;
-    transition: all 0.2s ease-in;
-    color: var(${cssvar}--color);
-    border-color: var(${cssvar}--border);
-    background-color: var(${cssvar}--background);
-  }
-  a:hover {
-    color: var(${cssvar}--hover);
-    border-color: var(${cssvar}--border-hover);
-    background-color: var(${cssvar}--background-hover);
-  }
-  a:active {
-    transition: 0s;
-    color: var(${cssvar}--active);
-    border-color: var(${cssvar}--border-active);
-    background-color: var(${cssvar}--background-active);
-  }
-  a[disabled],
-  a[disabled]:hover,
-  a[disabled]:active {
-    color: var(${cssvar}--color-disabled);
-    border-color: var(${cssvar}--border-disabled);
-    background-color: var(${cssvar}--background-disabled);
-  }
-  .noborder {
-    border: none;
-  }
-`;
-const colorful = css`
-  .black {
-    ${cssvar}--color: #f0f0f0;
-    ${cssvar}--border: #444444;
-    ${cssvar}--background: #2c2c2c;
-    ${cssvar}--hover: #fafafa;
-    ${cssvar}--border-hover: #707070;
-    ${cssvar}--background-hover: #303030;
-    ${cssvar}--active: #fafafa;
-    ${cssvar}--border-active: #5a5a5a;
-    ${cssvar}--background-active: #3a3a3a;
-  }
-  .white {
-    ${cssvar}--color: #2c2c2c;
-    ${cssvar}--border: #44444450;
-    ${cssvar}--background: #f8f8f8;
-    ${cssvar}--hover: #707070;
-    ${cssvar}--border-hover: #44444450;
-    ${cssvar}--background-hover: #f4f4f4;
-    ${cssvar}--border-active: #aaaaaa;
-    ${cssvar}--background-active: #aaaaaa;
-  }
-  .yellow {
-    ${cssvar}--color: #fafafa;
-    ${cssvar}--border: #44444450;
-    ${cssvar}--background: #ebb10d;
-    ${cssvar}--hover: #ececec;
-    ${cssvar}--border-hover: #44444450;
-    ${cssvar}--background-hover: #f9bd10;
-    ${cssvar}--active: #fafafa;
-    ${cssvar}--background-active: #d7a422;
-    ${cssvar}--border-active: #44444420;
-  }
-  .gary {
-    ${cssvar}--color: #fafafa;
-    ${cssvar}--border: #44444450;
-    ${cssvar}--background: #51535e;
-    ${cssvar}--hover: #ececec;
-    ${cssvar}--border-hover: #44444450;
-    ${cssvar}--background-hover: #5e616d;
-    ${cssvar}--active: #fafafa;
-    ${cssvar}--background-active: #3f3d47;
-    ${cssvar}--border-active: #44444420;
-  }
-  .red {
-    ${cssvar}--color: #fafafa;
-    ${cssvar}--border: #44444450;
-    ${cssvar}--background: #d11a2d;
-    ${cssvar}--hover: #ececec;
-    ${cssvar}--border-hover: #44444450;
-    ${cssvar}--background-hover: #c62828;
-    ${cssvar}--active: #fafafa;
-    ${cssvar}--background-active: #a61b29;
-    ${cssvar}--border-active: #44444420;
-  }
-  .blue {
-    ${cssvar}--color: #fafafa;
-    ${cssvar}--border: #44444450;
-    ${cssvar}--background: #1177b0;
-    ${cssvar}--hover: #ececec;
-    ${cssvar}--border-hover: #44444450;
-    ${cssvar}--background-hover: #11659a;
-    ${cssvar}--active: #fafafa;
-    ${cssvar}--background-active: #144a74;
-    ${cssvar}--border-active: #44444420;
-  }
-  .green {
-    ${cssvar}--color: #fafafa;
-    ${cssvar}--border: #44444450;
-    ${cssvar}--background: #12aa8c;
-    ${cssvar}--hover: #ececec;
-    ${cssvar}--border-hover: #44444450;
-    ${cssvar}--background-hover: #1db68f;
-    ${cssvar}--active: #fafafa;
-    ${cssvar}--background-active: #248067;
-    ${cssvar}--border-active: #44444420;
-  }
-`;
+import { constructCSS, css, cssvar, define, html, property, query, unsafeCSS } from "../deps.js";
+import { htmlSlot } from "../tmpl.js";
+import ItemsSTD from "./std.js";
+
+const vars = ["--color", "--gradient", "--box-shadow", "--ghost-color"];
+const colors = {
+  black: ["#fff", "linear-gradient(45deg, rgb(41 40 40), #2d3034)", "-2px 2px 5px 0px rgb(0 0 0 / 30%), 2px -2px 5px 0 rgb(99 99 99 / 30%)", "rgb(0 0 0 / 80%)"],
+  white: ["#000", "linear-gradient(45deg, rgb(240 240 240 / 85%), rgb(240 240 240 / 70%))", "-2px 2px 5px 0px rgb(255 255 255 / 30%), 2px -2px 5px 0 rgb(165 165 165 / 30%)", "rgb(255 255 255 / 80%)"],
+  red: ["#fff", "linear-gradient(45deg, rgb(207 19 34 / 84%), hsl(15.14deg 95.69% 54.51% / 65%))", "-2px 2px 5px 0px rgb(181 35 44 / 30%), 2px -2px 5px 0 rgb(234 130 174 / 30%)", "rgb(181 35 44 / 80%)"],
+  green: ["#fff", "linear-gradient(45deg, rgb(25 149 56 / 84%), rgb(0 245 36 / 65%))", "-2px 2px 5px 0px rgb(63 179 69 / 30%), 2px -2px 5px 0 rgb(136 225 142 / 30%)", "rgb(63 179 69 / 80%)"],
+  blue: ["#fff", "linear-gradient(45deg, rgb(22 119 255 / 84%), rgb(21 198 198 / 65%))", "-2px 2px 5px 0px rgb(92 182 255 / 30%), 2px -2px 5px 0 rgb(135 232 222 / 30%)", "rgb(42 141 221 / 80%)"],
+  yellow: ["#fff", "linear-gradient(45deg, rgb(247 184 37 / 84%), rgb(220 200 26 / 65%))", "-2px 2px 5px 0px rgb(214 203 55 / 30%), 2px -2px 5px 0 rgb(202 203 137 / 30%)", "rgb(214 203 55 / 80%)"],
+};
+
+const outlineBoxShadow = `0 0 0 var(${cssvar}--ghost-width) var(${cssvar}--ghost-color);`;
+
 @define("base-button")
-export class BaseButton extends STD {
-  static styles = [originstyle, colorful];
+export class BaseButton extends ItemsSTD {
   @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) ghost = false;
-  @property({ type: Boolean }) noborder = false;
-  @property() href: string = undefined;
-  @property() target: string = undefined;
-  @property() color: "black" | "white" | "yellow" | "gary" | "red" | "blue" | "green" | "none" = "black";
+  @property({ type: Boolean }) outline = false;
+  @property({ type: Boolean, reflect: true }) ghost = false;
+  @property({ type: Boolean, reflect: true }) active = false;
+  @property({ reflect: true }) color: "none" | keyof typeof colors = "black";
+  @property() text = "";
+  static styles = [
+    unsafeCSS(
+      constructCSS(
+        vars,
+        colors,
+        (raw) => `:host([color="${raw}"])`,
+        (k, v) => `${cssvar}${k}:${v}`,
+      ),
+    ),
+    css`
+      :host {
+        ${cssvar}--ghost-width: 4px;
+        ${cssvar}--modal-opacity: .15;
+        ${cssvar}--modal-animation-duration: .5s;
+        color: var(${cssvar}--color);
+        background: var(${cssvar}--gradient);
+        box-shadow: var(${cssvar}--box-shadow);
+        display: inline-flex;
+        width: fit-content;
+        margin: auto;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      :host([disabled]) {
+        cursor: not-allowed;
+      }
+
+      slot {
+        pointer-events: none;
+        display: flow-root;
+      }
+
+      div {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        border-radius: inherit;
+      }
+
+      i {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        border-radius: 50%;
+        transform: translate(0, 0);
+        background: currentColor;
+        opacity: var(${cssvar}--modal-opacity);
+      }
+
+      b {
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        visibility: hidden;
+      }
+
+      :host([active]) i {
+        visibility: visible;
+        animation-name: i;
+        animation-duration: var(${cssvar}--modal-animation-duration);
+      }
+
+      p {
+        margin: 0;
+      }
+
+      :host([ghost]) p {
+        background-image: var(${cssvar}--gradient);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      :host([ghost]) {
+        ${cssvar}--modal-opacity: .2;
+        background: transparent;
+        box-shadow: ${unsafeCSS(outlineBoxShadow)};
+      }
+
+      :host([ghost]) i {
+        background: var(${cssvar}--ghost-color);
+      }
+
+      @keyframes i {
+        0% {
+          transform: scale(0);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    `,
+  ];
+  @query("i") _i: HTMLElement;
+  @query("b") _b: HTMLElement;
+  @query("div") _div: HTMLButtonElement;
+
   render() {
-    return html`<a href=${ifDefined(this.href)} target=${ifDefined(this.target)} ?disabled=${this.disabled} class=${classMap({ ghost: this.ghost, [this.color]: this.color, noborder: this.noborder })}> <slot name="pre"></slot><slot></slot><slot name="suf"></slot> </a>`;
+    return html`
+      <div ?disabled="${this.disabled}">
+        <b>
+          <i></i>
+        </b>
+        <p>${this.text}${htmlSlot()}</p>
+        ${this.outline
+          ? html` <style>
+              :host([active]) {
+                box-shadow: ${outlineBoxShadow};
+              }
+            </style>`
+          : ""}
+      </div>
+    `;
+  }
+
+  focus() {
+    this.active = true;
+  }
+
+  blur() {
+    this.active = false;
+  }
+
+  protected firstUpdated() {
+    const padding = getComputedStyle(this).padding;
+    if (padding) {
+      this._slot.style.padding = padding;
+      this.style.padding = "0px";
+    }
+    if (this.outline) {
+      this.addEvent(this, "mousedown", this._handleClick);
+      this.addEvent(window, "click", this._handleClick.bind(this));
+    } else {
+      this.addEvent(this, "mousedown", this._handleModal);
+      this.addEvent(this, "mouseup", this.blur);
+      this.addEvent(this, "mouseleave", this.blur);
+    }
+  }
+
+  protected _handleModal(e: MouseEvent) {
+    if (this.disabled) return;
+    this.blur();
+    const size = `${Math.max(this._div.offsetHeight, this._div.offsetWidth) * 2.8285}px`;
+    const translate = `translate(calc(-50% + ${e.offsetX}px), calc(-50% + ${e.offsetY}px))`;
+    this._b.style.width = size;
+    this._b.style.height = size;
+    this._b.style.transform = translate;
+    this.focus();
+  }
+
+  protected _handleClick(e: MouseEvent) {
+    if (e.target == this) {
+      this._handleModal(e);
+    } else {
+      this.blur();
+    }
   }
 }
+
 export default BaseButton;
 declare global {
   interface HTMLElementTagNameMap {

@@ -1,78 +1,62 @@
-import { css, define, property } from "../deps.js";
+import { define, property } from "../deps.js";
 import { RouteView } from "../view/route-view.js";
 import { SuperAnchor } from "./super-a.js";
+
 @define("link-a")
 export class LinkAnchor extends SuperAnchor {
-  @property() active = "";
+  @property({ type: Boolean, reflect: true }) active = false;
   @property({ type: Boolean }) replace = false;
-  static styles = css`
-    :host {
-      display: inline-block;
-      color: currentColor;
-      text-decoration: none;
-      cursor: default;
-    }
-    :host([href]) {
-      cursor: pointer;
-    }
-    a {
-      width: 100%;
-      display: flex;
-      color: inherit;
-      text-decoration: inherit;
-      justify-content: space-between;
-      align-items: center;
-    }
-    i {
-      display: inline-flex;
-      border-radius: 20%;
-    }
-  `;
-  firstUpdated() {
-    this.shadowRoot.querySelector("a").addEventListener("click", this._handleClick.bind(this));
-    if (this.active) {
-      window.addEventListener("popstate", this.useActive.bind(this));
-    }
+  prevent = false;
+  static styles = SuperAnchor.styles;
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.addEvent(this, "click", this._handleClick);
+    this.addEvent(window, "popstate", this.useActive.bind(this));
+    this.useActive();
   }
+
   useActive() {
     const url = new URL(this.href, window.location.href);
     if (url.origin === window.location.origin) {
-      if (url.pathname === window.location.pathname) {
-        this.classList.add(this.active);
-      } else {
-        this.classList.remove(this.active);
-      }
+      this.active = url.pathname === window.location.pathname;
     }
   }
-  _handleClick(e: MouseEvent) {
-    if (this.target !== "_self") return;
-    const url = new URL(this.href, window.location.href);
+
+  protected _handleClick(e: MouseEvent) {
+    const href = this.href ?? this.querySelector("[href]")?.getAttribute("href");
+    const url = new URL(href, window.location.href);
     if (url.origin === window.location.origin) {
       e.preventDefault();
       if (this.replace) {
-        this.replaceState();
+        this.replaceState(href);
       } else {
-        this.pushState();
+        this.pushState(href);
       }
     }
   }
-  pushState(url = this.href) {
-    LinkAnchor.pushState(null, "", url);
-    this.active && this.useActive();
+
+  pushState(url = this.href, data = null) {
+    LinkAnchor.pushState(data, "", url);
+    this.useActive();
   }
-  replaceState(url = this.href) {
-    LinkAnchor.replaceState(null, "", url);
-    this.active && this.useActive();
+
+  replaceState(url = this.href, data = null) {
+    LinkAnchor.replaceState(data, "", url);
+    this.useActive();
   }
+
   static pushState(data: any, unused: string, url?: string) {
     history.pushState(data, unused, url);
     RouteView.updateAll();
   }
+
   static replaceState(data: any, unused: string, url?: string) {
     history.replaceState(data, unused, url);
     RouteView.updateAll();
   }
 }
+
 export default LinkAnchor;
 declare global {
   interface HTMLElementTagNameMap {

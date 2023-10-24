@@ -1,20 +1,28 @@
 import { css, define, html, ifDefined, property } from "../deps.js";
-import STD from "./std.js";
+import { htmlSlot, svgArrow, svgDelta } from "../tmpl.js";
+import ItemsSTD from "./std.js";
+
 @define("super-a")
-export class SuperAnchor extends STD {
+export class SuperAnchor extends ItemsSTD {
   @property() href: string = undefined;
   @property() target = "_self";
   @property() arrow: "" | "delta" | "arrow" | "angle" = "";
   static styles = css`
+    :host([arrow="delta"]) svg {
+      transform: rotate(-90deg);
+    }
+
     :host {
       display: inline-block;
       color: currentColor;
       text-decoration: none;
       cursor: default;
     }
+
     :host([href]) {
       cursor: pointer;
     }
+
     a {
       width: 100%;
       display: flex;
@@ -23,21 +31,27 @@ export class SuperAnchor extends STD {
       justify-content: space-between;
       align-items: center;
     }
+
     i {
       display: inline-flex;
       border-radius: 20%;
+      font-style: normal;
     }
+
     i > svg {
       width: 1em;
       height: 1em;
       border-radius: inherit;
     }
+
     :host(:hover) i {
       animation: arrow 0.3s linear;
     }
+
     i:hover {
       background-color: rgb(0 0 0 / 0.075);
     }
+
     @keyframes arrow {
       from {
         transform: translateX(0);
@@ -50,26 +64,29 @@ export class SuperAnchor extends STD {
       }
     }
   `;
+
   render() {
-    return html`<a href=${ifDefined(this.href)} target=${this.target}>
-      <slot name="pre"></slot><slot></slot><slot name="suf"></slot>
-      <i style="font-style:normal"><slot name="icon"></slot>${this._arrowSwitcher()}</i>
+    return html`<a href="${ifDefined(this.href)}" target="${this.target}">
+      ${htmlSlot()}
+      <i>
+        <slot name="icon"></slot>
+        ${this._arrowSwitcher()}
+      </i>
     </a>`;
   }
+
   _arrowSwitcher() {
     switch (this.arrow) {
       case "delta":
-        return html`<svg viewBox="0 0 48 48" fill="none"><path d="M20 12L32 24L20 36V12Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round" /></svg>`;
+        return svgDelta();
       case "arrow":
-        return html`<svg width="38" height="38" viewBox="0 0 48 48" fill="none">
-          <path d="M36 24.0083H12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M24 12L36 24L24 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>`;
+        return svgArrow(true);
       case "angle":
-        return html`<svg viewBox="0 0 48 48" fill="none"><path d="M19 12L31 24L19 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>`;
+        return svgArrow();
     }
   }
 }
+
 export default SuperAnchor;
 declare global {
   interface HTMLElementTagNameMap {
