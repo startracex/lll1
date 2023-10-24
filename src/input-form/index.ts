@@ -1,5 +1,4 @@
 export * from "./base-input.js";
-export * from "./exp-input.js";
 export * from "./label-input.js";
 export * from "./select-input.js";
 export * from "./search-input.js";

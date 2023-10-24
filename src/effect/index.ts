@@ -1,3 +1,3 @@
-export * from "./ov-effect.js";
-export * from "./ro-effect.js";
-export * from "./tw-effect.js";
+export * from "./clip-text.js";
+export * from "./overbreath-text.js";
+export * from "./typewriter-text.js";
