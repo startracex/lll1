@@ -1,30 +1,17 @@
 "use client";
+import { createComponent } from "@lit/react";
 import * as React from "react";
 import * as X from "../effect/index.js";
-import { createComponent } from "@lit/react";
-export const OVText = createComponent({
-  tagName: "ov-text",
-  elementClass: X.OVText,
+
+export const OverbreathText = createComponent({
+  tagName: "overbreath-text",
+  elementClass: X.OverbreathText,
   react: React,
 });
-export const OVPort = createComponent({
-  tagName: "ov-port",
-  elementClass: X.OVPort,
-  react: React,
-});
-export const OVButton = createComponent({
-  tagName: "ov-button",
-  elementClass: X.OVButton,
-  react: React,
-});
-export const ROPort = createComponent({
-  tagName: "ro-port",
-  elementClass: X.ROPort,
-  react: React,
-});
-export const TWText = createComponent({
-  tagName: "tw-text",
-  elementClass: X.TWText,
+
+export const TypewriterText = createComponent({
+  tagName: "typewriter-text",
+  elementClass: X.TypewriterText,
   react: React,
   events: {
     onChange: "change",

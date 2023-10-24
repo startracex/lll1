@@ -1,10 +1,11 @@
 "use client";
+import { createComponent } from "@lit/react";
 import * as React from "react";
 import * as X from "../items/index.js";
-import { createComponent } from "@lit/react";
+
 export const AvatarAnchor = createComponent({
-  tagName: "avatar-anchor",
-  elementClass: X.AvatarAnchor,
+  tagName: "avatar-a",
+  elementClass: X.AvatarA,
   react: React,
 });
 export const BaseButton = createComponent({
@@ -35,5 +36,10 @@ export const LoadTrack = createComponent({
 export const SuperAnchor = createComponent({
   tagName: "super-a",
   elementClass: X.SuperAnchor,
+  react: React,
+});
+export const TimeBar = createComponent({
+  tagName: "time-bar",
+  elementClass: X.TimeBar,
   react: React,
 });
