@@ -1,7 +1,9 @@
-import { css, define, html, property } from "../deps.js";
-import STD from "./std.js";
+import { css, define, property } from "../deps.js";
+import GroupSTD from "./std.js";
+import { htmlSlot } from "../tmpl.js";
+
 @define("details-group")
-export class DetailsGroup extends STD {
+export class DetailsGroup extends GroupSTD {
   @property({ type: Number }) index = -1;
   @property({ type: Boolean }) only = false;
   static styles = css`
@@ -9,22 +11,22 @@ export class DetailsGroup extends STD {
       display: block;
     }
   `;
+
   render() {
-    return html`<slot></slot>`;
+    return htmlSlot();
   }
-  get assigned() {
-    return this.shadowRoot.querySelector("slot").assignedElements();
-  }
+
   async firstUpdated() {
     await this.updateComplete;
     if (this.index >= 0) {
       this.assigned[this.index]?.setAttribute("open", "");
     }
-    this.addEventListener("click", this._handleClick);
+    this.addEvent(this, "click", this._handleClick);
   }
-  _handleClick(e) {
+
+  protected _handleClick(e: MouseEvent) {
     if (this.only) {
-      this.index = this.assigned.indexOf(e.target);
+      this.index = this.assigned.indexOf(e.target as HTMLElement);
       this.assigned.forEach((e, i) => {
         if (i != this.index) {
           e.removeAttribute("open");
@@ -33,7 +35,9 @@ export class DetailsGroup extends STD {
     }
   }
 }
+
 export default DetailsGroup;
+
 declare global {
   interface HTMLElementTagNameMap {
     "details-group": DetailsGroup;
