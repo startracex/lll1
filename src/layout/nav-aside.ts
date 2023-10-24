@@ -1,12 +1,12 @@
 import { css, CSSResultGroup, cssvar, define, html, property } from "../deps.js";
-import STD, { navstyle } from "./std.js";
+import LayoutSTD, { navStyle } from "./std.js";
+import { htmlSlot } from "../tmpl.js";
+
 @define("nav-aside")
-export class NavAside extends STD {
-  @property() m = "720px";
-  @property() position = "sticky fixed";
+export class NavAside extends LayoutSTD {
   static styles = [
-    STD.styles,
-    navstyle,
+    LayoutSTD.styles,
+    navStyle,
     css`
       :host {
         color: var(${cssvar}--nav-text);
@@ -18,6 +18,7 @@ export class NavAside extends STD {
         height: fit-content;
         display: flex;
       }
+
       nav {
         height: inherit;
         width: inherit;
@@ -29,17 +30,21 @@ export class NavAside extends STD {
       }
     `,
   ] as CSSResultGroup[];
+  @property() m = "720px";
+  @property() position = "sticky fixed";
+
   render() {
     const p = this.position.split(" ")[0] || "sticky";
     const pm = this.position.split(" ")[1] || "fixed";
     const m = this.m || "720px";
     const styled = `:host{position:${p} !important;}@media(min-width:${m}){:host{position:${pm} !important;width:fit-content !important;height:100% !important;}nav{display: flex !important;justify-content: space-between !important;flex-direction: column !important;align-content: flex-start !important;align-items: stretch !important;}}`;
-    return html`<nav><slot></slot></nav>
+    return html`<nav>${htmlSlot()}</nav>
       <style>
         ${styled}
       </style>`;
   }
 }
+
 export default NavAside;
 declare global {
   interface HTMLElementTagNameMap {

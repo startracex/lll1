@@ -1,7 +1,14 @@
 import { css, define, html, property } from "../deps.js";
-import STD from "./std.js";
+import { htmlSlot } from "../tmpl.js";
+import LayoutSTD from "./std.js";
+
 @define("drag-box")
-export class DragBox extends STD {
+export class DragBox extends LayoutSTD {
+  drag: boolean;
+  t: number;
+  l: number;
+  cx: number;
+  cy: number;
   @property() x = "auto";
   @property() y = "auto";
   static styles = css`
@@ -10,39 +17,31 @@ export class DragBox extends STD {
       display: inline-flex;
     }
   `;
-  get offsetsWidth() {
-    return this.offsetParent?.clientWidth ?? document.body.offsetWidth;
-  }
-  get offsetsHeight() {
-    return this.offsetParent?.clientHeight ?? document.body.offsetHeight;
-  }
+
   render() {
-    return html` <div @mousedown=${this._startDrag} @mouseup=${this._endDrag}>
-      <slot></slot>
-    </div>`;
+    return html`<div @mousedown="${this._handleDragStart}" @mouseup="${this._handleDragEnd}">${htmlSlot()}</div>`;
   }
+
   firstUpdated() {
     this.reset();
-    document.addEventListener("mouseup", this._endDrag.bind(this));
+    this.addEvent(document, "mouseup", this._handleDragEnd.bind(this));
   }
-  drag: boolean;
-  t: number;
-  l: number;
-  cx: number;
-  cy: number;
-  _startDrag(e: MouseEvent) {
+
+  protected _handleDragStart(e: MouseEvent) {
     this.cx = e.clientX;
     this.cy = e.clientY;
     this.t = this.offsetTop;
     this.l = this.offsetLeft;
     this.drag = true;
-    document.addEventListener("mousemove", this._handleDrag.bind(this));
+    this.addEvent(document, "mousemove", this._handleDrag.bind(this));
   }
-  _endDrag() {
+
+  protected _handleDragEnd() {
     this.drag = false;
     document.removeEventListener("mousemove", this._handleDrag.bind(this));
   }
-  _handleDrag(e: MouseEvent) {
+
+  protected _handleDrag(e: MouseEvent) {
     if (!this.drag) return;
     const nl = e.clientX - (this.cx - this.l);
     const nt = e.clientY - (this.cy - this.t);
@@ -61,6 +60,7 @@ export class DragBox extends STD {
       this.style.top = `${this.offsetsHeight - this.offsetHeight}px`;
     }
   }
+
   reset() {
     this.style.left = this.x || "0";
     this.style.top = this.y || "0";
@@ -72,6 +72,7 @@ export class DragBox extends STD {
     }
   }
 }
+
 export default DragBox;
 declare global {
   interface HTMLElementTagNameMap {
