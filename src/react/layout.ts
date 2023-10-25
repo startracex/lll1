@@ -9,7 +9,7 @@ export const NavLayout = createComponent({
   react: React,
 });
 
-export const AsideNav = createComponent({
+export const NavAside = createComponent({
   tagName: "nav-aside",
   elementClass: X.NavAside,
   react: React,
