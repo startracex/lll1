@@ -15,18 +15,17 @@ export const DownDrop = createComponent({
   react: React,
 });
 
-export const RotationPool = createComponent({
-  tagName: "rotation-pool",
-  elementClass: X.RotationPool,
-  react: React,
-});
-
 export const MenuList = createComponent({
   tagName: "menu-list",
   elementClass: X.MenuList,
   react: React,
 });
 
+export const RotationPool = createComponent({
+  tagName: "rotation-pool",
+  elementClass: X.RotationPool,
+  react: React,
+});
 export const RouteView = createComponent({
   tagName: "route-view",
   elementClass: X.RouteView,
