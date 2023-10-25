@@ -12,6 +12,7 @@ export class NavLayout extends LayoutSTD {
         ${cssvar}--nav-height: 2.4em;
         ${cssvar}--nav-h1-size: calc(var(${cssvar}--nav-height) / 2);
         width: 100%;
+        height: 100%;
         display: flex;
         flex-flow: column nowrap;
         justify-content: space-between;
@@ -19,14 +20,9 @@ export class NavLayout extends LayoutSTD {
         min-height: 100%;
       }
 
-      nav,
-      .option {
+      nav {
         color: var(${cssvar}--nav-text);
         background: var(${cssvar}--nav-background);
-      }
-
-      .option a:hover {
-        background: var(${cssvar}--nav-super-background);
       }
 
       nav {
@@ -78,24 +74,6 @@ export class NavLayout extends LayoutSTD {
         height: 100%;
         display: flex;
         flex-direction: row;
-      }
-
-      .option {
-        overflow: hidden;
-      }
-
-      .option a {
-        height: 2.4em;
-        line-height: 2.4em;
-        display: block;
-        white-space: nowrap;
-        padding: 0 0.9em;
-        text-align: center;
-        transition: background-color 152ms;
-      }
-
-      .option a:hover {
-        transform: scale(1.025);
       }
 
       @media screen and (max-width: 540px) {

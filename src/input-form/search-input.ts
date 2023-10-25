@@ -27,7 +27,7 @@ export class SearchInput extends InputSTD {
     InputSTD.styles,
     css`
       :host {
-        outline: var(${cssvar}--input-outline-width) solid;
+        outline: var(${cssvar}--input-outline-width) solid transparent;
         color: var(${cssvar}--text);
         display: inline-block;
         min-height: 1.5rem;
@@ -101,10 +101,10 @@ export class SearchInput extends InputSTD {
       </div>
       ${htmlSlot()}
       ${this.list?.length
-        ? html` <ul>
+        ? html`<ul>
             ${this.list.map((v, i) => html` <li key="${i}">${v}</li>`)}
           </ul>`
-        : undefined}
+        : ""}
     </form>`;
   }
 
