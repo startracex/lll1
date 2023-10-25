@@ -32,3 +32,9 @@ export const DragBox = createComponent({
   elementClass: X.DragBox,
   react: React,
 });
+
+export const WithWrap = createComponent({
+  tagName: "with-wrap",
+  elementClass: X.WithWrap,
+  react: React,
+});
