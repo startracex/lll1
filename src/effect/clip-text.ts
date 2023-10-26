@@ -8,7 +8,7 @@ export class ClipText extends EffectSTD {
   static styles = css`
     :host {
       color: transparent;
-      background-color: currentColor;
+      background: linear-gradient(90deg, #000, #fff);
       -webkit-background-clip: text !important;
       background-clip: text !important;
     }

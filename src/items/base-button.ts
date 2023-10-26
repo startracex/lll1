@@ -4,12 +4,12 @@ import ItemsSTD from "./std.js";
 
 const vars = ["--color", "--gradient", "--box-shadow", "--ghost-color"];
 const colors = {
-  black: ["#fff", "linear-gradient(45deg, rgb(41 40 40), #2d3034)", "-2px 2px 5px 0px rgb(0 0 0 / 30%), 2px -2px 5px 0 rgb(99 99 99 / 30%)", "rgb(0 0 0 / 80%)"],
-  white: ["#000", "linear-gradient(45deg, rgb(240 240 240 / 85%), rgb(240 240 240 / 70%))", "-2px 2px 5px 0px rgb(255 255 255 / 30%), 2px -2px 5px 0 rgb(165 165 165 / 30%)", "rgb(255 255 255 / 80%)"],
-  red: ["#fff", "linear-gradient(45deg, rgb(207 19 34 / 84%), hsl(15.14deg 95.69% 54.51% / 65%))", "-2px 2px 5px 0px rgb(181 35 44 / 30%), 2px -2px 5px 0 rgb(234 130 174 / 30%)", "rgb(181 35 44 / 80%)"],
-  green: ["#fff", "linear-gradient(45deg, rgb(25 149 56 / 84%), rgb(0 245 36 / 65%))", "-2px 2px 5px 0px rgb(63 179 69 / 30%), 2px -2px 5px 0 rgb(136 225 142 / 30%)", "rgb(63 179 69 / 80%)"],
-  blue: ["#fff", "linear-gradient(45deg, rgb(22 119 255 / 84%), rgb(21 198 198 / 65%))", "-2px 2px 5px 0px rgb(92 182 255 / 30%), 2px -2px 5px 0 rgb(135 232 222 / 30%)", "rgb(42 141 221 / 80%)"],
-  yellow: ["#fff", "linear-gradient(45deg, rgb(247 184 37 / 84%), rgb(220 200 26 / 65%))", "-2px 2px 5px 0px rgb(214 203 55 / 30%), 2px -2px 5px 0 rgb(202 203 137 / 30%)", "rgb(214 203 55 / 80%)"],
+  black: ["#fff", "linear-gradient(45deg, rgb(41 40 40), #2d3034)", "-2px 2px 5px 0px rgb(0 0 0 / 20%), 2px -2px 5px 0 rgb(99 99 99 / 20%)", "rgb(0 0 0 / 80%)"],
+  white: ["#000", "linear-gradient(45deg, rgb(240 240 240 / 85%), rgb(240 240 240 / 70%))", "-2px 2px 5px 0px rgb(255 255 255 / 20%), 2px -2px 5px 0 rgb(165 165 165 / 20%)", "rgb(255 255 255 / 80%)"],
+  red: ["#fff", "linear-gradient(45deg, rgb(207 19 34 / 85%), rgb(250 84 28 / 65%))", "-2px 2px 5px 0px rgb(181 35 44 / 20%), 2px -2px 5px 0 rgb(234 130 174 / 20%)", "rgb(181 35 44 / 80%)"],
+  green: ["#fff", "linear-gradient(45deg, rgb(25 149 56 / 85%), rgb(0 245 36 / 65%))", "-2px 2px 5px 0px rgb(63 179 69 / 20%), 2px -2px 5px 0 rgb(136 225 142 / 20%)", "rgb(63 179 69 / 80%)"],
+  blue: ["#fff", "linear-gradient(45deg, rgb(22 119 255 / 85%), rgb(21 198 198 / 65%))", "-2px 2px 5px 0px rgb(92 182 255 / 20%), 2px -2px 5px 0 rgb(135 232 222 / 20%)", "rgb(42 141 221 / 80%)"],
+  yellow: ["#fff", "linear-gradient(45deg, rgb(247 184 37 / 85%), rgb(220 200 26 / 65%))", "-2px 2px 5px 0px rgb(214 203 55 / 20%), 2px -2px 5px 0 rgb(202 203 137 / 20%)", "rgb(214 203 55 / 80%)"],
 };
 
 const outlineBoxShadow = `0 0 0 var(${cssvar}--ghost-width) var(${cssvar}--ghost-color);`;

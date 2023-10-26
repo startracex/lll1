@@ -65,10 +65,6 @@ export class OverbreathText extends EffectSTD {
         }
       }
 
-      span {
-        display: flex;
-      }
-
       *::selection {
         background: none;
       }
@@ -118,15 +114,15 @@ export class OverbreathText extends EffectSTD {
       }
 
       .rel:nth-child(1) .abs {
-        animation: overbreath1 8s infinite;
+        animation: kf1 8s infinite;
       }
 
       .rel:nth-child(2) .abs {
-        animation: overbreath2 8s infinite;
+        animation: kf2 8s infinite;
       }
 
       .rel:nth-child(3) .abs {
-        animation: overbreath3 8s infinite;
+        animation: kf3 8s infinite;
       }
 
       @keyframes ani1 {
@@ -165,7 +161,7 @@ export class OverbreathText extends EffectSTD {
           opacity: 1;
         }
       }
-      @keyframes overbreath1 {
+      @keyframes kf1 {
         0%,
         16.667%,
         to {
@@ -176,7 +172,7 @@ export class OverbreathText extends EffectSTD {
           opacity: 1;
         }
       }
-      @keyframes overbreath2 {
+      @keyframes kf2 {
         0%,
         to {
           opacity: 1;
@@ -190,7 +186,7 @@ export class OverbreathText extends EffectSTD {
           opacity: 1;
         }
       }
-      @keyframes overbreath3 {
+      @keyframes kf3 {
         0%,
         58.333%,
         91.667%,
@@ -209,7 +205,7 @@ export class OverbreathText extends EffectSTD {
   @property() t3 = "t3 unset...";
 
   render() {
-    return html` <span class="rel">
+    return html`<span class="rel">
         <span class="abs">${this.t1}</span>
         <span class="ani">${this.t1}</span>
       </span>
