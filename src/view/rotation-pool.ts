@@ -1,5 +1,5 @@
 import { css, define, html, property, query } from "../deps.js";
-import { htmlSlot, svgArrow } from "../tmpl.js";
+import { htmlSlot, htmlStyle, svgArrow } from "../tmpl.js";
 import ViewSTD from "./std.js";
 
 @define("rotation-pool")
@@ -7,22 +7,25 @@ export class RotationPool extends ViewSTD {
   @property({ type: Number }) index = 0;
   @property({ type: Number }) autochange = 0;
   @property() width = "";
-  @query("div") _div: HTMLDivElement;
   @query("section") _section: HTMLElement;
+  intervalID: number;
+  _clone: HTMLElement[] = [];
   static styles = css`
     :host {
       display: block;
+      transition: all 0.2s;
+    }
+
+    div {
+      overflow: hidden;
     }
 
     div,
     section {
+      width: 100%;
       display: flex;
       position: relative;
-    }
-
-    div {
-      min-width: 5.8em;
-      overflow: hidden;
+      transition: inherit;
     }
 
     a {
@@ -30,17 +33,19 @@ export class RotationPool extends ViewSTD {
       height: 100%;
       width: fit-content;
       z-index: 1;
+      display: flex;
+      align-items: center;
     }
 
-    a[prev] {
+    .prev {
       left: 0;
     }
 
-    a[prev] svg {
+    .prev svg {
       transform: rotate(180deg);
     }
 
-    a[next] {
+    .next {
       right: 0;
     }
 
@@ -68,14 +73,19 @@ export class RotationPool extends ViewSTD {
     i svg path {
       stroke-width: 4;
     }
+
+    slot::slotted(*) {
+      flex-shrink: 0 !important;
+    }
   `;
-  current = 0;
 
   render() {
+    const style = this.width && `:host{width:${this.width.split(";")[0]};}`;
     return html`<div>
-      <a @click="${this.prev}" prev> ${this.render_a("pre")}</a>
+      <a class="prev" @click="${this.prev}">${this.render_a("pre")}</a>
       <section>${htmlSlot()}</section>
-      <a @click="${this.next}" next> ${this.render_a("suf")} </a>
+      ${htmlStyle(style)}
+      <a class="next" @click="${this.next}">${this.render_a("suf")}</a>
     </div>`;
   }
 
@@ -86,50 +96,64 @@ export class RotationPool extends ViewSTD {
     return html`<i>${svgArrow()}</i>`;
   }
 
-  firstUpdated() {
-    if (!this.assigned.length || !this.assigned[0]?.offsetWidth) {
-      return;
+  mount() {
+    if (this._clone.length) {
+      this._clone.forEach((element) => element.remove());
+      this._clone = [];
     }
-    this._div.style.width = this.width || `${this.assigned[0].offsetWidth}px`;
-    this.assigned.forEach((e) => {
-      e.style.overflowX = "hidden";
-      e.style.transition = "width 0s";
-    });
+    const last = this.assigned[0].cloneNode(true) as HTMLElement;
+    const first = this.assigned[this.assigned.length - 1].cloneNode(true) as HTMLElement;
+    first.style.marginLeft = "-100%";
+    this._clone.push(first, last);
+    this.appendChild(last);
+    this.insertBefore(first, this.firstElementChild);
     this.show(this.index);
+  }
+
+  firstUpdated() {
+    if (this.assigned.length) {
+      if (!this.width) {
+        this.style.width = `${this.assigned[0].offsetWidth}px`;
+      }
+      this.mount();
+    }
     if (this.autochange) {
-      setInterval(() => {
-        this.index++;
-        if (this.index >= this.assigned.length) {
-          this.index = 0;
-        }
-        this.show(this.index);
+      this.intervalID = setInterval(() => {
+        this.next();
       }, this.autochange);
     }
   }
 
+  disconnectedCallback() {
+    clearInterval(this.intervalID);
+  }
+
   show(i: number) {
-    (this._section.style as any).width = "100%";
-    this.assigned.forEach((e, index) => {
-      if (index == i) {
-        e.style.width = "100%";
-        e.style.transition = "";
-      } else {
-        e.style.width = "0";
-      }
-    });
-    this.current = i;
+    this.index = i;
+    this._section.style.transform = `translateX(-${i}00%)`;
+    this._section.style.transition = "inherit";
   }
 
   next() {
-    this.index++;
-    if (this.index >= this.assigned.length) this.index = 0;
-    this.show(this.index);
+    if (this.index === this.assigned.length - 3) {
+      this._section.style.transform = `translateX(100%)`;
+      this._section.style.transition = "none";
+      this._section.getBoundingClientRect();
+      this.show(0);
+    } else {
+      this.show(this.index + 1);
+    }
   }
 
   prev() {
-    this.index--;
-    if (this.index < 0) this.index = this.assigned.length - 1;
-    this.show(this.index);
+    if (this.index === 0) {
+      this._section.style.transform = `translateX(-${this.assigned.length - 2}00%)`;
+      this._section.style.transition = `none`;
+      this._section.getBoundingClientRect();
+      this.show(this.assigned.length - 3);
+    } else {
+      this.show(this.index - 1);
+    }
   }
 }
 
