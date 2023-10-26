@@ -1,5 +1,5 @@
 import { constructCSS, css, cssvar, define, html, property, query, unsafeCSS } from "../deps.js";
-import { htmlSlot } from "../tmpl.js";
+import { htmlSlot, htmlStyle } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
 const vars = ["--color", "--gradient", "--box-shadow", "--ghost-color"];
@@ -127,19 +127,14 @@ export class BaseButton extends ItemsSTD {
   @query("div") _div: HTMLButtonElement;
 
   render() {
+    const style = this.outline ? `:host([active]) {box-shadow: ${outlineBoxShadow};}` : "";
     return html`
       <div ?disabled="${this.disabled}">
         <b>
           <i></i>
         </b>
         <p>${this.text}${htmlSlot()}</p>
-        ${this.outline
-          ? html` <style>
-              :host([active]) {
-                box-shadow: ${outlineBoxShadow};
-              }
-            </style>`
-          : ""}
+        ${htmlStyle(style)}
       </div>
     `;
   }

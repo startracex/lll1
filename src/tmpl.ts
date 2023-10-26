@@ -26,6 +26,14 @@ export const htmlSlot: HtmlSlot = (name?: string) => {
   return html`<slot></slot>`;
 };
 
+export const htmlStyle = (css: string) => {
+  if (css) {
+    return html`<style>
+      ${css}
+    </style>`;
+  }
+};
+
 export const svgDelta = () => {
   return html`<svg viewBox="0 0 48 48" fill="none">${path()("M36 19L24 31L12 19H36Z")}</svg>`;
 };

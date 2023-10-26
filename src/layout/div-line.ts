@@ -1,5 +1,5 @@
 import { css, define, html, property } from "../deps.js";
-import { htmlSlot } from "../tmpl.js";
+import { htmlSlot, htmlStyle } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
 @define("div-line")
@@ -44,9 +44,7 @@ export class DivLine extends LayoutSTD {
       <hr class="before" />
       ${htmlSlot()}
       <hr class="after" />
-      <style>
-        ${hrStyle}
-      </style>
+      ${htmlStyle(hrStyle)}
     </div>`;
   }
 }

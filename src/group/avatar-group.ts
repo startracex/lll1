@@ -1,7 +1,7 @@
 import { append, css, define, DisableWarning, html, property } from "../deps.js";
+import { htmlSlot, htmlStyle } from "../tmpl.js";
 import AvatarA from "../items/avatar-a.js";
 import GroupSTD from "./std.js";
-import { htmlSlot } from "../tmpl.js";
 
 @define("avatar-group")
 export class AvatarGroup extends GroupSTD {
@@ -21,11 +21,7 @@ export class AvatarGroup extends GroupSTD {
 
   render() {
     const cssStr = `slot::slotted(:nth-of-type(n + ${(this.max || 0) + 1})) {display: none;}`;
-    return html`${htmlSlot()}
-      <style>
-        ${cssStr}
-      </style>
-      ${this.render_more()}`;
+    return html`${htmlSlot()} ${htmlStyle(cssStr)} ${this.render_more()}`;
   }
 
   render_more() {

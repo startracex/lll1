@@ -1,6 +1,6 @@
 import { css, CSSResultGroup, cssvar, define, html, property } from "../deps.js";
+import { htmlSlot, htmlStyle } from "../tmpl.js";
 import LayoutSTD, { navStyle } from "./std.js";
-import { htmlSlot } from "../tmpl.js";
 
 @define("nav-aside")
 export class NavAside extends LayoutSTD {
@@ -37,11 +37,9 @@ export class NavAside extends LayoutSTD {
     const p = this.position.split(" ")[0] || "sticky";
     const pm = this.position.split(" ")[1] || "fixed";
     const m = this.m || "720px";
-    const styled = `:host{position:${p} !important;}@media(min-width:${m}){:host{position:${pm} !important;width:fit-content !important;height:100% !important;}nav{display: flex !important;justify-content: space-between !important;flex-direction: column !important;align-content: flex-start !important;align-items: stretch !important;}}`;
+    const style = `:host{position:${p} !important;}@media(min-width:${m}){:host{position:${pm} !important;width:fit-content !important;height:100% !important;}nav{display: flex !important;justify-content: space-between !important;flex-direction: column !important;align-content: flex-start !important;align-items: stretch !important;}}`;
     return html`<nav>${htmlSlot()}</nav>
-      <style>
-        ${styled}
-      </style>`;
+      ${htmlStyle(style)}`;
   }
 }
 
