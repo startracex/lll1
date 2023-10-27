@@ -1,4 +1,4 @@
-import { css, define, html, property, query } from "../deps.js";
+import { css, define, DisableWarning, html, property, query } from "../deps.js";
 import { htmlSlot, htmlStyle, svgArrow } from "../tmpl.js";
 import ViewSTD from "./std.js";
 
@@ -96,26 +96,30 @@ export class RotationPool extends ViewSTD {
     return html`<i>${svgArrow()}</i>`;
   }
 
-  mount() {
-    if (this._clone.length) {
-      this._clone.forEach((element) => element.remove());
-      this._clone = [];
+  remount(index?: number) {
+    super.remount(undefined);
+    console.log(index);
+    if (index !== undefined) {
+      this.show(index);
     }
-    const last = this.assigned[0].cloneNode(true) as HTMLElement;
-    const first = this.assigned[this.assigned.length - 1].cloneNode(true) as HTMLElement;
-    first.style.marginLeft = "-100%";
-    this._clone.push(first, last);
-    this.appendChild(last);
-    this.insertBefore(first, this.firstElementChild);
-    this.show(this.index);
   }
 
   firstUpdated() {
     if (this.assigned.length) {
       if (!this.width) {
-        this.style.width = `${this.assigned[0].offsetWidth}px`;
+        this.width = `${this.assigned[0].offsetWidth}px`;
       }
-      this.mount();
+      if (this._clone.length) {
+        this._clone.forEach((element) => element.remove());
+        this._clone = [];
+      }
+      const last = this.assigned[0].cloneNode(true) as HTMLElement;
+      const first = this.assigned[this.assigned.length - 1].cloneNode(true) as HTMLElement;
+      first.style.marginLeft = "-100%";
+      this._clone.push(first, last);
+      this.appendChild(last);
+      this.insertBefore(first, this.firstElementChild);
+      this.show(this.index);
     }
     if (this.autochange) {
       this.intervalID = setInterval(() => {
@@ -156,6 +160,8 @@ export class RotationPool extends ViewSTD {
     }
   }
 }
+
+DisableWarning(RotationPool);
 
 export default RotationPool;
 declare global {

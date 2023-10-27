@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, cssvar, define, html, ifDefined, property, query } from "../deps.js";
+import { css, CSSResultGroup, cssvar, define, GlobalSTD, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 import type { InputType } from "./std.js";
@@ -22,21 +22,12 @@ export class BaseInput extends InputSTD {
 
       :host([type="range"]) {
         height: auto;
-        outline-width: var(${cssvar}--input-outline-width);
-        outline-style: solid;
       }
 
-      :host([type="file"]) {
-        height: auto;
-        width: auto;
-        min-height: 0.5em;
-        min-width: 0.5em;
-      }
-
-      div,
-      label {
+      label,
+      div {
+        width: 100%;
         display: flex;
-        flex: 1;
       }
 
       * {
@@ -45,26 +36,19 @@ export class BaseInput extends InputSTD {
         font-family: inherit;
       }
 
-      .input[type="color"] {
-        padding: 0;
-        height: 100% !important;
-      }
-
-      .input[type="file"] {
-        display: none;
-      }
-
-      .input {
+      input {
         box-sizing: border-box;
         height: 100%;
         width: 100%;
-        font-size: 0.8em;
         margin: 0;
-        border: none;
         color: inherit;
         background: transparent;
         padding: 0 0.25em;
         border-radius: 0.25em;
+      }
+
+      input[type="file"] {
+        visibility: hidden;
       }
 
       .range {
@@ -76,15 +60,6 @@ export class BaseInput extends InputSTD {
         background-color: var(${cssvar}--input-false);
       }
 
-      .range input ~ i {
-        position: absolute;
-        left: 0;
-        width: 50%;
-        height: 100%;
-        pointer-events: none;
-        background-color: var(${cssvar}--input-true);
-      }
-
       .range input {
         height: 0.6em;
         margin: 0px -0.5em;
@@ -93,6 +68,15 @@ export class BaseInput extends InputSTD {
         -webkit-appearance: none;
         outline: none;
         background-color: transparent;
+      }
+
+      .range i {
+        position: absolute;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        pointer-events: none;
+        background-color: var(${cssvar}--input-true);
       }
 
       .range input::-webkit-slider-runnable-track {
@@ -114,7 +98,7 @@ export class BaseInput extends InputSTD {
       }
     `,
   ] as CSSResultGroup[];
-  @query("input") _input: HTMLInputElement;
+  @query("#input") _input: HTMLInputElement;
   @query(".range i") _ranged: HTMLElement;
   @property() accept = undefined;
   @property({ reflect: true }) type: InputType = "text";
@@ -126,30 +110,26 @@ export class BaseInput extends InputSTD {
   @property({ type: Boolean }) autofocus = false;
 
   render() {
-    return html`<label for="input">
-      ${htmlSlot("pre")}
-      <div class="${this.type}">${this._typeSwitcher()}</div>
-      ${htmlSlot("suf")}
-    </label>`;
+    return html`<label for="input"> ${htmlSlot("pre")} ${this._typeSwitcher()} ${htmlSlot("suf")} </label>`;
   }
 
   connectedCallback() {
-    super.connectedCallback();
-    if (!this.def && this.type !== "file") {
-      this.def = (this.value as string) || "";
+    GlobalSTD.prototype.connectedCallback.apply(this);
+    if (this.type !== "file") {
+      if (!this.def) {
+        this.def = (this.value as string) || "";
+      }
+      if (!this.value) {
+        this.value = this.def;
+      }
     }
-    if (!this.value) {
-      this.value = this.def;
-    }
+    this._initName();
   }
 
   firstUpdated() {
     super.firstUpdated();
     if (this.type === "range") {
       this._ranged.style.width = 100 * (parseInt(this.value as string) / (this.max - this.min)) + "%";
-      if (this.childNodes.length) {
-        this.shadowRoot.querySelector("div").style.margin = "0";
-      }
     }
   }
 
@@ -165,6 +145,9 @@ export class BaseInput extends InputSTD {
   }
 
   reset() {
+    if (this.type == "file") {
+      return;
+    }
     if (this.type === "range") {
       this._input.value = this.def || ((this.max - this.min) / 2).toString();
       this.value = this._input.value;
@@ -178,9 +161,14 @@ export class BaseInput extends InputSTD {
   protected _typeSwitcher() {
     switch (this.type) {
       case "range":
-        return html`<input id="input" type="range" min="${this.min}" max="${this.max}" step="${this.step}" @input="${this._handleRange}" @change="${this._handleChange}" /><i></i>`;
+        return html`<div class="range"><input id="input" type="range" min="${this.min}" max="${this.max}" step="${this.step}" @input="${this._handleRange}" @change="${this._handleRange}" /><i></i></div> `;
+
       case "file":
-        return html`<input id="input" type="file" accept="${ifDefined(this.accept)}" ?multiple="${!this.only}" class="input" @change="${this._handleFile}" />`;
+        return html`<input id="input" class="input" type="file" accept="${ifDefined(this.accept)}" ?multiple="${!this.only}" @change="${this._handleFile}" />`;
+
+      case "number":
+        return html`<input id="input" class="input" type="number" placeholder="${ifDefined(this.pla)}" min="${this.min}" max="${this.max}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
+
       default:
         return html`<input id="input" class="input" type="${this.type}" placeholder="${ifDefined(this.pla)}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
     }

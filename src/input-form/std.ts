@@ -70,6 +70,10 @@ export class InputSTD extends GlobalSTD {
     if (!this.value) {
       this.value = this.def;
     }
+    this._initName();
+  }
+
+  protected _initName() {
     if (!this.name) {
       if (this.label || this.type) {
         this.name = this.label || this.type;

@@ -1,4 +1,4 @@
-import { conf, css, CSSResultGroup, cssvar, define, DisableWarning, html, ifDefined, LitElement, property, query } from "../deps.js";
+import { conf, css, CSSResultGroup, cssvar, define, DisableWarning, GlobalSTD, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot, svgDelta, svgX } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 
@@ -157,7 +157,7 @@ export class SelectInput extends InputSTD {
   }
 
   connectedCallback() {
-    LitElement.prototype.connectedCallback.call(this);
+    GlobalSTD.prototype.connectedCallback.call(this);
   }
 
   getIndexFunc(option: HTMLOptionElement | any) {

@@ -1,17 +1,17 @@
 import { css, CSSResultGroup, cssvar, define, html, ifDefined, property, query } from "../deps.js";
-import { htmlSlot, svgEye } from "../tmpl.js";
+import { htmlSlot, htmlStyle, svgEye } from "../tmpl.js";
 import { InputSTD, type InputType } from "./std.js";
 
 @define("label-input")
 export class LabelInput extends InputSTD {
   @property({ reflect: true }) type: InputType = "text";
   @property({ type: Boolean }) autofocus = false;
+  @property() m = "540px";
   @query("input") _input: HTMLInputElement;
   static styles = [
     InputSTD.styles,
     css`
       :host {
-        max-width: calc(2 * var(${cssvar}--input-width));
         background-color: inherit;
         display: block;
         border-radius: 0.2em;
@@ -33,9 +33,8 @@ export class LabelInput extends InputSTD {
       }
 
       input {
-        padding: 0 0.125em;
+        padding: 0 0.25em;
         background-color: transparent;
-        font-size: 102.5%;
         border-radius: inherit;
         flex: 1;
         width: 100%;
@@ -46,18 +45,15 @@ export class LabelInput extends InputSTD {
         outline: 0.18em solid var(${cssvar}--input-outline-color);
       }
 
-      @media screen and (max-width: 540px) {
-        label {
-          justify-content: flex-start;
-          flex-direction: column;
-          align-items: flex-start;
-          width: fit-content;
-        }
+      i {
+        display: inline-flex;
+        margin: auto;
       }
 
       i > svg {
         height: 1em;
-        width: 1.5em;
+        width: 1em;
+        margin: 0.25em;
       }
 
       fieldset {
@@ -65,10 +61,8 @@ export class LabelInput extends InputSTD {
         position: relative;
         background-color: var(${cssvar}--input-background);
         display: flex;
-        align-items: baseline;
+        align-items: center;
         border-radius: inherit;
-        outline: none;
-        border: 0;
         height: var(${cssvar}--input-height);
         width: var(${cssvar}--input-width);
       }
@@ -80,6 +74,7 @@ export class LabelInput extends InputSTD {
   ] as CSSResultGroup[];
 
   render() {
+    const style = this.m && `@media screen and (max-width: ${this.m}) {label {justify-content: flex-start;flex-direction: column;align-items: inherit;width: fit-content;}`;
     return html`<label for="${this.name}">
       <span>${this.label}${htmlSlot()}</span>
       <fieldset>
@@ -87,6 +82,7 @@ export class LabelInput extends InputSTD {
         <input @input="${this._handleInput}" @change="${this._handleChange}" id="${this.name}" type="${this.type}" placeholder="${ifDefined(this.pla)}" class="${this.type}" />
         ${this.render_suf()}
       </fieldset>
+      ${htmlStyle(style)}
     </label>`;
   }
 
