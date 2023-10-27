@@ -119,6 +119,19 @@ export class GlobalSTD extends LitElement {
   disconnectedCallback() {
     this.removeAllEvents();
   }
+
+  mount(arg?: any) {
+    this.firstUpdated(arg);
+  }
+
+  unmount() {
+    this.disconnectedCallback();
+  }
+
+  remount(arg?: any) {
+    this.unmount();
+    this.mount(arg);
+  }
 }
 
 export function DisableWarning(e: { disableWarning?: (warningKind: WarningKind) => void }, ...w: WarningKind[]) {
