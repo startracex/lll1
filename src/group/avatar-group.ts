@@ -1,6 +1,6 @@
 import { append, css, define, DisableWarning, html, property } from "../deps.js";
 import { htmlSlot, htmlStyle } from "../tmpl.js";
-import AvatarA from "../items/avatar-a.js";
+import AvatarAnchor from "../items/avatar-a.js";
 import GroupSTD from "./std.js";
 
 @define("avatar-group")
@@ -26,7 +26,7 @@ export class AvatarGroup extends GroupSTD {
 
   render_more() {
     if (this.more > 0) {
-      const aa = new AvatarA();
+      const aa = new AvatarAnchor();
       aa.more = this.more;
       return aa;
     }
@@ -38,7 +38,7 @@ export class AvatarGroup extends GroupSTD {
     }
   }
 
-  append(args = new AvatarA()) {
+  append(args = new AvatarAnchor()) {
     if (this.max && this.assigned.length === this.max) {
       this.assigned.pop().style.display = "none";
       append(this, args);

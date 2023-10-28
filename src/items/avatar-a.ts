@@ -3,7 +3,7 @@ import { htmlSlot } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
 @define("avatar-a")
-export class AvatarA extends ItemsSTD {
+export class AvatarAnchor extends ItemsSTD {
   static styles = css`
     :host {
       height: fit-content;
@@ -78,9 +78,9 @@ export class AvatarA extends ItemsSTD {
   }
 }
 
-export default AvatarA;
+export default AvatarAnchor;
 declare global {
   interface HTMLElementTagNameMap {
-    "avatar-a": AvatarA;
+    "avatar-a": AvatarAnchor;
   }
 }

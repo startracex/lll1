@@ -11,7 +11,7 @@ export const AlertItem = createComponent({
 
 export const AvatarAnchor = createComponent({
   tagName: "avatar-a",
-  elementClass: X.AvatarA,
+  elementClass: X.AvatarAnchor,
   react: React,
 });
 
