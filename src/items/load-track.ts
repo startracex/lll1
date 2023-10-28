@@ -61,7 +61,6 @@ export class LoadTrack extends ItemsSTD {
       this.setAttribute("value", val);
       this.hasValue = true;
     }
-    console.log(val);
     this.current = this.parsePercent(val || 20);
   }
 

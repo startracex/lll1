@@ -41,7 +41,6 @@ export class BaseButton extends ItemsSTD {
         box-shadow: var(${cssvar}--box-shadow);
         display: inline-flex;
         width: fit-content;
-        margin: auto;
         border-radius: 4px;
         cursor: pointer;
       }
@@ -129,7 +128,7 @@ export class BaseButton extends ItemsSTD {
   render() {
     const style = this.outline ? `:host([active]) {box-shadow: ${outlineBoxShadow};}` : "";
     return html`
-      <div ?disabled="${this.disabled}">
+      <div>
         <b>
           <i></i>
         </b>
@@ -147,7 +146,7 @@ export class BaseButton extends ItemsSTD {
     this.active = false;
   }
 
-  protected firstUpdated() {
+  firstUpdated() {
     const padding = getComputedStyle(this).padding;
     if (padding) {
       this._slot.style.padding = padding;
@@ -161,10 +160,13 @@ export class BaseButton extends ItemsSTD {
       this.addEvent(this, "mouseup", this.blur);
       this.addEvent(this, "mouseleave", this.blur);
     }
+    this.addEvent(this, "click", this._handleClick);
   }
 
   protected _handleModal(e: MouseEvent) {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
     this.blur();
     const size = `${Math.max(this._div.offsetHeight, this._div.offsetWidth) * 2.8285}px`;
     const translate = `translate(calc(-50% + ${e.offsetX}px), calc(-50% + ${e.offsetY}px))`;

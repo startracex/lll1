@@ -98,7 +98,6 @@ export class RotationPool extends ViewSTD {
 
   remount(index?: number) {
     super.remount(undefined);
-    console.log(index);
     if (index !== undefined) {
       this.show(index);
     }
