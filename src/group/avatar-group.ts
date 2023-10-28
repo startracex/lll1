@@ -39,7 +39,7 @@ export class AvatarGroup extends GroupSTD {
   }
 
   append(args = new AvatarA()) {
-    if (this.max && this.assigned.length == this.max) {
+    if (this.max && this.assigned.length === this.max) {
       this.assigned.pop().style.display = "none";
       append(this, args);
       this.assigned.pop().style.display = "none";
@@ -54,14 +54,16 @@ export class AvatarGroup extends GroupSTD {
   }
 
   subtract() {
-    if (this.more == 2) {
+    if (this.more === 2) {
       this.assigned.pop().style.display = "";
       this.more = 0;
       return;
     } else if (this.more > 0) {
       this.more -= 1;
     }
-    if (this.assigned.length) this.assigned.pop().remove();
+    if (this.assigned.length) {
+      this.assigned.pop().remove();
+    }
   }
 }
 

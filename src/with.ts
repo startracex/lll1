@@ -89,7 +89,7 @@ export function constructCSS(vars: LikeString[], selectorProperties: Record<stri
     const classProperties = vars.map((propertyKey, index) => {
       const propertyValue = selectorProperties[sel][index];
       if (propertyValue === undefined || propertyValue === null) {
-        return;
+        return null;
       }
       if (propertyFunc) {
         return propertyFunc(propertyKey as string, propertyValue as string);

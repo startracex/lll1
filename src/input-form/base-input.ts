@@ -145,7 +145,7 @@ export class BaseInput extends InputSTD {
   }
 
   reset() {
-    if (this.type == "file") {
+    if (this.type === "file") {
       return;
     }
     if (this.type === "range") {

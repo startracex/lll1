@@ -53,7 +53,9 @@ export class InputSTD extends GlobalSTD {
   protected _handleInput(e: any) {
     e.stopPropagation();
     this.value = e.target.value?.trim();
-    if (this.compositing) return;
+    if (this.compositing) {
+      return;
+    }
     this.dispatchEvent(new CustomEvent("input", { detail: this.value, bubbles: true, composed: true }));
     this.dispatchEvent(new CustomEvent("change", { detail: this.value, composed: true }));
   }

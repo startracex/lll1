@@ -42,7 +42,9 @@ export class DragBox extends LayoutSTD {
   }
 
   protected _handleDrag(e: MouseEvent) {
-    if (!this.drag) return;
+    if (!this.drag) {
+      return;
+    }
     const nl = e.clientX - (this.cx - this.l);
     const nt = e.clientY - (this.cy - this.t);
     if (nl < 0) {

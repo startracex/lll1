@@ -58,7 +58,9 @@ export class RouteView extends GlobalSTD {
   connectedCallback(): void {
     super.connectedCallback();
     this.path = window.location.pathname;
-    if (!this.override) return;
+    if (!this.override) {
+      return;
+    }
     this.addEvent(window, "popstate", () => {
       this.path = window.location.pathname;
     });
@@ -76,7 +78,9 @@ export class RouteView extends GlobalSTD {
 
   render_united() {
     const slottedComponent = this.render_slotted();
-    if (slottedComponent) return slottedComponent;
+    if (slottedComponent) {
+      return slottedComponent;
+    }
     return this.render_field();
   }
 
@@ -106,16 +110,24 @@ export class RouteView extends GlobalSTD {
   }
 
   fieldComponent(usedRouteTemplate: string): null | TemplateResult {
-    if (!usedRouteTemplate) return;
+    if (!usedRouteTemplate) {
+      return;
+    }
     const route = this.routes.find((r) => r.path === usedRouteTemplate);
-    if (!route) return null;
+    if (!route) {
+      return null;
+    }
     return route.component;
   }
 
   slottedComponent(usedRouteTemplate: string, ObjectArrayIncludePath: WithRecord<"path" | "slotElement">[]): null | TemplateResult {
-    if (!usedRouteTemplate) return;
+    if (!usedRouteTemplate) {
+      return;
+    }
     const slotElement = ObjectArrayIncludePath.find((s) => s.path === usedRouteTemplate);
-    if (!slotElement) return null;
+    if (!slotElement) {
+      return null;
+    }
     this.params = RouteView.parseRouterParams(usedRouteTemplate, this.path);
     return html` <slot name="${slotElement.slotname}"></slot>` as TemplateResult;
   }
@@ -198,7 +210,9 @@ export class RouteView extends GlobalSTD {
   }
 
   static parseRouterParams(routeTemplate: string, originpath: string): Record<string, string> {
-    if (!routeTemplate || !originpath) return;
+    if (!routeTemplate || !originpath) {
+      return;
+    }
     const params: Record<string, string> = {};
     const originpathArray = originpath.split("/").splice(1);
     const routeTemplateSplit = routeTemplate.split("/").splice(1);

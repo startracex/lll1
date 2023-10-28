@@ -28,7 +28,7 @@ export class DetailsGroup extends GroupSTD {
     if (this.only) {
       this.index = this.assigned.indexOf(e.target as HTMLElement);
       this.assigned.forEach((e, i) => {
-        if (i != this.index) {
+        if (i !== this.index) {
           e.removeAttribute("open");
         }
       });

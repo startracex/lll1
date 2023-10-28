@@ -94,7 +94,9 @@ export class AlertItem extends ItemsSTD {
   @property() content = "";
 
   render() {
-    if (this.autoclose) setTimeout(() => this.close(), this.autoclose);
+    if (this.autoclose) {
+      setTimeout(() => this.close(), this.autoclose);
+    }
     return html` <div class="${this.call} alert" role="alert">
       <section class="content">
         <strong>

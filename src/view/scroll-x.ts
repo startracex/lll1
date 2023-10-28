@@ -59,7 +59,9 @@ export class ScrollX extends ViewSTD {
 
   resize() {
     const child = this.firstElementChild;
-    if (!child) return;
+    if (!child) {
+      return;
+    }
     const ClientHeight = child.clientHeight || 0;
     if (ClientHeight) {
       this._section.style.width = ClientHeight + "px";

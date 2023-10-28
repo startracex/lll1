@@ -136,7 +136,6 @@ export class DialogItem extends ItemsSTD {
       } else {
         scale += this.gap;
       }
-      console.log(scale);
       this._div.style.transform = `scale(${scale})`;
     }
   }

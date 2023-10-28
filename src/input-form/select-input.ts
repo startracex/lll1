@@ -126,7 +126,7 @@ export class SelectInput extends InputSTD {
 
   protected render_list() {
     const itemTemplates = [];
-    if (this.value.length)
+    if (this.value.length) {
       for (const i in this.value) {
         itemTemplates.push(
           html`<i class="selected-item">
@@ -141,6 +141,7 @@ export class SelectInput extends InputSTD {
           </i>`,
         );
       }
+    }
     return itemTemplates;
   }
 
@@ -204,12 +205,12 @@ export class SelectInput extends InputSTD {
     if (text === undefined || text === null) {
       this.assigned.forEach((option: { value: any; innerText: any; children: any }) => {
         if (this.getIndexFunc(option)) {
-          if (this.getIndexFunc(option) == value) {
+          if (this.getIndexFunc(option) === value) {
             text = option.innerText;
           }
         } else if (option.children) {
           [...option.children].forEach((option) => {
-            if (this.getIndexFunc(option) == value) {
+            if (this.getIndexFunc(option) === value) {
               text = option.innerText;
             }
           });
@@ -218,8 +219,8 @@ export class SelectInput extends InputSTD {
     }
     if (this.value.includes(value)) {
       if (!this.only) {
-        this.value = this.value.filter((v) => v != value);
-        this.text = this.text.filter((v) => v != text);
+        this.value = this.value.filter((v) => v !== value);
+        this.text = this.text.filter((v) => v !== text);
       } else {
         this.value = [];
         this.text = [];
@@ -287,7 +288,7 @@ export class SelectInput extends InputSTD {
               option.style.display = "none";
             }
           });
-          if ([...option.children].filter((option) => option.style.display == "block").length == 0) {
+          if ([...option.children].filter((option) => option.style.display === "block").length === 0) {
             (option as HTMLElement).style.display = "none";
           }
         }
@@ -319,10 +320,14 @@ export class SelectInput extends InputSTD {
     if (this.def) {
       if (!this.only) {
         this.def.split(";").forEach((def) => {
-          if (def.trim()) this.select(def.trim(), null);
+          if (def.trim()) {
+            this.select(def.trim(), null);
+          }
         });
       } else {
-        if (this.def.split(";")[0].trim()) this.select(this.def.split(";")[0].trim(), null);
+        if (this.def.split(";")[0].trim()) {
+          this.select(this.def.split(";")[0].trim(), null);
+        }
       }
     }
   }

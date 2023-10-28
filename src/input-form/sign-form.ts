@@ -42,20 +42,22 @@ export class BaseForm extends FormSTD {
       }
     });
     const form: any = document.createElement("form");
-    for (const slot of this.shadowRoot.querySelectorAll("slot"))
+    for (const slot of this.shadowRoot.querySelectorAll("slot")) {
       for (const i of slot.assignedNodes() as any) {
         if (i.reset) {
           i.reset();
         }
         form.appendChild(i.cloneNode(true));
       }
+    }
     form.reset();
-    for (const slot of this.shadowRoot.querySelectorAll("slot"))
+    for (const slot of this.shadowRoot.querySelectorAll("slot")) {
       for (const i of slot.assignedNodes() as any) {
         if (i.name && form[i.name]) {
           i.value = form[i.name].value;
         }
       }
+    }
     form.remove();
   }
 
@@ -63,7 +65,7 @@ export class BaseForm extends FormSTD {
     const x = {};
     const form = document.createElement("form");
     form.enctype = enctype;
-    for (const slot of this.shadowRoot.querySelectorAll("slot"))
+    for (const slot of this.shadowRoot.querySelectorAll("slot")) {
       for (const i of slot.assignedNodes() as any) {
         if (i.namevalue) {
           const [name, value] = i.namevalue();
@@ -74,6 +76,7 @@ export class BaseForm extends FormSTD {
           form.appendChild(i.cloneNode(true));
         }
       }
+    }
     const y = new FormData(form);
     for (const [key, value] of y) {
       x[key] = value;
@@ -94,7 +97,7 @@ export class BaseForm extends FormSTD {
     const x = {};
     const form = document.createElement("form");
     form.enctype = "multipart/form-data";
-    for (const slot of this._slots)
+    for (const slot of this._slots) {
       for (const i of slot.assignedNodes() as any) {
         if (i.FormData) {
           for (const [key, value] of i.FormData()) {
@@ -104,6 +107,7 @@ export class BaseForm extends FormSTD {
           form.appendChild(i.cloneNode(true));
         }
       }
+    }
     const y = new FormData(form);
     each(this._form, (node: any) => {
       if (node.namevalue) {

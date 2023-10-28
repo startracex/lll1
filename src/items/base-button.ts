@@ -177,7 +177,7 @@ export class BaseButton extends ItemsSTD {
   }
 
   protected _handleClick(e: MouseEvent) {
-    if (e.target == this) {
+    if (e.target === this) {
       this._handleModal(e);
     } else {
       this.blur();
