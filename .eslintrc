@@ -12,7 +12,19 @@
   "plugins": ["@typescript-eslint"],
   "ignorePatterns": ["*/*.js"],
   "rules": {
-    "semi": ["warn", "always"],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/prefer-for-of": "off",
+    "array-callback-return": "warn",
+    "curly": "warn",
+    "eqeqeq": "warn",
+    "no-console": "error",
+    "no-lone-blocks": "warn",
+    "no-unexpected-multiline": "warn",
+    "no-unused-vars": "off",
+    "no-useless-concat": "warn",
+    "no-useless-escape": "warn",
+    "no-void": "warn",
+    "prefer-rest-params": "off",
     "quotes": [
       "warn",
       "double",
@@ -20,15 +32,13 @@
         "allowTemplateLiterals": true
       }
     ],
-    "prefer-rest-params": "off",
+    "semi": ["warn", "always"],
     "sort-imports": [
       "warn",
       {
         "ignoreCase": true,
         "memberSyntaxSortOrder": ["none", "multiple", "single", "all"]
       }
-    ],
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/prefer-for-of": "off"
+    ]
   }
 }
