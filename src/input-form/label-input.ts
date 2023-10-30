@@ -74,7 +74,7 @@ export class LabelInput extends InputSTD {
   ] as CSSResultGroup[];
 
   render() {
-    const style = this.m && `@media screen and (max-width: ${this.m}) {label {justify-content: flex-start;flex-direction: column;align-items: inherit;width: fit-content;}`;
+    const style = this.m && `@media screen and (max-width: ${this.m}) {label[for] {justify-content: flex-start;flex-direction: column;align-items: inherit;width: fit-content;}`;
     return html`<label for="${this.name}">
       <span>${this.label}${htmlSlot()}</span>
       <fieldset>

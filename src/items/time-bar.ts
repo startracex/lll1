@@ -21,16 +21,13 @@ export class TimeBar extends ItemsSTD {
   ];
 
   render() {
-    return html`${htmlSlot("pre")}${this.value}${htmlSlot()}`;
+    return html`${htmlSlot("pre")}${this.value || TimeBar.fmt(this.format, this.time)}${htmlSlot()}`;
   }
 
-  connectedCallback(): void {
-    super.connectedCallback();
-    this.value = TimeBar.fmt(this.format, this.time);
+  firstUpdated(): void {
     if (this.timeout) {
       this.intervalID = setInterval(() => {
         this.time = new Date(this.time.getTime() + (this.gap || this.timeout));
-        this.value = TimeBar.fmt(this.format, this.time);
       }, Math.abs(this.timeout));
     }
   }
@@ -40,6 +37,9 @@ export class TimeBar extends ItemsSTD {
   }
 
   static fmt(fm: string, tm: Date): string {
+    if (fm === "") {
+      return fm;
+    }
     const rest = [];
     fm = fm.replace(/%([ZYMDhms%])/g, (_, p1) => {
       rest.push(p1);
