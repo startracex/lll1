@@ -6,10 +6,8 @@ import ItemsSTD from "./std.js";
 export class AvatarAnchor extends ItemsSTD {
   static styles = css`
     :host {
-      height: fit-content;
-      ${cssvar}--ava: 2em;
+      ${cssvar}--ava: 1.5em;
       display: inline-flex;
-      align-items: center;
     }
 
     * {
@@ -22,18 +20,16 @@ export class AvatarAnchor extends ItemsSTD {
     }
 
     a {
-      color: inherit;
       height: var(${cssvar}--ava);
       width: var(${cssvar}--ava);
-      min-height: var(${cssvar}--ava);
-      min-width: var(${cssvar}--ava);
+      color: inherit;
       display: flex;
       position: relative;
+      align-items: inherit;
     }
 
     span {
       position: absolute;
-      height: 100%;
       width: 100%;
       display: flex;
       align-items: center;
@@ -49,7 +45,8 @@ export class AvatarAnchor extends ItemsSTD {
       justify-content: center;
     }
   `;
-  @property() src = "";
+  @property() src: string | undefined | null = "";
+  @property() def: string = undefined;
   @property() href = undefined;
   @property() name = "";
   @property({ type: Number }) more = 0;
@@ -67,7 +64,7 @@ export class AvatarAnchor extends ItemsSTD {
       return html`<span>+${more}</span>`;
     }
     if (this.src) {
-      return html`<img src="${this.src}" alt="${this.name}" />`;
+      return html`<img src="${this.src}" @error=${this.imgOnError} />`;
     }
     if (this.name) {
       let name = this.name.slice(0, 2);
@@ -75,6 +72,14 @@ export class AvatarAnchor extends ItemsSTD {
       return html`<span>${name}</span>`;
     }
     return html`<slot name="avatar"></slot>`;
+  }
+
+  imgOnError(e: ErrorEvent) {
+    if (this.def) {
+      (e.target as HTMLImageElement).src = this.def;
+    } else {
+      this.src = undefined;
+    }
   }
 }
 
