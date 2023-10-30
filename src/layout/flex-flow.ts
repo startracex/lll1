@@ -14,7 +14,12 @@ export class FlexFlow extends LayoutSTD {
 
   render() {
     const flexflow = this.flexflow.split(/\s+/);
-    const style = `:host{flex-direction:${flexflow[0] || "row"};flex-wrap:${flexflow[1] || "nowrap"};}@media(max-width: ${this.m || "720px"}){:host{flex-direction:${flexflow[2] || flexflow[0] || "column"};flex-wrap:${flexflow[3] || flexflow[1] || "nowrap"}}`;
+    const flexDirection = flexflow[0] || "row";
+    const flexWrap = flexflow[1] || "nowrap";
+    const flexDirectionM = flexflow[2] || flexDirection || "column";
+    const flexWrapM = flexflow[3] || flexWrap || "nowrap";
+    const m = this.m || "720px";
+    const style = `:host{flex-direction:${flexDirection};flex-wrap:${flexWrap};}@media(max-width: ${m}){:host{flex-direction:${flexDirectionM};flex-wrap:${flexWrapM}}`;
     return html`${htmlSlot()} ${htmlStyle(style)}`;
   }
 }

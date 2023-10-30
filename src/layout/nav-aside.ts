@@ -34,8 +34,9 @@ export class NavAside extends LayoutSTD {
   @property() position = "sticky fixed";
 
   render() {
-    const p = this.position.split(" ")[0] || "sticky";
-    const pm = this.position.split(" ")[1] || "fixed";
+    const position = this.position.split(/\s+/);
+    const p = position[0] || "sticky";
+    const pm = position[1] || "fixed";
     const m = this.m || "720px";
     const style = `:host{position:${p} !important;}@media(min-width:${m}){:host{position:${pm} !important;width:fit-content !important;height:100% !important;}nav{display: flex !important;justify-content: space-between !important;flex-direction: column !important;align-content: flex-start !important;align-items: stretch !important;}}`;
     return html`<nav>${htmlSlot()}</nav>
