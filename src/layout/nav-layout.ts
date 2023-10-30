@@ -10,7 +10,7 @@ export class NavLayout extends LayoutSTD {
     css`
       :host {
         ${cssvar}--nav-height: 2.4em;
-        ${cssvar}--nav-h1-size: calc(var(${cssvar}--nav-height) / 2);
+        ${cssvar}--nav-h1-size: 1.2em;
         width: 100%;
         height: 100%;
         display: flex;
@@ -27,6 +27,7 @@ export class NavLayout extends LayoutSTD {
 
       nav {
         height: var(${cssvar}--nav-height);
+        min-height: var(${cssvar}--nav-height);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -68,6 +69,7 @@ export class NavLayout extends LayoutSTD {
         display: flex;
         flex-direction: column;
         z-index: 1;
+        position: relative;
       }
 
       nav > div {
