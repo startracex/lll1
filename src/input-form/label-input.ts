@@ -86,7 +86,7 @@ export class LabelInput extends InputSTD {
     </label>`;
   }
 
-  protected render_suf() {
+  private render_suf() {
     if (this.type === "password") {
       return html`<i
         @mousedown="${this._passwordSwitcher}"

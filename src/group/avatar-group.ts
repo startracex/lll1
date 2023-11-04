@@ -24,7 +24,7 @@ export class AvatarGroup extends GroupSTD {
     return html`${htmlSlot()} ${htmlStyle(cssStr)} ${this.render_more()}`;
   }
 
-  render_more() {
+  private render_more() {
     if (this.more > 0) {
       const aa = new AvatarAnchor();
       aa.more = this.more;

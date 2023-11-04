@@ -89,7 +89,7 @@ export class RotationPool extends ViewSTD {
     </div>`;
   }
 
-  render_a(slot: string) {
+  private render_a(slot: string) {
     if (this.querySelector(`[slot=${slot}]`)) {
       return htmlSlot(slot);
     }

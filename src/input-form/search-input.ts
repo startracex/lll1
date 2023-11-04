@@ -133,7 +133,7 @@ export class SearchInput extends InputSTD {
     </form>`;
   }
 
-  protected render_list() {
+  private render_list() {
     if (this.list && this.list.length && this.value) {
       return html`${this.list.map((v) => html` <li>${v}</li>`)}`;
     }
