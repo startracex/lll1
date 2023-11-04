@@ -2,6 +2,9 @@ import { conf } from "./conf.js";
 
 export const define = (name: string, options?: ElementDefinitionOptions) => (constructor: CustomElementConstructor) => {
   const tagName = conf.tag(name);
+  if (!tagName) {
+    return;
+  }
   if (customElements.get(tagName) === undefined) {
     customElements.define(tagName, constructor, options);
     conf.enabled.add(name);

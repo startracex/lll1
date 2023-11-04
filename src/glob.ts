@@ -2,7 +2,7 @@ import { css, CSSResultGroup, LitElement, unsafeCSS, type WarningKind } from "li
 import { conf } from "./conf.js";
 
 /**
- * Custom CSS variable,join with "--" ,only allow `a-Z,0-9,-`
+ * Custom CSS variable prefix, join with "--".
  */
 export const cssvar = unsafeCSS("--" + conf.cssvar.replace(/[^a-zA-Z0-9\\-]/g, ""));
 
