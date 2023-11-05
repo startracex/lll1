@@ -90,19 +90,26 @@ export class NavLayout extends LayoutSTD {
   @property({ type: Number }) set: 0 | 1 | 2 = 0;
 
   render() {
-    return html`<nav>
-        <h1>
-          <slot name="host"></slot>
-          <a href="/">${this.host}</a>${this.subhead &&
-          html`<span></span>
-            <div>${this.subhead}</div>`}
-        </h1>
-        <div>
-          <slot name="opt"></slot>
-        </div>
-      </nav>
+    return html` ${htmlSlot("header")} ${this.render_nav()}
       <main>${htmlSlot()}</main>
-      <slot name="footer"></slot>`;
+      ${htmlSlot("footer")}`;
+  }
+
+  private render_nav() {
+    if (this.querySelector("[slot=nav]")) {
+      return htmlSlot("nav");
+    }
+    return html`<nav>
+      <h1>
+        <slot name="host"></slot>
+        <a href="/">${this.host}</a>${this.subhead &&
+        html`<span></span>
+          <div>${this.subhead}</div>`}
+      </h1>
+      <div>
+        <slot name="opt"></slot>
+      </div>
+    </nav>`;
   }
 }
 

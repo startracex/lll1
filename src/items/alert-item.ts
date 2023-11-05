@@ -3,17 +3,21 @@ import { htmlSlot, svgX } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
 const vars = ["color", "background", "border", "super"].map((v) => `${cssvar}--${v}`);
-const styles = {
-  ".success": ["#3c763d", "#dff0d8", "#d6e9c6", "#2b542c"],
-  ".info": ["#31708f", "#d9edf7", "#bce8f1", "#245269"],
-  ".warning": ["#8a6d3b", "#fcf8e3", "#faebcc", "#66512c"],
-  ".danger": ["#a94442", "#f2dede", "#ebccd1", "#843534"],
+const colors = {
+  success: ["#3c763d", "#dff0d8", "#d6e9c6", "#2b542c"],
+  info: ["#31708f", "#d9edf7", "#bce8f1", "#245269"],
+  warning: ["#8a6d3b", "#fcf8e3", "#faebcc", "#66512c"],
+  danger: ["#a94442", "#f2dede", "#ebccd1", "#843534"],
 };
 
 @define("alert-item")
 export class AlertItem extends ItemsSTD {
   static styles = [
-    unsafeCSS(constructCSS(vars, styles)),
+    unsafeCSS(
+      constructCSS(vars, colors, (raw) => {
+        return `.${raw}`;
+      }),
+    ),
     css`
       :host {
         margin: 0.1em auto;
@@ -88,7 +92,7 @@ export class AlertItem extends ItemsSTD {
       }
     `,
   ];
-  @property() call: "success" | "info" | "warning" | "danger" | "hide" = "info";
+  @property() call: keyof typeof colors | "hide" = "info";
   @property({ type: Number }) autoclose = 3000;
   @property() title = "";
   @property() content = "";
