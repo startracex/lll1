@@ -31,9 +31,7 @@ export class AvatarAnchor extends ItemsSTD {
     span {
       position: absolute;
       width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      text-align: center;
     }
 
     slot[name="mask"] {
@@ -64,7 +62,7 @@ export class AvatarAnchor extends ItemsSTD {
       return html`<span>+${more}</span>`;
     }
     if (this.src) {
-      return html`<img src="${this.src}" @error=${this.imgOnError} />`;
+      return html`<img src="${this.src}" @error=${this.imgOnError} alt="" />`;
     }
     if (this.name) {
       let name = this.name.slice(0, 2);
