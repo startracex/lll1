@@ -1,4 +1,4 @@
-import { conf, css, CSSResultGroup, cssvar, define, DisableWarning, GlobalSTD, html, ifDefined, property, query } from "../deps.js";
+import { css, CSSResultGroup, cssvar, define, DisableWarning, GlobalSTD, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot, svgDelta, svgX } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 
@@ -94,7 +94,6 @@ export class SelectInput extends InputSTD {
     `,
   ] as CSSResultGroup[];
   @property({ type: Boolean, reflect: true }) open = false;
-  @property() selectedClass = `${conf.tag("select-input")}-selected`;
   @property({ type: Boolean, reflect: true }) only = false;
   @property({ type: Array }) value = [];
   @property({ reflect: true }) name = "select";
@@ -124,7 +123,7 @@ export class SelectInput extends InputSTD {
     </div>`;
   }
 
-  protected render_list() {
+  private render_list() {
     const itemTemplates = [];
     if (this.value.length) {
       for (const i in this.value) {
@@ -145,7 +144,7 @@ export class SelectInput extends InputSTD {
     return itemTemplates;
   }
 
-  _focusCheck() {
+  protected _focusCheck() {
     if (this.autofocus) {
       this._input?.focus();
       this.open = true;
@@ -161,7 +160,7 @@ export class SelectInput extends InputSTD {
     GlobalSTD.prototype.connectedCallback.call(this);
   }
 
-  getIndexFunc(option: HTMLOptionElement | any) {
+  getIndexFunc(option: HTMLElement | any) {
     return option.value || option.getAttribute("value");
   }
 
@@ -178,15 +177,15 @@ export class SelectInput extends InputSTD {
       }
     }
     this._focusCheck();
-    this.assigned.forEach((option: HTMLOptionElement) => {
+    (this.assigned as HTMLElement[]).forEach((option: HTMLElement) => {
       if (this.getIndexFunc(option)) {
         this.addEvent(option, "click", () => {
-          this.select(this.getIndexFunc(option), option.innerText);
+          this.select(this.getIndexFunc(option), option.textContent);
         });
       } else if (option.children) {
-        [...option.children].forEach((option: HTMLOptionElement) => {
+        [...option.children].forEach((option: HTMLElement) => {
           this.addEvent(option, "click", () => {
-            this.select(this.getIndexFunc(option), option.innerText);
+            this.select(this.getIndexFunc(option), option.textContent);
           });
         });
       }
@@ -203,18 +202,22 @@ export class SelectInput extends InputSTD {
 
   select(value: string, text?: string) {
     if (text === undefined || text === null) {
-      this.assigned.forEach((option: { value: any; innerText: any; children: any }) => {
+      this.assigned.some((option: HTMLElement) => {
         if (this.getIndexFunc(option)) {
           if (this.getIndexFunc(option) === value) {
-            text = option.innerText;
+            text = option.textContent;
+            return true;
           }
         } else if (option.children) {
-          [...option.children].forEach((option) => {
-            if (this.getIndexFunc(option) === value) {
-              text = option.innerText;
+          return [...option.children].some((child: HTMLElement) => {
+            if (this.getIndexFunc(child) === value) {
+              text = child.textContent;
+              return true;
             }
+            return false;
           });
         }
+        return false;
       });
     }
     if (this.value.includes(value)) {
@@ -234,23 +237,6 @@ export class SelectInput extends InputSTD {
         this.text = [text];
       }
     }
-    this.assigned.forEach((option: { value: any; classList: { add: (arg0: string) => void; remove: (arg0: string) => void }; children: any }) => {
-      if (this.getIndexFunc(option)) {
-        if (this.value.includes(this.getIndexFunc(option))) {
-          option.classList.add(this.selectedClass);
-        } else {
-          option.classList.remove(this.selectedClass);
-        }
-      } else if (option.children) {
-        [...option.children].forEach((option) => {
-          if (this.value.includes(this.getIndexFunc(option))) {
-            option.classList.add(this.selectedClass);
-          } else {
-            option.classList.remove(this.selectedClass);
-          }
-        });
-      }
-    });
     this._input.value = "";
     this.dispatchEvent(new CustomEvent("change", { detail: this.namevalue() }));
     this.requestUpdate();
@@ -308,15 +294,6 @@ export class SelectInput extends InputSTD {
     this.value = [];
     this.text = [];
     this._input.value = "";
-    this.assigned.forEach((option: { value: any; classList: { remove: (arg0: string) => void }; children: any }) => {
-      if (this.getIndexFunc(option)) {
-        option.classList.remove(this.selectedClass);
-      } else if (option.children) {
-        [...option.children].forEach((option) => {
-          option.classList.remove(this.selectedClass);
-        });
-      }
-    });
     if (this.def) {
       if (!this.only) {
         this.def.split(";").forEach((def) => {
