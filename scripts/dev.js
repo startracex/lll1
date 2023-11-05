@@ -1,7 +1,7 @@
-import { startDevServer } from "@web/dev-server";
-import { log } from "node:console";
 import { cwd } from "node:process";
 import fs from "fs";
+import { log } from "node:console";
+import { startDevServer } from "@web/dev-server";
 
 (async () => {
   const port = 9527;
@@ -20,8 +20,10 @@ import fs from "fs";
 
 function walkSync(d) {
   const result = [];
-  fs.readdirSync(d, { withFileTypes: true }).map((file) => {
-    if (file.name === "node_modules") return;
+  fs.readdirSync(d, { withFileTypes: true }).forEach((file) => {
+    if (file.name === "node_modules") {
+      return;
+    }
     const filepath = `${d}/${file.name}`;
     if (file.isDirectory()) {
       result.push(...walkSync(filepath));

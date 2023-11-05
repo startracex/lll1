@@ -24,6 +24,7 @@ const info = (strings, ...values) => {
   return strings.reduce((prev, cur, index) => prev + cur + (values[index] ? `\x1b[36m${values[index]}\x1b[0m` : ""), "");
 };
 
+// eslint-disable-next-line no-console
 console.log(
   info`To publish, run: 
   ${"npm publish ./public"}
