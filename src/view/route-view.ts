@@ -64,15 +64,16 @@ export class RouteView extends GlobalSTD {
     this.addEvent(window, "popstate", () => {
       this.path = window.location.pathname;
     });
+    const self = this;
     const pushHistory = history.pushState;
     history.pushState = function () {
       pushHistory.apply(this, arguments);
-      this.path = window.location.pathname;
+      self.path = window.location.pathname;
     };
     const replaceHistory = history.replaceState;
     history.replaceState = function () {
       replaceHistory.apply(this, arguments);
-      this.path = window.location.pathname;
+      self.path = window.location.pathname;
     };
   }
 

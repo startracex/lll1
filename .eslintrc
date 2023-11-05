@@ -13,6 +13,7 @@
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/prefer-for-of": "off",
+    "@typescript-eslint/no-this-alias": "off",
     "array-callback-return": "warn",
     "curly": "warn",
     "eqeqeq": "warn",
