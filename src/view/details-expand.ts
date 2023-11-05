@@ -1,18 +1,15 @@
 import { css, CSSResultGroup, define, html, property, query } from "../deps.js";
 import { htmlSlot, svgDeltaSmooth } from "../tmpl.js";
-import ViewSTD, { dlShareCSS } from "./std.js";
+import { OpenAble } from "./std.js";
 
 @define("details-expand")
-export class DetailsExpand extends ViewSTD {
+export class DetailsExpand extends OpenAble {
   @property() summary = "";
-  @property({ type: Boolean, reflect: true }) float = false;
-  @property({ type: Boolean, reflect: true }) open = false;
   @property({ type: Boolean }) fill = false;
   @property({ type: Boolean }) reverse = false;
   @query("dd") _dd: HTMLDataListElement;
   static styles = [
-    ViewSTD.styles,
-    dlShareCSS,
+    OpenAble.styles,
     css`
       dt {
         height: 100%;
@@ -38,27 +35,25 @@ export class DetailsExpand extends ViewSTD {
     return html`<dl>
       <dt @click="${this._handelClick}" style="flex-direction:row${this.reverse ? "-reverse" : ""}">
         <span> ${this.summary || htmlSlot("summary")} </span>
-        <i style="transform: rotate(${this.reverse ? "-18" : ""}0deg);"> ${!this.querySelector("slot[name=icon]") ? svgDeltaSmooth() : htmlSlot("icon")} </i>
+        <i style="transform: rotate(${this.reverse ? "-18" : ""}0deg);"> ${this.render_icon()} </i>
       </dt>
-      <dd ?float="${this.float}">
+      <dd>
         <section>${htmlSlot()}</section>
       </dd>
     </dl>`;
+  }
+
+  private render_icon() {
+    if (this.querySelector("slot[name=icon]")) {
+      return htmlSlot("icon");
+    }
+    return svgDeltaSmooth();
   }
 
   firstUpdated() {
     if (this.fill) {
       this.addEvent(this._dd, "click", () => this.toggle());
     }
-  }
-
-  _handelClick() {
-    this.toggle();
-  }
-
-  toggle(to = !this.open) {
-    this.open = to;
-    this.dispatchEvent(new CustomEvent("change", { detail: this.open }));
   }
 }
 

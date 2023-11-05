@@ -1,17 +1,16 @@
 import { css, CSSResultGroup, define, html, property, query, state } from "../deps.js";
 import { htmlSlot, svgArrow } from "../tmpl.js";
-import ViewSTD, { dlShareCSS } from "./std.js";
+import { OpenAble } from "./std.js";
 
 @define("menu-list")
-export class MenuList extends ViewSTD {
+export class MenuList extends OpenAble {
   @property() summary = "";
   @property({ type: Boolean, reflect: true }) float = false;
   @property({ type: Boolean, reflect: true }) open = false;
   @state() def: boolean;
   @query("section") _section: HTMLElement;
   static styles = [
-    ViewSTD.styles,
-    dlShareCSS,
+    OpenAble.styles,
     css`
       i {
         width: 1.2em;
@@ -47,8 +46,8 @@ export class MenuList extends ViewSTD {
     }
     return html`<dl>
       <dt class="${noTitle}">
-        <span>${this.summary}<slot name="summary"></slot></span>
-        <i @click="${this._handelClick}"> ${!this.querySelector("[slot=icon]") ? svgArrow() : htmlSlot("icon")} </i>
+        <span>${this.summary}${htmlSlot("summary")}</span>
+        <i @click="${this._handelClick}"> ${this.render_icon()} </i>
       </dt>
       <dd>
         <section>${htmlSlot()}</section>
@@ -56,13 +55,11 @@ export class MenuList extends ViewSTD {
     </dl>`;
   }
 
-  protected _handelClick() {
-    this.toggle();
-  }
-
-  toggle(to = !this.open) {
-    this.open = to;
-    this.dispatchEvent(new CustomEvent("change", { detail: this.open }));
+  private render_icon() {
+    if (this.querySelector("[slot=icon]")) {
+      return htmlSlot("icon");
+    }
+    return svgArrow();
   }
 }
 

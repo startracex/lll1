@@ -1,9 +1,8 @@
-import { css, define, html } from "../deps.js";
+import { css, define, GlobalSTD, html } from "../deps.js";
 import { htmlSlot } from "../tmpl.js";
-import ViewSTD from "./std.js";
 
 @define("scroll-x")
-export class ScrollX extends ViewSTD {
+export class ScrollX extends GlobalSTD {
   static styles = css`
     :host {
       display: block;

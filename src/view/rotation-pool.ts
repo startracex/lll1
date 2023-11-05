@@ -1,9 +1,8 @@
-import { css, define, DisableWarning, html, property, query } from "../deps.js";
+import { css, define, DisableWarning, GlobalSTD, html, property, query } from "../deps.js";
 import { htmlSlot, htmlStyle, svgArrow } from "../tmpl.js";
-import ViewSTD from "./std.js";
 
 @define("rotation-pool")
-export class RotationPool extends ViewSTD {
+export class RotationPool extends GlobalSTD {
   @property({ type: Number }) index = 0;
   @property({ type: Number }) autochange = 0;
   @property() width = "";
