@@ -1,6 +1,6 @@
-import { conf, css, define, GlobalSTD, html, property } from "../deps.js";
+import { conf, css, define, GlobalSTD, HtmlTemplate, property } from "../deps.js";
 import { htmlSlot } from "../tmpl.js";
-import type { TemplateResult } from "lit";
+import type { PropertyValueMap } from "lit";
 
 type WithRecord<T extends string> = Record<string, any> & Record<T, string>;
 
@@ -55,7 +55,7 @@ export class RouteView extends GlobalSTD {
     };
   }
 
-  connectedCallback(): void {
+  connectedCallback() {
     super.connectedCallback();
     this.path = window.location.pathname;
     if (!this.override) {
@@ -76,7 +76,14 @@ export class RouteView extends GlobalSTD {
     };
   }
 
-  render_united() {
+  protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+    const path = _changedProperties.get("path");
+    if (path) {
+      this.dispatchEvent(new CustomEvent("change", { detail: this.useRouter() }));
+    }
+  }
+
+  private render_united() {
     const slottedComponent = this.render_slotted();
     if (slottedComponent) {
       return slottedComponent;
@@ -84,7 +91,7 @@ export class RouteView extends GlobalSTD {
     return this.render_field();
   }
 
-  render_slotted() {
+  private render_slotted() {
     const childNodes = this.querySelectorAll(":scope > *[slot]");
     const slots = Array.from(childNodes).map((node) => {
       const slotname = node.getAttribute("slot");
@@ -103,13 +110,13 @@ export class RouteView extends GlobalSTD {
     return this.slottedComponent(usedRouteTemplate, slotsSort);
   }
 
-  render_field() {
+  private render_field() {
     const usedRouteTemplate = RouteView.useWhichRoute(this.routes, this.path);
     this.params = RouteView.parseRouterParams(usedRouteTemplate, this.path);
     return this.fieldComponent(usedRouteTemplate);
   }
 
-  fieldComponent(usedRouteTemplate: string): null | TemplateResult {
+  fieldComponent(usedRouteTemplate: string): null | HtmlTemplate {
     if (!usedRouteTemplate) {
       return;
     }
@@ -120,7 +127,7 @@ export class RouteView extends GlobalSTD {
     return route.component;
   }
 
-  slottedComponent(usedRouteTemplate: string, ObjectArrayIncludePath: WithRecord<"path" | "slotElement">[]): null | TemplateResult {
+  slottedComponent(usedRouteTemplate: string, ObjectArrayIncludePath: WithRecord<"path" | "slotElement">[]): null | HtmlTemplate {
     if (!usedRouteTemplate) {
       return;
     }
@@ -129,7 +136,7 @@ export class RouteView extends GlobalSTD {
       return null;
     }
     this.params = RouteView.parseRouterParams(usedRouteTemplate, this.path);
-    return html` <slot name="${slotElement.slotname}"></slot>` as TemplateResult;
+    return htmlSlot(slotElement.slotname) as HtmlTemplate;
   }
 
   static sortRoutesPaths(ObjectArrayIncludePath: WithRecord<"path">[]): WithRecord<"path">[] {
@@ -234,10 +241,15 @@ export class RouteView extends GlobalSTD {
 
   static updateAll() {
     const routeViewTagName = conf.namemap.get("route-view");
-    const routeViewArray = document.querySelectorAll(`${routeViewTagName}:not([override])`) as unknown as RouteView[];
-    for (let index = 0, ArrayItem: RouteView; (ArrayItem = routeViewArray[index]); index++) {
-      ArrayItem.path = window.location.pathname;
+    if (!routeViewTagName) {
+      return;
     }
+    const routeViewArray = document.querySelectorAll<RouteView>(routeViewTagName);
+    routeViewArray.forEach((ArrayItem) => {
+      if (!ArrayItem.override) {
+        ArrayItem.path = window.location.pathname;
+      }
+    });
   }
 }
 

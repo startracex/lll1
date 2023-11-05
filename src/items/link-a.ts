@@ -6,7 +6,6 @@ import { SuperAnchor } from "./super-a.js";
 export class LinkAnchor extends SuperAnchor {
   @property({ type: Boolean, reflect: true }) active = false;
   @property({ type: Boolean }) replace = false;
-  prevent = false;
   static styles = SuperAnchor.styles;
 
   connectedCallback() {
