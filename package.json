@@ -33,8 +33,8 @@
   },
   "dependencies": {
     "@lit/react": "^1.0.1",
-    "lit": "^3.0.1",
-    "react": "latest"
+    "lit": "^3.0.0",
+    "react": "^18.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",

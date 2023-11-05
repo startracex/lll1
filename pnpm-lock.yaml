@@ -9,10 +9,10 @@ dependencies:
     specifier: ^1.0.1
     version: 1.0.1(@types/react@18.2.33)
   lit:
-    specifier: ^3.0.1
-    version: 3.0.1
+    specifier: ^3.0.0
+    version: 3.0.0
   react:
-    specifier: latest
+    specifier: ^18.2.0
     version: 18.2.0
 
 devDependencies:
@@ -1747,21 +1747,21 @@ packages:
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.1.2
       '@lit/reactive-element': 2.0.1
-      lit-html: 3.0.1
+      lit-html: 3.0.2
     dev: false
 
-  /lit-html@3.0.1:
-    resolution: {integrity: sha512-1nmGaNNQg9rBvE1yJ6oS3ZNbLs3FXtlG4+jgGkix8O740qVEwwiFVTgDGIIH8N5TcQ8V9tBk5T+sxqBgffcjJg==}
+  /lit-html@3.0.2:
+    resolution: {integrity: sha512-Q1A5lHza3bnmxoWJn6yS6vQZQdExl4fghk8W1G+jnAEdoFNYo5oeBBb/Ol7zSEdKd3TR7+r0zsJQyuWEVguiyQ==}
     dependencies:
       '@types/trusted-types': 2.0.5
     dev: false
 
-  /lit@3.0.1:
-    resolution: {integrity: sha512-CYFv7/gwrs6bfPm299O9LD/HB4dgHvsEf/yqUOI//fi469i2OrT4xaptUcmhr05DNQEgsBFecFH8EJnN5So8oQ==}
+  /lit@3.0.0:
+    resolution: {integrity: sha512-nQ0teRzU1Kdj++VdmttS2WvIen8M79wChJ6guRKIIym2M3Ansg3Adj9O6yuQh2IpjxiUXlNuS81WKlQ4iL3BmA==}
     dependencies:
       '@lit/reactive-element': 2.0.1
       lit-element: 4.0.1
-      lit-html: 3.0.1
+      lit-html: 3.0.2
     dev: false
 
   /locate-path@6.0.0:
