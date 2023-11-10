@@ -120,16 +120,16 @@ export class InputSTD extends GlobalSTD {
   }
 }
 
-export class FormSTD extends GlobalSTD {
+export class FormSTD<T extends object = object> extends GlobalSTD {
   static styles = GlobalSTD.styles;
   @property() name = "";
-  @property({ type: Object }) value = {};
+  @property({ type: Object }) value = {} as T;
 
-  namevalue(): [string, object] {
+  namevalue(): [string, T] {
     return [this.name, this.value];
   }
 
-  nameValue = (): ReturnType<FormSTD["namevalue"]> => this.namevalue();
+  nameValue = (): ReturnType<FormSTD<T>["namevalue"]> => this.namevalue();
 }
 
 export default {
