@@ -96,7 +96,7 @@ export class SelectInput extends InputSTD {
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ type: Boolean, reflect: true }) only = false;
   @property({ type: Array }) value = [];
-  @property({ reflect: true }) name = "select";
+  @property() name = "select";
   @property({ type: Array }) text: string[] = [];
   @property({ type: Boolean }) autofocus = false;
 
