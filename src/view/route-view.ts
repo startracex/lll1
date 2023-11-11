@@ -5,15 +5,22 @@ import type { PropertyValueMap } from "lit";
 type WithRecord<T extends string> = Record<string, any> & Record<T, string>;
 
 @define("route-view")
-export class RouteView extends GlobalSTD {
-  _routes: WithRecord<"path">[] = [];
+export class RouteView<T = unknown> extends GlobalSTD {
+  private _routes: (WithRecord<"path"> & { component?: T })[] = [];
+
+  component: T | HtmlTemplate = null;
   params: Record<string, string> = {};
-  @property({ type: Boolean }) static = false;
-  @property() type: "united" | "child" | "slotted" | "field" = "united";
+  path: string = undefined;
+  @property() pathname = "";
+
+  record = new Map<string, ReturnType<typeof this.useRouter>>();
+
   @property() baseURL = "";
-  @property() path = "";
-  @property({ type: Boolean }) override = true;
-  @property({ type: Object }) component = null;
+  @property() def = htmlSlot();
+  @property() type: "united" | "child" | "slotted" | "field" = "united";
+  @property({ type: Boolean, attribute: false }) override = true;
+  @property({ type: Boolean }) cache = false;
+  @property({ type: Boolean }) static = false;
 
   set routes(v) {
     if (Object.prototype.toString.call(v) !== "[object Array]") {
@@ -39,52 +46,75 @@ export class RouteView extends GlobalSTD {
   `;
 
   render() {
-    if (this.type === "field") {
-      return this.render_field() ?? htmlSlot();
+    if (this.cache) {
+      const cached: ReturnType<typeof this.useRouter> | undefined = this.record.get(this.pathname);
+      if (cached) {
+        return cached.component;
+      }
     }
-    if (this.type === "slotted" || this.type === "child") {
-      return this.render_slotted() ?? htmlSlot();
+    switch (this.type) {
+      case "field":
+        this.component = this.render_field();
+        break;
+      case "child":
+      case "slotted":
+        this.component = this.render_slotted();
+        break;
+      case "united":
+        this.component = this.render_united();
+        break;
     }
-    return this.render_united() ?? htmlSlot();
+    return this.component ?? this.def;
   }
 
   useRouter() {
     return {
-      path: this.path,
+      pathname: this.pathname,
       params: this.params,
+      path: this.path,
+      component: this.component,
     };
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.path = window.location.pathname;
+    this.pathname = window.location.pathname;
     if (!this.override) {
       return;
     }
     this.addEvent(window, "popstate", () => {
-      this.path = window.location.pathname;
+      this.pathname = window.location.pathname;
     });
     const self = this;
     const pushHistory = history.pushState;
     history.pushState = function () {
       pushHistory.apply(this, arguments);
-      self.path = window.location.pathname;
+      self.pathname = window.location.pathname;
     };
     const replaceHistory = history.replaceState;
     history.replaceState = function () {
       replaceHistory.apply(this, arguments);
-      self.path = window.location.pathname;
+      self.pathname = window.location.pathname;
     };
   }
 
-  protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-    const path = _changedProperties.get("path");
-    if (path) {
-      this.dispatchEvent(new CustomEvent("change", { detail: this.useRouter() }));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  routeChangeCallback(ur: ReturnType<typeof this.useRouter>, first: boolean) {}
+
+  protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+    const pathnameChange = _changedProperties.has("pathname");
+    if (pathnameChange) {
+      const ur = this.useRouter();
+      const noRecord = !this.record.has(this.pathname);
+      if (noRecord) {
+        this.record.set(this.pathname, ur);
+      }
+      this.routeChangeCallback(ur, noRecord);
+      this.dispatchEvent(new CustomEvent("change", { detail: ur }));
     }
   }
 
-  private render_united() {
+  private render_united(): ReturnType<typeof this.render_slotted | typeof this.render_field> {
     const slottedComponent = this.render_slotted();
     if (slottedComponent) {
       return slottedComponent;
@@ -92,34 +122,37 @@ export class RouteView extends GlobalSTD {
     return this.render_field();
   }
 
-  private render_slotted() {
+  private render_slotted(): ReturnType<typeof this.slottedComponent> {
     const childNodes = this.querySelectorAll(":scope > *[slot]");
+    if (!childNodes.length) {
+      return null;
+    }
     const slots = Array.from(childNodes).map((node) => {
       const slotname = node.getAttribute("slot");
       return {
         path: this.baseURL + slotname,
         slotname,
       };
-    }) as WithRecord<"path" | "slotname">[];
-    let slotsSort: any[];
+    });
+    let slotsSort: WithRecord<"path">[];
     if (this.static) {
       slotsSort = slots;
     } else {
       slotsSort = RouteView.sortRoutesPaths(slots);
     }
-    const usedRouteTemplate = RouteView.useWhichRoute(slotsSort, this.path);
-    return this.slottedComponent(usedRouteTemplate, slotsSort);
+    this.path = RouteView.useWhichRoute(slotsSort, this.pathname);
+    return this.slottedComponent(this.path, slotsSort);
   }
 
-  private render_field() {
-    const usedRouteTemplate = RouteView.useWhichRoute(this.routes, this.path);
-    this.params = RouteView.parseRouterParams(usedRouteTemplate, this.path);
-    return this.fieldComponent(usedRouteTemplate);
+  private render_field(): ReturnType<typeof this.fieldComponent> {
+    this.path = RouteView.useWhichRoute(this.routes, this.pathname);
+    this.params = RouteView.parseRouterParams(this.path, this.pathname);
+    return this.fieldComponent(this.path);
   }
 
-  fieldComponent(usedRouteTemplate: string): null | HtmlTemplate {
+  fieldComponent(usedRouteTemplate: string): null | T {
     if (!usedRouteTemplate) {
-      return;
+      return null;
     }
     const route = this.routes.find((r) => r.path === usedRouteTemplate);
     if (!route) {
@@ -128,35 +161,35 @@ export class RouteView extends GlobalSTD {
     return route.component;
   }
 
-  slottedComponent(usedRouteTemplate: string, ObjectArrayIncludePath: WithRecord<"path" | "slotElement">[]): null | HtmlTemplate {
+  slottedComponent(usedRouteTemplate: string, ObjectArrayIncludePath: WithRecord<"path">[]): null | HtmlTemplate {
     if (!usedRouteTemplate) {
-      return;
+      return null;
     }
     const slotElement = ObjectArrayIncludePath.find((s) => s.path === usedRouteTemplate);
     if (!slotElement) {
       return null;
     }
-    this.params = RouteView.parseRouterParams(usedRouteTemplate, this.path);
-    return htmlSlot(slotElement.slotname) as HtmlTemplate;
+    this.params = RouteView.parseRouterParams(usedRouteTemplate, this.pathname);
+    return htmlSlot(slotElement.slotname);
   }
 
   static sortRoutesPaths(ObjectArrayIncludePath: WithRecord<"path">[]): WithRecord<"path">[] {
     const all = ObjectArrayIncludePath.map((route: { path: string }) => {
       const path = route.path;
       const pathArray = path.split("/");
-      const Single_dynamicRouteCount = pathArray.filter((p) => p.startsWith(":")).length;
+      const __dynamicRouteCount = pathArray.filter((p) => p.startsWith(":")).length;
       return {
         ...route,
         path,
-        Single_dynamicRouteCount,
+        __dynamicRouteCount,
       };
     });
-    const allSort = all.sort((a, b) => a.Single_dynamicRouteCount - b.Single_dynamicRouteCount);
+    const allSort = all.sort((a, b) => a.__dynamicRouteCount - b.__dynamicRouteCount);
     const multi = allSort.filter((route) => {
       const path = route.path;
       const pathArray = path.split("/");
-      const double_dynamicRouteCount = pathArray.filter((p) => p.startsWith("...") || p.startsWith("*")).length;
-      return double_dynamicRouteCount > 0;
+      const multi_dynamicRouteCount = pathArray.filter((p) => p.startsWith("...") || p.startsWith("*")).length;
+      return multi_dynamicRouteCount > 0;
     });
     multi.sort((a, b) => {
       const aIndex = a.path.split("/").findIndex((template: string) => template.startsWith("...") || template.startsWith("*"));
@@ -166,13 +199,16 @@ export class RouteView extends GlobalSTD {
     const sigle = allSort.filter((route) => {
       const path = route.path;
       const pathArray = path.split("/");
-      const double_dynamicRouteCount = pathArray.filter((p) => p.startsWith("...") || p.startsWith("*")).length;
-      return double_dynamicRouteCount === 0;
+      const multi_dynamicRouteCount = pathArray.filter((p) => p.startsWith("...") || p.startsWith("*")).length;
+      return multi_dynamicRouteCount === 0;
     });
-    return [...sigle, ...multi];
+    return [...sigle, ...multi].map((i) => {
+      delete i.__dynamicRouteCount;
+      return i;
+    });
   }
 
-  static useWhichRoute(ObjectArrayIncludePath: WithRecord<"path">[], path: string, baseURL = "") {
+  static useWhichRoute(ObjectArrayIncludePath: WithRecord<"path">[], path: string, baseURL = ""): string | null {
     const originpath = baseURL + path;
     const originsplits = originpath.split("/").slice(1);
     const routes = ObjectArrayIncludePath;
@@ -248,7 +284,7 @@ export class RouteView extends GlobalSTD {
     const routeViewArray = document.querySelectorAll<RouteView>(routeViewTagName);
     routeViewArray.forEach((ArrayItem) => {
       if (!ArrayItem.override) {
-        ArrayItem.path = window.location.pathname;
+        ArrayItem.pathname = window.location.pathname;
       }
     });
   }
