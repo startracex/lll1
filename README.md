@@ -8,7 +8,7 @@ The **simple, stylized, semantic components** for standard HTML and other framew
 npm i godown
 ```
 
-## Useages
+## Usages
 
 html
 
@@ -84,15 +84,17 @@ npm run lint
 
 files
 
-`conf.ts` - component configuration
+`conf.ts` - global configuration
 
-`deps.ts` - component dependencies
+`deps.ts` - dependencies
 
 `glob.ts` - base element & style
 
 `index.ts` - entry
 
-`with.ts` - attach util
+`tmpl.ts` - templates and icons
+
+`with.ts` - attach utils
 
 directories
 
