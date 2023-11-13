@@ -101,8 +101,8 @@ export class RouteView<T = unknown> extends GlobalSTD {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   routeChangeCallback(ur: ReturnType<typeof this.useRouter>, first: boolean) {}
 
-  protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
-    const pathnameChange = _changedProperties.has("pathname");
+  protected updated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+    const pathnameChange = changedProperties.has("pathname");
     if (pathnameChange) {
       const ur = this.useRouter();
       const noRecord = !this.record.has(this.pathname);
@@ -230,27 +230,6 @@ export class RouteView<T = unknown> extends GlobalSTD {
       }
     }
     return null;
-    /* 
-    const originpath: string = baseURL + path;
-    const routes = ObjectArrayIncludePath as Array<{ path?: string; }>;
-    const pathTemplateArray = routes.map((r) => r.path) as Array<string>;
-    for (const pathTemplate of pathTemplateArray) {
-      const pathsplits = pathTemplate.split("/").slice(1);
-      const reg = new RegExp(pathsplits.map((s: string) => {
-        if (s.startsWith(":")) {
-          return "^\/[^\/]+$";
-        } else if (s.startsWith("...") || s.startsWith("*")) {
-          return ".*";
-        } else {
-          return s;
-        }
-      }).join("/") + "$");
-      if (reg.test(originpath)) {
-        return pathTemplate;
-      }
-    }
-    return null;
-    */
   }
 
   static parseRouterParams(routeTemplate: string, originpath: string): Record<string, string> {
@@ -291,6 +270,7 @@ export class RouteView<T = unknown> extends GlobalSTD {
 }
 
 export default RouteView;
+
 declare global {
   interface HTMLElementTagNameMap {
     "route-view": RouteView;
