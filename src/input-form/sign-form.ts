@@ -62,66 +62,66 @@ export class BaseForm extends FormSTD {
   }
 
   namevalue(enctype = this.enctype): [string, Record<string, any>] {
-    const x = {};
-    const form = document.createElement("form");
-    form.enctype = enctype;
+    const result = {};
+    const tempForm = document.createElement("form");
+    tempForm.enctype = enctype;
     for (const slot of this.shadowRoot.querySelectorAll("slot")) {
       for (const i of slot.assignedNodes() as any) {
         if (i.namevalue) {
           const [name, value] = i.namevalue();
           if (name) {
-            x[name] = value;
+            result[name] = value;
           }
         } else {
-          form.appendChild(i.cloneNode(true));
+          tempForm.appendChild(i.cloneNode(true));
         }
       }
     }
-    const y = new FormData(form);
-    for (const [key, value] of y) {
-      x[key] = value;
+    const formData = new FormData(tempForm);
+    for (const [key, value] of formData) {
+      result[key] = value;
     }
     each(this._form, (node: any) => {
       if (node.namevalue) {
         const [name, value] = node.namevalue();
         if (name) {
-          x[name] = value;
+          result[name] = value;
         }
       }
     });
-    form.remove();
-    return [this.name, x];
+    tempForm.remove();
+    return [this.name, result];
   }
 
   FormData(): FormData {
-    const x = {};
-    const form = document.createElement("form");
-    form.enctype = "multipart/form-data";
+    const temp = {};
+    const tempForm = document.createElement("form");
+    tempForm.enctype = "multipart/form-data";
     for (const slot of this._slots) {
       for (const i of slot.assignedNodes() as any) {
         if (i.FormData) {
           for (const [key, value] of i.FormData()) {
-            x[key] = value;
+            temp[key] = value;
           }
         } else {
-          form.appendChild(i.cloneNode(true));
+          tempForm.appendChild(i.cloneNode(true));
         }
       }
     }
-    const y = new FormData(form);
+    const formData = new FormData(tempForm);
     each(this._form, (node: any) => {
       if (node.namevalue) {
         const [name, value] = node.namevalue();
         if (name) {
-          y.append(name, value);
+          formData.append(name, value);
         }
       }
     });
-    for (const key in x) {
-      y.append(key, x[key]);
+    for (const key in temp) {
+      formData.append(key, temp[key]);
     }
-    form.remove();
-    return y;
+    tempForm.remove();
+    return formData;
   }
 }
 

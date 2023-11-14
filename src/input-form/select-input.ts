@@ -160,32 +160,27 @@ export class SelectInput extends InputSTD {
     GlobalSTD.prototype.connectedCallback.call(this);
   }
 
-  getIndexFunc(option: HTMLElement | any) {
+  getOptionValue(option: HTMLElement | any) {
     return option.value || option.getAttribute("value");
   }
 
   firstUpdated() {
-    if (this.def) {
-      if (this.only) {
-        this.select(this.def);
-      } else {
-        for (const i of this.def.split(";")) {
-          if (i.trim()) {
-            this.select(i);
-          }
-        }
-      }
-    }
+    const defs = this.def.split(";");
+    defs
+      .filter((i) => i.trim())
+      .forEach((i) => {
+        this.select(i);
+      });
     this._focusCheck();
     (this.assigned as HTMLElement[]).forEach((option: HTMLElement) => {
-      if (this.getIndexFunc(option)) {
+      if (this.getOptionValue(option)) {
         this.addEvent(option, "click", () => {
-          this.select(this.getIndexFunc(option), option.textContent);
+          this.select(this.getOptionValue(option), option.textContent);
         });
       } else if (option.children) {
         [...option.children].forEach((option: HTMLElement) => {
           this.addEvent(option, "click", () => {
-            this.select(this.getIndexFunc(option), option.textContent);
+            this.select(this.getOptionValue(option), option.textContent);
           });
         });
       }
@@ -203,15 +198,17 @@ export class SelectInput extends InputSTD {
   select(value: string, text?: string) {
     if (text === undefined || text === null) {
       this.assigned.some((option: HTMLElement) => {
-        if (this.getIndexFunc(option)) {
-          if (this.getIndexFunc(option) === value) {
+        const optionValue = this.getOptionValue(option);
+        if (optionValue) {
+          if (optionValue === value) {
             text = option.textContent;
             return true;
           }
         } else if (option.children) {
-          return [...option.children].some((child: HTMLElement) => {
-            if (this.getIndexFunc(child) === value) {
-              text = child.textContent;
+          return [...option.children].some((subOption) => {
+            const subOptionValue = this.getOptionValue(subOption);
+            if (subOptionValue === value) {
+              text = subOption.textContent;
               return true;
             }
             return false;
@@ -248,34 +245,30 @@ export class SelectInput extends InputSTD {
       value = value.split(";").pop().trim();
     }
     this.assigned.forEach((option) => {
-      if (this.getIndexFunc(option)) {
+      if (this.getOptionValue(option)) {
         option.style.display = "block";
       }
       if (option.children) {
         option.style.display = "block";
-        [...option.children].forEach((option) => {
-          option.style.display = "block";
+        [...option.children].forEach((subOption) => {
+          subOption.style.display = "block";
         });
       }
     });
     if (value) {
       this.assigned.forEach((option) => {
-        if (this.getIndexFunc(option)) {
-          if (this.getIndexFunc(option).toLowerCase().includes(value.toLowerCase()) || option.innerText.toLowerCase().includes(value.toLowerCase())) {
-            option.style.display = "block";
-          } else {
-            option.style.display = "none";
-          }
+        const optionValue = this.getOptionValue(option);
+        if (optionValue) {
+          const isMatch = includesIgnoreCase(optionValue, value) || includesIgnoreCase(option.innerText, value);
+          option.style.display = isMatch ? "block" : "none";
         } else if (option.children) {
-          [...option.children].forEach((option) => {
-            if (this.getIndexFunc(option).toLowerCase().includes(value.toLowerCase()) || option.innerText.toLowerCase().includes(value.toLowerCase())) {
-              option.style.display = "block";
-            } else {
-              option.style.display = "none";
-            }
+          [...option.children].forEach((subOption) => {
+            const subOptionValue = this.getOptionValue(subOption);
+            const isSubMatch = includesIgnoreCase(subOptionValue, value) || includesIgnoreCase(subOption.innerText, value);
+            subOption.style.display = isSubMatch ? "block" : "none";
           });
           if ([...option.children].filter((option) => option.style.display === "block").length === 0) {
-            (option as HTMLElement).style.display = "none";
+            option.style.display = "none";
           }
         }
       });
@@ -284,10 +277,7 @@ export class SelectInput extends InputSTD {
   }
 
   namevalue(): [string, any[]] | [string, any] {
-    if (!this.only) {
-      return [this.name, this.value];
-    }
-    return [this.name, this.value[0]];
+    return [this.name, this.only ? this.value[0] : this.value];
   }
 
   reset() {
@@ -295,17 +285,13 @@ export class SelectInput extends InputSTD {
     this.text = [];
     this._input.value = "";
     if (this.def) {
-      if (!this.only) {
-        this.def.split(";").forEach((def) => {
-          if (def.trim()) {
-            this.select(def.trim(), null);
-          }
+      const defs = this.def.split(";");
+      const defToSelect = this.only ? [defs[0]] : defs;
+      defToSelect
+        .filter((def) => def.trim())
+        .forEach((def) => {
+          this.select(def.trim(), null);
         });
-      } else {
-        if (this.def.split(";")[0].trim()) {
-          this.select(this.def.split(";")[0].trim(), null);
-        }
-      }
     }
   }
 }
@@ -313,6 +299,11 @@ export class SelectInput extends InputSTD {
 DisableWarning(SelectInput);
 
 export default SelectInput;
+
+function includesIgnoreCase(a: string, b: string): boolean {
+  return a.toLowerCase().includes(b.toLowerCase());
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "select-input": SelectInput;
