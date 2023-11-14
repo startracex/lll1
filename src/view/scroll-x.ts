@@ -1,13 +1,13 @@
-import { css, define, GlobalSTD, html } from "../deps.js";
-import { htmlSlot } from "../tmpl.js";
+import { css, define, DisableWarning, GlobalSTD, html, property } from "../deps.js";
+import { htmlSlot, htmlStyle } from "../tmpl.js";
 
 @define("scroll-x")
 export class ScrollX extends GlobalSTD {
+  @property() height = "";
   static styles = css`
     :host {
       display: block;
       width: 100%;
-      height: fit-content;
     }
 
     section {
@@ -40,10 +40,12 @@ export class ScrollX extends GlobalSTD {
   }
 
   render() {
+    const style = this.height && `:host{height:${this.height}}`;
     return html`<section @scroll="${this._handelScroll}">
       <main>
         <span>${htmlSlot()}</span>
       </main>
+      ${htmlStyle(style)}
     </section>`;
   }
 
@@ -71,10 +73,14 @@ export class ScrollX extends GlobalSTD {
       this._section.style.width = ComputedHeight;
       this._section.style.height = getComputedStyle(this).width;
     }
+    this.height = this._section.style.width;
   }
 }
 
+DisableWarning(ScrollX);
+
 export default ScrollX;
+
 declare global {
   interface HTMLElementTagNameMap {
     "scroll-x": ScrollX;
