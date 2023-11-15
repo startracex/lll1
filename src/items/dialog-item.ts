@@ -1,5 +1,6 @@
 import { css, define, html, property, query } from "../deps.js";
 import ItemsSTD from "./std.js";
+import { PropertyValueMap } from "lit";
 
 @define("dialog-item")
 export class DialogItem extends ItemsSTD {
@@ -108,20 +109,23 @@ export class DialogItem extends ItemsSTD {
   }
 
   show() {
-    if (this.modal) {
-      this.showModal();
-    } else {
-      this.open = true;
-    }
+    this.open = true;
   }
 
   showModal() {
     this.modal = true;
-    this.open = true;
+    this.show();
   }
 
   close() {
     this.open = false;
+  }
+
+  protected updated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+    const hasOpen = changedProperties.has("open");
+    if (hasOpen) {
+      this.dispatchEvent(new CustomEvent(this.open ? "open" : "close"));
+    }
   }
 
   protected _handleWheel(e: any) {
