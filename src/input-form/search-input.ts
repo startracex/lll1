@@ -155,10 +155,10 @@ export class SearchInput extends InputSTD {
     if (this.target && this.query) {
       const targetElement = document.querySelector(this.target);
       const queryElementsCollection = document.querySelectorAll(this.query);
-      document.querySelector(this.target).replaceChildren();
       if (!value || !targetElement || !queryElementsCollection.length) {
         return;
       }
+      targetElement.replaceChildren();
       for (const e of queryElementsCollection) {
         if (e.textContent.includes(value)) {
           targetElement.appendChild(e.cloneNode(true));
