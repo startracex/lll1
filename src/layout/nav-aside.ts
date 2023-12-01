@@ -1,12 +1,11 @@
 import { css, CSSResultGroup, cssvar, define, html, property } from "../deps.js";
 import { htmlSlot, htmlStyle } from "../tmpl.js";
-import LayoutSTD, { navStyle } from "./std.js";
+import LayoutSTD from "./std.js";
 
 @define("nav-aside")
 export class NavAside extends LayoutSTD {
   static styles = [
     LayoutSTD.styles,
-    navStyle,
     css`
       :host {
         color: var(${cssvar}--nav-text);

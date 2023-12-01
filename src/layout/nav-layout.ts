@@ -1,12 +1,11 @@
 import { css, CSSResultGroup, cssvar, define, html, property } from "../deps.js";
-import LayoutSTD, { navStyle } from "./std.js";
 import { htmlSlot } from "../tmpl.js";
+import LayoutSTD from "./std.js";
 
 @define("nav-layout")
 export class NavLayout extends LayoutSTD {
   static styles = [
     LayoutSTD.styles,
-    navStyle,
     css`
       :host {
         ${cssvar}--nav-height: 2.4em;

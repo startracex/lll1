@@ -10,7 +10,7 @@ export class InputSTD extends GlobalSTD {
         ${cssvar}--text: rgb(240 240 240);
         ${cssvar}--input-outline-color: rgb(25 130 180);
         ${cssvar}--input-outline-width: .15em;
-        ${cssvar}--input-background: rgb(24 24 24);
+        ${cssvar}--input-background: rgb(12 12 12);
         ${cssvar}--input-background-hover: rgb(42 42 42);
         ${cssvar}--input-true: rgb(47 129 237);
         ${cssvar}--input-false: rgb(204 204 204);
