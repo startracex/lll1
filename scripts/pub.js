@@ -22,7 +22,7 @@ files.forEach((file) => {
  */
 const info = (strings, ...values) => {
   const min = 31;
-  const max = 37;
+  const max = 36;
   const colorCode = Math.floor(Math.random() * (max - min + 1)) + min;
   return strings.reduce((prev, cur, index) => prev + cur + (values[index] ? `\x1b[${colorCode}m${values[index]}\x1b[0m` : ""), "");
 };
