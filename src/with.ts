@@ -9,6 +9,7 @@ export const define = (name: string, options?: ElementDefinitionOptions) => (con
     customElements.define(tagName, constructor, options);
     conf.enabled.add(name);
     conf.namemap.set(name, tagName);
+    conf.classmap.set(name, constructor);
   }
 };
 

@@ -1,7 +1,8 @@
 const defaultConfig: ConfType = {
   cssvar: "godown",
-  enabled: new Set<string>(),
-  namemap: new Map<string, string>(),
+  enabled: new Set(),
+  namemap: new Map(),
+  classmap: new Map(),
   prefix: "",
   reflect: false,
   suffix: "",
@@ -24,6 +25,10 @@ export function init(CONFObject: Partial<ConfType>, source: ConfType = conf) {
   return source;
 }
 
+export function defineConfig(CONFObject: Partial<ConfType>) {
+  return init(CONFObject, conf);
+}
+
 declare global {
   interface globalThis {
     GodownWebComponentsCONF: ConfType;
@@ -34,6 +39,7 @@ interface ConfType {
   cssvar: string;
   enabled: Set<string>;
   namemap: Map<string, string>;
+  classmap: Map<string, CustomElementConstructor>;
   prefix: string;
   reflect: boolean;
   suffix: string;
