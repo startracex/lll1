@@ -5,7 +5,7 @@ import { startDevServer } from "@web/dev-server";
 
 (async () => {
   const port = 9527;
-  walkSync(".").map((f) => log(`http://localhost:${port}${f.slice(1)}`));
+  walkSync(".").forEach((f) => log(`http://localhost:${port}${f.slice(1)}`));
   await startDevServer({
     config: {
       nodeResolve: { exportConditions: ["development"] },
