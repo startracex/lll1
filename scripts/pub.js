@@ -17,11 +17,14 @@ files.forEach((file) => {
 });
 
 /**
- * @param {TemplateStringsArray} strings
- * @param  {...any} values
+ * @param {TemplateStringsArray} strings normal
+ * @param  {...any} values hightlight
  */
 const info = (strings, ...values) => {
-  return strings.reduce((prev, cur, index) => prev + cur + (values[index] ? `\x1b[36m${values[index]}\x1b[0m` : ""), "");
+  const min = 31;
+  const max = 37;
+  const colorCode = Math.floor(Math.random() * (max - min + 1)) + min;
+  return strings.reduce((prev, cur, index) => prev + cur + (values[index] ? `\x1b[${colorCode}m${values[index]}\x1b[0m` : ""), "");
 };
 
 // eslint-disable-next-line no-console
@@ -31,3 +34,4 @@ console.log(
 or
   ${"pnpm publish"}`,
 );
+
