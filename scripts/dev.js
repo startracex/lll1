@@ -18,6 +18,10 @@ import { startDevServer } from "@web/dev-server";
   });
 })();
 
+/**
+ * @param {string} d
+ * @returns {string[]}
+ */
 function walkSync(d) {
   const result = [];
   fs.readdirSync(d, { withFileTypes: true }).forEach((file) => {
