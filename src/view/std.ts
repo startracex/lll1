@@ -76,9 +76,8 @@ export class OpenAble extends GlobalSTD {
       this.dispatchEvent(new CustomEvent("change", { detail: this.open }));
     }
   }
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected _handelClick(_e: MouseEvent) {
+  protected _handelClick(_: MouseEvent) {
     this.toggle();
   }
 }
