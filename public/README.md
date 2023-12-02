@@ -1,6 +1,6 @@
 # Godown
 
-The **simple, sylized, semantic components** for standard HTML and other frameworks.
+The **simple, stylized, semantic components** for standard HTML and other frameworks.
 
 ## Install
 
@@ -8,27 +8,35 @@ The **simple, sylized, semantic components** for standard HTML and other framewo
 npm i godown
 ```
 
-## Useages
+## Usages
 
-html
+### HTML
 
 ```html
 <alert-item title="Alert"></alert-item>
 ```
 
-js
+### JS
 
 ```js
 import { AlertItem } from "godown";
+
 const item = new AlertItem();
 item.title = "Alert";
 document.body.appendChild(item);
 ```
 
-react
+deno
+
+```ts
+import { AlertItem } from "npm:godown";
+```
+
+### React
 
 ```jsx
 import { AlertItem } from "godown/react";
+
 export default function () {
   return <AlertItem title="Alert" />;
 }

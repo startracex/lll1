@@ -10,13 +10,13 @@ npm i godown
 
 ## Usages
 
-html
+### HTML
 
 ```html
 <alert-item title="Alert"></alert-item>
 ```
 
-js
+### JS
 
 ```js
 import { AlertItem } from "godown";
@@ -26,7 +26,13 @@ item.title = "Alert";
 document.body.appendChild(item);
 ```
 
-react
+deno
+
+```ts
+import { AlertItem } from "npm:godown";
+```
+
+### React
 
 ```jsx
 import { AlertItem } from "godown/react";
@@ -41,43 +47,49 @@ export default function () {
 Install dependencies
 
 ```sh
-npm i
+pnpm install
 ```
 
 Start development server
 
 ```sh
-npm run dev
+pnpm run dev
 ```
 
 Compile and watch
 
 ```sh
-npm run watch
+pnpm run watch
 ```
 
-Compile
+Compile and generate publish files
 
 ```sh
-npm run build
+pnpm run build
 ```
 
 Generate minified
 
 ```sh
-npm run roll
+pnpm run roll
+```
+
+Synchronize full and usage readme
+
+```sh
+pnpm run readme
 ```
 
 Format code
 
 ```sh
-npm run fmt
+pnpm run fmt
 ```
 
 Lint code
 
 ```sh
-npm run lint
+pnpm run lint
 ```
 
 ## Directory Structure
@@ -115,7 +127,7 @@ directories
 ## Publish
 
 ```sh
-npm run build
+pnpm run build
 
 npm publish ./public
 # or

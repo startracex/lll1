@@ -13,6 +13,7 @@
     "watch": "tsc --watch",
     "build": "tsc && node ./scripts/build.js",
     "roll": "rollup -c",
+    "readme":"node ./scripts/readme.js",
     "fmt": "prettier --write ./src",
     "lint": "eslint --ext .ts ./src"
   },

@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 2.1.2
+
+Improve the readme documentation and script.
+
 ## 2.1.1
 
 ### Development
