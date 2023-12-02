@@ -9,21 +9,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: latest
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20.x"
           registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
+
       - name: Install dependencies
         run: pnpm install
+
       - name: Build
         run: pnpm run build
+
       - name: Publish
         run: pnpm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: CHANGELOG.release.md
