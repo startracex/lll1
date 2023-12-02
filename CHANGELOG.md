@@ -1,5 +1,11 @@
 # CHANGE LOG
 
+## 2.1.1
+
+### Development
+
+Clean up.
+
 ## 2.1.0
 
 ### Development
