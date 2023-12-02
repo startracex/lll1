@@ -10,7 +10,7 @@ Clean up.
 
 ### Development
 
-Rename workflow
+Rename workflow.
 
 ## 2.0.15
 
