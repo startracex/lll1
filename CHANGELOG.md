@@ -1,5 +1,11 @@
 # CHANGE LOG
 
+## 2.1.0
+
+### Development
+
+Rename workflow
+
 ## 2.0.15
 
 Add CHANGELOG.md for this project.

@@ -1,10 +1,10 @@
-name: Publish
+name: Publish And Release
 on:
   push:
     tags:
       - "*"
 jobs:
-  build:
+  publish-and-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
