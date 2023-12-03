@@ -63,7 +63,7 @@ fs.readFile(changelog, "utf-8", (err, data) => {
     } else {
       if (line.startsWith(`## ${packageJSON.version}`)) {
         match = true;
-        if (line.length > packageJSON.version.length + 3) {
+        if (line.trim().length > packageJSON.version.length + 3) {
           changelog.push(line);
         }
       }
