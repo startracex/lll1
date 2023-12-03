@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 2.2.0
+
+Add RouteTree.
+
 ## 2.1.2
 
 Improve the readme documentation and script.

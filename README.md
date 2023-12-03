@@ -122,6 +122,8 @@ directories
 
 `view` - components for content display
 
+`lib` - library
+
 `react` - converted to react components
 
 ## Publish
