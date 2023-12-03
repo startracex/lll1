@@ -4,6 +4,8 @@
 
 Add RouteTree.
 
+Update route parser of `route-view`.
+
 ## 2.1.2
 
 Improve the readme documentation and script.
