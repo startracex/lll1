@@ -1,39 +1,42 @@
 /**
  * Synchronize full and usage readme.
  */
-import fs from "fs";
+import fs from "fs/promises";
 import { log } from "node:console";
 import path from "path";
-
-const packageJSON = JSON.parse(fs.readFileSync("package.json", "utf8"));
-
-const publishDirectory = packageJSON.publishConfig?.directory || "./public";
+import { publishDirectory } from "./common/lib.js";
 
 const readme = "./README.md";
 
 const readmePublish = path.join(publishDirectory, readme);
 
-fs.readFile(readme, "utf8", (err, data) => {
-  if (err) {
-    log(err);
-    return;
-  }
+fs.readFile(readme, "utf8")
+  .then(async (data) => {
+    const content = data.slice(0, data.indexOf("\n## Development") - 1);
 
-  const content = data.slice(0, data.indexOf("\n## Development") - 1);
+    await fs
+      .readFile(readmePublish, "utf8")
+      .then(async (data) => {
+        if (data === content) {
+          log("No changes");
+          return;
+        }
+        await fs.writeFile(readmePublish, content).then(() => {
+          log(`Updated ${readmePublish}`);
+        });
+      })
 
-  fs.readFile(readmePublish, "utf8", (err, oldContent) => {
-    if (err) {
-      fs.writeFile(readmePublish, content, "utf8", () => {
-        log(`Created ${readmePublish}`);
+      .catch(async (err) => {
+        if (err.code === "ENOENT") {
+          await fs.writeFile(readmePublish, content).then(() => {
+            log(`Created ${readmePublish}`);
+          });
+        } else {
+          log(err);
+        }
       });
-      return;
-    }
-    if (content === oldContent) {
-      log("No changes");
-      return;
-    }
-    fs.writeFile(readmePublish, content, "utf8", () => {
-      log(`Updated ${readmePublish}`);
-    });
+  })
+
+  .catch((err) => {
+    log(err);
   });
-});
