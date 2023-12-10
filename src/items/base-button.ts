@@ -2,14 +2,14 @@ import { constructCSS, css, cssvar, define, html, property, query, unsafeCSS } f
 import { htmlSlot, htmlStyle } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
-const vars = ["--color", "--gradient", "--box-shadow", "--ghost-color"];
+const vars = ["--color", "--background", "--box-shadow", "--ghost-color"];
 const colors = {
   black: ["#fff", "linear-gradient(45deg, rgb(41 40 40), #2d3034)", "-2px 2px 5px 0px rgb(0 0 0 / 20%), 2px -2px 5px 0 rgb(99 99 99 / 20%)", "rgb(0 0 0 / 80%)"],
   white: ["#000", "linear-gradient(45deg, rgb(240 240 240 / 85%), rgb(240 240 240 / 70%))", "-2px 2px 5px 0px rgb(255 255 255 / 20%), 2px -2px 5px 0 rgb(165 165 165 / 20%)", "rgb(255 255 255 / 80%)"],
-  red: ["#fff", "linear-gradient(45deg, rgb(207 19 34 / 85%), rgb(250 84 28 / 65%))", "-2px 2px 5px 0px rgb(181 35 44 / 20%), 2px -2px 5px 0 rgb(234 130 174 / 20%)", "rgb(181 35 44 / 80%)"],
-  green: ["#fff", "linear-gradient(45deg, rgb(25 149 56 / 85%), rgb(0 245 36 / 65%))", "-2px 2px 5px 0px rgb(63 179 69 / 20%), 2px -2px 5px 0 rgb(136 225 142 / 20%)", "rgb(63 179 69 / 80%)"],
+  red: ["#fff", "linear-gradient(45deg, rgb(207 19 34 / 85%), rgb(250 84 28 / 65%))", "-2px 2px 5px 0px rgb(181 35 44 / 20%), 2px -2px 5px 0 rgb(234 130 174 / 20%)", "rgb(214 11 23 / 80%)"],
+  green: ["#fff", "linear-gradient(45deg, rgb(25 149 56 / 85%), rgb(0 245 36 / 65%))", "-2px 2px 5px 0px rgb(63 179 69 / 20%), 2px -2px 5px 0 rgb(136 225 142 / 20%)", "rgb(60 214 68 / 80%)"],
   blue: ["#fff", "linear-gradient(45deg, rgb(22 119 255 / 85%), rgb(21 198 198 / 65%))", "-2px 2px 5px 0px rgb(92 182 255 / 20%), 2px -2px 5px 0 rgb(135 232 222 / 20%)", "rgb(42 141 221 / 80%)"],
-  yellow: ["#fff", "linear-gradient(45deg, rgb(247 184 37 / 85%), rgb(220 200 26 / 65%))", "-2px 2px 5px 0px rgb(214 203 55 / 20%), 2px -2px 5px 0 rgb(202 203 137 / 20%)", "rgb(214 203 55 / 80%)"],
+  yellow: ["#fff", "linear-gradient(45deg, rgb(223 194 0 / 85%), rgb(230 255 0 / 65%))", "-2px 2px 5px 0px rgb(214 203 55 / 20%), 2px -2px 5px 0 rgb(202 203 137 / 20%)", "rgb(237 224 43 / 80%)"],
 };
 
 const outlineBoxShadow = `0 0 0 var(${cssvar}--ghost-width) var(${cssvar}--ghost-color);`;
@@ -34,10 +34,11 @@ export class BaseButton extends ItemsSTD {
     css`
       :host {
         ${cssvar}--ghost-width: 4px;
-        ${cssvar}--modal-opacity: .15;
-        ${cssvar}--modal-animation-duration: .5s;
+        ${cssvar}--modal-opacity: .18;
+        ${cssvar}--modal-opacity-end: 0;
+        ${cssvar}--modal-animation-duration: .8s;
         color: var(${cssvar}--color);
-        background: var(${cssvar}--gradient);
+        background: var(${cssvar}--background);
         box-shadow: var(${cssvar}--box-shadow);
         display: inline-flex;
         width: fit-content;
@@ -74,7 +75,7 @@ export class BaseButton extends ItemsSTD {
         border-radius: 50%;
         transform: translate(0, 0);
         background: currentColor;
-        opacity: var(${cssvar}--modal-opacity);
+        opacity: var(${cssvar}--modal-opacity-end);
       }
 
       b {
@@ -95,7 +96,7 @@ export class BaseButton extends ItemsSTD {
       }
 
       :host([ghost]) p {
-        background-image: var(${cssvar}--gradient);
+        background-image: var(${cssvar}--background);
         background-clip: text;
         -webkit-background-clip: text;
         color: transparent;
@@ -114,10 +115,15 @@ export class BaseButton extends ItemsSTD {
       @keyframes i {
         0% {
           transform: scale(0);
+          opacity: var(${cssvar}--modal-opacity);
         }
         100% {
           transform: scale(1);
+          opacity: var(${cssvar}--modal-opacity-end);
         }
+      }
+      :host([outline]) {
+        ${cssvar}--modal-opacity-end:var( ${cssvar}--modal-opacity);
       }
     `,
   ];
@@ -132,7 +138,7 @@ export class BaseButton extends ItemsSTD {
         <b>
           <i></i>
         </b>
-        <p>${this.text}${htmlSlot()}</p>
+        <p>${this.text || htmlSlot()}</p>
         ${htmlStyle(style)}
       </div>
     `;
@@ -153,12 +159,9 @@ export class BaseButton extends ItemsSTD {
       this.style.padding = "0px";
     }
     if (this.outline) {
-      this.addEvent(this, "mousedown", this._handleClick);
       this.addEvent(window, "click", this._handleClick.bind(this));
     } else {
-      this.addEvent(this, "mousedown", this._handleModal);
       this.addEvent(this, "mouseup", this.blur);
-      this.addEvent(this, "mouseleave", this.blur);
     }
     this.addEvent(this, "click", this._handleClick);
   }
