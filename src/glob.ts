@@ -90,6 +90,7 @@ export class GlobalSTD extends LitElement {
 
   remount(arg?: any) {
     this.unmount();
+    this.connectedCallback();
     this.mount(arg);
   }
 }
