@@ -1,4 +1,4 @@
-import { css, define, DisableWarning, GlobalSTD, html, property, query } from "../deps.js";
+import { css, define, GlobalSTD, html, property, query } from "../deps.js";
 import { htmlSlot, htmlStyle, svgArrow } from "../tmpl.js";
 
 @define("rotation-pool")
@@ -159,9 +159,8 @@ export class RotationPool extends GlobalSTD {
   }
 }
 
-DisableWarning(RotationPool);
-
 export default RotationPool;
+
 declare global {
   interface HTMLElementTagNameMap {
     "rotation-port": RotationPool;

@@ -1,4 +1,4 @@
-import { css, cssvar, define, DisableWarning, html, property, query, state } from "../deps.js";
+import { css, cssvar, define, html, property, query, state } from "../deps.js";
 import EffectSTD from "./std.js";
 import { htmlSlot } from "../tmpl.js";
 
@@ -87,8 +87,6 @@ export class TypewriterText extends EffectSTD {
 function random(m = 0, n = 1) {
   return Math.random() * (n - m) + m;
 }
-
-DisableWarning(TypewriterText);
 
 export default TypewriterText;
 declare global {

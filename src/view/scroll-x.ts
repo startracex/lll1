@@ -1,4 +1,4 @@
-import { css, define, DisableWarning, GlobalSTD, html, property } from "../deps.js";
+import { css, define, GlobalSTD, html, property } from "../deps.js";
 import { htmlSlot, htmlStyle } from "../tmpl.js";
 import { debounce } from "../lib/utils.js";
 
@@ -81,8 +81,6 @@ export class ScrollX extends GlobalSTD {
     this.height = this._section.style.width;
   }
 }
-
-DisableWarning(ScrollX);
 
 export default ScrollX;
 

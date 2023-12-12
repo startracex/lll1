@@ -1,4 +1,4 @@
-import { append, css, define, DisableWarning, html, property } from "../deps.js";
+import { append, css, define, html, property } from "../deps.js";
 import { htmlSlot, htmlStyle } from "../tmpl.js";
 import AvatarAnchor from "../items/avatar-a.js";
 import GroupSTD from "./std.js";
@@ -66,8 +66,6 @@ export class AvatarGroup extends GroupSTD {
     }
   }
 }
-
-DisableWarning(AvatarGroup);
 
 export default AvatarGroup;
 

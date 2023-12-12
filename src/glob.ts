@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, LitElement, unsafeCSS, type WarningKind } from "lit";
+import { css, CSSResultGroup, LitElement, unsafeCSS } from "lit";
 import { EventListenerFunc, EventsCollection } from "./lib/event-collection.js";
 import { conf } from "./conf.js";
 
@@ -95,12 +95,4 @@ export class GlobalSTD extends LitElement {
   }
 }
 
-export function DisableWarning(e: { disableWarning?: (warningKind: WarningKind) => void }, ...w: WarningKind[]) {
-  if (w.length) {
-    for (const ww of w) {
-      e.disableWarning?.(ww);
-    }
-  } else {
-    e.disableWarning?.("change-in-update");
-  }
-}
+GlobalSTD.disableWarning("change-in-update");
