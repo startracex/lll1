@@ -4,7 +4,7 @@
 import fs from "fs/promises";
 import { log } from "node:console";
 import path from "path";
-import { publishDirectory } from "./common/lib.js";
+import { publishDirectory } from "./lib.js";
 
 const readme = "./README.md";
 
