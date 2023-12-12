@@ -5,8 +5,6 @@ import { OpenAble } from "./std.js";
 @define("menu-list")
 export class MenuList extends OpenAble {
   @property() summary = "";
-  @property({ type: Boolean, reflect: true }) float = false;
-  @property({ type: Boolean, reflect: true }) open = false;
   @state() def: boolean;
   @query("section") _section: HTMLElement;
   static styles = [
