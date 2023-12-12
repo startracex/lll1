@@ -7,7 +7,7 @@ import { conf } from "./conf.js";
  */
 export const cssvar = unsafeCSS("--" + conf.cssvar.replace(/[^a-zA-Z0-9\\-]/g, ""));
 
-export class GlobalSTD extends LitElement {
+export class GodownElement extends LitElement {
   static styles = css`
     :host {
       ${cssvar}--text-selection: inherit;
@@ -95,4 +95,4 @@ export class GlobalSTD extends LitElement {
   }
 }
 
-GlobalSTD.disableWarning("change-in-update");
+GodownElement.disableWarning("change-in-update");

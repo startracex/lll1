@@ -1,8 +1,8 @@
-import { css, define, GlobalSTD, html, property, query } from "../deps.js";
+import { css, define, GodownElement, html, property, query } from "../deps.js";
 import { htmlSlot, htmlStyle, svgArrow } from "../tmpl.js";
 
 @define("rotation-pool")
-export class RotationPool extends GlobalSTD {
+export class RotationPool extends GodownElement {
   @property({ type: Number }) index = 0;
   @property({ type: Number }) autochange = 0;
   @property() width = "";

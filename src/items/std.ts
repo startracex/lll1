@@ -1,2 +1,2 @@
-import { GlobalSTD } from "../deps.js";
-export default class ItemsSTD extends GlobalSTD {}
+import { GodownElement } from "../deps.js";
+export default class ItemsSTD extends GodownElement {}

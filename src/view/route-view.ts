@@ -1,4 +1,4 @@
-import { conf, css, define, GlobalSTD, HtmlTemplate, property, state } from "../deps.js";
+import { conf, css, define, GodownElement, HtmlTemplate, property, state } from "../deps.js";
 import { htmlSlot } from "../tmpl.js";
 import type { PropertyValueMap } from "lit";
 import RouteTree from "../lib/route-tree.js";
@@ -6,7 +6,7 @@ import RouteTree from "../lib/route-tree.js";
 type WithRecord<T extends string> = Record<string, any> & Record<T, string>;
 
 @define("route-view")
-export class RouteView<T = unknown> extends GlobalSTD {
+export class RouteView<T = unknown> extends GodownElement {
   private _routes: (WithRecord<"path"> & { component?: T })[] = [];
   private _routeTree: RouteTree = new RouteTree();
 

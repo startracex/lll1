@@ -1,3 +1,3 @@
-import { GlobalSTD } from "../deps.js";
+import { GodownElement } from "../deps.js";
 
-export default class GroupSTD extends GlobalSTD {}
+export default class GroupSTD extends GodownElement {}

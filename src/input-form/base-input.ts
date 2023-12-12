@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, cssvar, define, GlobalSTD, html, ifDefined, property, query } from "../deps.js";
+import { css, CSSResultGroup, cssvar, define, GodownElement, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 import type { InputType } from "./std.js";
@@ -144,7 +144,7 @@ export class BaseInput extends InputSTD {
   }
 
   connectedCallback() {
-    GlobalSTD.prototype.connectedCallback.apply(this);
+    GodownElement.prototype.connectedCallback.apply(this);
     if (this.type === "file") {
       this.value = null;
     } else {

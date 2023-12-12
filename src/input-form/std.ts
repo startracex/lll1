@@ -1,10 +1,10 @@
-import { css, CSSResultGroup, cssvar, GlobalSTD, property } from "../deps.js";
+import { css, CSSResultGroup, cssvar, GodownElement, property } from "../deps.js";
 
 export type InputType = "hidden" | "text" | "search" | "tel" | "url" | "email" | "password" | "datetime" | "date" | "month" | "week" | "time" | "datetime-local" | "number" | "range" | "color" | "checkbox" | "radio" | "file" | "image";
 
-export class InputSTD extends GlobalSTD {
+export class InputSTD extends GodownElement {
   static styles = [
-    GlobalSTD.styles,
+    GodownElement.styles,
     css`
       :host {
         ${cssvar}--text: rgb(240 240 240);
@@ -120,8 +120,8 @@ export class InputSTD extends GlobalSTD {
   }
 }
 
-export class FormSTD<T extends object = object> extends GlobalSTD {
-  static styles = GlobalSTD.styles;
+export class FormSTD<T extends object = object> extends GodownElement {
+  static styles = GodownElement.styles;
   @property() name = "";
   @property({ type: Object }) value = {} as T;
 

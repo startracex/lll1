@@ -1,8 +1,8 @@
-import { css, CSSResultGroup, cssvar, GlobalSTD } from "../deps.js";
+import { css, CSSResultGroup, cssvar, GodownElement } from "../deps.js";
 
-export default class LayoutSTD extends GlobalSTD {
+export default class LayoutSTD extends GodownElement {
   static styles = [
-    GlobalSTD.styles,
+    GodownElement.styles,
     css`
       :host {
         ${cssvar}--nav-text: rgb(240 240 240);

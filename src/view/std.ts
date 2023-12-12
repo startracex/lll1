@@ -1,11 +1,11 @@
-import { css, CSSResultGroup, GlobalSTD, property } from "../deps.js";
+import { css, CSSResultGroup, GodownElement, property } from "../deps.js";
 import type { PropertyValueMap } from "lit";
 
 export type OnEvents = string;
 
-export class OpenAble extends GlobalSTD {
+export class OpenAble extends GodownElement {
   static styles = [
-    GlobalSTD.styles,
+    GodownElement.styles,
     css`
       :host {
         display: block;

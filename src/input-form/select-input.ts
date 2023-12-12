@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, cssvar, define, GlobalSTD, html, ifDefined, property, query } from "../deps.js";
+import { css, CSSResultGroup, cssvar, define, GodownElement, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot, svgDelta, svgX } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 
@@ -157,7 +157,7 @@ export class SelectInput extends InputSTD {
   }
 
   connectedCallback() {
-    GlobalSTD.prototype.connectedCallback.call(this);
+    GodownElement.prototype.connectedCallback.call(this);
   }
 
   getOptionValue(option: HTMLElement | any) {

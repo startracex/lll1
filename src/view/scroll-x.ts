@@ -1,9 +1,9 @@
-import { css, define, GlobalSTD, html, property } from "../deps.js";
+import { css, define, GodownElement, html, property } from "../deps.js";
 import { htmlSlot, htmlStyle } from "../tmpl.js";
 import { debounce } from "../lib/utils.js";
 
 @define("scroll-x")
-export class ScrollX extends GlobalSTD {
+export class ScrollX extends GodownElement {
   @property() height = "";
   static styles = css`
     :host {

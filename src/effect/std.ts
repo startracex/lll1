@@ -1,3 +1,3 @@
-import { GlobalSTD } from "../deps.js";
+import { GodownElement } from "../deps.js";
 
-export default class EffectSTD extends GlobalSTD {}
+export default class EffectSTD extends GodownElement {}
