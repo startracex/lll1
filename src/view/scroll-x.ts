@@ -1,5 +1,6 @@
 import { css, define, DisableWarning, GlobalSTD, html, property } from "../deps.js";
 import { htmlSlot, htmlStyle } from "../tmpl.js";
+import { debounce } from "../lib/utils.js";
 
 @define("scroll-x")
 export class ScrollX extends GlobalSTD {
@@ -55,7 +56,11 @@ export class ScrollX extends GlobalSTD {
 
   firstUpdated() {
     this.resize();
-    this.addEvent(window, "resize", this.resize.bind(this));
+    this.addEvent(window, "resize", debounce(this._handelResize.bind(this), 500));
+  }
+
+  protected _handelResize() {
+    this.resize();
   }
 
   resize() {
