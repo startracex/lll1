@@ -1,5 +1,31 @@
 # CHANGE LOG
 
+## 2.3.0
+
+Rename GlobalSTD to GodownElement.
+
+Remove DisableWarning.
+
+Add `float-tips`.
+
+Add `skeleton-screen`.
+
+Update `down-drop`.
+
+Add utils.
+
+Modify the style of base-button.
+
+Create event-collection.
+
+Call connectedCallback in remount.
+
+### Development
+
+Add scripts alias.
+
+Use Promise.
+
 ## 2.2.0
 
 Add RouteTree.
