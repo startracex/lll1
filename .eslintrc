@@ -16,6 +16,7 @@
     "@typescript-eslint/prefer-for-of": "off",
     "@typescript-eslint/no-this-alias": "off",
     "array-callback-return": "warn",
+    "camelcase": "warn",
     "curly": "warn",
     "eqeqeq": "warn",
     "no-console": "error",

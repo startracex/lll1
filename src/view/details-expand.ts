@@ -35,7 +35,7 @@ export class DetailsExpand extends OpenAble {
     return html`<dl>
       <dt @click="${this._handelClick}" style="flex-direction:row${this.reverse ? "-reverse" : ""}">
         <span> ${this.summary || htmlSlot("summary")} </span>
-        <i style="transform: rotate(${this.reverse ? "-18" : ""}0deg);"> ${this.render_icon()} </i>
+        <i style="transform: rotate(${this.reverse ? "-18" : ""}0deg);"> ${this.renderIcon()} </i>
       </dt>
       <dd>
         <section>${htmlSlot()}</section>
@@ -43,7 +43,7 @@ export class DetailsExpand extends OpenAble {
     </dl>`;
   }
 
-  private render_icon() {
+  private renderIcon() {
     if (this.querySelector("slot[name=icon]")) {
       return htmlSlot("icon");
     }

@@ -80,13 +80,13 @@ export class LabelInput extends InputSTD {
       <fieldset>
         <i>${htmlSlot("pre")}</i>
         <input @input="${this._handleInput}" @change="${this._handleChange}" id="${this.name}" type="${this.type}" placeholder="${ifDefined(this.pla)}" class="${this.type}" />
-        ${this.render_suf()}
+        ${this.renderSuf()}
       </fieldset>
       ${htmlStyle(style)}
     </label>`;
   }
 
-  private render_suf() {
+  private renderSuf() {
     if (this.type === "password") {
       return html`<i
         @mousedown="${this._passwordSwitcher}"

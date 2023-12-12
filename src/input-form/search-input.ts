@@ -128,12 +128,12 @@ export class SearchInput extends InputSTD {
         <button @click="${this._handleSubmit}">${svgSearch()}</button>
       </div>
       <ul>
-        ${htmlSlot()} ${this.render_list()}
+        ${htmlSlot()} ${this.renderList()}
       </ul>
     </form>`;
   }
 
-  private render_list() {
+  private renderList() {
     if (this.list && this.list.length && this.value) {
       return html`${this.list.map((v) => html` <li>${v}</li>`)}`;
     }

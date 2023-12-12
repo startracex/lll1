@@ -109,7 +109,7 @@ export class SelectInput extends InputSTD {
 
   render() {
     return html` <div>
-      <section>${this.render_list()}</section>
+      <section>${this.renderList()}</section>
       <input
         id="input"
         @focus="${() => {
@@ -123,7 +123,7 @@ export class SelectInput extends InputSTD {
     </div>`;
   }
 
-  private render_list() {
+  private renderList() {
     const itemTemplates = [];
     if (this.value.length) {
       for (const i in this.value) {

@@ -51,12 +51,12 @@ export class AvatarAnchor extends ItemsSTD {
 
   render() {
     return html`
-      <a href="${ifDefined(this.href)}"> ${this.render_ava()} ${htmlSlot("mask")} </a>
+      <a href="${ifDefined(this.href)}"> ${this.renderAva()} ${htmlSlot("mask")} </a>
       ${htmlSlot()}
     `;
   }
 
-  render_ava() {
+  renderAva() {
     if (this.more) {
       const more = this.more > 99 ? "..." : this.more;
       return html`<span>+${more}</span>`;

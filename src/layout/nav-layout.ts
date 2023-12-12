@@ -89,12 +89,12 @@ export class NavLayout extends LayoutSTD {
   @property({ type: Number }) set: 0 | 1 | 2 = 0;
 
   render() {
-    return html` ${htmlSlot("header")} ${this.render_nav()}
+    return html` ${htmlSlot("header")} ${this.renderNav()}
       <main>${htmlSlot()}</main>
       ${htmlSlot("footer")}`;
   }
 
-  private render_nav() {
+  private renderNav() {
     if (this.querySelector("[slot=nav]")) {
       return htmlSlot("nav");
     }

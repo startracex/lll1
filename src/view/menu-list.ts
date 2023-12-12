@@ -45,7 +45,7 @@ export class MenuList extends OpenAble {
     return html`<dl>
       <dt class="${noTitle}">
         <span>${this.summary}${htmlSlot("summary")}</span>
-        <i @click="${this._handelClick}"> ${this.render_icon()} </i>
+        <i @click="${this._handelClick}"> ${this.renderIcon()} </i>
       </dt>
       <dd>
         <section>${htmlSlot()}</section>
@@ -53,7 +53,7 @@ export class MenuList extends OpenAble {
     </dl>`;
   }
 
-  private render_icon() {
+  private renderIcon() {
     if (this.querySelector("[slot=icon]")) {
       return htmlSlot("icon");
     }

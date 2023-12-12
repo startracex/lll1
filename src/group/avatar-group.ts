@@ -21,10 +21,10 @@ export class AvatarGroup extends GroupSTD {
 
   render() {
     const cssStr = `slot::slotted(:nth-of-type(n + ${(this.max || 0) + 1})) {display: none;}`;
-    return html`${htmlSlot()} ${htmlStyle(cssStr)} ${this.render_more()}`;
+    return html`${htmlSlot()} ${htmlStyle(cssStr)} ${this.renderMore()}`;
   }
 
-  private render_more() {
+  private renderMore() {
     if (this.more > 0) {
       const aa = new AvatarAnchor();
       aa.more = this.more;

@@ -81,14 +81,14 @@ export class RotationPool extends GodownElement {
   render() {
     const style = this.width && `:host{width:${this.width.split(";")[0]};}`;
     return html`<div>
-      <a class="prev" @click="${this.prev}">${this.render_a("pre")}</a>
+      <a class="prev" @click="${this.prev}">${this.renderA("pre")}</a>
       <section>${htmlSlot()}</section>
       ${htmlStyle(style)}
-      <a class="next" @click="${this.next}">${this.render_a("suf")}</a>
+      <a class="next" @click="${this.next}">${this.renderA("suf")}</a>
     </div>`;
   }
 
-  private render_a(slot: string) {
+  private renderA(slot: string) {
     if (this.querySelector(`[slot=${slot}]`)) {
       return htmlSlot(slot);
     }
