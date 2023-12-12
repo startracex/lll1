@@ -1,6 +1,8 @@
 import { css, CSSResultGroup, GlobalSTD, property } from "../deps.js";
 import type { PropertyValueMap } from "lit";
 
+export type OnEvents = string;
+
 export class OpenAble extends GlobalSTD {
   static styles = [
     GlobalSTD.styles,
@@ -57,7 +59,8 @@ export class OpenAble extends GlobalSTD {
   ] as CSSResultGroup;
   @property({ type: Boolean, reflect: true }) float = false;
   @property({ type: Boolean, reflect: true }) open = false;
-
+  @property() on: OnEvents | void = "";
+  @property() off: OnEvents = "click";
   toggle(to = !this.open) {
     this.open = to;
   }

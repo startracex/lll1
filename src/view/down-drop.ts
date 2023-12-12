@@ -1,66 +1,81 @@
-import { css, define, html, query } from "../deps.js";
+import { css, CSSResultGroup, define, html, query } from "../deps.js";
+import { debounce } from "../lib/utils.js";
 import { htmlSlot } from "../tmpl.js";
 import { OpenAble } from "./std.js";
 
+/**
+ * DownDrop will calculate a lateral offset to try to keep the content within the allowable range
+ *
+ * Any named slot will be available as openable content
+ */
 @define("down-drop")
 export class DownDrop extends OpenAble {
-  @query("div") _div: HTMLDivElement;
-  _timer: number;
-  static styles = css`
-    :host {
-      height: 100%;
-      width: 100%;
-    }
+  @query("aside") private _balancer: HTMLDivElement;
+  static styles = [
+    css`
+      :host {
+        height: 100%;
+        width: 100%;
+      }
 
-    main {
-      height: inherit;
-      width: inherit;
-      display: flex;
-      position: relative;
-      flex-direction: column;
-      align-items: center;
-    }
+      main {
+        height: inherit;
+        width: inherit;
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        align-items: center;
+      }
 
-    div {
-      background-color: inherit;
-      visibility: hidden;
-      top: 100%;
-    }
+      aside {
+        background-color: inherit;
+        visibility: hidden;
+        top: 100%;
+        z-index: 1;
+      }
 
-    :host([open]) div {
-      visibility: visible;
-    }
+      :host([open]) aside {
+        visibility: visible;
+      }
 
-    :host[float] div {
-      position: "absolute";
-    }
-  `;
+      :host([float]) aside {
+        position: absolute;
+      }
+    `,
+  ] as CSSResultGroup;
 
   render() {
     return html`<main>
-      <slot
-        name="hover"
-        @mouseenter="${() => {
-          this.toggle(true);
-        }}"
-      ></slot>
-      <slot name="focus" @click="${() => this.toggle()}"></slot>
-      <div style="transform:translateX(0);">${htmlSlot()}</div>
+      ${htmlSlot()}
+      <aside style="transform:translateX(0);">
+        ${this.slottedNames.map((name) => {
+          return htmlSlot(name);
+        })}
+      </aside>
     </main>`;
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    this.addEvent(window, "resize", debounce(this._handelResize.bind(this), 500));
+  }
+
   async firstUpdated() {
-    if (this.querySelector("[slot=focus]")) {
-      this.addEvent(document, "click", this._handelClick.bind(this));
-    }
-    if (this.querySelector("[slot=hover]")) {
+    if (this.on) {
+      this.addEvent(this._slot, this.on, () => {
+        this.toggle();
+      });
+      this.addEvent(document, this.off, this._handelClick.bind(this));
+    } else {
+      this.addEvent(this._slot, "mouseenter", () => {
+        this.show();
+      });
       this.addEvent(this, "mouseleave", () => {
-        this.toggle(false);
+        this.close();
       });
     }
     await this.updateComplete;
     this.resize();
-    this.addEvent(window, "resize", this._handelResize.bind(this));
   }
 
   protected _handelClick(e: MouseEvent) {
@@ -70,25 +85,25 @@ export class DownDrop extends OpenAble {
   }
 
   protected _handelResize() {
-    clearTimeout(this._timer);
-    this._timer = setTimeout(() => {
-      this._div.style.transform = "translateX(0)";
-      this.resize();
-    }, 250);
+    this._balancer.style.transform = "translateX(0)";
+    this.resize();
   }
 
   resize() {
+    if (!this._balancer) {
+      return;
+    }
     const offsets = this.offsetParent?.getBoundingClientRect() || document.body.getBoundingClientRect();
-    const divLeft = this._div.getBoundingClientRect().left;
-    const divRight = this._div.getBoundingClientRect().right;
-    const RightWidth = offsets.width - (divRight - offsets.x);
-    const LeftWidth = offsets.width - (offsets.right - divLeft);
-    if (divLeft < 0) {
-      this._div.style.transform = `translateX(${-LeftWidth}px)`;
-    } else if (divRight > offsets.right) {
-      this._div.style.transform = `translateX(${RightWidth}px)`;
+    const rectLeft = this._balancer.getBoundingClientRect().left;
+    const rectRight = this._balancer.getBoundingClientRect().right;
+    const rightWidth = offsets.width - (rectRight - offsets.x);
+    const leftWidth = offsets.width - (offsets.right - rectLeft);
+    if (rectLeft < 0) {
+      this._balancer.style.transform = `translateX(${-leftWidth}px)`;
+    } else if (rectRight > offsets.right) {
+      this._balancer.style.transform = `translateX(${rightWidth}px)`;
     } else {
-      this._div.style.transform = "translateX(0)";
+      this._balancer.style.transform = "translateX(0)";
     }
   }
 }
