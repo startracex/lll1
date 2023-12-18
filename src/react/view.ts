@@ -12,6 +12,11 @@ export const DownDrop = createComponent({
   elementClass: X.DownDrop,
 });
 
+export const FloatTips = createComponent({
+  tagName: "float-tips",
+  elementClass: X.FloatTips,
+});
+
 export const MenuList = createComponent({
   tagName: "menu-list",
   elementClass: X.MenuList,

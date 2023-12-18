@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 2.3.1
+
+Add missing react convert.
+
 ## 2.3.0
 
 Rename GlobalSTD to GodownElement.
