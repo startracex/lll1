@@ -10,7 +10,7 @@ const readme = "./README.md";
 
 const readmePublish = path.join(publishDirectory, readme);
 
-fs.readFile(readme, "utf8")
+await fs.readFile(readme, "utf8")
   .then(async (data) => {
     const content = data.slice(0, data.indexOf("\n## Development") - 1);
 
@@ -18,18 +18,18 @@ fs.readFile(readme, "utf8")
       .readFile(readmePublish, "utf8")
       .then(async (data) => {
         if (data === content) {
-          log("No changes");
+          log("readme: No changes");
           return;
         }
         await fs.writeFile(readmePublish, content).then(() => {
-          log(`Updated ${readmePublish}`);
+          log(`readme: Updated ${readmePublish}`);
         });
       })
 
       .catch(async (err) => {
         if (err.code === "ENOENT") {
           await fs.writeFile(readmePublish, content).then(() => {
-            log(`Created ${readmePublish}`);
+            log(`readme: Created ${readmePublish}`);
           });
         } else {
           log(err);

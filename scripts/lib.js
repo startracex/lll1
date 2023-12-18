@@ -22,10 +22,10 @@ export const info = (strings, ...values) => {
  * @param {string} ext Extensions
  * @returns {Promise<string[]>}
  */
-export async function walkExt(dir, ext) {
+export async function walkExt(dir, ext, skip = ["node_modules", ".git", "src", publishDirectory]) {
   const result = [];
   for (const file of await fs.readdir(dir, { withFileTypes: true })) {
-    if (["node_modules", ".git", "src", "public"].includes(file.name)) {
+    if (skip.includes(file.name)) {
       continue;
     }
     const filepath = dir === "." ? file.name : `${dir}/${file.name}`;
