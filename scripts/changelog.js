@@ -1,3 +1,6 @@
+/**
+ * Generate change log to the current version
+ */
 import fs from "fs/promises";
 import { log } from "node:console";
 import { packageJSON } from "./lib.js";

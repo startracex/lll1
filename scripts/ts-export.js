@@ -1,3 +1,6 @@
+/**
+ * Export components
+ */
 import fs from "fs/promises";
 import { log } from "console";
 import { walkExt } from "./lib.js";
