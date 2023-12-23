@@ -7,7 +7,7 @@ import { walkExt } from "./lib.js";
   const port = 9527;
 
   (await walkExt(".", ".html")).forEach((we) => {
-    log(`http://localhost:${port}${we}`);
+    log(`http://localhost:${port}/${we}`);
   });
 
   await startDevServer({
