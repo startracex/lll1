@@ -1,4 +1,5 @@
 import { conf, css, define, GodownElement, HtmlTemplate, property, state } from "../deps.js";
+import { deepQuerySelectorAll } from "../lib/utils.js";
 import { htmlSlot } from "../tmpl.js";
 import type { PropertyValueMap } from "lit";
 import RouteTree from "../lib/route-tree.js";
@@ -195,7 +196,7 @@ export class RouteView<T = unknown> extends GodownElement {
     if (!routeViewTagName) {
       return;
     }
-    const routeViewArray = document.querySelectorAll<RouteView>(routeViewTagName);
+    const routeViewArray = deepQuerySelectorAll<RouteView>(routeViewTagName, conf.enabled, document.body);
     routeViewArray.forEach((ArrayItem) => {
       if (!ArrayItem.override) {
         ArrayItem.pathname = window.location.pathname;
