@@ -6,6 +6,8 @@ Fix `label-input` styles.
 
 Protected firstUpdated.
 
+Add deep query selector.
+
 ## 2.3.1
 
 Add missing react convert.

@@ -1,4 +1,5 @@
 import { css, CSSResultGroup, LitElement, unsafeCSS } from "lit";
+import { deepQuerySelector, deepQuerySelectorAll } from "./lib/utils.js";
 import { EventListenerFunc, EventsCollection } from "./lib/event-collection.js";
 import { conf } from "./conf.js";
 
@@ -92,6 +93,14 @@ export class GodownElement extends LitElement {
     this.unmount();
     this.connectedCallback();
     this.mount(arg);
+  }
+
+  deepQuerySelector<E extends Element = HTMLElement>(selectors: Parameters<typeof deepQuerySelector>[0], ignore: Parameters<typeof deepQuerySelector>[1] = conf.enabled, root: Parameters<typeof deepQuerySelector>[2] = this) {
+    return deepQuerySelector<E>(selectors, ignore, root);
+  }
+
+  deepQuerySelectorAll<E extends Element = HTMLElement>(selectors: Parameters<typeof deepQuerySelectorAll>[0], ignore: Parameters<typeof deepQuerySelectorAll>[1] = conf.enabled, root: Parameters<typeof deepQuerySelectorAll>[2] = this) {
+    return deepQuerySelectorAll<E>(selectors, ignore, root);
   }
 }
 

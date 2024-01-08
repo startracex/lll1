@@ -9,3 +9,21 @@ export function debounce(func: (_: any) => any, timeout: number) {
     }, timeout);
   };
 }
+
+export function deepQuerySelectorAll<E extends Element = HTMLElement>(selectors: string, ignore: Set<string> | Map<string, any>, root: ParentNode = document): E[] {
+  return [...root.querySelectorAll<E>(selectors)].reduce((result, a) => {
+    if (a.shadowRoot && ignore && !ignore.has(selectors)) {
+      return result.concat(deepQuerySelectorAll<E>(selectors, ignore, a.shadowRoot));
+    } else {
+      return result.concat(a);
+    }
+  }, []);
+}
+
+export function deepQuerySelector<E extends Element>(selectors: string, ignore: Set<string> | Map<string, any>, root: ParentNode = document): E | null {
+  const a = root.querySelector<E>(selectors);
+  if (a?.shadowRoot && ignore && !ignore.has(selectors)) {
+    return deepQuerySelector<E>(selectors, ignore, a.shadowRoot);
+  }
+  return a;
+}
