@@ -22,7 +22,7 @@ export class DragBox extends LayoutSTD {
     return html`<div @mousedown="${this._handleDragStart}" @mouseup="${this._handleDragEnd}">${htmlSlot()}</div>`;
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     this.reset();
     this.addEvent(document, "mouseup", this._handleDragEnd.bind(this));
   }

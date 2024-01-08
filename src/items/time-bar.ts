@@ -24,7 +24,7 @@ export class TimeBar extends ItemsSTD {
     return html`${htmlSlot("pre")}${this.value || TimeBar.fmt(this.format, this.time)}${htmlSlot()}`;
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     if (this.timeout) {
       this.intervalID = setInterval(() => {
         this.time = new Date(this.time.getTime() + (this.gap || this.timeout));

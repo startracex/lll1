@@ -164,7 +164,7 @@ export class SelectInput extends InputSTD {
     return option.value || option.getAttribute("value");
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     const defs = this.def.split(";");
     defs
       .filter((i) => i.trim())

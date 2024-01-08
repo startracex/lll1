@@ -102,7 +102,7 @@ export class RotationPool extends GodownElement {
     }
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     if (this.assigned.length) {
       if (!this.width) {
         this.width = `${this.assigned[0].offsetWidth}px`;

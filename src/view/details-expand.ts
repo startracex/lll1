@@ -50,7 +50,7 @@ export class DetailsExpand extends OpenAble {
     return svgDeltaSmooth();
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     if (this.fill) {
       this.addEvent(this._dd, "click", () => this.toggle());
     }

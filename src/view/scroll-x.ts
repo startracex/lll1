@@ -54,7 +54,7 @@ export class ScrollX extends GodownElement {
     this.dispatchEvent(new CustomEvent("scroll", { detail: e.target.scrollTop }));
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     this.resize();
     this.addEvent(window, "resize", debounce(this._handelResize.bind(this), 500));
   }

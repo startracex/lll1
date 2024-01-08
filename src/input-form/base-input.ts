@@ -158,7 +158,7 @@ export class BaseInput extends InputSTD {
     this._initName();
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     if (this.type === "range") {
       this._ranged.style.width = 100 * (parseInt(this.value as string) / (this.max - this.min)) + "%";
     }

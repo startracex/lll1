@@ -32,7 +32,7 @@ export class AvatarGroup extends GroupSTD {
     }
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     if (!this.more && this.assigned.length > this.max) {
       this.more = this.assigned.length - this.max;
     }

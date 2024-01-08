@@ -79,7 +79,7 @@ export class SplitInput extends InputSTD {
     `;
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     this._focusCheck();
     this.currentValue = this.value.split("").concat(Array(this.max - this.value.length).fill(null));
     this.current = this.index < 0 || this.index > this.max ? this.currentValue.indexOf(null) : this.index;

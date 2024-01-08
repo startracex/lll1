@@ -16,7 +16,7 @@ export class DetailsGroup extends GroupSTD {
     return htmlSlot();
   }
 
-  async firstUpdated() {
+  protected async firstUpdated() {
     await this.updateComplete;
     if (this.index >= 0) {
       this.assigned[this.index]?.setAttribute("open", "");

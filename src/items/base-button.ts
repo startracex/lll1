@@ -152,7 +152,7 @@ export class BaseButton extends ItemsSTD {
     this.active = false;
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     const padding = getComputedStyle(this).padding;
     if (padding) {
       this._slot.style.padding = padding;

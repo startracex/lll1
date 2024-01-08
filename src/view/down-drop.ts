@@ -60,7 +60,7 @@ export class DownDrop extends OpenAble {
     this.addEvent(window, "resize", debounce(this._handelResize.bind(this), 500));
   }
 
-  async firstUpdated() {
+  protected async firstUpdated() {
     if (this.on) {
       this.addEvent(this._slot, this.on, () => {
         this.toggle();

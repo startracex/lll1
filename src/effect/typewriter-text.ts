@@ -54,7 +54,7 @@ export class TypewriterText extends EffectSTD {
     return html`${htmlSlot()}${this.content}<i class="${(this.ended && "hidden") || ""}"></i>`;
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     if (!this.text) {
       this.text = this.assignedNodes[0]?.textContent.trim() || "";
     }

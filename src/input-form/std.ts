@@ -109,7 +109,7 @@ export class InputSTD extends GodownElement {
     this._input?.focus(options);
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     this._focusCheck();
     this._compositionCheck();
     this.reset();

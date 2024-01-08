@@ -4,6 +4,8 @@
 
 Fix `label-input` styles.
 
+Protected firstUpdated.
+
 ## 2.3.1
 
 Add missing react convert.
