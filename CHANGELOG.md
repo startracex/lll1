@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 2.3.2
+
+Fix `label-input` styles.
+
 ## 2.3.1
 
 Add missing react convert.

@@ -101,6 +101,10 @@ export class InputSTD extends GodownElement {
     }
   }
 
+  protected _changeInputType(t: InputType) {
+    this._input.type = t;
+  }
+
   focus(options?: FocusOptions) {
     this._input?.focus(options);
   }

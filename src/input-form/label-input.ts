@@ -15,6 +15,8 @@ export class LabelInput extends InputSTD {
         background-color: inherit;
         display: block;
         border-radius: 0.2em;
+        max-width: calc(var(${cssvar}--input-width) * 2);
+        margin: auto;
       }
 
       label {
@@ -30,6 +32,7 @@ export class LabelInput extends InputSTD {
 
       span {
         flex: 1;
+        white-space: nowrap;
       }
 
       input {
@@ -46,8 +49,10 @@ export class LabelInput extends InputSTD {
       }
 
       i {
-        display: inline-flex;
         margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       i > svg {
@@ -91,10 +96,10 @@ export class LabelInput extends InputSTD {
       return html`<i
         @mousedown="${this._passwordSwitcher}"
         @mouseup="${() => {
-          this._input.type = "password";
+          this._changeInputType("password");
         }}"
         @mouseleave="${() => {
-          this._input.type = "password";
+          this._changeInputType("password");
         }}"
       >
         ${!this.querySelector("[slot=suf]") ? svgEye() : htmlSlot("suf")}
@@ -106,9 +111,9 @@ export class LabelInput extends InputSTD {
 
   protected _passwordSwitcher() {
     if (this._input.type === "password") {
-      this._input.type = "text";
+      this._changeInputType(this.type);
     } else {
-      this._input.type = "password";
+      this._changeInputType("password");
     }
   }
 }
