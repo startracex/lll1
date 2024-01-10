@@ -1,6 +1,6 @@
 {
   "name": "godown",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "main": "./index.js",
   "type": "module",
   "private": true,
@@ -9,14 +9,15 @@
     "directory": "public"
   },
   "scripts": {
-    "dev": "node ./scripts/dev.js",
-    "build:watch": "tsc --watch",
-    "watch": "tsc --watch",
     "build": "tsc && node ./scripts/build.js",
-    "roll": "rollup -c",
-    "readme": "node ./scripts/readme.js",
+    "build:watch": "tsc --watch",
+    "dev": "node ./scripts/dev.js",
     "fmt": "prettier --write ./src",
-    "lint": "eslint --ext .ts ./src"
+    "lint": "eslint --ext .ts ./src",
+    "push": "git push && git push --tags",
+    "readme": "node ./scripts/readme.js",
+    "watch": "tsc --watch",
+    "roll": "rollup -c"
   },
   "keywords": [
     "godown",
