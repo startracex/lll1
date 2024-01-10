@@ -14,37 +14,57 @@ await fs
   .then(async (data) => {
     const lines = data.split("\n");
     const changelog = [];
+    const searchStart = "## ";
+    const searchString = searchStart + packageJSON.version;
     let match = false;
-
     for (const line of lines) {
       if (match) {
-        if (line.startsWith("## ")) {
+        if (line.startsWith(searchStart)) {
           break;
         } else {
           changelog.push(line);
         }
       } else {
-        if (line.startsWith(`## ${packageJSON.version}`)) {
+        if (line.startsWith(searchString)) {
           match = true;
-          if (line.trim().length > packageJSON.version.length + 3) {
+          if (line.trim().length > searchString.length) {
             changelog.push(line);
           }
         }
       }
     }
 
-    await fs.writeFile(changelogRelease, changelog.join("\n").trim()).catch((err) => {
-      if (err) {
-        log(err);
-        return;
-      }
-    });
+    const text = changelog.join("\n");
+    return text;
   })
 
-  .then(() => {
-    log(`changelog: Generated ${changelogRelease}`);
+  .then(async (text) => {
+    await fs
+      .readFile(changelogRelease, "utf-8")
+      .then(async (oldText) => {
+        if (oldText === text) {
+          log("changelog: No changes");
+        } else {
+          await fs
+            .writeFile(changelogRelease, text)
+            .then(() => {
+              log(`changelog: Modified ${changelogRelease}`);
+            })
+            .catch(log);
+        }
+      })
+      .catch(async (err) => {
+        if (err.code === "ENOENT") {
+          await fs
+            .writeFile(changelogRelease, text)
+            .then(() => {
+              log(`changelog: Generated ${changelogRelease}`);
+            })
+            .catch(log);
+        } else {
+          log(err);
+        }
+      });
   })
 
-  .catch((err) => {
-    log(err);
-  });
+  .catch(log);

@@ -37,6 +37,4 @@ await fs.readFile(readme, "utf8")
       });
   })
 
-  .catch((err) => {
-    log(err);
-  });
+  .catch(log);

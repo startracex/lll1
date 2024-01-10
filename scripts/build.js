@@ -20,7 +20,7 @@ delete packageJSON.publishConfig?.directory;
 await fs.writeFile(path.join(publishDirectory, "package.json"), JSON.stringify(packageJSON, null, 2));
 
 coptFiles.forEach(async (file) => {
-  log(`Copy ${file}`);
+  log(`copy: ${file}`);
   await fs.copyFile(file, path.join(publishDirectory, file));
 });
 
