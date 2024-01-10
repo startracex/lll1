@@ -1,5 +1,5 @@
 /**
- * Export components
+ * Export components.
  */
 import fs from "fs/promises";
 import { log } from "console";

@@ -1,8 +1,11 @@
 /**
- * Copy and modify the files that are required for publishing
+ * Run changelog script.
+ * Run readme script.
+ * Copy and modify the files that are required for publishing.
  */
 import "./changelog.js";
 import "./readme.js";
+
 import { info, packageJSON, publishDirectory } from "./lib.js";
 import fs from "fs/promises";
 import { log } from "node:console";

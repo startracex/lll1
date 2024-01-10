@@ -3,11 +3,11 @@ import { html, svg } from "lit";
 export type HtmlTemplate = ReturnType<typeof html>;
 
 /**
- * @param fill undefined: "currentColor". 0, null, "": "none"
- * @param stroke undefined: "currentColor". 0, null, "": "none"
- * @returns path
+ * @param fill undefined: "currentColor". 0, null, "": "none".
+ * @param stroke undefined: "currentColor". 0, null, "": "none".
+ * @returns Function returns path needs d.
  */
-export const path = (fill: string | undefined | null | 0 = "currentColor", stroke: string | undefined | null | 0 = "currentColor") => {
+export const path = (fill: string | void | 0 = "currentColor", stroke: string | void | 0 = "currentColor") => {
   fill = fill || "none";
   stroke = stroke || "none";
   return (d: string) => {
@@ -35,6 +35,8 @@ export const htmlStyle = (css: string) => {
     </style>`;
   }
 };
+
+// SVG ICONS.
 
 export const svgDelta = () => {
   return html`<svg viewBox="0 0 48 48" fill="none">${path()("M36 19L24 31L12 19H36Z")}</svg>`;

@@ -1,5 +1,10 @@
 import { conf } from "./conf.js";
 
+/**
+ * Define a custom element.
+ * @param name Name for the new custom element. Must be a valid custom element name.
+ * @param options Object that controls how the element is defined.
+ */
 export const define = (name: string, options?: ElementDefinitionOptions) => (constructor: CustomElementConstructor) => {
   const tagName = conf.tag(name);
   if (!tagName) {
@@ -14,9 +19,9 @@ export const define = (name: string, options?: ElementDefinitionOptions) => (con
 };
 
 /**
- * Create element from args append to target
- * @param target Appended target element, target or document.querySelector(target) or document.body
- * @param args tag: tag name, props: attribute, children: appended chindren
+ * Create element from args append to target.
+ * @param target Appended target element, target or document.querySelector(target) or document.body.
+ * @param args Arguments
  */
 export function append(target: string | HTMLElement = document.body, args: string | EleArgs | HTMLElement) {
   if (!(target instanceof HTMLElement)) {
@@ -26,8 +31,8 @@ export function append(target: string | HTMLElement = document.body, args: strin
 }
 
 /**
- * Create element from args
- * @param args tag: tag name, props: attribute, children: appended chindren
+ * Create element from args.
+ * @param args Arguments.
  */
 export function create(args: string | EleArgs | HTMLElement): HTMLElement {
   if (args instanceof HTMLElement) {
@@ -55,9 +60,9 @@ export function create(args: string | EleArgs | HTMLElement): HTMLElement {
 }
 
 /**
- * Replace elements
- * @param matched
- * @param args
+ * Replace elements.
+ * @param matched Elements.
+ * @param args Arguments.
  */
 export function retag(matched: HTMLElement[], args: string | EleArgs | HTMLElement) {
   for (let i = matched.length - 1; i >= 0; i--) {
@@ -74,6 +79,11 @@ export function retag(matched: HTMLElement[], args: string | EleArgs | HTMLEleme
   }
 }
 
+/**
+ * tag: tag name. \
+ * props: attribute. \
+ * children: appended chindren.
+ */
 interface EleArgs {
   tag: string;
   props?: Record<string, any>;
@@ -81,11 +91,11 @@ interface EleArgs {
 }
 
 /**
- * @param vars css properties key array
- * @param selectorProperties keys: raw name, as selector. values: css properties value array
- * @param selectorFunc change raw name to a new selector
- * @param propertyFunc form key and value into new key:value; pairs.
- * @returns css text
+ * @param vars CSS properties key array.
+ * @param selectorProperties Keys: selector. values: CSS properties value array.
+ * @param selectorFunc Change to a a new selector.
+ * @param propertyFunc Form key and value into new key:value; pairs.
+ * @returns CSS text
  */
 export function constructCSS(vars: LikeString[], selectorProperties: Record<string, LikeString[]>, selectorFunc?: (raw: LikeString) => string, propertyFunc?: (k: LikeString, v: LikeString) => string) {
   let cssString = "";
@@ -109,6 +119,9 @@ export function constructCSS(vars: LikeString[], selectorProperties: Record<stri
   return cssString;
 }
 
+/**
+ * Can be a string.
+ */
 export interface LikeString {
   toString(): string;
 }

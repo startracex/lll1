@@ -1,5 +1,5 @@
 /**
- * Generate change log to the current version
+ * Generate change log to the current version.
  */
 import fs from "fs/promises";
 import { log } from "node:console";

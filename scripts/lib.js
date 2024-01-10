@@ -17,9 +17,9 @@ export const info = (strings, ...values) => {
 };
 
 /**
- * Get files in dir which endsWith "."+ext
- * @param {string} dir Directory
- * @param {string} ext Extensions
+ * Get files in dir which endsWith "."+ext.
+ * @param {string} dir Directory.
+ * @param {string} ext Extensions.
  * @returns {Promise<string[]>}
  */
 export async function walkExt(dir, ext, skip = ["node_modules", ".git", "src", publishDirectory]) {
