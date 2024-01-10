@@ -8,6 +8,8 @@ Protected firstUpdated.
 
 Add deep query selector.
 
+Add adopteStyles.
+
 ## 2.3.1
 
 Add missing react convert.

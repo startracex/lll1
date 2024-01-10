@@ -109,6 +109,6 @@ export function constructCSS(vars: LikeString[], selectorProperties: Record<stri
   return cssString;
 }
 
-interface LikeString {
+export interface LikeString {
   toString(): string;
 }
