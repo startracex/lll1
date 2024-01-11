@@ -1,6 +1,6 @@
 import { html, svg } from "lit";
 
-export type HtmlTemplate = ReturnType<typeof html>;
+export type HTMLTemplate = ReturnType<typeof html>;
 
 /**
  * @param fill undefined: "currentColor". 0, null, "": "none".
@@ -16,9 +16,9 @@ export const path = (fill: string | void | 0 = "currentColor", stroke: string | 
 };
 
 interface HtmlSlot {
-  (name?: "pre" | "suf"): HtmlTemplate;
+  (name?: "pre" | "suf"): HTMLTemplate;
 
-  (name?: string): HtmlTemplate;
+  (name?: string): HTMLTemplate;
 }
 
 export const htmlSlot: HtmlSlot = (name?: string) => {

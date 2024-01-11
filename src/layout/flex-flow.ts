@@ -1,5 +1,5 @@
 import { css, define, html, property } from "../deps.js";
-import { htmlSlot, htmlStyle } from "../tmpl.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
 @define("flex-flow")
@@ -12,7 +12,7 @@ export class FlexFlow extends LayoutSTD {
     }
   `;
 
-  render() {
+  protected render(): HTMLTemplate {
     const flexflow = this.flexflow.split(/\s+/);
     const flexDirection = flexflow[0] || "row";
     const flexWrap = flexflow[1] || "nowrap";

@@ -1,5 +1,5 @@
 import { css, define, html, property } from "../deps.js";
-import { htmlSlot, htmlStyle } from "../tmpl.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
 @define("div-line")
@@ -38,7 +38,7 @@ export class DivLine extends LayoutSTD {
   @property({ type: Boolean }) v = false;
   @property() b = "2.2px";
 
-  render() {
+  protected render(): HTMLTemplate {
     const hrStyle = `.before{height:${this.b};max-width:${this.pre}}.after{height:${this.b};max-width:${this.suf}}.v .before{width:${this.b};max-height:${this.pre}}.v .after{width:${this.b};max-height:${this.suf}}`;
     return html`<div class="${this.v ? "v" : "h"}">
       <hr class="before" />

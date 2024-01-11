@@ -1,6 +1,6 @@
 import { css, define, property } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import EffectSTD from "./std.js";
-import { htmlSlot } from "../tmpl.js";
 
 @define("clip-text")
 export class ClipText extends EffectSTD {
@@ -14,7 +14,7 @@ export class ClipText extends EffectSTD {
     }
   `;
 
-  render() {
+  protected render(): HTMLTemplate | string {
     return this.text || htmlSlot();
   }
 }

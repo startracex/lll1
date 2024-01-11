@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, cssvar, define, html, property, query, queryAll } from "../deps.js";
+import { css, CSSResultGroup, cssvar, define, html, type HTMLTemplate, property, query, queryAll } from "../deps.js";
 import { InputSTD } from "./std.js";
 
 @define("split-input")
@@ -68,7 +68,7 @@ export class SplitInput extends InputSTD {
   current = 0;
   currentValue: (string | null)[] = [];
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`
       <div>
         ${Array(this.max)

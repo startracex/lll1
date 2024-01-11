@@ -1,6 +1,6 @@
 import { css, CSSResultGroup, define, html, query } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import { debounce } from "../lib/utils.js";
-import { htmlSlot } from "../tmpl.js";
 import { OpenAble } from "./std.js";
 
 /**
@@ -44,7 +44,7 @@ export class DownDrop extends OpenAble {
     `,
   ] as CSSResultGroup;
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`<main>
       ${htmlSlot()}
       <aside style="transform:translateX(0);">

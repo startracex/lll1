@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, cssvar, define, GodownElement, html, ifDefined, property, query } from "../deps.js";
-import { htmlSlot, svgDelta, svgX } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate, svgDelta, svgX } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 
 @define("select-input")
@@ -107,7 +107,7 @@ export class SelectInput extends InputSTD {
   @query("input") _input: HTMLInputElement;
   @query("aside") _aside: HTMLInputElement;
 
-  render() {
+  protected render(): HTMLTemplate {
     return html` <div>
       <section>${this.renderList()}</section>
       <input
@@ -123,7 +123,7 @@ export class SelectInput extends InputSTD {
     </div>`;
   }
 
-  private renderList() {
+  private renderList(): HTMLTemplate[] {
     const itemTemplates = [];
     if (this.value.length) {
       for (const i in this.value) {

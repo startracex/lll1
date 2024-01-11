@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, define, html, property, query } from "../deps.js";
-import { htmlSlot, svgDeltaSmooth } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate, svgDeltaSmooth } from "../tmpl.js";
 import { OpenAble } from "./std.js";
 
 @define("details-expand")
@@ -31,7 +31,7 @@ export class DetailsExpand extends OpenAble {
     `,
   ] as CSSResultGroup[];
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`<dl>
       <dt @click="${this._handelClick}" style="flex-direction:row${this.reverse ? "-reverse" : ""}">
         <span> ${this.summary || htmlSlot("summary")} </span>
@@ -43,7 +43,7 @@ export class DetailsExpand extends OpenAble {
     </dl>`;
   }
 
-  private renderIcon() {
+  private renderIcon(): HTMLTemplate {
     if (this.querySelector("slot[name=icon]")) {
       return htmlSlot("icon");
     }

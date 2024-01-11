@@ -1,5 +1,5 @@
 import { constructCSS, css, cssvar, define, html, property, unsafeCSS } from "../deps.js";
-import { htmlSlot, svgX } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate, svgX } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
 const vars = ["color", "background", "border", "super"].map((v) => `${cssvar}--${v}`);
@@ -97,7 +97,7 @@ export class AlertItem extends ItemsSTD {
   @property() title = "";
   @property() content = "";
 
-  render() {
+  protected render(): HTMLTemplate {
     if (this.autoclose) {
       setTimeout(() => this.close(), this.autoclose);
     }

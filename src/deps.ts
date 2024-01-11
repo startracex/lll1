@@ -6,5 +6,5 @@ export { query, queryAll, property, state, customElement } from "lit/decorators.
 export { ifDefined } from "lit/directives/if-defined.js";
 export { classMap } from "lit/directives/class-map.js";
 
-export type { HtmlTemplate } from "./tmpl";
+export type { HTMLTemplate } from "./tmpl";
 export type { CSSResultGroup } from "lit";

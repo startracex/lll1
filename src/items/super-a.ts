@@ -1,5 +1,5 @@
 import { css, define, html, ifDefined, property } from "../deps.js";
-import { htmlSlot, svgArrow, svgDelta } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate, svgArrow, svgDelta } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
 @define("super-a")
@@ -65,7 +65,7 @@ export class SuperAnchor extends ItemsSTD {
     }
   `;
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`<a href="${ifDefined(this.href)}" target="${this.target}">
       ${htmlSlot()}
       <i>
@@ -75,7 +75,7 @@ export class SuperAnchor extends ItemsSTD {
     </a>`;
   }
 
-  _arrowSwitcher() {
+  private _arrowSwitcher(): HTMLTemplate {
     switch (this.arrow) {
       case "delta":
         return svgDelta();

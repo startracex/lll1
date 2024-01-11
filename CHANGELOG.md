@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 2.4.0
+
+Type render.
+
 ## 2.3.2
 
 Fix `label-input` styles.

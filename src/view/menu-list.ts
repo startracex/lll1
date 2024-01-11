@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, define, html, property, query, state } from "../deps.js";
-import { htmlSlot, svgArrow } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate, svgArrow } from "../tmpl.js";
 import { OpenAble } from "./std.js";
 
 @define("menu-list")
@@ -37,7 +37,7 @@ export class MenuList extends OpenAble {
     `,
   ] as CSSResultGroup[];
 
-  render() {
+  protected render(): HTMLTemplate {
     const noTitle = !this.summary && !this.querySelector("[slot=summary]") ? "noTitle" : "";
     if (noTitle) {
       this.open = true;
@@ -53,7 +53,7 @@ export class MenuList extends OpenAble {
     </dl>`;
   }
 
-  private renderIcon() {
+  private renderIcon(): HTMLTemplate {
     if (this.querySelector("[slot=icon]")) {
       return htmlSlot("icon");
     }

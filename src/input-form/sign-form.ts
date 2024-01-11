@@ -1,6 +1,6 @@
 import { css, CSSResultGroup, define, html, property, query, queryAll } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import { FormSTD } from "./std.js";
-import { htmlSlot } from "../tmpl.js";
 
 @define("base-form")
 export class BaseForm extends FormSTD {
@@ -27,7 +27,7 @@ export class BaseForm extends FormSTD {
   @query("form") _form: HTMLFormElement;
   @queryAll("slot") _slots: HTMLSlotElement[];
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`<form enctype="multipart/form-data">
       ${htmlSlot("pre")}
       <main>${htmlSlot()}</main>

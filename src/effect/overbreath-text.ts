@@ -1,4 +1,4 @@
-import { css, cssvar, define, html, property } from "../deps.js";
+import { css, cssvar, define, html, type HTMLTemplate, property } from "../deps.js";
 import EffectSTD from "./std.js";
 
 const theme = css`
@@ -204,7 +204,7 @@ export class OverbreathText extends EffectSTD {
   @property() t2 = "t2 unset..";
   @property() t3 = "t3 unset...";
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`<span class="rel">
         <span class="abs">${this.t1}</span>
         <span class="ani">${this.t1}</span>

@@ -1,5 +1,5 @@
 import { css, define, GodownElement, html, property, query } from "../deps.js";
-import { htmlSlot, htmlStyle, svgArrow } from "../tmpl.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate, svgArrow } from "../tmpl.js";
 
 @define("rotation-pool")
 export class RotationPool extends GodownElement {
@@ -78,7 +78,7 @@ export class RotationPool extends GodownElement {
     }
   `;
 
-  render() {
+  protected render(): HTMLTemplate {
     const style = this.width && `:host{width:${this.width.split(";")[0]};}`;
     return html`<div>
       <a class="prev" @click="${this.prev}">${this.renderA("pre")}</a>
@@ -88,7 +88,7 @@ export class RotationPool extends GodownElement {
     </div>`;
   }
 
-  private renderA(slot: string) {
+  private renderA(slot: string): HTMLTemplate {
     if (this.querySelector(`[slot=${slot}]`)) {
       return htmlSlot(slot);
     }

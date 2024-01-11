@@ -1,6 +1,6 @@
 import { css, define, property } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import GroupSTD from "./std.js";
-import { htmlSlot } from "../tmpl.js";
 
 @define("details-group")
 export class DetailsGroup extends GroupSTD {
@@ -12,7 +12,7 @@ export class DetailsGroup extends GroupSTD {
     }
   `;
 
-  render() {
+  protected render(): HTMLTemplate {
     return htmlSlot();
   }
 

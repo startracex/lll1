@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, cssvar, define, GodownElement, html, ifDefined, property, query } from "../deps.js";
-import { htmlSlot } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 import type { InputType } from "./std.js";
 
@@ -130,7 +130,7 @@ export class BaseInput extends InputSTD {
   @property({ type: Number }) step = 1;
   @property({ type: Boolean }) autofocus = false;
 
-  render() {
+  protected render(): HTMLTemplate {
     if (this.type === "range") {
       return html`<div class="range">
         <input id="input" type="range" min="${this.min}" max="${this.max}" step="${this.step}" @input="${this._handleRange}" @change="${this._handleRange}" />
@@ -190,7 +190,7 @@ export class BaseInput extends InputSTD {
     }
   }
 
-  protected _typeSwitcher() {
+  protected _typeSwitcher(): HTMLTemplate {
     switch (this.type) {
       case "file":
         return html`<input id="input" class="input" type="file" accept="${ifDefined(this.accept)}" ?multiple="${!this.only}" @change="${this._handleFile}" />${htmlSlot()}`;

@@ -1,6 +1,6 @@
 import { css, cssvar, define, html, property, query, state } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import EffectSTD from "./std.js";
-import { htmlSlot } from "../tmpl.js";
 
 @define("typewriter-text")
 export class TypewriterText extends EffectSTD {
@@ -50,7 +50,7 @@ export class TypewriterText extends EffectSTD {
     }
   `;
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`${htmlSlot()}${this.content}<i class="${(this.ended && "hidden") || ""}"></i>`;
   }
 

@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, cssvar, define, html, property, query } from "../deps.js";
-import { htmlSlot } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 
 @define("switch-input")
@@ -135,7 +135,7 @@ export class SwitchInput extends InputSTD {
   @property() value = "on";
   @query("input") _input: HTMLInputElement;
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`<span class="${this.base}">
       <input @change="${this._handleChange}" ?disabled="${this.disabled}" ?checked="${this.checked}" name="${this.name}" type="checkbox" />
       <aside>

@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, cssvar, define, html, ifDefined, property, query } from "../deps.js";
-import { htmlSlot, htmlStyle, svgEye } from "../tmpl.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate, svgEye } from "../tmpl.js";
 import { InputSTD, type InputType } from "./std.js";
 
 @define("label-input")
@@ -78,7 +78,7 @@ export class LabelInput extends InputSTD {
     `,
   ] as CSSResultGroup[];
 
-  render() {
+  protected render(): HTMLTemplate {
     const style = this.m && `@media screen and (max-width: ${this.m}) {label[for] {justify-content: flex-start;flex-direction: column;align-items: inherit;width: fit-content;}`;
     return html`<label for="${this.name}">
       <span>${this.label}${htmlSlot()}</span>
@@ -91,7 +91,7 @@ export class LabelInput extends InputSTD {
     </label>`;
   }
 
-  private renderSuf() {
+  private renderSuf(): HTMLTemplate {
     if (this.type === "password") {
       return html`<i
         @mousedown="${this._passwordSwitcher}"

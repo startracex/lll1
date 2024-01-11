@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, cssvar, define, html, property } from "../deps.js";
-import { htmlSlot, htmlStyle } from "../tmpl.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
 @define("nav-aside")
@@ -32,7 +32,7 @@ export class NavAside extends LayoutSTD {
   @property() m = "720px";
   @property() position = "sticky fixed";
 
-  render() {
+  protected render(): HTMLTemplate {
     const position = this.position.split(/\s+/);
     const p = position[0] || "sticky";
     const pm = position[1] || "fixed";

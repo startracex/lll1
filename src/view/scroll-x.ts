@@ -1,5 +1,5 @@
 import { css, define, GodownElement, html, property } from "../deps.js";
-import { htmlSlot, htmlStyle } from "../tmpl.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
 import { debounce } from "../lib/utils.js";
 
 @define("scroll-x")
@@ -40,7 +40,7 @@ export class ScrollX extends GodownElement {
     return this.shadowRoot.querySelector("section");
   }
 
-  render() {
+  protected render(): HTMLTemplate {
     const style = this.height && `:host{height:${this.height}}`;
     return html`<section @scroll="${this._handelScroll}">
       <main>

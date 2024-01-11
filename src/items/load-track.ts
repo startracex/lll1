@@ -1,5 +1,5 @@
 import { classMap, css, CSSResultGroup, cssvar, define, html, property, state } from "../deps.js";
-import { htmlSlot } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import { InputSTD } from "../input-form/std.js";
 import ItemsSTD from "./std.js";
 
@@ -68,7 +68,7 @@ export class LoadTrack extends ItemsSTD {
     return this.getAttribute("value");
   }
 
-  render() {
+  protected render(): HTMLTemplate {
     if (this.value !== null) {
       this.hasValue = true;
       this.current = this.parsePercent(this.value);

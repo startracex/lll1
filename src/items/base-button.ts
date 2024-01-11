@@ -1,5 +1,5 @@
 import { constructCSS, css, cssvar, define, html, property, query, unsafeCSS } from "../deps.js";
-import { htmlSlot, htmlStyle } from "../tmpl.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
 const vars = ["--color", "--background", "--box-shadow", "--ghost-color"];
@@ -131,7 +131,7 @@ export class BaseButton extends ItemsSTD {
   @query("b") _b: HTMLElement;
   @query("div") _div: HTMLButtonElement;
 
-  render() {
+  protected render(): HTMLTemplate {
     const style = this.outline ? `:host([active]) {box-shadow: ${outlineBoxShadow};}` : "";
     return html`
       <div>

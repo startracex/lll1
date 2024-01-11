@@ -1,5 +1,5 @@
 import { css, cssvar, define, html, ifDefined, property } from "../deps.js";
-import { htmlSlot } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
 @define("avatar-a")
@@ -49,14 +49,14 @@ export class AvatarAnchor extends ItemsSTD {
   @property() name = "";
   @property({ type: Number }) more = 0;
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`
       <a href="${ifDefined(this.href)}"> ${this.renderAva()} ${htmlSlot("mask")} </a>
       ${htmlSlot()}
     `;
   }
 
-  renderAva() {
+  private renderAva(): HTMLTemplate {
     if (this.more) {
       const more = this.more > 99 ? "..." : this.more;
       return html`<span>+${more}</span>`;

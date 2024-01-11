@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, cssvar, define, html, property } from "../deps.js";
-import { htmlSlot } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
 @define("nav-layout")
@@ -88,13 +88,13 @@ export class NavLayout extends LayoutSTD {
   @property() subhead = "";
   @property({ type: Number }) set: 0 | 1 | 2 = 0;
 
-  render() {
+  protected render(): HTMLTemplate {
     return html` ${htmlSlot("header")} ${this.renderNav()}
       <main>${htmlSlot()}</main>
       ${htmlSlot("footer")}`;
   }
 
-  private renderNav() {
+  private renderNav(): HTMLTemplate {
     if (this.querySelector("[slot=nav]")) {
       return htmlSlot("nav");
     }

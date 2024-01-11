@@ -1,4 +1,4 @@
-import { conf, css, define, GodownElement, HtmlTemplate, property, state } from "../deps.js";
+import { conf, css, define, GodownElement, type HTMLTemplate, property, state } from "../deps.js";
 import { deepQuerySelectorAll } from "../lib/utils.js";
 import { htmlSlot } from "../tmpl.js";
 import type { PropertyValueMap } from "lit";
@@ -14,7 +14,7 @@ export class RouteView<T = unknown> extends GodownElement {
   /**
    * component will render
    */
-  @state() component: T | HtmlTemplate = null;
+  @state() component: T | HTMLTemplate = null;
   /**
    * dynamic parameters record
    */
@@ -62,7 +62,7 @@ export class RouteView<T = unknown> extends GodownElement {
     this.record.clear();
   }
 
-  render() {
+  protected render(): T | HTMLTemplate {
     if (this.cache) {
       const cached = this.record.get(this.pathname);
       if (cached) {
@@ -154,7 +154,7 @@ export class RouteView<T = unknown> extends GodownElement {
     return route.component;
   }
 
-  slottedComponent(usedRouteTemplate?: string): null | HtmlTemplate {
+  slottedComponent(usedRouteTemplate?: string): null | HTMLTemplate {
     const childNodes = this.querySelectorAll(":scope > *[slot]");
     if (!childNodes.length) {
       return null;

@@ -1,5 +1,5 @@
 import { css, define, html, property } from "../deps.js";
-import { htmlSlot } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
 @define("drag-box")
@@ -18,7 +18,7 @@ export class DragBox extends LayoutSTD {
     }
   `;
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`<div @mousedown="${this._handleDragStart}" @mouseup="${this._handleDragEnd}">${htmlSlot()}</div>`;
   }
 

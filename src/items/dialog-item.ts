@@ -1,4 +1,4 @@
-import { css, define, html, property, query } from "../deps.js";
+import { css, define, html, type HTMLTemplate, property, query } from "../deps.js";
 import ItemsSTD from "./std.js";
 import { PropertyValueMap } from "lit";
 
@@ -88,7 +88,7 @@ export class DialogItem extends ItemsSTD {
   @property({ type: String }) call: "left" | "center" | "right" | "top" | "bottom" = "center";
   @query("div") _div: HTMLDivElement;
 
-  render() {
+  protected render(): HTMLTemplate {
     return html` <div>
       <slot class="${this.call}"></slot>
     </div>`;

@@ -1,5 +1,5 @@
 import { css, define, property } from "../deps.js";
-import { htmlSlot } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
 @define("with-wrap")
@@ -11,7 +11,7 @@ export class WithWrap extends LayoutSTD {
     }
   `;
 
-  render() {
+  protected render(): HTMLTemplate {
     return htmlSlot(this.with);
   }
 }

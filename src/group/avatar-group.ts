@@ -1,5 +1,5 @@
 import { append, css, define, html, property } from "../deps.js";
-import { htmlSlot, htmlStyle } from "../tmpl.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
 import AvatarAnchor from "../items/avatar-a.js";
 import GroupSTD from "./std.js";
 
@@ -19,12 +19,12 @@ export class AvatarGroup extends GroupSTD {
     }
   `;
 
-  render() {
+  protected render(): HTMLTemplate {
     const cssStr = `slot::slotted(:nth-of-type(n + ${(this.max || 0) + 1})) {display: none;}`;
     return html`${htmlSlot()} ${htmlStyle(cssStr)} ${this.renderMore()}`;
   }
 
-  private renderMore() {
+  private renderMore(): AvatarAnchor | undefined {
     if (this.more > 0) {
       const aa = new AvatarAnchor();
       aa.more = this.more;

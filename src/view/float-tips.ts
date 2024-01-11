@@ -1,5 +1,5 @@
 import { css, define, html, state } from "../deps.js";
-import { htmlSlot } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import OpenAble from "./std.js";
 
 /**
@@ -43,7 +43,7 @@ export class FloatTips extends OpenAble {
     `,
   ];
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`<main>
       ${this.base.map((i) => {
         return html`

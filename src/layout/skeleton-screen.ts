@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, cssvar, define, html, property, state } from "../deps.js";
-import { htmlSlot, svgImage } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate, svgImage } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
 @define("skeleton-screen")
@@ -68,14 +68,14 @@ export class SkeletonScreen extends LayoutSTD {
     `,
   ] as CSSResultGroup[];
 
-  render() {
+  protected render(): HTMLTemplate {
     if (this.loading) {
       return html`<p>${this.renderIcon()}</p>`;
     }
     return htmlSlot();
   }
 
-  private renderIcon() {
+  private renderIcon(): HTMLTemplate {
     switch (this.type) {
       case "text":
         return htmlSlot("icon");

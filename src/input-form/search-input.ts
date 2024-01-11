@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, cssvar, define, html, ifDefined, property, query } from "../deps.js";
-import { htmlSlot, svgSearch } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate, svgSearch } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 
 @define("search-input")
@@ -121,7 +121,7 @@ export class SearchInput extends InputSTD {
     `,
   ] as CSSResultGroup[];
 
-  render() {
+  protected render(): HTMLTemplate {
     return html`<form action="${this.action}" method="${this.method}">
       <div>
         <input name="${this.name}" @focus="${this._handleInput}" @input="${this._handleInput}" @change="${this._handleChange}" title="" placeholder="${ifDefined(this.pla)}" />
@@ -133,7 +133,7 @@ export class SearchInput extends InputSTD {
     </form>`;
   }
 
-  private renderList() {
+  private renderList(): HTMLTemplate | undefined {
     if (this.list && this.list.length && this.value) {
       return html`${this.list.map((v) => html` <li>${v}</li>`)}`;
     }
