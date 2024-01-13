@@ -16,6 +16,8 @@ Add _slots.
 
 Move each.
 
+Refactor styles.
+
 ## 2.3.2
 
 Fix `label-input` styles.

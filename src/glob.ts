@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, LitElement, unsafeCSS } from "lit";
+import { css, type CSSResult, type CSSResultGroup, LitElement, unsafeCSS } from "lit";
 import { deepQuerySelector, deepQuerySelectorAll } from "./lib/utils.js";
 import { EventListenerFunc, EventsCollection } from "./lib/event-collection.js";
 import { conf } from "./conf.js";
@@ -27,32 +27,71 @@ export const define = (name: string, options?: ElementDefinitionOptions) => (con
  */
 export const cssvar = unsafeCSS("--" + conf.cssvar.replace(/[^a-zA-Z0-9\\-]/g, ""));
 
+export function createScope(scope: LikeString): CSSResult {
+  return unsafeCSS(`${cssvar}--${scope}`);
+}
+
+export const cssvarValues = {
+  cssvar,
+  input: createScope("input"),
+  main: createScope("background"),
+  text: createScope("foreground"),
+  mainRGB: createScope("background-rgb"),
+  textRGB: createScope("foreground-rgb"),
+};
+
 /**
  * Global element.
  */
 export class GodownElement extends LitElement {
-  static styles = css`
-    :host {
-      ${cssvar}--text-selection: inherit;
-      ${cssvar}--text-selection-background: none;
-    }
+  static styles = [
+    css`
+      :host {
+        ${cssvar}--background-rgb: 12 12 12;
+        ${cssvar}--background: rgb(var(${cssvarValues.mainRGB}));
+        ${cssvar}--foreground-rgb: 240 240 240;
+        ${cssvar}--foreground: rgb(var(${cssvarValues.textRGB}));
+        ${cssvar}--size: 100%;
+        ${cssvar}--accept: rgb(25 130 180);
+        font-size: var(${cssvar}--size);
+      }
+    `,
+    css`
+      :host {
+        ${cssvarValues.input}--width: 10.6rem;
+        ${cssvarValues.input}--height: 1.6em;
+        ${cssvarValues.input}--background: var(${cssvarValues.main});
+        ${cssvarValues.input}--true: rgb(48 132 240);
+        ${cssvarValues.input}--false: rgb(198 198 198);
+        ${cssvarValues.input}--control: var(${cssvar}--text);
+        ${cssvarValues.input}--control-edge: var(${cssvarValues.input}--true);
+        ${cssvarValues.input}--outline-color: var(${cssvar}--accept);
+        ${cssvarValues.input}--outline-width: .15em;
+        ${cssvarValues.input}--outline-style: solid;
+        ${cssvarValues.input}--outline: var(${cssvarValues.input}--outline-width)  var(${cssvarValues.input}--outline-style) var(${cssvarValues.input}--outline-color);
+        ${cssvarValues.input}--radius: 0.2em;
+      }
+    `,
+    css`
+      * {
+        font-size: 100%;
+        font-style: normal;
+        color: inherit;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+      }
 
-    * {
-      font-size: 100%;
-      font-style: normal;
-      color: inherit;
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      outline: 0;
-    }
-
-    ::selection {
-      color: var(${cssvar}--text-selection);
-      background: var(${cssvar}--text-selection-background);
-    }
-  ` as CSSResultGroup;
+      ::selection {
+        ${cssvar}--text-selection--color: inherit;
+        ${cssvar}--text-selection--background: none;
+        color: var(${cssvar}--text-selection--color);
+        background: var(${cssvar}--text-selection--background);
+      }
+    `,
+  ] as CSSResultGroup;
 
   /**
    * No named slot element's assignedElements, as HTMLElement[].
