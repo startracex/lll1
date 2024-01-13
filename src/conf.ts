@@ -1,4 +1,5 @@
 const defaultConfig: ConfType = {
+  assign: null,
   cssvar: "godown",
   enabled: new Set(),
   namemap: new Map(),
@@ -36,6 +37,7 @@ declare global {
 }
 
 interface ConfType {
+  assign: null | Record<string, any>;
   cssvar: string;
   enabled: Set<string>;
   namemap: Map<string, string>;

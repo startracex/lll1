@@ -103,7 +103,7 @@ export class GodownElement extends LitElement {
     return this.offsetParent?.clientHeight ?? document.body.offsetHeight;
   }
 
-  __events = new EventsCollection();
+  private __events: EventsCollection;
 
   /**
    * ```
@@ -129,6 +129,22 @@ export class GodownElement extends LitElement {
 
   removeAllEvents() {
     this.__events.removeAllEvents();
+  }
+
+  /**
+   * Assign to {@linkcode GodownElement}
+   * @param assign Assign value
+   */
+  constructor(assign: void | (Record<string, any> & { classList?: DOMTokenList | string[] }) = conf.assign) {
+    super();
+    this.__events = new EventsCollection();
+    if (assign) {
+      const classList = "classList";
+      if (classList in assign) {
+        assign[classList] = [...this[classList], ...assign[classList]];
+      }
+      Object.assign(this, assign);
+    }
   }
 
   disconnectedCallback() {
@@ -177,4 +193,4 @@ export class GodownElement extends LitElement {
   }
 }
 
-GodownElement.disableWarning("change-in-update");
+GodownElement.disableWarning?.("change-in-update");
