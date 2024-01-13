@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, cssvar, GodownElement, property } from "../deps.js";
+import { css, CSSResultGroup, cssvarValues, GodownElement, property } from "../deps.js";
 
 export type InputType = "hidden" | "text" | "search" | "tel" | "url" | "email" | "password" | "datetime" | "date" | "month" | "week" | "time" | "datetime-local" | "number" | "range" | "color" | "checkbox" | "radio" | "file" | "image";
 
@@ -6,29 +6,12 @@ export class InputSTD extends GodownElement {
   static styles = [
     GodownElement.styles,
     css`
-      :host {
-        ${cssvar}--text: rgb(240 240 240);
-        ${cssvar}--input-outline-color: rgb(25 130 180);
-        ${cssvar}--input-outline-width: .15em;
-        ${cssvar}--input-background: rgb(12 12 12);
-        ${cssvar}--input-background-hover: rgb(42 42 42);
-        ${cssvar}--input-true: rgb(47 129 237);
-        ${cssvar}--input-false: rgb(204 204 204);
-        ${cssvar}--input-width: 10.6rem;
-        ${cssvar}--input-height: 1.6em;
-      }
-
       ::-webkit-calendar-picker-indicator {
-        background-color: var(${cssvar}--input-true);
+        background-color: var(${cssvarValues.input}-true);
         border-radius: 0.1rem;
       }
-
-      :host(:focus),
-      :host(:focus-within) {
-        outline-color: var(${cssvar}--input-outline-color);
-      }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
   @property() name: string = undefined;
   @property() value: string | any = undefined;
   @property() label = "";
