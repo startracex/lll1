@@ -180,13 +180,13 @@ export class GodownElement extends LitElement {
    *
    * @example
    * ```
-   * this.applyStyles([
+   * this.applyStyles(
    * "...",
    * css`...`,
-   * ])
+   * )
    * ```
    */
-  adoptStyles(styles: LikeString[]) {
+  adoptStyles(...styles: LikeString[]) {
     const sheet = new CSSStyleSheet();
     styles.forEach((style) => sheet.insertRule(style.toString()));
     this.shadowRoot.adoptedStyleSheets.push(sheet);

@@ -10,6 +10,8 @@ Move define.
 
 Add assign.
 
+Modify adoptStyles.
+
 ## 2.3.2
 
 Fix `label-input` styles.
