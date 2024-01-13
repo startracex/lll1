@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, define, html, property, query, queryAll } from "../deps.js";
+import { css, type CSSResultGroup, define, html, property, query } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import { FormSTD } from "./std.js";
 
@@ -23,9 +23,8 @@ export class BaseForm extends FormSTD {
         flex-direction: column;
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
   @query("form") _form: HTMLFormElement;
-  @queryAll("slot") _slots: HTMLSlotElement[];
 
   protected render(): HTMLTemplate {
     return html`<form enctype="multipart/form-data">
@@ -138,6 +137,7 @@ function each(node: Node, callback: (node: Node) => void) {
 export class SignForm extends BaseForm {}
 
 export default SignForm;
+
 declare global {
   interface HTMLElementTagNameMap {
     "sign-form": SignForm;

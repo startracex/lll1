@@ -12,6 +12,8 @@ Add assign.
 
 Modify adoptStyles.
 
+Add _slots.
+
 ## 2.3.2
 
 Fix `label-input` styles.

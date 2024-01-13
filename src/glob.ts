@@ -76,6 +76,13 @@ export class GodownElement extends LitElement {
   }
 
   /**
+   * Slot elements.
+   */
+  get _slots(): HTMLSlotElement[] {
+    return [...this.shadowRoot.querySelectorAll<HTMLSlotElement>("slot")];
+  }
+
+  /**
    * Named slot elements.
    */
   get slottedChildren(): HTMLSlotElement[] {
