@@ -4,6 +4,8 @@
 
 Type render.
 
+Type path.
+
 ## 2.3.2
 
 Fix `label-input` styles.
