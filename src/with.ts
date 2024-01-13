@@ -1,23 +1,3 @@
-import { conf } from "./conf.js";
-
-/**
- * Define a custom element.
- * @param name Name for the new custom element. Must be a valid custom element name.
- * @param options Object that controls how the element is defined.
- */
-export const define = (name: string, options?: ElementDefinitionOptions) => (constructor: CustomElementConstructor) => {
-  const tagName = conf.tag(name);
-  if (!tagName) {
-    return;
-  }
-  if (customElements.get(tagName) === undefined) {
-    customElements.define(tagName, constructor, options);
-    conf.enabled.add(name);
-    conf.namemap.set(name, tagName);
-    conf.classmap.set(name, constructor);
-  }
-};
-
 /**
  * Create element from args append to target.
  * @param target Appended target element, target or document.querySelector(target) or document.body.

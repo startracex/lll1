@@ -6,6 +6,8 @@ Type render.
 
 Type path.
 
+Move define.
+
 ## 2.3.2
 
 Fix `label-input` styles.
