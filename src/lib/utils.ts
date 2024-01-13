@@ -27,3 +27,12 @@ export function deepQuerySelector<E extends Element>(selectors: string, ignore: 
   }
   return a;
 }
+
+export function each(node: Node, callback: (node: Node) => void) {
+  if (node) {
+    callback(node);
+    for (const i of node.childNodes) {
+      each(i, callback);
+    }
+  }
+}

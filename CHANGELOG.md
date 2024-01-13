@@ -14,6 +14,8 @@ Modify adoptStyles.
 
 Add _slots.
 
+Move each.
+
 ## 2.3.2
 
 Fix `label-input` styles.

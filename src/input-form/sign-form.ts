@@ -1,5 +1,6 @@
 import { css, type CSSResultGroup, define, html, property, query } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
+import { each } from "../lib/utils.js";
 import { FormSTD } from "./std.js";
 
 @define("base-form")
@@ -121,15 +122,6 @@ export class BaseForm extends FormSTD {
     }
     tempForm.remove();
     return formData;
-  }
-}
-
-function each(node: Node, callback: (node: Node) => void) {
-  if (node) {
-    callback(node);
-    for (const i of node.childNodes) {
-      each(i, callback);
-    }
   }
 }
 
