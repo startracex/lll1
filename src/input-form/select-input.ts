@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, cssvar, define, GodownElement, html, ifDefined, property, query } from "../deps.js";
+import { css, type CSSResultGroup, cssvarValues, define, GodownElement, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot, type HTMLTemplate, svgDelta, svgX } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 
@@ -8,17 +8,16 @@ export class SelectInput extends InputSTD {
     InputSTD.styles,
     css`
       :host {
-        background: var(${cssvar}--input-background);
-        color: var(${cssvar}--text);
+        background: var(${cssvarValues.input}--background);
         display: inline-flex;
-        outline: var(${cssvar}--input-outline-width) solid transparent;
-        height: var(${cssvar}--input-height);
-        width: var(${cssvar}--input-width);
-        border-radius: 0.2em;
+        outline: var(${cssvarValues.input}--outline-width) solid transparent;
+        height: var(${cssvarValues.input}--height);
+        width: var(${cssvarValues.input}--width);
+        border-radius: var(${cssvarValues.input}--radius);
       }
 
       :host([open]) {
-        outline-color: var(${cssvar}--input-outline-color);
+        outline-color: var(${cssvarValues.input}--outline-color);
       }
 
       input {
@@ -66,7 +65,7 @@ export class SelectInput extends InputSTD {
       }
 
       i.selected-item {
-        background: var(${cssvar}--input-true);
+        background: var(${cssvarValues.input}--true);
         border-radius: inherit;
         height: 100%;
         float: left;
@@ -92,7 +91,7 @@ export class SelectInput extends InputSTD {
         visibility: visible;
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ type: Boolean, reflect: true }) only = false;
   @property({ type: Array }) value = [];
@@ -172,14 +171,15 @@ export class SelectInput extends InputSTD {
         this.select(i);
       });
     this._focusCheck();
+    const click = "click";
     (this.assigned as HTMLElement[]).forEach((option: HTMLElement) => {
       if (this.getOptionValue(option)) {
-        this.addEvent(option, "click", () => {
+        this.addEvent(option, click, () => {
           this.select(this.getOptionValue(option), option.textContent);
         });
       } else if (option.children) {
         [...option.children].forEach((option: HTMLElement) => {
-          this.addEvent(option, "click", () => {
+          this.addEvent(option, click, () => {
             this.select(this.getOptionValue(option), option.textContent);
           });
         });
@@ -188,7 +188,7 @@ export class SelectInput extends InputSTD {
     this.addEvent(this, "change", () => {
       this.open = !this.only;
     });
-    this.addEvent(document, "click", (e) => {
+    this.addEvent(document, click, (e) => {
       if (!this.contains(e.target as Node)) {
         this.open = false;
       }

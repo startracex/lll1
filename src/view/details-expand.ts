@@ -1,8 +1,10 @@
-import { css, CSSResultGroup, define, html, property, query } from "../deps.js";
+import { css, type CSSResultGroup, define, html, property, query } from "../deps.js";
 import { htmlSlot, type HTMLTemplate, svgDeltaSmooth } from "../tmpl.js";
 import { OpenAble } from "./std.js";
 
-@define("details-expand")
+const defineName = "details-expand";
+
+@define(defineName)
 export class DetailsExpand extends OpenAble {
   @property() summary = "";
   @property({ type: Boolean }) fill = false;
@@ -29,7 +31,7 @@ export class DetailsExpand extends OpenAble {
         transform: rotate(-90deg) !important;
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
 
   protected render(): HTMLTemplate {
     return html`<dl>
@@ -58,6 +60,7 @@ export class DetailsExpand extends OpenAble {
 }
 
 export default DetailsExpand;
+
 declare global {
   interface HTMLElementTagNameMap {
     "details-expand": DetailsExpand;

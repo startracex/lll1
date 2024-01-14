@@ -2,15 +2,19 @@ import { css, define, property } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import GroupSTD from "./std.js";
 
-@define("details-group")
+const defineName = "details-group";
+
+@define(defineName)
 export class DetailsGroup extends GroupSTD {
   @property({ type: Number }) index = -1;
   @property({ type: Boolean }) only = false;
-  static styles = css`
-    :host {
-      display: block;
-    }
-  `;
+  static styles = [
+    css`
+      :host {
+        display: block;
+      }
+    `,
+  ];
 
   protected render(): HTMLTemplate {
     return htmlSlot();

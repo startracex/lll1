@@ -1,7 +1,9 @@
 import { css, define, GodownElement, html, property, query } from "../deps.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate, svgArrow } from "../tmpl.js";
 
-@define("rotation-pool")
+const defineName = "rotation-pool";
+
+@define(defineName)
 export class RotationPool extends GodownElement {
   @property({ type: Number }) index = 0;
   @property({ type: Number }) autochange = 0;
@@ -9,74 +11,76 @@ export class RotationPool extends GodownElement {
   @query("section") _section: HTMLElement;
   intervalID: number;
   _clone: HTMLElement[] = [];
-  static styles = css`
-    :host {
-      display: block;
-      transition: all 0.2s;
-    }
+  static styles = [
+    css`
+      :host {
+        display: block;
+        transition: all 0.2s;
+      }
 
-    div {
-      overflow: hidden;
-    }
+      div {
+        overflow: hidden;
+      }
 
-    div,
-    section {
-      width: 100%;
-      display: flex;
-      position: relative;
-      transition: inherit;
-    }
+      div,
+      section {
+        width: 100%;
+        display: flex;
+        position: relative;
+        transition: inherit;
+      }
 
-    a {
-      position: absolute;
-      height: 100%;
-      width: fit-content;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-    }
+      a {
+        position: absolute;
+        height: 100%;
+        width: fit-content;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+      }
 
-    .prev {
-      left: 0;
-    }
+      .prev {
+        left: 0;
+      }
 
-    .prev svg {
-      transform: rotate(180deg);
-    }
+      .prev svg {
+        transform: rotate(180deg);
+      }
 
-    .next {
-      right: 0;
-    }
+      .next {
+        right: 0;
+      }
 
-    i {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.3s;
-      width: 2em;
-      height: 100%;
-    }
+      i {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+        width: 2em;
+        height: 100%;
+      }
 
-    svg {
-      flex: 1;
-      max-height: 100%;
-      max-width: 100%;
-    }
+      svg {
+        flex: 1;
+        max-height: 100%;
+        max-width: 100%;
+      }
 
-    a:hover i {
-      background-color: #0000001a;
-      width: 2.2em;
-    }
+      a:hover i {
+        background-color: #0000001a;
+        width: 2.2em;
+      }
 
-    i svg path {
-      stroke-width: 4;
-    }
+      i svg path {
+        stroke-width: 4;
+      }
 
-    slot::slotted(*) {
-      flex-shrink: 0 !important;
-    }
-  `;
+      slot::slotted(*) {
+        flex-shrink: 0 !important;
+      }
+    `,
+  ];
 
   protected render(): HTMLTemplate {
     const style = this.width && `:host{width:${this.width.split(";")[0]};}`;

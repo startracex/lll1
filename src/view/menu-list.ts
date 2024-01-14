@@ -1,8 +1,10 @@
-import { css, CSSResultGroup, define, html, property, query, state } from "../deps.js";
+import { css, type CSSResultGroup, cssvarValues, define, html, property, query, state } from "../deps.js";
 import { htmlSlot, type HTMLTemplate, svgArrow } from "../tmpl.js";
 import { OpenAble } from "./std.js";
 
-@define("menu-list")
+const defineName = "menu-list";
+
+@define(defineName)
 export class MenuList extends OpenAble {
   @property() summary = "";
   @state() def: boolean;
@@ -20,11 +22,11 @@ export class MenuList extends OpenAble {
       }
 
       dt i {
-        background-color: rgb(0 0 0 / 0.055);
+        background-color: rgb(${cssvarValues.mainRGB} / 0.055);
       }
 
       dt i:hover {
-        background-color: rgb(0 0 0 /0.075);
+        background-color: rgb(${cssvarValues.mainRGB} / 0.075);
       }
 
       :host([open]) svg {
@@ -35,7 +37,7 @@ export class MenuList extends OpenAble {
         display: none;
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
 
   protected render(): HTMLTemplate {
     const noTitle = !this.summary && !this.querySelector("[slot=summary]") ? "noTitle" : "";
@@ -62,6 +64,7 @@ export class MenuList extends OpenAble {
 }
 
 export default MenuList;
+
 declare global {
   interface HTMLElementTagNameMap {
     "menu-list": MenuList;

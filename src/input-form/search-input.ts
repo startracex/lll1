@@ -1,10 +1,15 @@
-import { css, CSSResultGroup, cssvar, define, html, ifDefined, property, query } from "../deps.js";
+import { createScope, css, type CSSResultGroup, cssvarValues, define, html, ifDefined, property, query, state } from "../deps.js";
 import { htmlSlot, type HTMLTemplate, svgSearch } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 
-@define("search-input")
+const defineName = "search-input";
+
+const cssvarInput = createScope(defineName);
+
+@define(defineName)
 export class SearchInput extends InputSTD {
   @query("input") _input!: HTMLInputElement;
+  @property({ type: Boolean }) autofocus = false;
   @property() query = "";
   @property() target = "";
   @property({ type: Boolean }) infer = false;
@@ -14,9 +19,8 @@ export class SearchInput extends InputSTD {
   @property() method: "get" | "post" = "get";
   @property() name = "q";
   @property() pla?: string = undefined;
-  @property({ type: Array }) list: any[] = [];
-  @property({ type: Boolean }) autofocus = false;
-  @property({ attribute: false }) useInfer = async (x: string) => {
+  @state() list: any[] = [];
+  @state() useInfer = async (x: string) => {
     await new Promise<void>((resolve) => {
       setTimeout(() => {
         resolve();
@@ -28,21 +32,22 @@ export class SearchInput extends InputSTD {
     InputSTD.styles,
     css`
       :host {
-        color: var(${cssvar}--text);
+        ${cssvarInput}--width:var(${cssvarValues.input}--width);
+        width: var(${cssvarValues.input}--width);
+        border-radius: var(${cssvarValues.input}--radius);
+        ${cssvarInput}--input-padding: 0;
         display: inline-block;
-        width: 100%;
-        border-radius: 0.75em;
       }
 
       div {
-        height: var(${cssvar}--input-height);
+        height: var(${cssvarValues.input}--height);
         flex: 1;
         display: flex;
         z-index: 2;
       }
 
       form {
-        background-color: var(${cssvar}--input-background);
+        background-color: var(${cssvarValues.input}--background);
         min-height: 100%;
         outline: 0.145em solid transparent;
         display: flex;
@@ -59,7 +64,7 @@ export class SearchInput extends InputSTD {
       }
 
       :host(:focus) form {
-        outline: var(${cssvar}--input-outline-width) solid var(${cssvar}--input-outline-color);
+        outline: var(${cssvarValues.input}--outline);
       }
 
       ul {
@@ -71,7 +76,7 @@ export class SearchInput extends InputSTD {
       }
 
       :host([float]) ul {
-        background: var(${cssvar}--input-background);
+        background: var(${cssvarValues.input}--background);
         padding-top: 1.5em;
         position: absolute;
         z-index: 1;
@@ -83,16 +88,12 @@ export class SearchInput extends InputSTD {
       }
 
       :host([float]:focus) ul {
-        outline: var(${cssvar}--input-outline-width) solid var(${cssvar}--input-outline-color);
+        outline: var(${cssvarValues.input}--outline);
       }
 
       li {
         padding: 0.1em 0.5em;
         font-size: 0.95rem;
-      }
-
-      li:hover {
-        background: var(${cssvar}--input-background-hover);
       }
 
       button,
@@ -109,8 +110,8 @@ export class SearchInput extends InputSTD {
         flex: 1;
         min-width: 0;
         box-sizing: border-box;
-        padding-left: 0.75em;
-        padding-right: 0;
+        margin-left: 0.25em;
+        padding: var(${cssvarInput}--input-padding: 0;);
         font-size: 1rem;
       }
 
@@ -119,7 +120,7 @@ export class SearchInput extends InputSTD {
         padding: 1px;
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
 
   protected render(): HTMLTemplate {
     return html`<form action="${this.action}" method="${this.method}">
@@ -177,6 +178,7 @@ export class SearchInput extends InputSTD {
 }
 
 export default SearchInput;
+
 declare global {
   interface HTMLElementTagNameMap {
     "search-input": SearchInput;

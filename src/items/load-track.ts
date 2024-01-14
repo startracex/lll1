@@ -1,12 +1,13 @@
-import { classMap, css, CSSResultGroup, cssvar, define, html, property, state } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
-import { InputSTD } from "../input-form/std.js";
+import { classMap, css, type CSSResultGroup, cssvarValues, define, html, property, state } from "../deps.js";
+import { type HTMLTemplate } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
-@define("load-track")
+const defineName = "load-track";
+
+@define(defineName)
 export class LoadTrack extends ItemsSTD {
   static styles = [
-    InputSTD.styles,
+    ItemsSTD.styles,
     css`
       :host,
       div {
@@ -15,7 +16,7 @@ export class LoadTrack extends ItemsSTD {
         width: 10em;
         height: 0.5em;
         border-radius: 0.25em;
-        background-color: var(${cssvar}--input-false);
+        background: var(${cssvarValues.input}--false);
         z-index: 1;
       }
 
@@ -26,7 +27,7 @@ export class LoadTrack extends ItemsSTD {
         left: 0;
         height: 100%;
         width: 20%;
-        background-color: var(${cssvar}--input-true);
+        background: var(${cssvarValues.cssvar}--accept);
         z-index: 2;
         transition: all 0.3s;
         animation: progress 1.5s ease-in-out infinite alternate;
@@ -46,7 +47,7 @@ export class LoadTrack extends ItemsSTD {
         width: 20%;
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
   @state() current = 20;
   @state() hasValue = false;
   @property({ type: Number }) max = 1;
@@ -74,7 +75,7 @@ export class LoadTrack extends ItemsSTD {
       this.current = this.parsePercent(this.value);
     }
     return html` <div class="${classMap({ value: this.hasValue })}" @click="${this._handleClick}">
-      <i style="width:${this.current}%;">${htmlSlot()}</i>
+      <i style="width:${this.current}%;"></i>
     </div>`;
   }
 
@@ -94,6 +95,7 @@ export class LoadTrack extends ItemsSTD {
 }
 
 export default LoadTrack;
+
 declare global {
   interface HTMLElementTagNameMap {
     "load-track": LoadTrack;

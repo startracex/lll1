@@ -2,7 +2,9 @@ import { define, property } from "../deps.js";
 import { RouteView } from "../view/route-view.js";
 import { SuperAnchor } from "./super-a.js";
 
-@define("link-a")
+const defineName = "link-a";
+
+@define(defineName)
 export class LinkAnchor extends SuperAnchor {
   @property({ type: Boolean, reflect: true }) active = false;
   @property({ type: Boolean }) replace = false;
@@ -57,6 +59,7 @@ export class LinkAnchor extends SuperAnchor {
 }
 
 export default LinkAnchor;
+
 declare global {
   interface HTMLElementTagNameMap {
     "link-a": LinkAnchor;

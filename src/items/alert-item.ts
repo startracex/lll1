@@ -1,8 +1,11 @@
-import { constructCSS, css, cssvar, define, html, property, unsafeCSS } from "../deps.js";
+import { constructCSS, createScope, css, define, html, property, unsafeCSS } from "../deps.js";
 import { htmlSlot, type HTMLTemplate, svgX } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
-const vars = ["color", "background", "border", "super"].map((v) => `${cssvar}--${v}`);
+const defineName = "alert-item";
+const cssvarScope = createScope(defineName);
+
+const vars = ["color", "background", "border", "super"].map((v) => `${cssvarScope}--${v}`);
 const colors = {
   success: ["#3c763d", "#dff0d8", "#d6e9c6", "#2b542c"],
   info: ["#31708f", "#d9edf7", "#bce8f1", "#245269"],
@@ -10,7 +13,7 @@ const colors = {
   danger: ["#a94442", "#f2dede", "#ebccd1", "#843534"],
 };
 
-@define("alert-item")
+@define(defineName)
 export class AlertItem extends ItemsSTD {
   static styles = [
     unsafeCSS(
@@ -20,26 +23,28 @@ export class AlertItem extends ItemsSTD {
     ),
     css`
       :host {
-        margin: 0.1em auto;
-        width: 100%;
-        display: inline-block;
+        ${cssvarScope}--padding:0 0.25em 0 0.35em;
+        ${cssvarScope}--border-width: 0.15em;
+        ${cssvarScope}--border-radius: 0.4em;
+        border-radius: var(${cssvarScope}--border-radius);
+        margin: 0 auto;
+        display: block;
       }
 
       .hide {
         opacity: 0;
-        transform: translateY(-50%);
+        transform: translateY(-100%);
       }
 
       .alert {
+        transition: 0.25s;
         display: flex;
         justify-content: space-between;
-        padding: 0.2em 0.5em;
-        border: 1px solid;
-        border-radius: 4px;
-        transition: all 0.25s;
-        color: var(${cssvar}--color);
-        background-color: var(${cssvar}--background);
-        border-color: var(${cssvar}--border);
+        padding: var(${cssvarScope}--padding);
+        border-radius: inherit;
+        border: var(${cssvarScope}--border-width) solid var(${cssvarScope}--border);
+        color: var(${cssvarScope}--color);
+        background-color: var(${cssvarScope}--background);
         animation: alert 0.25s ease-in-out;
       }
 
@@ -50,12 +55,11 @@ export class AlertItem extends ItemsSTD {
         }
         100% {
           opacity: 1;
-          transform: translateY(0);
+          transform: none;
         }
       }
 
       section.content {
-        margin: 0 0.25em 0 0.35em;
         min-height: 1.6em;
         line-height: 1.6em;
       }
@@ -64,7 +68,7 @@ export class AlertItem extends ItemsSTD {
         height: fit-content;
         width: fit-content;
         border-radius: 50%;
-        transition: all 0.3s;
+        transition: backdrop-filter inherit;
       }
 
       aside.close:hover {
@@ -78,17 +82,16 @@ export class AlertItem extends ItemsSTD {
       }
 
       aside.close:hover path {
-        stroke: var(${cssvar}--super);
+        stroke: var(${cssvarScope}--super);
       }
 
       path {
-        stroke: var(${cssvar}--color);
-        transition: all 0.3s;
+        stroke: var(${cssvarScope}--color);
       }
 
       .alert ::slotted(a) {
         font-weight: bold;
-        color: var(${cssvar}--super);
+        color: var(${cssvarScope}--super);
       }
     `,
   ];
@@ -101,7 +104,7 @@ export class AlertItem extends ItemsSTD {
     if (this.autoclose) {
       setTimeout(() => this.close(), this.autoclose);
     }
-    return html` <div class="${this.call} alert" role="alert">
+    return html`<div class="${this.call} alert" role="alert">
       <section class="content">
         <strong>
           <slot name="title"></slot>
@@ -117,7 +120,7 @@ export class AlertItem extends ItemsSTD {
     this.shadowRoot.querySelector(".alert").classList.add("hide");
     setTimeout(() => {
       this.remove();
-    }, 300);
+    }, 250);
   }
 
   static alert(root: HTMLElement, option: Partial<AlertItem>): AlertItem {

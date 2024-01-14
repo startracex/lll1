@@ -1,8 +1,10 @@
-import { css, CSSResultGroup, define, html, property } from "../deps.js";
+import { css, type CSSResultGroup, define, html, property } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
-@define("time-bar")
+const defineName = "time-bar";
+
+@define(defineName)
 export class TimeBar extends ItemsSTD {
   @property() format = "YYYY-MM-DD hh:mm:ss UTFZ";
   @property() value = "";

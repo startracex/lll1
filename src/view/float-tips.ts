@@ -2,10 +2,12 @@ import { css, define, html, state } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import OpenAble from "./std.js";
 
+const defineName = "float-tips";
+
 /**
  * Use a named slot to set the location of openable content.
  */
-@define("float-tips")
+@define(defineName)
 export class FloatTips extends OpenAble {
   @state() base: ("top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right")[] = ["top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"];
   static styles = [
@@ -72,5 +74,13 @@ export class FloatTips extends OpenAble {
         this.toggle();
       });
     }
+  }
+}
+
+export default FloatTips;
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "float-tips": FloatTips;
   }
 }

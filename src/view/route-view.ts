@@ -6,7 +6,9 @@ import RouteTree from "../lib/route-tree.js";
 
 type WithRecord<T extends string> = Record<string, any> & Record<T, string>;
 
-@define("route-view")
+const defineName = "route-view";
+
+@define(defineName)
 export class RouteView<T = unknown> extends GodownElement {
   private _routes: (WithRecord<"path"> & { component?: T })[] = [];
   private _routeTree: RouteTree = new RouteTree();
@@ -51,11 +53,13 @@ export class RouteView<T = unknown> extends GodownElement {
     return this._routes;
   }
 
-  static styles = css`
-    :host {
-      display: contents;
-    }
-  `;
+  static styles = [
+    css`
+      :host {
+        display: contents;
+      }
+    `,
+  ];
 
   reset() {
     this._routeTree = new RouteTree();

@@ -1,8 +1,11 @@
-import { css, cssvar, define, html, property, query, state } from "../deps.js";
+import { createScope, css, define, html, property, query, state } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import EffectSTD from "./std.js";
 
-@define("typewriter-text")
+const defineName = "typewriter-text";
+const cssvarScope = createScope(defineName);
+
+@define(defineName)
 export class TypewriterText extends EffectSTD {
   @property() text = "";
   @property({ type: Boolean }) stopped = false;
@@ -19,36 +22,38 @@ export class TypewriterText extends EffectSTD {
     return this.text.length;
   }
 
-  static styles = css`
-    :host {
-      ${cssvar}--cursor-width: .05em;
-      font-family: monospace;
-      white-space: nowrap;
-    }
-
-    i {
-      border-right: var(${cssvar}--cursor-width) solid;
-      margin-left: 0.02em;
-      animation: s 1.5s steps(1) infinite;
-    }
-
-    @keyframes s {
-      0% {
-        border-color: currentColor;
+  static styles = [
+    css`
+      :host {
+        ${cssvarScope}--cursor-width: .05em;
+        font-family: monospace;
+        white-space: nowrap;
       }
-      50% {
-        border-color: transparent;
+
+      i {
+        border-right: var(${cssvarScope}--cursor-width) solid;
+        margin-left: 0.02em;
+        animation: s 1.5s steps(1) infinite;
       }
-    }
 
-    slot {
-      display: none;
-    }
+      @keyframes s {
+        0% {
+          border-color: currentColor;
+        }
+        50% {
+          border-color: transparent;
+        }
+      }
 
-    .hidden {
-      visibility: hidden;
-    }
-  `;
+      slot {
+        display: none;
+      }
+
+      .hidden {
+        visibility: hidden;
+      }
+    `,
+  ];
 
   protected render(): HTMLTemplate {
     return html`${htmlSlot()}${this.content}<i class="${(this.ended && "hidden") || ""}"></i>`;

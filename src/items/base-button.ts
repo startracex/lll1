@@ -1,6 +1,9 @@
-import { constructCSS, css, cssvar, define, html, property, query, unsafeCSS } from "../deps.js";
+import { constructCSS, createScope, css, define, html, property, query, unsafeCSS } from "../deps.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
 import ItemsSTD from "./std.js";
+
+const defineName = "base-button";
+const cssvarScope = createScope(defineName);
 
 const vars = ["--color", "--background", "--box-shadow", "--ghost-color"];
 const colors = {
@@ -12,9 +15,9 @@ const colors = {
   yellow: ["#fff", "linear-gradient(45deg, rgb(223 194 0 / 85%), rgb(230 255 0 / 65%))", "-2px 2px 5px 0px rgb(214 203 55 / 20%), 2px -2px 5px 0 rgb(202 203 137 / 20%)", "rgb(237 224 43 / 80%)"],
 };
 
-const outlineBoxShadow = `0 0 0 var(${cssvar}--ghost-width) var(${cssvar}--ghost-color);`;
+const outlineBoxShadow = unsafeCSS(`0 0 0 var(${cssvarScope}--ghost-width) var(${cssvarScope}--ghost-color);`);
 
-@define("base-button")
+@define(defineName)
 export class BaseButton extends ItemsSTD {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) outline = false;
@@ -28,18 +31,19 @@ export class BaseButton extends ItemsSTD {
         vars,
         colors,
         (raw) => `:host([color="${raw}"])`,
-        (k, v) => `${cssvar}${k}:${v}`,
+        (k, v) => `${cssvarScope}${k}:${v}`,
       ),
     ),
     css`
       :host {
-        ${cssvar}--ghost-width: 4px;
-        ${cssvar}--modal-opacity: .18;
-        ${cssvar}--modal-opacity-end: 0;
-        ${cssvar}--modal-animation-duration: .8s;
-        color: var(${cssvar}--color);
-        background: var(${cssvar}--background);
-        box-shadow: var(${cssvar}--box-shadow);
+        ${cssvarScope}--padding: .125em .25em;
+        ${cssvarScope}--ghost-width: .15em;
+        ${cssvarScope}--modal-opacity: .15;
+        ${cssvarScope}--modal-opacity-end: 0;
+        ${cssvarScope}--modal-animation-duration: .8s;
+        color: var(${cssvarScope}--color);
+        background: var(${cssvarScope}--background);
+        box-shadow: var(${cssvarScope}--box-shadow);
         display: inline-flex;
         width: fit-content;
         border-radius: 4px;
@@ -56,6 +60,7 @@ export class BaseButton extends ItemsSTD {
       }
 
       div {
+        padding: var(${cssvarScope}--padding);
         width: 100%;
         height: 100%;
         position: relative;
@@ -75,7 +80,7 @@ export class BaseButton extends ItemsSTD {
         border-radius: 50%;
         transform: translate(0, 0);
         background: currentColor;
-        opacity: var(${cssvar}--modal-opacity-end);
+        opacity: var(${cssvarScope}--modal-opacity-end);
       }
 
       b {
@@ -88,7 +93,7 @@ export class BaseButton extends ItemsSTD {
       :host([active]) i {
         visibility: visible;
         animation-name: i;
-        animation-duration: var(${cssvar}--modal-animation-duration);
+        animation-duration: var(${cssvarScope}--modal-animation-duration);
       }
 
       p {
@@ -96,34 +101,34 @@ export class BaseButton extends ItemsSTD {
       }
 
       :host([ghost]) p {
-        background-image: var(${cssvar}--background);
+        background-image: var(${cssvarScope}--background);
         background-clip: text;
         -webkit-background-clip: text;
         color: transparent;
       }
 
       :host([ghost]) {
-        ${cssvar}--modal-opacity: .2;
+        ${cssvarScope}--modal-opacity: .2;
         background: transparent;
-        box-shadow: ${unsafeCSS(outlineBoxShadow)};
+        box-shadow: ${outlineBoxShadow};
       }
 
       :host([ghost]) i {
-        background: var(${cssvar}--ghost-color);
+        background: var(${cssvarScope}--ghost-color);
       }
 
       @keyframes i {
         0% {
           transform: scale(0);
-          opacity: var(${cssvar}--modal-opacity);
+          opacity: var(${cssvarScope}--modal-opacity);
         }
         100% {
           transform: scale(1);
-          opacity: var(${cssvar}--modal-opacity-end);
+          opacity: var(${cssvarScope}--modal-opacity-end);
         }
       }
       :host([outline]) {
-        ${cssvar}--modal-opacity-end:var( ${cssvar}--modal-opacity);
+        ${cssvarScope}--modal-opacity-end:var( ${cssvarScope}--modal-opacity);
       }
     `,
   ];
@@ -153,11 +158,6 @@ export class BaseButton extends ItemsSTD {
   }
 
   protected firstUpdated() {
-    const padding = getComputedStyle(this).padding;
-    if (padding) {
-      this._slot.style.padding = padding;
-      this.style.padding = "0px";
-    }
     if (this.outline) {
       this.addEvent(window, "click", this._handleClick.bind(this));
     } else {
@@ -171,7 +171,9 @@ export class BaseButton extends ItemsSTD {
       return;
     }
     this.blur();
-    const size = `${Math.max(this._div.offsetHeight, this._div.offsetWidth) * 2.8285}px`;
+    const a = this._div.offsetHeight + 1;
+    const b = this._div.offsetWidth + 1;
+    const size = `${Math.sqrt(a * a + b * b) * 2}px`;
     const translate = `translate(calc(-50% + ${e.offsetX}px), calc(-50% + ${e.offsetY}px))`;
     this._b.style.width = size;
     this._b.style.height = size;
@@ -189,6 +191,7 @@ export class BaseButton extends ItemsSTD {
 }
 
 export default BaseButton;
+
 declare global {
   interface HTMLElementTagNameMap {
     "base-button": BaseButton;

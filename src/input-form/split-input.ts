@@ -1,17 +1,20 @@
-import { css, CSSResultGroup, cssvar, define, html, type HTMLTemplate, property, query, queryAll } from "../deps.js";
+import { createScope, css, type CSSResultGroup, cssvarValues, define, html, type HTMLTemplate, property, query, queryAll } from "../deps.js";
 import { InputSTD } from "./std.js";
 
-@define("split-input")
+const defineName = "split-input";
+
+const cssScope = createScope(defineName);
+
+@define(defineName)
 export class SplitInput extends InputSTD {
   static styles = [
     InputSTD.styles,
     css`
       :host {
-        ${cssvar}--splited-width: .12em;
+        ${cssScope}--outline: .12em solid var( ${cssvarValues.input}--outline-color);
         display: inline-flex;
         width: fit-content;
-        border-radius: 0.1px;
-        font-size: 147%;
+        border-radius: 1px;
       }
 
       * {
@@ -23,15 +26,15 @@ export class SplitInput extends InputSTD {
         vertical-align: top;
         position: relative;
         display: inline-flex;
+        gap: 0.2em;
       }
 
       span {
         box-sizing: content-box;
         vertical-align: top;
         display: inline-flex;
-        width: 1em;
-        padding: 0.1em;
-        height: 1em;
+        width: 1.4em;
+        height: 1.4em;
         pointer-events: all;
       }
 
@@ -39,27 +42,22 @@ export class SplitInput extends InputSTD {
         height: inherit;
         width: 100%;
         z-index: 1;
-        background-color: var(${cssvar}--input-false);
-        font-style: normal;
+        background-color: var(${cssvarValues.input}--false);
         text-align: center;
-        font-size: 80%;
-        line-height: unset;
       }
 
       input {
         position: absolute;
         opacity: 0;
         left: 0;
-        right: 0;
         top: 0;
-        bottom: 0;
       }
 
       .focus i {
-        outline: var(${cssvar}--splited-width) solid var(${cssvar}--input-true);
+        outline: var(${cssScope}--outline);
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
   @property({ type: Number }) max = 6;
   @property({ type: Number }) index = -1;
   @property({ type: Boolean }) autofocus = false;
@@ -74,7 +72,7 @@ export class SplitInput extends InputSTD {
         ${Array(this.max)
           .fill(0)
           .map(() => html`<span><i></i></span>`)}
-        <input @input="${this._handleInput}" value="     " />
+        <input @input="${this._handleInput}" />
       </div>
     `;
   }
@@ -130,11 +128,12 @@ export class SplitInput extends InputSTD {
   }
 
   focusAt(i = this.current) {
+    const focus = "focus";
     this._spans.forEach((span) => {
-      span.classList.remove("focus");
+      span.classList.remove(focus);
     });
-    this._spans[i]?.classList.add("focus");
-    this._input.value = "      ";
+    this._spans[i]?.classList.add(focus);
+    this._input.value = "";
   }
 
   blur(i = this.current) {
@@ -154,6 +153,7 @@ export class SplitInput extends InputSTD {
 }
 
 export default SplitInput;
+
 declare global {
   interface HTMLElementTagNameMap {
     "split-input": SplitInput;

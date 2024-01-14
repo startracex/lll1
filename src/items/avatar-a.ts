@@ -1,48 +1,53 @@
-import { css, cssvar, define, html, ifDefined, property } from "../deps.js";
+import { createScope, css, define, html, ifDefined, property } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
-@define("avatar-a")
+const defineName = "avatar-a";
+const cssvarScope = createScope(defineName);
+
+@define(defineName)
 export class AvatarAnchor extends ItemsSTD {
-  static styles = css`
-    :host {
-      ${cssvar}--ava: 1.5em;
-      display: inline-flex;
-    }
+  static styles = [
+    css`
+      :host {
+        ${cssvarScope}--ava: 1.5em;
+        display: inline-flex;
+      }
 
-    * {
-      border-radius: inherit;
-    }
+      * {
+        border-radius: inherit;
+      }
 
-    img {
-      width: 100%;
-      height: 100%;
-    }
+      img {
+        width: 100%;
+        height: 100%;
+      }
 
-    a {
-      height: var(${cssvar}--ava);
-      width: var(${cssvar}--ava);
-      color: inherit;
-      display: flex;
-      position: relative;
-      align-items: inherit;
-    }
+      a {
+        height: var(${cssvarScope}--ava);
+        width: var(${cssvarScope}--ava);
+        color: inherit;
+        display: flex;
+        position: relative;
+        align-items: inherit;
+      }
 
-    span {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-    }
+      span {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+      }
 
-    slot[name="mask"] {
-      position: absolute;
-      display: flex;
-      width: 100%;
-      height: 100%;
-      align-items: center;
-      justify-content: center;
-    }
-  `;
+      slot[name="mask"] {
+        position: absolute;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+      }
+    `,
+  ];
   @property() src: string | undefined | null = "";
   @property() def: string = undefined;
   @property() href = undefined;
@@ -69,7 +74,7 @@ export class AvatarAnchor extends ItemsSTD {
       name = name[0].toUpperCase() + name.slice(1);
       return html`<span>${name}</span>`;
     }
-    return html`<slot name="avatar"></slot>`;
+    return htmlSlot("avatar");
   }
 
   imgOnError(e: ErrorEvent) {
@@ -82,6 +87,7 @@ export class AvatarAnchor extends ItemsSTD {
 }
 
 export default AvatarAnchor;
+
 declare global {
   interface HTMLElementTagNameMap {
     "avatar-a": AvatarAnchor;

@@ -2,7 +2,9 @@ import { css, define, html, property } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
-@define("drag-box")
+const defineName = "drag-box";
+
+@define(defineName)
 export class DragBox extends LayoutSTD {
   drag: boolean;
   t: number;
@@ -11,12 +13,14 @@ export class DragBox extends LayoutSTD {
   cy: number;
   @property() x = "auto";
   @property() y = "auto";
-  static styles = css`
-    :host {
-      position: relative;
-      display: inline-flex;
-    }
-  `;
+  static styles = [
+    css`
+      :host {
+        position: relative;
+        display: inline-flex;
+      }
+    `,
+  ];
 
   protected render(): HTMLTemplate {
     return html`<div @mousedown="${this._handleDragStart}" @mouseup="${this._handleDragEnd}">${htmlSlot()}</div>`;

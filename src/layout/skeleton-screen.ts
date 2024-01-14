@@ -1,8 +1,11 @@
-import { css, CSSResultGroup, cssvar, define, html, property, state } from "../deps.js";
+import { createScope, css, type CSSResultGroup, cssvarValues, define, html, property, state } from "../deps.js";
 import { htmlSlot, type HTMLTemplate, svgImage } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
-@define("skeleton-screen")
+const defineName = "skeleton-screen";
+const cssvarScope = createScope(defineName);
+
+@define(defineName)
 export class SkeletonScreen extends LayoutSTD {
   @property() type: "text" | "image" = "text";
   @state() loading = true;
@@ -12,28 +15,27 @@ export class SkeletonScreen extends LayoutSTD {
       :host {
         display: block;
         min-height: 1.5em;
-        border-radius: 0.2em;
         overflow: hidden;
-        ${cssvar}--skeleton-from: rgb(255 255 255 / 9%);
-        ${cssvar}--skeleton-to: rgb(255 255 255 / 18%);
-        ${cssvar}--skeleton-deg: 94deg;
-        ${cssvar}--skeleton-color: rgb(185 185 185);
-        ${cssvar}--skeleton-background: rgb(24 24 24);
-        ${cssvar}--skeleton-duration: 1.5s;
-        ${cssvar}--skeleton-icon-width: 5em;
-        ${cssvar}--skeleton-icon-height: 5em;
-        ${cssvar}--skeleton-icon-margin: .75em;
-        color: var(${cssvar}--skeleton-color);
-        background: var(${cssvar}--skeleton-background);
+        ${cssvarScope}--from: rgb(var(${cssvarValues.textRGB}) / 7.5%);
+        ${cssvarScope}--to: rgb(var(${cssvarValues.textRGB}) / 20%);
+        ${cssvarScope}--deg: 94deg;
+        ${cssvarScope}--color: rgb(var(${cssvarValues.textRGB}) / 50%);
+        ${cssvarScope}--background: var(${cssvarValues.main});
+        ${cssvarScope}--duration: 1.5s;
+        ${cssvarScope}--icon-width: 5em;
+        ${cssvarScope}--icon-height: 5em;
+        ${cssvarScope}--icon-margin: .75em;
+        color: var(${cssvarScope}--color);
+        background: var(${cssvarScope}--background);
       }
 
       p {
         height: 100%;
         min-height: inherit;
-        background-image: linear-gradient(var(${cssvar}--skeleton-deg), var(${cssvar}--skeleton-from) 36%, var(${cssvar}--skeleton-to) 50%, var(${cssvar}--skeleton-from) 64%);
+        background-image: linear-gradient(var(${cssvarScope}--deg), var(${cssvarScope}--from) 36%, var(${cssvarScope}--to) 50%, var(${cssvarScope}--from) 64%);
         background-color: transparent;
         background-size: 200% 100%;
-        animation: var(${cssvar}--skeleton-duration) ease-in-out 0s infinite normal none running kf;
+        animation: var(${cssvarScope}--duration) ease-in-out 0s infinite normal none running kf;
       }
 
       @keyframes kf {
@@ -46,17 +48,17 @@ export class SkeletonScreen extends LayoutSTD {
       }
 
       path {
-        fill: var(${cssvar}--skeleton-color);
+        fill: var(${cssvarScope}--color);
       }
 
       svg,
       slot {
-        width: var(${cssvar}--skeleton-icon-width);
-        height: var(${cssvar}--skeleton-icon-height);
+        width: var(${cssvarScope}--icon-width);
+        height: var(${cssvarScope}--icon-height);
       }
 
       svg {
-        margin: var(${cssvar}--skeleton-icon-margin);
+        margin: var(${cssvarScope}--icon-margin);
       }
 
       p,
@@ -66,7 +68,7 @@ export class SkeletonScreen extends LayoutSTD {
         justify-content: center;
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
 
   protected render(): HTMLTemplate {
     if (this.loading) {

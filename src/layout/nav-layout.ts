@@ -1,15 +1,21 @@
-import { css, CSSResultGroup, cssvar, define, html, property } from "../deps.js";
+import { createScope, css, type CSSResultGroup, cssvarValues, define, html, property } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
-@define("nav-layout")
+const defineName = "nav-layout";
+const cssvarScope = createScope(defineName);
+
+@define(defineName)
 export class NavLayout extends LayoutSTD {
   static styles = [
     LayoutSTD.styles,
     css`
       :host {
-        ${cssvar}--nav-height: 2.4em;
-        ${cssvar}--nav-h1-size: 1.2em;
+        ${cssvarScope}--text: var(${cssvarValues.text});
+        ${cssvarScope}--background: var(${cssvarValues.main});
+        ${cssvarScope}--super-background:var(${cssvarValues.input}--true);
+        ${cssvarScope}--height: 2.4em;
+        ${cssvarScope}--h1-size: calc(var(${cssvarScope}--height) / 2);
         width: 100%;
         height: 100%;
         display: flex;
@@ -20,13 +26,13 @@ export class NavLayout extends LayoutSTD {
       }
 
       nav {
-        color: var(${cssvar}--nav-text);
-        background: var(${cssvar}--nav-background);
+        color: var(${cssvarScope}--text);
+        background: var(${cssvarScope}--background);
       }
 
       nav {
-        height: var(${cssvar}--nav-height);
-        min-height: var(${cssvar}--nav-height);
+        height: var(${cssvarScope}--height);
+        min-height: var(${cssvarScope}--height);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -45,7 +51,7 @@ export class NavLayout extends LayoutSTD {
 
       h1 {
         font-weight: normal;
-        font-size: var(${cssvar}--nav-h1-size);
+        font-size: var(${cssvarScope}--h1-size);
         margin: 0;
         display: flex;
         align-items: center;
@@ -83,7 +89,7 @@ export class NavLayout extends LayoutSTD {
         }
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
   @property() host = "";
   @property() subhead = "";
   @property({ type: Number }) set: 0 | 1 | 2 = 0;

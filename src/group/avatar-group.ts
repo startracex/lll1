@@ -3,21 +3,25 @@ import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
 import AvatarAnchor from "../items/avatar-a.js";
 import GroupSTD from "./std.js";
 
-@define("avatar-group")
+const defineName = "avatar-group";
+
+@define(defineName)
 export class AvatarGroup extends GroupSTD {
   @property({ type: Number }) max = 0;
   @property({ type: Number }) more = 0;
-  static styles = css`
-    :host {
-      display: flex;
-      width: 100%;
-      height: 100%;
-    }
+  static styles = [
+    css`
+      :host {
+        display: flex;
+        width: 100%;
+        height: 100%;
+      }
 
-    div {
-      display: contents;
-    }
-  `;
+      div {
+        display: contents;
+      }
+    `,
+  ];
 
   protected render(): HTMLTemplate {
     const cssStr = `slot::slotted(:nth-of-type(n + ${(this.max || 0) + 1})) {display: none;}`;

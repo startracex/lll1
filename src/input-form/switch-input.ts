@@ -1,15 +1,20 @@
-import { css, CSSResultGroup, cssvar, define, html, property, query } from "../deps.js";
+import { createScope, css, type CSSResultGroup, cssvarValues, define, html, property, query } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 
-@define("switch-input")
+const defineName = "switch-input";
+const cssScope = createScope(defineName);
+
+@define(defineName)
 export class SwitchInput extends InputSTD {
   static styles = [
     InputSTD.styles,
     css`
       :host {
-        width: 3em;
-        height: 1.5em;
+        ${cssScope}--width: 3em;
+        ${cssScope}--height: calc(var(${cssScope}--width) / 2);
+        width: var(${cssScope}--width);
+        height: var(${cssScope}--height);
       }
 
       :host,
@@ -36,7 +41,7 @@ export class SwitchInput extends InputSTD {
         -moz-appearance: none;
         position: relative;
         font-size: inherit;
-        background-color: var(${cssvar}--input-false);
+        background: var(${cssvarValues.input}--false);
         border-radius: inherit;
         transition: all 0.3s;
       }
@@ -84,19 +89,19 @@ export class SwitchInput extends InputSTD {
 
       .rect input:checked ~ aside div.true,
       .rect .false {
-        background-color: var(${cssvar}--input-true);
+        background-color: var(${cssvarValues.input}--true);
       }
 
       .rect input:checked ~ aside div.false,
       .rect .true {
-        background-color: var(${cssvar}--input-false);
+        background: var(${cssvarValues.input}--false);
       }
 
       .fat aside {
         width: 1.2em;
         height: 1.2em;
         border-radius: 50%;
-        background-color: var(${cssvar}--input-control);
+        background: var(${cssvarValues.input}--control);
         transition: 0.3s;
         left: 0.15em;
         top: 0.15em;
@@ -108,7 +113,7 @@ export class SwitchInput extends InputSTD {
       }
 
       .fat input:checked {
-        background-color: var(${cssvar}--input-true);
+        background: var(${cssvarValues.input}--true);
       }
 
       .fat input:checked ~ aside {
@@ -126,7 +131,7 @@ export class SwitchInput extends InputSTD {
         display: none;
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
   @property() base: "fat" | "rect" = "rect";
@@ -172,6 +177,7 @@ export class SwitchInput extends InputSTD {
 }
 
 export default SwitchInput;
+
 declare global {
   interface HTMLElementTagNameMap {
     "switch-input": SwitchInput;

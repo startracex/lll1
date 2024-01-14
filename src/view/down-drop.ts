@@ -1,14 +1,16 @@
-import { css, CSSResultGroup, define, html, query } from "../deps.js";
+import { css, type CSSResultGroup, define, html, query } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import { debounce } from "../lib/utils.js";
 import { OpenAble } from "./std.js";
+
+const defineName = "down-drop";
 
 /**
  * DownDrop will calculate a lateral offset to try to keep the content within the allowable range
  *
  * Any named slot will be available as openable content
  */
-@define("down-drop")
+@define(defineName)
 export class DownDrop extends OpenAble {
   @query("aside") private _balancer: HTMLDivElement;
   static styles = [
@@ -109,6 +111,7 @@ export class DownDrop extends OpenAble {
 }
 
 export default DownDrop;
+
 declare global {
   interface HTMLElementTagNameMap {
     "down-drop": DownDrop;

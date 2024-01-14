@@ -2,7 +2,9 @@ import { css, define, GodownElement, html, property } from "../deps.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
 import { debounce } from "../lib/utils.js";
 
-@define("scroll-x")
+const defineName = "scroll-x";
+
+@define(defineName)
 export class ScrollX extends GodownElement {
   @property() height = "";
   static styles = css`
@@ -23,7 +25,6 @@ export class ScrollX extends GodownElement {
     }
 
     span {
-      height: 500px;
       display: flex;
     }
 
@@ -68,9 +69,9 @@ export class ScrollX extends GodownElement {
     if (!child) {
       return;
     }
-    const ClientHeight = child.clientHeight || 0;
-    if (ClientHeight) {
-      this._section.style.width = ClientHeight + "px";
+    const height = child.clientHeight || 0;
+    if (height) {
+      this._section.style.width = height + "px";
       this._section.style.height = getComputedStyle(this).width;
     } else {
       const ComputedHeight = getComputedStyle(child).height;

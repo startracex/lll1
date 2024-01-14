@@ -1,52 +1,25 @@
-import { css, cssvar, define, html, type HTMLTemplate, property } from "../deps.js";
+import { createScope, css, define, html, type HTMLTemplate, property } from "../deps.js";
 import EffectSTD from "./std.js";
+
+const defineName = "overbreath-text";
+const cssvarScope = createScope(defineName);
 
 const theme = css`
   :host {
-    ${cssvar}--ov-text: aliceblue;
-    ${cssvar}--ov-border: 0.275em;
-    ${cssvar}--ov-port: #1a1a1a;
-    ${cssvar}--ov-1-1: #ae0ca5;
-    ${cssvar}--ov-1-2: #ffd802;
-    ${cssvar}--ov-2-1: #1fe173;
-    ${cssvar}--ov-2-2: #582bca;
-    ${cssvar}--ov-3-1: #00b4f0;
-    ${cssvar}--ov-3-2: #e614e6;
-    ${cssvar}--ov-deg: 60deg;
-    ${cssvar}--ov-1: linear-gradient(var(${cssvar}--ov-deg), var(${cssvar}--ov-1-1), var(${cssvar}--ov-1-2));
-    ${cssvar}--ov-2: linear-gradient(var(${cssvar}--ov-deg), var(${cssvar}--ov-2-1), var(${cssvar}--ov-2-2));
-    ${cssvar}--ov-3: linear-gradient(var(${cssvar}--ov-deg), var(${cssvar}--ov-3-1), var(${cssvar}--ov-3-2));
-  }
-  .overbreathflow {
-    animation: 8s linear infinite breathflow;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    border-radius: inherit;
-  }
-  @keyframes breathflow {
-    0%,
-    100% {
-      opacity: 1;
-      background-image: var(${cssvar}--ov-1);
-    }
-    33.33% {
-      opacity: 1;
-      background-image: var(${cssvar}--ov-2);
-    }
-    16.66%,
-    50.33%,
-    83% {
-      opacity: 0;
-    }
-    66.67% {
-      opacity: 1;
-      background-image: var(${cssvar}--ov-3);
-    }
+    ${cssvarScope}--1-1: #ae0ca5;
+    ${cssvarScope}--1-2: #ffd802;
+    ${cssvarScope}--2-1: #1fe173;
+    ${cssvarScope}--2-2: #582bca;
+    ${cssvarScope}--3-1: #00b4f0;
+    ${cssvarScope}--3-2: #e614e6;
+    ${cssvarScope}--deg: 60deg;
+    ${cssvarScope}--1: linear-gradient(var(${cssvarScope}--deg), var(${cssvarScope}--1-1), var(${cssvarScope}--1-2));
+    ${cssvarScope}--2: linear-gradient(var(${cssvarScope}--deg), var(${cssvarScope}--2-1), var(${cssvarScope}--2-2));
+    ${cssvarScope}--3: linear-gradient(var(${cssvarScope}--deg), var(${cssvarScope}--3-1), var(${cssvarScope}--3-2));
   }
 `;
 
-@define("overbreath-text")
+@define(defineName)
 export class OverbreathText extends EffectSTD {
   static styles = [
     theme,
@@ -59,7 +32,7 @@ export class OverbreathText extends EffectSTD {
         align-items: center;
       }
 
-      @media screen and (max-width: 1280px) {
+      @media (max-width: 1280px) {
         :host {
           flex-direction: column;
         }
@@ -100,17 +73,17 @@ export class OverbreathText extends EffectSTD {
 
       .rel:nth-child(1) .ani {
         animation: ani1 8s infinite;
-        background-image: var(${cssvar}--ov-1);
+        background-image: var(${cssvarScope}--1);
       }
 
       .rel:nth-child(2) .ani {
         animation: 8s ease 0s infinite normal none running ani2;
-        background-image: var(${cssvar}--ov-2);
+        background-image: var(${cssvarScope}--2);
       }
 
       .rel:nth-child(3) .ani {
         animation: 8s ease 0s infinite normal none running ani3;
-        background-image: var(${cssvar}--ov-3);
+        background-image: var(${cssvarScope}--3);
       }
 
       .rel:nth-child(1) .abs {

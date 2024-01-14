@@ -1,85 +1,89 @@
-import { css, define, html, type HTMLTemplate, property, query } from "../deps.js";
+import { css, cssvarValues, define, html, type HTMLTemplate, property, query } from "../deps.js";
 import ItemsSTD from "./std.js";
-import { PropertyValueMap } from "lit";
+import type { PropertyValueMap } from "lit";
 
-@define("dialog-item")
+const defineName = "dialog-item";
+
+@define(defineName)
 export class DialogItem extends ItemsSTD {
-  static styles = css`
-    :host {
-      position: fixed;
-      height: 100%;
-      width: 100%;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      transition: all 0.3s;
-      display: flex;
-      visibility: hidden;
-      background: rgb(0 0 0 / 0%);
-      pointer-events: none;
-    }
+  static styles = [
+    css`
+      :host {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transition: all 0.3s;
+        display: flex;
+        visibility: hidden;
+        background: rgb(${cssvarValues.mainRGB} / 0%);
+        pointer-events: none;
+      }
 
-    :host([open]) {
-      visibility: visible;
-    }
+      :host([open]) {
+        visibility: visible;
+      }
 
-    :host([open][modal]) {
-      pointer-events: all;
-      backdrop-filter: blur(0.25px);
-      background: rgb(0 0 0 / 20%);
-    }
+      :host([open][modal]) {
+        pointer-events: all;
+        backdrop-filter: blur(0.25px);
+        background: rgb(${cssvarValues.mainRGB} / 20%);
+      }
 
-    :host([open]) slot {
-      opacity: 1 !important;
-      transform: translateY(0) translateX(0) !important;
-    }
+      :host([open]) slot {
+        opacity: 1 !important;
+        transform: translateY(0) translateX(0) !important;
+      }
 
-    div {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      transition: inherit;
-    }
+      div {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        transition: inherit;
+      }
 
-    slot {
-      display: block;
-      width: fit-content;
-      height: fit-content;
-      margin: auto;
-      opacity: 0;
-      transition: inherit;
-      pointer-events: all;
-    }
+      slot {
+        display: block;
+        width: fit-content;
+        height: fit-content;
+        margin: auto;
+        opacity: 0;
+        transition: inherit;
+        pointer-events: all;
+      }
 
-    .center {
-      transform: translateY(-15%);
-    }
+      .center {
+        transform: translateY(-15%);
+      }
 
-    .top {
-      width: 100%;
-      margin-top: 0;
-      transform: translateY(-15%);
-    }
+      .top {
+        width: 100%;
+        margin-top: 0;
+        transform: translateY(-15%);
+      }
 
-    .right {
-      height: 100%;
-      margin-right: 0;
-      transform: translateX(15%);
-    }
+      .right {
+        height: 100%;
+        margin-right: 0;
+        transform: translateX(15%);
+      }
 
-    .bottom {
-      width: 100%;
-      margin-bottom: 0;
-      transform: translateY(15%);
-    }
+      .bottom {
+        width: 100%;
+        margin-bottom: 0;
+        transform: translateY(15%);
+      }
 
-    .left {
-      height: 100%;
-      margin-left: 0;
-      transform: translateX(-15%);
-    }
-  `;
+      .left {
+        height: 100%;
+        margin-left: 0;
+        transform: translateX(-15%);
+      }
+    `,
+  ];
   @property({ type: Boolean, reflect: true }) modal = false;
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ type: Boolean }) scale = false;
@@ -89,7 +93,7 @@ export class DialogItem extends ItemsSTD {
   @query("div") _div: HTMLDivElement;
 
   protected render(): HTMLTemplate {
-    return html` <div>
+    return html`<div>
       <slot class="${this.call}"></slot>
     </div>`;
   }
@@ -159,6 +163,7 @@ export class DialogItem extends ItemsSTD {
 }
 
 export default DialogItem;
+
 declare global {
   interface HTMLElementTagNameMap {
     "dialog-item": DialogItem;

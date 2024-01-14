@@ -2,7 +2,9 @@ import { css, define, property } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
-@define("with-wrap")
+const defineName = "with-wrap";
+
+@define(defineName)
 export class WithWrap extends LayoutSTD {
   @property() with = "";
   static styles = css`

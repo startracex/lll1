@@ -1,15 +1,20 @@
-import { css, CSSResultGroup, cssvar, define, html, property } from "../deps.js";
+import { createScope, css, type CSSResultGroup, cssvarValues, define, html, property } from "../deps.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
-@define("nav-aside")
+const defineName = "nav-aside";
+const cssvarScope = createScope(defineName);
+
+@define(defineName)
 export class NavAside extends LayoutSTD {
   static styles = [
     LayoutSTD.styles,
     css`
       :host {
-        color: var(${cssvar}--nav-text);
-        background: var(${cssvar}--nav-background);
+        ${cssvarScope}--text: var(${cssvarValues.text});
+        ${cssvarScope}--background: var(${cssvarValues.main});
+        color: var(${cssvarScope}--text);
+        background: var(${cssvarScope}--background);
         top: 0;
         left: 0;
         bottom: 0;
@@ -28,7 +33,7 @@ export class NavAside extends LayoutSTD {
         box-sizing: border-box;
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
   @property() m = "720px";
   @property() position = "sticky fixed";
 

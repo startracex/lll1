@@ -1,23 +1,22 @@
-import { css, CSSResultGroup, cssvar, define, GodownElement, html, ifDefined, property, query } from "../deps.js";
+import { css, type CSSResultGroup, cssvar, cssvarValues, define, GodownElement, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import { InputSTD } from "./std.js";
 import type { InputType } from "./std.js";
 
-@define("base-input")
+const defineName = "base-input";
+
+@define(defineName)
 export class BaseInput extends InputSTD {
   static styles = [
     InputSTD.styles,
     css`
       :host {
-        ${cssvar}--input-control: rgb(240 240 240);
-        ${cssvar}--input-control-edge: var(${cssvar}--input-true);
         display: inline-flex;
-        width: var(${cssvar}--input-width);
-        height: var(${cssvar}--input-height);
-        background: var(${cssvar}--input-background);
-        outline: transparent solid var(${cssvar}--input-outline-width);
-        color: var(${cssvar}--text);
-        border-radius: 0.2em;
+        width: var(${cssvarValues.input}--width);
+        height: var(${cssvarValues.input}--height);
+        background: var(${cssvarValues.input}--background);
+        outline: var(${cssvarValues.input}--outline);
+        border-radius: var(${cssvarValues.input}--radius);
       }
 
       input[type="file"] {
@@ -51,14 +50,14 @@ export class BaseInput extends InputSTD {
       :host([type="range"]) {
         height: auto !important;
         margin: 0.3em 0;
-        background: var(${cssvar}--input-false);
+        background: var(${cssvarValues.input}--false);
         border-radius: 2em;
       }
 
       .range b:nth-of-type(1) {
         width: 1em;
         left: 0;
-        background: var(${cssvar}--input-true);
+        background: var(${cssvarValues.input}--true);
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
       }
@@ -95,7 +94,7 @@ export class BaseInput extends InputSTD {
         width: 50%;
         height: 100%;
         pointer-events: none;
-        background: var(${cssvar}--input-true);
+        background: var(${cssvarValues.input}--true);
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
       }
@@ -112,13 +111,13 @@ export class BaseInput extends InputSTD {
         height: 1.2em;
         width: 1.2em;
         margin-top: -0.3em;
-        background: var(${cssvar}--input-control);
+        background: var(${cssvarValues.input}--control);
         border-radius: 50%;
-        border: solid 0.125em var(${cssvar}--input-control-edge);
+        border: solid 0.125em var(${cssvarValues.input}--control-edge);
         box-shadow: 0 0.1em 0.1em var(${cssvar}--shadow);
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
   @query("#input") _input: HTMLInputElement;
   @query(".range i") _ranged: HTMLElement;
   @property() accept = undefined;
@@ -205,6 +204,7 @@ export class BaseInput extends InputSTD {
 }
 
 export default BaseInput;
+
 declare global {
   interface HTMLElementTagNameMap {
     "base-input": BaseInput;

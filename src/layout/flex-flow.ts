@@ -2,15 +2,19 @@ import { css, define, html, property } from "../deps.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
 import LayoutSTD from "./std.js";
 
-@define("flex-flow")
+const defineName = "flex-flow";
+
+@define(defineName)
 export class FlexFlow extends LayoutSTD {
   @property() flexflow = "row nowrap column nowrap";
   @property() m = "720px";
-  static styles = css`
-    :host {
-      display: flex !important;
-    }
-  `;
+  static styles = [
+    css`
+      :host {
+        display: flex !important;
+      }
+    `,
+  ];
 
   protected render(): HTMLTemplate {
     const flexflow = this.flexflow.split(/\s+/);

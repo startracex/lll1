@@ -1,8 +1,10 @@
-import { css, CSSResultGroup, cssvar, define, html, ifDefined, property, query } from "../deps.js";
+import { css, type CSSResultGroup, cssvarValues, define, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate, svgEye } from "../tmpl.js";
 import { InputSTD, type InputType } from "./std.js";
 
-@define("label-input")
+const defineName = "label-input";
+
+@define(defineName)
 export class LabelInput extends InputSTD {
   @property({ reflect: true }) type: InputType = "text";
   @property({ type: Boolean }) autofocus = false;
@@ -14,8 +16,8 @@ export class LabelInput extends InputSTD {
       :host {
         background-color: inherit;
         display: block;
-        border-radius: 0.2em;
-        max-width: calc(var(${cssvar}--input-width) * 2);
+        border-radius: var(${cssvarValues.input}--radius);
+        max-width: calc(var(${cssvarValues.input}--width) * 2);
         margin: auto;
       }
 
@@ -45,7 +47,7 @@ export class LabelInput extends InputSTD {
       }
 
       fieldset:focus-within {
-        outline: 0.18em solid var(${cssvar}--input-outline-color);
+        outline: var(${cssvarValues.input}--outline);
       }
 
       i {
@@ -62,21 +64,20 @@ export class LabelInput extends InputSTD {
       }
 
       fieldset {
-        color: var(${cssvar}--text);
         position: relative;
-        background-color: var(${cssvar}--input-background);
+        background-color: var(${cssvarValues.input}--background);
         display: flex;
         align-items: center;
         border-radius: inherit;
-        height: var(${cssvar}--input-height);
-        width: var(${cssvar}--input-width);
+        height: var(${cssvarValues.input}--height);
+        width: var(${cssvarValues.input}--width);
       }
 
       ::-ms-reveal {
         display: none;
       }
     `,
-  ] as CSSResultGroup[];
+  ] as CSSResultGroup;
 
   protected render(): HTMLTemplate {
     const style = this.m && `@media screen and (max-width: ${this.m}) {label[for] {justify-content: flex-start;flex-direction: column;align-items: inherit;width: fit-content;}`;
@@ -119,6 +120,7 @@ export class LabelInput extends InputSTD {
 }
 
 export default LabelInput;
+
 declare global {
   interface HTMLElementTagNameMap {
     "label-input": LabelInput;
