@@ -20,6 +20,10 @@ Refactor styles.
 
 Add `tab-group` and `card-item`.
 
+### Development
+
+Change target to ES2021 and module to ESNext.
+
 ## 2.3.2
 
 Fix `label-input` styles.
