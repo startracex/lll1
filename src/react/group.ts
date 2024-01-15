@@ -11,3 +11,8 @@ export const DetailsGroup = createComponent({
   tagName: "details-group",
   elementClass: X.DetailsGroup,
 });
+
+export const TabGroup = createComponent({
+  tagName: "tab-group",
+  elementClass: X.TabGroup,
+});

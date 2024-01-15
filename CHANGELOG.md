@@ -18,6 +18,8 @@ Move each.
 
 Refactor styles.
 
+Add `tab-group` and `card-item`.
+
 ## 2.3.2
 
 Fix `label-input` styles.

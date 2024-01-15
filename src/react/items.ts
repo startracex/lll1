@@ -17,6 +17,11 @@ export const BaseButton = createComponent({
   elementClass: X.BaseButton,
 });
 
+export const CardItem = createComponent({
+  tagName: "card-item",
+  elementClass: X.CardItem,
+});
+
 export const DialogItem = createComponent({
   tagName: "dialog-item",
   elementClass: X.DialogItem,
