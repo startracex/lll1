@@ -24,6 +24,8 @@ Add `tab-group` and `card-item`.
 
 Change target to ES2021 and module to ESNext.
 
+Compare the publish directory before running the scripts.
+
 ## 2.3.2
 
 Fix `label-input` styles.

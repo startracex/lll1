@@ -1,8 +1,24 @@
 import fs from "fs/promises";
+import path from "path";
 
 export const packageJSON = JSON.parse(await fs.readFile("package.json"));
 
-export const publishDirectory = packageJSON.publishConfig.directory;
+export const tsconfigJSON = JSON.parse(await fs.readFile("tsconfig.json"));
+
+const pd = packageJSON.publishConfig?.directory;
+
+const td = tsconfigJSON.compilerOptions?.outDir;
+
+if (pd && td) {
+  if (path.normalize(pd) !== path.normalize(td)) {
+    throw new Error(`Mismatch
+  package.json: publishConfig.directory is ${path.normalize(pd)}
+  tsconfig.json: compilerOptions.outDir is ${path.normalize(td)}
+`);
+  }
+}
+
+export const publishDirectory = td || pd;
 
 /**
  * Highlight variables in templates, with a random color
