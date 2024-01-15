@@ -12,7 +12,7 @@ Add assign.
 
 Modify adoptStyles.
 
-Add _slots.
+Add \_slots.
 
 Move each.
 
