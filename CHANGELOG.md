@@ -20,6 +20,8 @@ Refactor styles.
 
 Add `tab-group` and `card-item`.
 
+Refactor dev script.
+
 ### Development
 
 Change target to ES2021 and module to ESNext.
