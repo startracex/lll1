@@ -34,7 +34,7 @@ await fs
       }
     }
 
-    const text = changelog.join("\n");
+    const text = changelog.join("\n").trim();
     return text;
   })
 
