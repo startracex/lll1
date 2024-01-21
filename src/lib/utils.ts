@@ -36,3 +36,11 @@ export function each(node: Node, callback: (node: Node) => void) {
     }
   }
 }
+
+export function doAssign(source: any, target: any) {
+  const classList = "classList";
+  if (classList in source) {
+    source[classList] = [...target[classList], ...source[classList]];
+  }
+  Object.assign(target, source);
+}

@@ -1,5 +1,5 @@
 import { css, type CSSResult, type CSSResultGroup, LitElement, unsafeCSS } from "lit";
-import { deepQuerySelector, deepQuerySelectorAll } from "./lib/utils.js";
+import { deepQuerySelector, deepQuerySelectorAll, doAssign } from "./lib/utils.js";
 import { EventListenerFunc, EventsCollection } from "./lib/event-collection.js";
 import { conf } from "./conf.js";
 import type { LikeString } from "./with";
@@ -177,19 +177,19 @@ export class GodownElement extends LitElement {
     this.__events.removeAllEvents();
   }
 
-  /**
-   * Assign to {@linkcode GodownElement}
-   * @param assign Assign value
-   */
-  constructor(assign: void | (Record<string, any> & { classList?: DOMTokenList | string[] }) = conf.assign) {
+  private __assign: void | (Record<string, any> & { classList?: DOMTokenList | string[] });
+
+  constructor(assign: typeof GodownElement.prototype.__assign = conf.assign) {
     super();
     this.__events = new EventsCollection();
-    if (assign) {
-      const classList = "classList";
-      if (classList in assign) {
-        assign[classList] = [...this[classList], ...assign[classList]];
-      }
-      Object.assign(this, assign);
+    this.__assign = assign;
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    if (this.__assign) {
+      this.__assign.__assign = null;
+      doAssign(this.__assign, this);
     }
   }
 

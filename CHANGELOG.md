@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 2.4.1
+
+Move assign.
+
 ## 2.4.0
 
 Type render.
