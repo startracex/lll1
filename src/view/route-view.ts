@@ -14,19 +14,19 @@ export class RouteView<T = unknown> extends GodownElement {
   private _routeTree: RouteTree = new RouteTree();
 
   /**
-   * component will render
+   * Component will render.
    */
   @state() component: T | HTMLTemplate = null;
   /**
-   * dynamic parameters record
+   * Dynamic parameters record.
    */
   @state() params: Record<string, string> = {};
   /**
-   * value of matched path in routes, or null
+   * Value of matched path in routes, or null.
    */
   @state() path: string = null;
   /**
-   * current pathname (location.pathname)
+   * Current pathname (location.pathname).
    */
   @property() pathname = "";
 
