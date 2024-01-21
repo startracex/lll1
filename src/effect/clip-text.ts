@@ -1,8 +1,9 @@
-import { css, type CSSResultGroup, cssvarValues, define, property } from "../deps.js";
+import { createScope, css, type CSSResultGroup, cssvar, define, property } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import EffectSTD from "./std.js";
 
 const defineName = "clip-text";
+const cssvarScope = createScope(defineName);
 
 @define(defineName)
 export class ClipText extends EffectSTD {
@@ -11,10 +12,12 @@ export class ClipText extends EffectSTD {
     EffectSTD.styles,
     css`
       :host {
-        background: linear-gradient(180deg, var(${cssvarValues.text}), rgb(var(${cssvarValues.textRGB}) / 64%));
+        ${cssvarScope}--clip-background: var(${cssvar}--clip-background);
+        background: var(${cssvarScope}--clip-background);
         color: transparent;
-        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent;
         background-clip: text !important;
+        -webkit-background-clip: text !important;
         display: inline-flex;
       }
     `,

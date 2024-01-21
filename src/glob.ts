@@ -51,6 +51,7 @@ export class GodownElement extends LitElement {
         ${cssvar}--background: rgb(var(${cssvarValues.mainRGB}));
         ${cssvar}--foreground-rgb: 240 240 240;
         ${cssvar}--foreground: rgb(var(${cssvarValues.textRGB}));
+        ${cssvar}--clip-background:linear-gradient(180deg, var(${cssvarValues.text}), rgb(var(${cssvarValues.textRGB}) / 68%));
         ${cssvar}--size: 100%;
         ${cssvar}--accept: rgb(25 130 180);
         font-size: var(${cssvar}--size);

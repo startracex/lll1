@@ -4,6 +4,8 @@
 
 Move assign.
 
+Update styles.
+
 ## 2.4.0
 
 Type render.

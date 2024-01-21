@@ -1,34 +1,33 @@
-import { createScope, css, define, html, type HTMLTemplate, property } from "../deps.js";
+import { createScope, css, type CSSResultGroup, cssvar, define, html, type HTMLTemplate, property } from "../deps.js";
 import EffectSTD from "./std.js";
 
 const defineName = "overbreath-text";
 const cssvarScope = createScope(defineName);
 
-const theme = css`
-  :host {
-    ${cssvarScope}--1-1: #ae0ca5;
-    ${cssvarScope}--1-2: #ffd802;
-    ${cssvarScope}--2-1: #1fe173;
-    ${cssvarScope}--2-2: #582bca;
-    ${cssvarScope}--3-1: #00b4f0;
-    ${cssvarScope}--3-2: #e614e6;
-    ${cssvarScope}--deg: 60deg;
-    ${cssvarScope}--1: linear-gradient(var(${cssvarScope}--deg), var(${cssvarScope}--1-1), var(${cssvarScope}--1-2));
-    ${cssvarScope}--2: linear-gradient(var(${cssvarScope}--deg), var(${cssvarScope}--2-1), var(${cssvarScope}--2-2));
-    ${cssvarScope}--3: linear-gradient(var(${cssvarScope}--deg), var(${cssvarScope}--3-1), var(${cssvarScope}--3-2));
-  }
-`;
-
 @define(defineName)
 export class OverbreathText extends EffectSTD {
   static styles = [
-    theme,
+    EffectSTD.styles,
+    css`
+      :host {
+        ${cssvarScope}--1-1: #ae0ca5;
+        ${cssvarScope}--1-2: #ffd802;
+        ${cssvarScope}--2-1: #1fe173;
+        ${cssvarScope}--2-2: #582bca;
+        ${cssvarScope}--3-1: #00b4f0;
+        ${cssvarScope}--3-2: #e614e6;
+        ${cssvarScope}--deg: 60deg;
+        ${cssvarScope}--1: linear-gradient(var(${cssvarScope}--deg), var(${cssvarScope}--1-1), var(${cssvarScope}--1-2));
+        ${cssvarScope}--2: linear-gradient(var(${cssvarScope}--deg), var(${cssvarScope}--2-1), var(${cssvarScope}--2-2));
+        ${cssvarScope}--3: linear-gradient(var(${cssvarScope}--deg), var(${cssvarScope}--3-1), var(${cssvarScope}--3-2));
+      }
+    `,
     css`
       :host {
         display: flex;
         margin: auto;
         width: fit-content;
-        font-size: clamp(4.4rem, 9vw, 5rem);
+        font-size: clamp(3.5rem, 10vw, 5.5rem);
         align-items: center;
       }
 
@@ -42,63 +41,57 @@ export class OverbreathText extends EffectSTD {
         background: none;
       }
 
-      .rel {
-        line-height: 1;
-        position: relative;
+      .fg,
+      .bg {
+        padding: 0 0.05em;
+        box-sizing: border-box;
       }
 
-      .abs {
-        color: currentColor;
+      .bg {
         position: absolute;
         top: 0;
       }
 
-      .ani,
-      .abs {
-        white-space: nowrap;
-        box-sizing: border-box;
-        padding-right: 2.5px;
-        letter-spacing: -2.5px;
-        width: fit-content;
-        background-clip: text;
-        -webkit-background-clip: text;
+      span {
+        display: block;
+      }
+
+      .rel {
+        position: relative;
         font-weight: 800;
         font-size: inherit;
+        letter-spacing: -0.05em;
       }
 
-      .ani {
-        box-sizing: border-box;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .rel:nth-child(1) .ani {
-        animation: ani1 8s infinite;
+      .rel:nth-child(1) .fg {
+        animation: lg1 8s infinite;
         background-image: var(${cssvarScope}--1);
       }
 
-      .rel:nth-child(2) .ani {
-        animation: 8s ease 0s infinite normal none running ani2;
+      .rel:nth-child(2) .fg {
+        animation: 8s infinite lg2;
         background-image: var(${cssvarScope}--2);
       }
 
-      .rel:nth-child(3) .ani {
-        animation: 8s ease 0s infinite normal none running ani3;
+      .rel:nth-child(3) .fg {
+        animation: 8s infinite lg3;
         background-image: var(${cssvarScope}--3);
       }
 
-      .rel:nth-child(1) .abs {
-        animation: kf1 8s infinite;
+      .rel:nth-child(1) .bg {
+        animation: text1 8s infinite;
       }
 
-      .rel:nth-child(2) .abs {
-        animation: kf2 8s infinite;
+      .rel:nth-child(2) .bg {
+        animation: text2 8s infinite;
       }
 
-      .rel:nth-child(3) .abs {
-        animation: kf3 8s infinite;
+      .rel:nth-child(3) .bg {
+        animation: text3 8s infinite;
       }
-
-      @keyframes ani1 {
+    `,
+    css`
+      @keyframes lg1 {
         0%,
         16.667%,
         to {
@@ -109,7 +102,8 @@ export class OverbreathText extends EffectSTD {
           opacity: 0;
         }
       }
-      @keyframes ani2 {
+
+      @keyframes lg2 {
         0%,
         to {
           opacity: 0;
@@ -123,7 +117,8 @@ export class OverbreathText extends EffectSTD {
           opacity: 0;
         }
       }
-      @keyframes ani3 {
+
+      @keyframes lg3 {
         0%,
         50%,
         to {
@@ -134,7 +129,8 @@ export class OverbreathText extends EffectSTD {
           opacity: 1;
         }
       }
-      @keyframes kf1 {
+
+      @keyframes text1 {
         0%,
         16.667%,
         to {
@@ -145,7 +141,8 @@ export class OverbreathText extends EffectSTD {
           opacity: 1;
         }
       }
-      @keyframes kf2 {
+
+      @keyframes text2 {
         0%,
         to {
           opacity: 1;
@@ -159,7 +156,8 @@ export class OverbreathText extends EffectSTD {
           opacity: 1;
         }
       }
-      @keyframes kf3 {
+
+      @keyframes text3 {
         0%,
         58.333%,
         91.667%,
@@ -172,26 +170,37 @@ export class OverbreathText extends EffectSTD {
         }
       }
     `,
-  ];
-  @property() t1 = "t1 unset.";
-  @property() t2 = "t2 unset..";
-  @property() t3 = "t3 unset...";
+    css`
+      span.bg {
+        ${cssvarScope}--clip-background: var(${cssvar}--clip-background);
+        background: var(${cssvarScope}--clip-background);
+      }
+      span {
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        background-clip: text !important;
+        -webkit-background-clip: text !important;
+        display: inline-flex;
+      }
+    `,
+  ] as CSSResultGroup;
+  @property() t1 = "";
+  @property() t2 = "";
+  @property() t3 = "";
 
-  protected render(): HTMLTemplate {
+  protected render(): HTMLTemplate[] {
+    return [this.t1, this.t2, this.t3].map(this.renderText);
+  }
+
+  protected renderText(text: string) {
     return html`<span class="rel">
-        <span class="abs">${this.t1}</span>
-        <span class="ani">${this.t1}</span>
-      </span>
-      <span class="rel">
-        <span class="abs">${this.t2}</span>
-        <span class="ani">${this.t2}</span>
-      </span>
-      <span class="rel">
-        <span class="abs">${this.t3}</span>
-        <span class="ani">${this.t3}</span>
-      </span>`;
+      <span class="bg">${text}</span>
+      <span class="fg">${text}</span>
+    </span>`;
   }
 }
+
+export default OverbreathText;
 
 declare global {
   interface HTMLElementTagNameMap {

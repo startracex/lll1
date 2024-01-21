@@ -14,8 +14,8 @@ export class CardItem extends ItemsSTD {
         ${cssvarScope}--offset: .25em;
         ${cssvarScope}--background: var(${cssvarValues.main});
         ${cssvarScope}--wapper-background: none;
-        ${cssvarScope}--outline: 0;
-        ${cssvarScope}--box-shadow: 0 0 .5em 0 rgba(var(${cssvarValues.mainRGB}) 0.5);
+        ${cssvarScope}--outline: 1px solid rgb(var(${cssvarValues.textRGB}) / 12.5%);
+        ${cssvarScope}--box-shadow: 0 0 .5em 0 rgb(var(${cssvarValues.mainRGB}) / 60%);
         margin: auto;
         display: block;
         width: fit-content;
