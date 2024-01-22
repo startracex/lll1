@@ -6,6 +6,8 @@ Move assign.
 
 Update styles.
 
+Add property animation for `skeleton-screen`.
+
 ## 2.4.0
 
 Type render.

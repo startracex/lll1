@@ -8,6 +8,7 @@ const cssvarScope = createScope(defineName);
 @define(defineName)
 export class SkeletonScreen extends LayoutSTD {
   @property() type: "text" | "image" = "text";
+  @property() animation: "position" | "opacity" = "position";
   @state() loading = true;
   static styles = [
     LayoutSTD.styles,
@@ -15,6 +16,7 @@ export class SkeletonScreen extends LayoutSTD {
       :host {
         display: block;
         min-height: 1.5em;
+        width: 100%;
         overflow: hidden;
         ${cssvarScope}--from: rgb(var(${cssvarValues.textRGB}) / 7.5%);
         ${cssvarScope}--to: rgb(var(${cssvarValues.textRGB}) / 20%);
@@ -32,18 +34,37 @@ export class SkeletonScreen extends LayoutSTD {
       p {
         height: 100%;
         min-height: inherit;
+        animation: var(${cssvarScope}--duration) ease-in-out 0s infinite none running;
+      }
+
+      p.position {
         background-image: linear-gradient(var(${cssvarScope}--deg), var(${cssvarScope}--from) 36%, var(${cssvarScope}--to) 50%, var(${cssvarScope}--from) 64%);
         background-color: transparent;
         background-size: 200% 100%;
-        animation: var(${cssvarScope}--duration) ease-in-out 0s infinite normal none running kf;
+        animation-name: po;
       }
 
-      @keyframes kf {
+      @keyframes po {
         from {
           background-position: 150% center;
         }
         to {
           background-position: -50% center;
+        }
+      }
+
+      p.opacity {
+        background: var(${cssvarScope}--from);
+        animation-name: op;
+        animation-direction: alternate;
+      }
+
+      @keyframes op {
+        50% {
+          opacity: 0.2;
+        }
+        to {
+          opacity: 1;
         }
       }
 
@@ -72,7 +93,7 @@ export class SkeletonScreen extends LayoutSTD {
 
   protected render(): HTMLTemplate {
     if (this.loading) {
-      return html`<p>${this.renderIcon()}</p>`;
+      return html`<p class="${this.animation}">${this.renderIcon()}</p>`;
     }
     return htmlSlot();
   }
