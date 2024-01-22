@@ -82,7 +82,7 @@ export class TabGroup extends GroupSTD {
   protected updated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
     if (changedProperties.has("index")) {
       // Move slider.
-      const active = this.shadowRoot.querySelector<HTMLElement>(`section.active`);
+      const active = this.shadowRoot.querySelector<HTMLElement>("section.active");
       const slider = this.shadowRoot.querySelector<HTMLElement>("#slider");
       if (active) {
         this.dispatchEvent(new CustomEvent("select", { detail: this.index }));
@@ -101,7 +101,7 @@ export class TabGroup extends GroupSTD {
    */
   select(s: string, callSync = false) {
     if (callSync) {
-      const elements = this.deepQuerySelectorAll<this>(`${this.tagName}`, null, document.body);
+      const elements = this.deepQuerySelectorAll<this>(this.tagName, null, document.body);
       for (const e of elements) {
         if ((e.headers || e.contents).includes(s)) {
           e.select(s);
