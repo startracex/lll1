@@ -48,6 +48,10 @@ Add deep query selector.
 
 Add adopteStyles.
 
+### Development
+
+Restore dev script.
+
 ## 2.3.1
 
 Add missing react convert.
