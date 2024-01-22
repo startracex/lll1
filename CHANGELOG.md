@@ -8,6 +8,8 @@ Update styles.
 
 Add property animation for `skeleton-screen`.
 
+Update `base-button`.
+
 ## 2.4.0
 
 Type render.

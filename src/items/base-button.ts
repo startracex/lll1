@@ -1,5 +1,5 @@
 import { constructCSS, createScope, css, define, html, property, query, unsafeCSS } from "../deps.js";
-import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
+import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
 import ItemsSTD from "./std.js";
 
 const defineName = "base-button";
@@ -15,14 +15,13 @@ const colors = {
   yellow: ["#fff", "linear-gradient(45deg, rgb(223 194 0 / 85%), rgb(230 255 0 / 65%))", "-2px 2px 5px 0px rgb(214 203 55 / 20%), 2px -2px 5px 0 rgb(202 203 137 / 20%)", "rgb(237 224 43 / 80%)"],
 };
 
-const outlineBoxShadow = unsafeCSS(`0 0 0 var(${cssvarScope}--ghost-width) var(${cssvarScope}--ghost-color);`);
-
 @define(defineName)
 export class BaseButton extends ItemsSTD {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) outline = false;
   @property({ type: Boolean, reflect: true }) ghost = false;
   @property({ type: Boolean, reflect: true }) active = false;
+  @property({ type: Boolean, reflect: true }) radius = false;
   @property({ reflect: true }) color: "none" | keyof typeof colors = "black";
   @property() text = "";
   static styles = [
@@ -36,7 +35,9 @@ export class BaseButton extends ItemsSTD {
     ),
     css`
       :host {
-        ${cssvarScope}--padding: .125em .25em;
+        ${cssvarScope}--padding-x: .25em;
+        ${cssvarScope}--padding-y: .075em;
+        ${cssvarScope}--padding: var(${cssvarScope}--padding-y) var(${cssvarScope}--padding-x);
         ${cssvarScope}--ghost-width: .15em;
         ${cssvarScope}--modal-opacity: .15;
         ${cssvarScope}--modal-opacity-end: 0;
@@ -60,7 +61,6 @@ export class BaseButton extends ItemsSTD {
       }
 
       div {
-        padding: var(${cssvarScope}--padding);
         width: 100%;
         height: 100%;
         position: relative;
@@ -97,7 +97,9 @@ export class BaseButton extends ItemsSTD {
       }
 
       p {
+        padding: var(${cssvarScope}--padding);
         margin: 0;
+        user-select: none;
       }
 
       :host([ghost]) p {
@@ -110,7 +112,7 @@ export class BaseButton extends ItemsSTD {
       :host([ghost]) {
         ${cssvarScope}--modal-opacity: .2;
         background: transparent;
-        box-shadow: ${outlineBoxShadow};
+        box-shadow: 0 0 0 var(${cssvarScope}--ghost-width) var(${cssvarScope}--ghost-color);
       }
 
       :host([ghost]) i {
@@ -127,8 +129,18 @@ export class BaseButton extends ItemsSTD {
           opacity: var(${cssvarScope}--modal-opacity-end);
         }
       }
+
       :host([outline]) {
         ${cssvarScope}--modal-opacity-end:var( ${cssvarScope}--modal-opacity);
+      }
+
+      :host([outline][active]) {
+        outline: var(--godown--base-button--ghost-color) var(${cssvarScope}--ghost-width) solid;
+      }
+
+      :host([radius]) {
+        border-radius: calc(infinity * 1px);
+        ${cssvarScope}--padding-x: .5em;
       }
     `,
   ];
@@ -137,14 +149,12 @@ export class BaseButton extends ItemsSTD {
   @query("div") _div: HTMLButtonElement;
 
   protected render(): HTMLTemplate {
-    const style = this.outline ? `:host([active]) {box-shadow: ${outlineBoxShadow};}` : "";
     return html`
       <div>
         <b>
           <i></i>
         </b>
         <p>${this.text || htmlSlot()}</p>
-        ${htmlStyle(style)}
       </div>
     `;
   }
