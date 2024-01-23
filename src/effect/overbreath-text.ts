@@ -192,7 +192,7 @@ export class OverbreathText extends EffectSTD {
     return [this.t1, this.t2, this.t3].map(this.renderText);
   }
 
-  protected renderText(text: string) {
+  protected renderText(text: string): HTMLTemplate {
     return html`<span class="rel">
       <span class="bg">${text}</span>
       <span class="fg">${text}</span>
