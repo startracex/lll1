@@ -126,8 +126,7 @@ export class RouteView<T = unknown> extends GodownElement {
    * @param ur value of useRouter()
    * @param first whether this path is loaded for the first time
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  routeChangeCallback(ur: ReturnType<typeof this.useRouter>, first: boolean) {}
+  routeChangeCallback: (ur: ReturnType<typeof this.useRouter>, first: boolean) => void = null;
 
   protected updated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
     const shouldDispatch = changedProperties.has("pathname") || changedProperties.has("path");
@@ -137,7 +136,7 @@ export class RouteView<T = unknown> extends GodownElement {
       if (noRecord) {
         this.record.set(this.pathname, ur);
       }
-      this.routeChangeCallback(ur, noRecord);
+      this.routeChangeCallback?.(ur, noRecord);
       this.dispatchEvent(new CustomEvent("change", { detail: ur }));
     }
   }

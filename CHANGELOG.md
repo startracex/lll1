@@ -10,6 +10,8 @@ Add property animation for `skeleton-screen`.
 
 Update `base-button`.
 
+Change `routeChangeCallback` method to property
+
 ## 2.4.0
 
 Type render.
