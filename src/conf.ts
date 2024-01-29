@@ -36,7 +36,7 @@ declare global {
   }
 }
 
-interface ConfType {
+export interface ConfType {
   assign: null | Record<string, any>;
   cssvar: string;
   enabled: Set<string>;

@@ -4,6 +4,8 @@
 
 Fix deep queries.
 
+Export the configuration type.
+
 ## 2.4.1
 
 Move assign.
