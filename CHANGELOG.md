@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 2.4.2
+
+Fix deep queries.
+
 ## 2.4.1
 
 Move assign.
@@ -10,7 +14,7 @@ Add property animation for `skeleton-screen`.
 
 Update `base-button`.
 
-Change `routeChangeCallback` method to property
+Change `routeChangeCallback` method to property.
 
 ## 2.4.0
 

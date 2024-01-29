@@ -199,7 +199,7 @@ export class RouteView<T = unknown> extends GodownElement {
     if (!routeViewTagName) {
       return;
     }
-    const routeViewArray = deepQuerySelectorAll<RouteView>(routeViewTagName, conf.enabled, document.body);
+    const routeViewArray = deepQuerySelectorAll<RouteView>(routeViewTagName, document.body);
     routeViewArray.forEach((ArrayItem) => {
       if (!ArrayItem.override) {
         ArrayItem.pathname = window.location.pathname;

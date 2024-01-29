@@ -1,5 +1,6 @@
 import { createScope, css, cssvarValues, define, html, property, state } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
+import { deepQuerySelectorAll } from "../lib/utils.js";
 import GroupSTD from "./std.js";
 import type { PropertyValueMap } from "lit";
 
@@ -101,7 +102,7 @@ export class TabGroup extends GroupSTD {
    */
   select(s: string, callSync = false) {
     if (callSync) {
-      const elements = this.deepQuerySelectorAll<this>(this.tagName, null, document.body);
+      const elements = deepQuerySelectorAll<this>(this.tagName, document.body);
       for (const e of elements) {
         if ((e.headers || e.contents).includes(s)) {
           e.select(s);

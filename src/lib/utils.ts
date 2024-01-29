@@ -10,22 +10,40 @@ export function debounce(func: (_: any) => any, timeout: number) {
   };
 }
 
-export function deepQuerySelectorAll<E extends Element = HTMLElement>(selectors: string, ignore: Set<string> | Map<string, any>, root: ParentNode = document): E[] {
-  return [...root.querySelectorAll<E>(selectors)].reduce((result, a) => {
-    if (a.shadowRoot && ignore && !ignore.has(selectors)) {
-      return result.concat(deepQuerySelectorAll<E>(selectors, ignore, a.shadowRoot));
-    } else {
-      return result.concat(a);
-    }
-  }, []);
-}
-
-export function deepQuerySelector<E extends Element>(selectors: string, ignore: Set<string> | Map<string, any>, root: ParentNode = document): E | null {
-  const a = root.querySelector<E>(selectors);
-  if (a?.shadowRoot && ignore && !ignore.has(selectors)) {
-    return deepQuerySelector<E>(selectors, ignore, a.shadowRoot);
+export function deepQuerySelectorAll<E extends Element = HTMLElement>(selectors: string, root: E | ParentNode = document): E[] {
+  if (!root || !selectors) {
+    return [];
+  }
+  let a: E[];
+  if ((root as E).shadowRoot) {
+    a = [...deepQuerySelectorAll<E>(selectors, (root as E).shadowRoot)];
+  } else {
+    a = [...root.querySelectorAll<E>(selectors)];
+  }
+  for (const child of root.children) {
+    a.push(...deepQuerySelectorAll<E>(selectors, child));
   }
   return a;
+}
+
+export function deepQuerySelector<E extends Element = HTMLElement>(selectors: string, root: E | ParentNode = document): E {
+  if (!root || !selectors) {
+    return null;
+  }
+  if ((root as E).shadowRoot) {
+    return deepQuerySelector<E>(selectors, (root as E).shadowRoot);
+  }
+  const a = root.querySelector<E>(selectors);
+  if (a) {
+    return a;
+  }
+  for (const child of root.children) {
+    const b = deepQuerySelector<E>(selectors, child);
+    if (b) {
+      return b;
+    }
+  }
+  return null;
 }
 
 export function each(node: Node, callback: (node: Node) => void) {
