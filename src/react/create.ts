@@ -1,5 +1,5 @@
 import { createComponent, EventName, Options, ReactWebComponent } from "@lit/react";
-import conf from "../conf.js";
+import type GodownElement from "../godown-element.js";
 import * as React from "react";
 
 export const create = <
@@ -8,12 +8,12 @@ export const create = <
   E extends Record<string, EventName | string> = NonNullable<unknown>,
 >(
   /**/
-  option: Omit<Options<I, E>, "react">,
+  option: Partial<Options<I, E>>,
   ns: typeof React = React,
 ): ReactWebComponent<I, E> => {
-  option.tagName = conf.namemap.get(option.tagName) || option.tagName;
+  option.tagName = option.tagName || (option.elementClass as unknown as typeof GodownElement)?.elementTagName || option.elementClass.name;
   return createComponent<I, E>({
-    ...option,
+    ...(option as Options<I, E>),
     react: ns,
   });
 };
