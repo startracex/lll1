@@ -6,6 +6,8 @@ Fix deep queries.
 
 Export the configuration type.
 
+Move templates.
+
 ## 2.4.1
 
 Move assign.
