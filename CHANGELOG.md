@@ -18,6 +18,8 @@ Modify the deps and update the imports.
 
 Add elementTagName to GodownElement.
 
+Scope created will be the same as the element definition name.
+
 ## 2.4.1
 
 Move assign.

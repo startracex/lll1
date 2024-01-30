@@ -1,7 +1,6 @@
 import { css, type CSSResult, type CSSResultGroup, unsafeCSS } from "lit";
 import { conf } from "./conf.js";
 import GodownElement from "./godown-element.js";
-import type { LikeString } from "./lib/utils.js";
 
 /**
  * Define a custom element.
@@ -17,17 +16,21 @@ export const define = (name: string, options?: ElementDefinitionOptions) => (con
  */
 export const cssvar = unsafeCSS("--" + conf.cssvar.replace(/[^a-zA-Z0-9\\-]/g, ""));
 
-export function createScope(scope: LikeString): CSSResult {
-  return unsafeCSS(`${cssvar}--${scope}`);
+export function createScope(scope: string): CSSResult {
+  return joinScope(conf.tag(scope));
+}
+
+function joinScope(s: string) {
+  return unsafeCSS(`${cssvar}--${s}`);
 }
 
 export const cssvarValues = {
   cssvar,
-  input: createScope("input"),
-  main: createScope("background"),
-  text: createScope("foreground"),
-  mainRGB: createScope("background-rgb"),
-  textRGB: createScope("foreground-rgb"),
+  input: joinScope("input"),
+  main: joinScope("background"),
+  text: joinScope("foreground"),
+  mainRGB: joinScope("background-rgb"),
+  textRGB: joinScope("foreground-rgb"),
 };
 
 GodownElement.conf = conf;
