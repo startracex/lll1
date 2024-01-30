@@ -19,5 +19,6 @@
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "lit-plugin.rules.no-invalid-css": "off"
 }
