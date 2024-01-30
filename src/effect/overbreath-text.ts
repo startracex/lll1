@@ -1,5 +1,7 @@
-import { createScope, css, type CSSResultGroup, cssvar, define, html, type HTMLTemplate, property } from "../deps.js";
+import { createScope, cssvar, define } from "../root.js";
+import { css, type CSSResultGroup, html, property } from "../deps.js";
 import EffectSTD from "./std.js";
+import { type HTMLTemplate } from "../lib/templates.js";
 
 const defineName = "overbreath-text";
 const cssvarScope = createScope(defineName);

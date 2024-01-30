@@ -1,5 +1,6 @@
-import { createScope, css, type CSSResultGroup, cssvarValues, define, html, property } from "../deps.js";
-import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
+import { createScope, cssvarValues, define } from "../root.js";
+import { css, type CSSResultGroup, html, property } from "../deps.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate } from "../lib/templates.js";
 import LayoutSTD from "./std.js";
 
 const defineName = "nav-aside";

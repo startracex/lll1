@@ -14,6 +14,8 @@ Split glob into root and godown-element.
 
 Add define, remove enabled property for configuration.
 
+Modify the deps and update the imports.
+
 ## 2.4.1
 
 Move assign.

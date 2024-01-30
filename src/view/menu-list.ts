@@ -1,5 +1,6 @@
-import { css, type CSSResultGroup, cssvarValues, define, html, property, query, state } from "../deps.js";
-import { htmlSlot, type HTMLTemplate, svgArrow } from "../tmpl.js";
+import { css, type CSSResultGroup, html, property, query, state } from "../deps.js";
+import { cssvarValues, define } from "../root.js";
+import { htmlSlot, type HTMLTemplate, svgArrow } from "../lib/templates.js";
 import { OpenAble } from "./std.js";
 
 const defineName = "menu-list";

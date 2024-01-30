@@ -1,7 +1,7 @@
-import { css, type CSSResultGroup, cssvar, cssvarValues, define, GodownElement, html, ifDefined, property, query } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
-import { InputSTD } from "./std.js";
-import type { InputType } from "./std.js";
+import { css, type CSSResultGroup, html, ifDefined, property, query } from "../deps.js";
+import { cssvar, cssvarValues, define, GodownElement } from "../root.js";
+import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
+import { InputSTD, type InputType } from "./std.js";
 
 const defineName = "base-input";
 

@@ -1,5 +1,6 @@
-import { css, type CSSResultGroup, cssvarValues, define, html, ifDefined, property, query } from "../deps.js";
-import { htmlSlot, htmlStyle, type HTMLTemplate, svgEye } from "../tmpl.js";
+import { css, type CSSResultGroup, html, ifDefined, property, query } from "../deps.js";
+import { cssvarValues, define } from "../root.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate, svgEye } from "../lib/templates.js";
 import { InputSTD, type InputType } from "./std.js";
 
 const defineName = "label-input";

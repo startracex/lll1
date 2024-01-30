@@ -1,4 +1,6 @@
-import { css, cssvarValues, define, html, type HTMLTemplate, property, query } from "../deps.js";
+import { css, html, property, query } from "../deps.js";
+import { cssvarValues, define } from "../root.js";
+import { type HTMLTemplate } from "../lib/templates.js";
 import ItemsSTD from "./std.js";
 import type { PropertyValueMap } from "lit";
 

@@ -1,5 +1,6 @@
-import { createScope, css, cssvarValues, define, html, property, state } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
+import { createScope, cssvarValues, define } from "../root.js";
+import { css, html, property, state } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import { deepQuerySelectorAll } from "../lib/utils.js";
 import GroupSTD from "./std.js";
 import type { PropertyValueMap } from "lit";

@@ -1,5 +1,6 @@
-import { createScope, css, type CSSResultGroup, cssvarValues, define, html, property, state } from "../deps.js";
-import { htmlSlot, type HTMLTemplate, svgImage } from "../tmpl.js";
+import { createScope, cssvarValues, define } from "../root.js";
+import { css, type CSSResultGroup, html, property, state } from "../deps.js";
+import { htmlSlot, type HTMLTemplate, svgImage } from "../lib/templates.js";
 import LayoutSTD from "./std.js";
 
 const defineName = "skeleton-screen";

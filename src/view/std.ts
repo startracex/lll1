@@ -1,5 +1,5 @@
-import { css, CSSResultGroup, GodownElement, property } from "../deps.js";
-import type { PropertyValueMap } from "lit";
+import { css, type CSSResultGroup, property, type PropertyValueMap } from "../deps.js";
+import { GodownElement } from "../root.js";
 
 export type OnEvents = string;
 

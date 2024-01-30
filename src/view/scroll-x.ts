@@ -1,6 +1,8 @@
-import { css, define, GodownElement, html, property } from "../deps.js";
-import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
+import { css, html, property } from "../deps.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate } from "../lib/templates.js";
 import { debounce } from "../lib/utils.js";
+import { define } from "../root.js";
+import { GodownElement } from "../root.js";
 
 const defineName = "scroll-x";
 

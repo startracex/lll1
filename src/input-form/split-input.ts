@@ -1,4 +1,6 @@
-import { createScope, css, type CSSResultGroup, cssvarValues, define, html, type HTMLTemplate, property, query, queryAll } from "../deps.js";
+import { createScope, cssvarValues, define } from "../root.js";
+import { css, type CSSResultGroup, html, property, query, queryAll } from "../deps.js";
+import { type HTMLTemplate } from "../lib/templates.js";
 import { InputSTD } from "./std.js";
 
 const defineName = "split-input";

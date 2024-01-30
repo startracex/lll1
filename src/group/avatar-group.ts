@@ -1,6 +1,8 @@
-import { append, css, define, html, property } from "../deps.js";
-import { htmlSlot, htmlStyle, type HTMLTemplate } from "../tmpl.js";
+import { css, html, property } from "../deps.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate } from "../lib/templates.js";
+import { append } from "../lib/utils.js";
 import AvatarAnchor from "../items/avatar-a.js";
+import { define } from "../root.js";
 import GroupSTD from "./std.js";
 
 const defineName = "avatar-group";

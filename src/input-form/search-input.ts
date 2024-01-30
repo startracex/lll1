@@ -1,5 +1,6 @@
-import { createScope, css, type CSSResultGroup, cssvarValues, define, html, ifDefined, property, query, state } from "../deps.js";
-import { htmlSlot, type HTMLTemplate, svgSearch } from "../tmpl.js";
+import { createScope, cssvarValues, define } from "../root.js";
+import { css, type CSSResultGroup, html, ifDefined, property, query, state } from "../deps.js";
+import { htmlSlot, type HTMLTemplate, svgSearch } from "../lib/templates.js";
 import { InputSTD } from "./std.js";
 
 const defineName = "search-input";

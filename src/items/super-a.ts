@@ -1,5 +1,6 @@
-import { css, define, html, ifDefined, property } from "../deps.js";
-import { htmlSlot, type HTMLTemplate, svgArrow, svgDelta } from "../tmpl.js";
+import { css, html, ifDefined, property } from "../deps.js";
+import { htmlSlot, type HTMLTemplate, svgArrow, svgDelta } from "../lib/templates.js";
+import { define } from "../root.js";
 import ItemsSTD from "./std.js";
 
 const defineName = "super-a";

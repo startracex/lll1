@@ -1,4 +1,5 @@
-import { define, property } from "../deps.js";
+import { define } from "../root.js";
+import { property } from "../deps.js";
 import { RouteView } from "../view/route-view.js";
 import { SuperAnchor } from "./super-a.js";
 

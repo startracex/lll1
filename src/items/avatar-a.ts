@@ -1,5 +1,6 @@
-import { createScope, css, define, html, ifDefined, property } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
+import { createScope, define } from "../root.js";
+import { css, html, ifDefined, property } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import ItemsSTD from "./std.js";
 
 const defineName = "avatar-a";

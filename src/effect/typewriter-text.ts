@@ -1,5 +1,6 @@
-import { createScope, css, define, html, property, query, state } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
+import { createScope, define } from "../root.js";
+import { css, html, property, query, state } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import EffectSTD from "./std.js";
 
 const defineName = "typewriter-text";

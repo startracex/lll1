@@ -1,6 +1,7 @@
-import { css, type CSSResultGroup, define, html, query } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
+import { css, type CSSResultGroup, html, query } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import { debounce } from "../lib/utils.js";
+import { define } from "../root.js";
 import { OpenAble } from "./std.js";
 
 const defineName = "down-drop";

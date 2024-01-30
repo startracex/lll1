@@ -1,7 +1,9 @@
-import { conf, css, define, GodownElement, type HTMLTemplate, property, state } from "../deps.js";
+import { css, property, PropertyValueMap, state } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
+import { conf } from "../conf.js";
 import { deepQuerySelectorAll } from "../lib/utils.js";
-import { htmlSlot } from "../tmpl.js";
-import type { PropertyValueMap } from "lit";
+import { define } from "../root.js";
+import { GodownElement } from "../root.js";
 import RouteTree from "../lib/route-tree.js";
 
 type WithRecord<T extends string> = Record<string, any> & Record<T, string>;

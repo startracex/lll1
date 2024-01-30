@@ -1,5 +1,6 @@
-import { css, define, property } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
+import { css, property } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
+import { define } from "../root.js";
 import LayoutSTD from "./std.js";
 
 const defineName = "with-wrap";

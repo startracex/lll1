@@ -1,5 +1,6 @@
-import { classMap, css, type CSSResultGroup, cssvarValues, define, html, property, state } from "../deps.js";
-import { type HTMLTemplate } from "../tmpl.js";
+import { classMap, css, type CSSResultGroup, html, property, state } from "../deps.js";
+import { cssvarValues, define } from "../root.js";
+import { type HTMLTemplate } from "../lib/templates.js";
 import ItemsSTD from "./std.js";
 
 const defineName = "load-track";

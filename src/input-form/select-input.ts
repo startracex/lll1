@@ -1,5 +1,6 @@
-import { css, type CSSResultGroup, cssvarValues, define, GodownElement, html, ifDefined, property, query } from "../deps.js";
-import { htmlSlot, type HTMLTemplate, svgDelta, svgX } from "../tmpl.js";
+import { css, type CSSResultGroup, html, ifDefined, property, query } from "../deps.js";
+import { cssvarValues, define, GodownElement } from "../root.js";
+import { htmlSlot, type HTMLTemplate, svgDelta, svgX } from "../lib/templates.js";
 import { InputSTD } from "./std.js";
 
 @define("select-input")

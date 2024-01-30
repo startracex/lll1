@@ -1,5 +1,6 @@
-import { createScope, css, type CSSResultGroup, cssvarValues, define, html, property, query } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
+import { createScope, cssvarValues, define } from "../root.js";
+import { css, type CSSResultGroup, html, property, query } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import { InputSTD } from "./std.js";
 
 const defineName = "switch-input";

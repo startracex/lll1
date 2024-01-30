@@ -1,5 +1,7 @@
-import { constructCSS, createScope, css, define, html, property, unsafeCSS } from "../deps.js";
-import { htmlSlot, type HTMLTemplate, svgX } from "../tmpl.js";
+import { createScope, define } from "../root.js";
+import { css, html, property, unsafeCSS } from "../deps.js";
+import { htmlSlot, type HTMLTemplate, svgX } from "../lib/templates.js";
+import { constructCSS } from "../lib/utils.js";
 import ItemsSTD from "./std.js";
 
 const defineName = "alert-item";

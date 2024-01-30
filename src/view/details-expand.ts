@@ -1,5 +1,6 @@
-import { css, type CSSResultGroup, define, html, property, query } from "../deps.js";
-import { htmlSlot, type HTMLTemplate, svgDeltaSmooth } from "../tmpl.js";
+import { css, type CSSResultGroup, html, property, query } from "../deps.js";
+import { htmlSlot, type HTMLTemplate, svgDeltaSmooth } from "../lib/templates.js";
+import { define } from "../root.js";
 import { OpenAble } from "./std.js";
 
 const defineName = "details-expand";

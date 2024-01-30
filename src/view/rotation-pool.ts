@@ -1,5 +1,7 @@
-import { css, define, GodownElement, html, property, query } from "../deps.js";
-import { htmlSlot, htmlStyle, type HTMLTemplate, svgArrow } from "../tmpl.js";
+import { css, html, property, query } from "../deps.js";
+import { htmlSlot, htmlStyle, type HTMLTemplate, svgArrow } from "../lib/templates.js";
+import { define } from "../root.js";
+import { GodownElement } from "../root.js";
 
 const defineName = "rotation-pool";
 

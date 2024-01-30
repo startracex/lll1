@@ -1,5 +1,6 @@
-import { createScope, css, type CSSResultGroup, cssvar, define, property } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
+import { createScope, cssvar, define } from "../root.js";
+import { css, type CSSResultGroup, property } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import EffectSTD from "./std.js";
 
 const defineName = "clip-text";

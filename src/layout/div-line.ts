@@ -1,9 +1,9 @@
-import { createScope, css, define, html, property } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
+import { createScope, define } from "../root.js";
+import { css, html, property } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import LayoutSTD from "./std.js";
 
 const defineName = "div-line";
-
 const cssvarScope = createScope(defineName);
 
 @define(defineName)

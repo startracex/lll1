@@ -1,5 +1,6 @@
-import { css, type CSSResultGroup, define, html, property, query } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../tmpl.js";
+import { css, type CSSResultGroup, html, property, query } from "../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
+import { define } from "../root.js";
 import { each } from "../lib/utils.js";
 import { FormSTD } from "./std.js";
 

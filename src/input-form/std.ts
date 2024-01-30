@@ -1,4 +1,5 @@
-import { css, CSSResultGroup, cssvarValues, GodownElement, property } from "../deps.js";
+import { css, type CSSResultGroup, property } from "../deps.js";
+import { cssvarValues, GodownElement } from "../root.js";
 
 export type InputType = "hidden" | "text" | "search" | "tel" | "url" | "email" | "password" | "datetime" | "date" | "month" | "week" | "time" | "datetime-local" | "number" | "range" | "color" | "checkbox" | "radio" | "file" | "image";
 

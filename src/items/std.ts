@@ -1,2 +1,3 @@
-import { GodownElement } from "../deps.js";
+import { GodownElement } from "../root.js";
+
 export default class ItemsSTD extends GodownElement {}
