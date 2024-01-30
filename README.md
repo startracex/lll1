@@ -92,6 +92,16 @@ Lint code
 pnpm run lint
 ```
 
+## Publish
+
+```sh
+pnpm run build
+
+pnpm publish
+# or
+npm publish ./public
+```
+
 ## Directory Structure
 
 files
@@ -100,13 +110,11 @@ files
 
 `deps.ts` - dependencies
 
-`glob.ts` - base element & style
+`godown-element.ts` - base element
+
+`root.ts` - Apply styles and configurations
 
 `index.ts` - entry
-
-`tmpl.ts` - templates and icons
-
-`with.ts` - attach utils
 
 directories
 
@@ -125,13 +133,3 @@ directories
 `lib` - library
 
 `react` - converted to react components
-
-## Publish
-
-```sh
-pnpm run build
-
-npm publish ./public
-# or
-pnpm publish
-```
