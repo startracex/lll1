@@ -8,6 +8,8 @@ Export the configuration type.
 
 Move templates.
 
+Move with.
+
 ## 2.4.1
 
 Move assign.
