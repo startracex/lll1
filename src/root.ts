@@ -9,15 +9,7 @@ import type { LikeString } from "./lib/utils.js";
  * @param options Object that controls how the element is defined.
  */
 export const define = (name: string, options?: ElementDefinitionOptions) => (constructor: CustomElementConstructor) => {
-  const tagName = conf.tag(name);
-  if (!tagName) {
-    return;
-  }
-  if (!customElements.get(tagName)) {
-    customElements.define(tagName, constructor, options);
-    conf.namemap.set(name, tagName);
-    conf.classmap.set(name, constructor);
-  }
+  conf.define(name, constructor, options);
 };
 
 /**

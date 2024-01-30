@@ -12,6 +12,8 @@ Move with.
 
 Split glob into root and godown-element.
 
+Add define, remove enabled property for configuration.
+
 ## 2.4.1
 
 Move assign.

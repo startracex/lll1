@@ -1,7 +1,6 @@
 const defaultConfig: ConfType = {
   assign: null,
   cssvar: "godown",
-  enabled: new Set(),
   namemap: new Map(),
   classmap: new Map(),
   prefix: "",
@@ -10,12 +9,23 @@ const defaultConfig: ConfType = {
   tag(origin) {
     return this.prefix + origin + this.suffix;
   },
+  define(name: string, constructor: CustomElementConstructor, options?: ElementDefinitionOptions) {
+    const tagName = this.tag(name);
+    if (!tagName) {
+      return;
+    }
+    if (!customElements.get(tagName)) {
+      customElements.define(tagName, constructor, options);
+      this.namemap.set(name, tagName);
+      this.classmap.set(name, constructor);
+    }
+  },
 };
 
 export const conf: ConfType = init(globalThis.GodownWebComponentsCONF, defaultConfig);
 export default conf;
 
-export function init(CONFObject: Partial<ConfType>, source: ConfType = conf) {
+export function init(CONFObject: Partial<ConfType>, source: ConfType = conf): ConfType {
   Object.assign(source, CONFObject);
   if (source.reflect) {
     // Reflect conf to globalThis
@@ -26,7 +36,7 @@ export function init(CONFObject: Partial<ConfType>, source: ConfType = conf) {
   return source;
 }
 
-export function defineConfig(CONFObject: Partial<ConfType>) {
+export function defineConfig(CONFObject: Partial<ConfType>): ConfType {
   return init(CONFObject, conf);
 }
 
@@ -39,11 +49,11 @@ declare global {
 export interface ConfType {
   assign: null | Record<string, any>;
   cssvar: string;
-  enabled: Set<string>;
   namemap: Map<string, string>;
   classmap: Map<string, CustomElementConstructor>;
   prefix: string;
   reflect: boolean;
   suffix: string;
   tag: (origin: string) => string;
+  define: CustomElementRegistry["define"];
 }
