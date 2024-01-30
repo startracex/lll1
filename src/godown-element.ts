@@ -8,6 +8,7 @@ import { LitElement } from "lit";
  */
 class GodownElement extends LitElement {
   static conf?: ConfType;
+  static elementTagName?: string;
 
   /**
    * No named slot element's assignedElements, as HTMLElement[].

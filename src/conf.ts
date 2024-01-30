@@ -1,3 +1,4 @@
+import type GodownElement from "./godown-element";
 const defaultConfig: ConfType = {
   assign: null,
   cssvar: "godown",
@@ -6,16 +7,17 @@ const defaultConfig: ConfType = {
   prefix: "",
   reflect: false,
   suffix: "",
-  tag(origin) {
+  tag(origin: string) {
     return this.prefix + origin + this.suffix;
   },
   define(name: string, constructor: CustomElementConstructor, options?: ElementDefinitionOptions) {
-    const tagName = this.tag(name);
+    const tagName: string = this.tag(name);
     if (!tagName) {
       return;
     }
     if (!customElements.get(tagName)) {
       customElements.define(tagName, constructor, options);
+      (constructor as typeof GodownElement).elementTagName = tagName;
       this.namemap.set(name, tagName);
       this.classmap.set(name, constructor);
     }

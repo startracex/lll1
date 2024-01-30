@@ -16,6 +16,8 @@ Add define, remove enabled property for configuration.
 
 Modify the deps and update the imports.
 
+Add elementTagName to GodownElement.
+
 ## 2.4.1
 
 Move assign.
