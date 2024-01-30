@@ -10,6 +10,8 @@ Move templates.
 
 Move with.
 
+Split glob into root and godown-element.
+
 ## 2.4.1
 
 Move assign.
