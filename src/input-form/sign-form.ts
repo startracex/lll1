@@ -131,7 +131,12 @@ export class BaseForm extends FormSTD {
  * SignForm is now an alias for {@linkcode BaseForm}.
  */
 @define("sign-form")
-export class SignForm extends BaseForm {}
+export class SignForm extends BaseForm {
+    /**
+   * @deprecated
+   */
+  set: 0 | 1 | 2;
+}
 
 export default SignForm;
 
