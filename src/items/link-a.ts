@@ -16,8 +16,6 @@ export class LinkAnchor extends SuperAnchor {
    */
   @property({ type: Boolean }) replace = false;
 
-  static styles = SuperAnchor.styles;
-
   connectedCallback() {
     super.connectedCallback();
     this.addEvent(this, "click", this._handleClick);

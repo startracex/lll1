@@ -32,7 +32,6 @@ export class TimeBar extends ItemsSTD {
   intervalID: number;
 
   static styles: CSSResultGroup = [
-    ItemsSTD.styles,
     css`
       :host {
         text-align: center;
