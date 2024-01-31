@@ -1,30 +1,61 @@
-import { css, type CSSResultGroup, html, ifDefined, property, query } from "../deps.js";
+import { css, type CSSResultGroup, html, property, query } from "../deps.js";
 import { cssvarValues, define } from "../root.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate, svgEye } from "../lib/templates.js";
-import { InputSTD, type InputType } from "./std.js";
+import { InputSTD } from "./std.js";
+
+const PASSWORD = "password";
+
+const styleInMedia = css`
+  label[for] {
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: inherit;
+    width: fit-content;
+  }
+  :host {
+    width: var(${cssvarValues.input}--width);
+    margin: auto;
+  }
+`;
+
+const styleNoLabel = css`
+  :host {
+    width: var(${cssvarValues.input}--width);
+  }
+`;
+
+const styleWithLabel = css`
+  :host {
+    width: calc(var(${cssvarValues.input}--width) * 2);
+  }
+`;
 
 const defineName = "label-input";
 
+/**
+ * When there is a label, the layout will be adjusted according to the width of the screen.
+ *
+ * Otherwise it behaves similarly to the `BaseInput`.
+ */
 @define(defineName)
 export class LabelInput extends InputSTD {
-  @property({ reflect: true }) type: InputType = "text";
-  @property({ type: Boolean }) autofocus = false;
+  /**
+   * Conditions for adjust layout.
+   */
   @property() m = "540px";
+
   @query("input") _input: HTMLInputElement;
+
   static styles = [
     InputSTD.styles,
     css`
       :host {
-        background-color: inherit;
-        display: block;
         border-radius: var(${cssvarValues.input}--radius);
-        max-width: calc(var(${cssvarValues.input}--width) * 2);
-        margin: auto;
       }
 
       label {
-        margin: auto;
         width: 100%;
+        margin: auto;
         box-sizing: border-box;
         height: fit-content;
         display: flex;
@@ -34,7 +65,6 @@ export class LabelInput extends InputSTD {
       }
 
       span {
-        flex: 1;
         white-space: nowrap;
       }
 
@@ -72,39 +102,42 @@ export class LabelInput extends InputSTD {
         border-radius: inherit;
         height: var(${cssvarValues.input}--height);
         width: var(${cssvarValues.input}--width);
-      }
-
-      ::-ms-reveal {
-        display: none;
+        min-width: var(${cssvarValues.input}--width);
       }
     `,
   ] as CSSResultGroup;
 
-  protected render(): HTMLTemplate {
-    const style = this.m && `@media screen and (max-width: ${this.m}) {label[for] {justify-content: flex-start;flex-direction: column;align-items: inherit;width: fit-content;}`;
-    return html`<label for="${this.name}">
-      <span>${this.label}${htmlSlot()}</span>
-      <fieldset>
-        <i>${htmlSlot("pre")}</i>
-        <input @input="${this._handleInput}" @change="${this._handleChange}" id="${this.name}" type="${this.type}" placeholder="${ifDefined(this.pla)}" class="${this.type}" />
-        ${this.renderSuf()}
-      </fieldset>
-      ${htmlStyle(style)}
-    </label>`;
+  protected render(): HTMLTemplate[] {
+    const result = html`<fieldset>
+      <i>${htmlSlot("pre")}</i>
+      <input ?autofocus="${this.autofocus}" id="${this.name}" type="${this.type}" placeholder="${this.pla}" class="${this.type}" @input="${this._handleInput}" @change="${this._handleChange}" />
+      ${this.renderSuf()}
+    </fieldset>`;
+    if (this.label) {
+      const style = this.m && `}${styleWithLabel}@media (max-width: ${this.m}){${styleInMedia}`;
+      return [
+        html`<label for="${this.name}">
+          <span>${this.label}${htmlSlot()}</span>
+          ${result}
+        </label>`,
+        htmlStyle(style),
+      ];
+    }
+    return [result, htmlStyle(styleNoLabel.toString())];
   }
 
   private renderSuf(): HTMLTemplate {
-    if (this.type === "password") {
+    if (this.type === PASSWORD) {
       return html`<i
         @mousedown="${this._passwordSwitcher}"
         @mouseup="${() => {
-          this._changeInputType("password");
+          this._changeInputType(PASSWORD);
         }}"
         @mouseleave="${() => {
-          this._changeInputType("password");
+          this._changeInputType(PASSWORD);
         }}"
       >
-        ${!this.querySelector("[slot=suf]") ? svgEye() : htmlSlot("suf")}
+        ${htmlSlot("suf", svgEye(), this)}
       </i>`;
     } else {
       return html`<i>${htmlSlot("suf")}</i>`;
@@ -112,10 +145,10 @@ export class LabelInput extends InputSTD {
   }
 
   protected _passwordSwitcher() {
-    if (this._input.type === "password") {
-      this._changeInputType(this.type);
+    if (this._input.type === PASSWORD) {
+      this._changeInputType("text");
     } else {
-      this._changeInputType("password");
+      this._changeInputType(PASSWORD);
     }
   }
 }
