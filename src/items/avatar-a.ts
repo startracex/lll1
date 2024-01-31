@@ -8,6 +8,27 @@ const cssvarScope = createScope(defineName);
 
 @define(defineName)
 export class AvatarAnchor extends ItemsSTD {
+  /**
+   * Image src.
+   */
+  @property() src: string | undefined | null = "";
+  /**
+   * Default image src.
+   */
+  @property() def: string = undefined;
+  /**
+   * Link href.
+   */
+  @property() href = undefined;
+  /**
+   * If the image is not available, the {@linkcode AvatarAnchor.avaName} will be displayed.
+   */
+  @property() name = "";
+  /**
+   * If there is a value, the {@linkcode AvatarAnchor.avaMore} will be displayed.
+   */
+  @property({ type: Number }) more = 0;
+
   static styles = [
     css`
       :host {
@@ -50,27 +71,6 @@ export class AvatarAnchor extends ItemsSTD {
       }
     `,
   ];
-
-  /**
-   * Image src.
-   */
-  @property() src: string | undefined | null = "";
-  /**
-   * Default image src.
-   */
-  @property() def: string = undefined;
-  /**
-   * Link href.
-   */
-  @property() href = undefined;
-  /**
-   * If the image is not available, the {@linkcode AvatarAnchor.avaName} will be displayed.
-   */
-  @property() name = "";
-  /**
-   * If there is a value, the {@linkcode AvatarAnchor.avaMore} will be displayed.
-   */
-  @property({ type: Number }) more = 0;
 
   protected render(): HTMLTemplate {
     return html`

@@ -8,6 +8,19 @@ const defineName = "load-track";
 
 @define(defineName)
 export class LoadTrack extends ItemsSTD {
+  /**
+   * Maximum.
+   */
+  @property({ type: Number }) max = 1;
+  /**
+   * Minimum.
+   */
+  @property({ type: Number }) min = 0;
+  /**
+   * Input value.
+   */
+  @property({ type: Number, reflect: true }) value = null;
+
   static styles = [
     ItemsSTD.styles,
     css`
@@ -50,19 +63,6 @@ export class LoadTrack extends ItemsSTD {
       }
     `,
   ] as CSSResultGroup;
-
-  /**
-   * Maximum.
-   */
-  @property({ type: Number }) max = 1;
-  /**
-   * Minimum.
-   */
-  @property({ type: Number }) min = 0;
-  /**
-   * Input value.
-   */
-  @property({ type: Number, reflect: true }) value = null;
 
   protected render(): HTMLTemplate {
     let width = 20;

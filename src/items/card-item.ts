@@ -8,6 +8,14 @@ const cssvarScope = createScope(defineName);
 
 @define(defineName)
 export class CardItem extends ItemsSTD {
+  /**
+   * Enable rotate.
+   */
+  @property({ type: Boolean }) rotate = false;
+
+  @query("main") protected _main!: HTMLElement;
+  @query("aside") protected _aside!: HTMLElement;
+
   static styles = [
     ItemsSTD.styles,
     css`
@@ -57,14 +65,6 @@ export class CardItem extends ItemsSTD {
       }
     `,
   ] as CSSResultGroup;
-
-  /**
-   * Enable rotate.
-   */
-  @property({ type: Boolean }) rotate = false;
-
-  @query("main") protected _main!: HTMLElement;
-  @query("aside") protected _aside!: HTMLElement;
 
   protected render(): HTMLTemplate {
     return html`<div>

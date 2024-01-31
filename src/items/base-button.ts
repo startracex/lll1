@@ -22,8 +22,7 @@ export class BaseButton extends ItemsSTD {
   /**
    * Whether to disable this element.
    */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
   /**
    * Add a outline to the element.
    */
@@ -48,6 +47,11 @@ export class BaseButton extends ItemsSTD {
    * Text inside.
    */
   @property() text = "";
+
+  @query("i") _i: HTMLElement;
+  @query("b") _b: HTMLElement;
+  @query("div") _div: HTMLButtonElement;
+
   static styles = [
     unsafeCSS(
       constructCSS(
@@ -168,9 +172,6 @@ export class BaseButton extends ItemsSTD {
       }
     `,
   ];
-  @query("i") _i: HTMLElement;
-  @query("b") _b: HTMLElement;
-  @query("div") _div: HTMLButtonElement;
 
   protected render(): HTMLTemplate {
     return html`

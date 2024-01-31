@@ -4,6 +4,27 @@ import { GodownElement } from "../root.js";
 export type OnEvents = string;
 
 export class OpenAble extends GodownElement {
+  /**
+   * Summary text.
+   */
+  @property() summary = "";
+  /**
+   * Make the content float.
+   */
+  @property({ type: Boolean, reflect: true }) float = false;
+  /**
+   * Open the content.
+   */
+  @property({ type: Boolean, reflect: true }) open = false;
+  /**
+   * Enable event mode.
+   */
+  @property() on: OnEvents | void = "";
+  /**
+   * Disable the event mode.
+   */
+  @property() off: OnEvents = "click";
+
   static styles = [
     GodownElement.styles,
     css`
@@ -58,27 +79,6 @@ export class OpenAble extends GodownElement {
       }
     `,
   ] as CSSResultGroup;
-
-  /**
-   * Summary text.
-   */
-  @property() summary = "";
-  /**
-   * Make the content float.
-   */
-  @property({ type: Boolean, reflect: true }) float = false;
-  /**
-   * Open the content.
-   */
-  @property({ type: Boolean, reflect: true }) open = false;
-  /**
-   * Enable event mode.
-   */
-  @property() on: OnEvents | void = "";
-  /**
-   * Disable the event mode.
-   */
-  @property() off: OnEvents = "click";
 
   toggle(to = !this.open) {
     this.open = to;

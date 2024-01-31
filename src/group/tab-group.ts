@@ -12,6 +12,27 @@ const cssvarScope = createScope(defineName);
 
 @define(defineName)
 export class TabGroup extends GroupSTD {
+  /**
+   * Active slot name.
+   */
+  @property() index = "";
+  /**
+   * Default slot name.
+   */
+  @property() def = "";
+  /**
+   * Align type.
+   */
+  @property() align = "start";
+  /**
+   * Header texts or slot names, if headers is a zero value, it is taken from the {@linkcode TabGroup.contents}.
+   */
+  @state() headers: string[] | void;
+  /**
+   * Contents slot names.
+   */
+  @state() contents: string[];
+
   static styles = [
     GroupSTD.styles,
     css`
@@ -55,27 +76,6 @@ export class TabGroup extends GroupSTD {
       }
     `,
   ];
-
-  /**
-   * Active slot name.
-   */
-  @property() index = "";
-  /**
-   * Default slot name.
-   */
-  @property() def = "";
-  /**
-   * Align type.
-   */
-  @property() align = "start";
-  /**
-   * Header texts or slot names, if headers is a zero value, it is taken from the {@linkcode TabGroup.contents}.
-   */
-  @state() headers: string[] | void;
-  /**
-   * Contents slot names.
-   */
-  @state() contents: string[];
 
   protected render(): HTMLTemplate {
     const headers = (this.headers || this.contents).map((value) => {

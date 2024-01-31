@@ -8,6 +8,15 @@ const cssvarScope = createScope(defineName);
 
 @define(defineName)
 export class OverbreathText extends EffectSTD {
+  /**
+   * One of the texts.
+   */
+  @property() t1 = "";
+  // As t1.
+  @property() t2 = "";
+  // As t2.
+  @property() t3 = "";
+
   static styles = [
     EffectSTD.styles,
     css`
@@ -186,15 +195,6 @@ export class OverbreathText extends EffectSTD {
       }
     `,
   ] as CSSResultGroup;
-
-  /**
-   * One of the texts.
-   */
-  @property() t1 = "";
-  // As t1.
-  @property() t2 = "";
-  // As t2.
-  @property() t3 = "";
 
   protected render(): HTMLTemplate[] {
     return [this.t1, this.t2, this.t3].map(this.renderText);
