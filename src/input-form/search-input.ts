@@ -1,5 +1,5 @@
 import { createScope, cssvarValues, define } from "../root.js";
-import { css, type CSSResultGroup, html, ifDefined, property, query, state } from "../deps.js";
+import { css, type CSSResultGroup, html, ifDefined, property, query } from "../deps.js";
 import { htmlSlot, type HTMLTemplate, svgSearch } from "../lib/templates.js";
 import { InputSTD } from "./std.js";
 
@@ -22,17 +22,13 @@ export class SearchInput extends InputSTD {
    */
   @property({ type: Boolean }) infer = false;
   /**
-   * Use remote.
-   */
-  @property({ type: Boolean }) remote = false;
-  /**
    * Float result.
    */
   @property({ type: Boolean, reflect: true }) float = false;
   /**
    * Form action.
    */
-  @property() action = "./";
+  @property() action = "";
   /**
    * Form method.
    */
@@ -43,27 +39,20 @@ export class SearchInput extends InputSTD {
   @property() name = "q";
 
   @query("input") _input!: HTMLInputElement;
-  @state() list: any[] = [];
-  @state() useInfer = async (x: string) => {
-    await new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 400);
-    });
-    return ["Undefined: useInfer", `Use: useInfer(${x} :string)`, "Return Array<string>"];
-  };
 
   static styles = [
     InputSTD.styles,
     css`
       :host {
         ${cssvarInput}--width:var(${cssvarValues.input}--width);
-        ${cssvarInput}--input-padding: 0;
+        ${cssvarInput}--input-padding: 0 0 0 .35em;
         width: var(${cssvarValues.input}--width);
         border-radius: var(${cssvarValues.input}--radius);
+        background: var(${cssvarValues.input}--background);
       }
 
       div {
+        padding: var(${cssvarInput}--input-padding);
         height: var(${cssvarValues.input}--height);
         flex: 1;
         display: flex;
@@ -71,7 +60,6 @@ export class SearchInput extends InputSTD {
       }
 
       form {
-        background-color: var(${cssvarValues.input}--background);
         min-height: 100%;
         outline: 0.145em solid transparent;
         display: flex;
@@ -81,10 +69,11 @@ export class SearchInput extends InputSTD {
         width: 100%;
         margin: 0;
         position: relative;
+        overflow: hidden;
       }
 
       :host([float]) form {
-        background: none;
+        overflow: visible;
       }
 
       :host(:focus) form {
@@ -115,11 +104,6 @@ export class SearchInput extends InputSTD {
         outline: var(${cssvarValues.input}--outline);
       }
 
-      li {
-        padding: 0.1em 0.5em;
-        font-size: 0.95rem;
-      }
-
       button,
       input {
         background: none;
@@ -134,8 +118,6 @@ export class SearchInput extends InputSTD {
         flex: 1;
         min-width: 0;
         box-sizing: border-box;
-        margin-left: 0.25em;
-        padding: var(${cssvarInput}--input-padding);
         font-size: 1rem;
       }
 
@@ -149,55 +131,53 @@ export class SearchInput extends InputSTD {
   protected render(): HTMLTemplate {
     return html`<form action="${this.action}" method="${this.method}">
       <div>
-        <input .value="${this.value}" ?autofocus="${this.autofocus}" name="${this.name}" @focus="${this._handleInput}" @input="${this._handleInput}" @change="${this._handleChange}" title="" placeholder="${ifDefined(this.pla)}" />
+        <input .value="${this.value}" ?autofocus="${this.autofocus}" name="${this.name}" @focus="${this._handleInput}" @input="${this._handleInput}" title="" placeholder="${ifDefined(this.pla)}" />
         <button @click="${this._handleSubmit}">${svgSearch()}</button>
       </div>
       <ul>
-        ${htmlSlot()} ${this.renderList()}
+        ${htmlSlot()}
       </ul>
     </form>`;
   }
 
-  private renderList(): HTMLTemplate | undefined {
-    if (this.list && this.list.length && this.value) {
-      return html`${this.list.map((v) => html` <li>${v}</li>`)}`;
-    }
-  }
-
   protected _handleSubmit(e: Event) {
-    if (!this.remote) {
+    if (!this.action) {
       e.preventDefault();
     }
     this.dispatchEvent(new CustomEvent("submit", { detail: this.value }));
   }
 
   protected async _handleInput(e: Event) {
+    e.stopPropagation();
     const value: string = this.targetValue(e);
+    if (value === this.value) {
+      return;
+    }
     this.value = value;
     if (this.compositing) {
       return;
     }
     if (this.target && this.query) {
-      const targetElement = document.querySelector(this.target);
-      const queryElementsCollection = document.querySelectorAll(this.query);
-      if (!value || !targetElement || !queryElementsCollection.length) {
-        return;
-      }
-      targetElement.replaceChildren();
+      this.searchElements(this.value);
+    }
+    this.dispatchEvent(new CustomEvent("input", { detail: this.value, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent("change", { detail: this.value, composed: true }));
+  }
+
+  searchElements(s: string) {
+    const targetElement = document.body.querySelector(this.target);
+    const queryElementsCollection = document.body.querySelectorAll(this.query);
+    if (!targetElement) {
+      return;
+    }
+    targetElement.replaceChildren();
+    if (s && queryElementsCollection.length) {
       for (const e of queryElementsCollection) {
-        if (e.textContent.includes(value)) {
+        if (e.textContent.includes(this.value)) {
           targetElement.appendChild(e.cloneNode(true));
         }
       }
     }
-    if (value && this.infer) {
-      this.list = await this.useInfer(value);
-      return;
-    } else {
-      this.list = [];
-    }
-    this.dispatchEvent(new CustomEvent("input", { detail: value }));
-    this.dispatchEvent(new CustomEvent("change", { detail: value }));
   }
 }
 

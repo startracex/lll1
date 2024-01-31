@@ -4,6 +4,8 @@
 
 Fix utils.
 
+Update `search-input`.
+
 ## 2.4.2
 
 Fix deep queries.
