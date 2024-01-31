@@ -4,30 +4,38 @@ import { cssvarValues, GodownElement } from "../root.js";
 export type InputType = "hidden" | "text" | "search" | "tel" | "url" | "email" | "password" | "datetime" | "date" | "month" | "week" | "time" | "datetime-local" | "number" | "range" | "color" | "checkbox" | "radio" | "file" | "image";
 
 export class InputSTD extends GodownElement {
+  @property({ reflect: true }) type: InputType = "text";
+  @property() name: string = undefined;
+  @property() value: string | any = undefined;
+  @property({ reflect: true }) label = "";
+  @property() def = "";
+  @property({ reflect: true }) pla?: string = undefined;
+  @property({ type: Boolean, reflect: true }) autofocus = false;
+
+  _input: HTMLInputElement;
+  compositing: boolean;
+
   static styles = [
     GodownElement.styles,
     css`
+      :host {
+        display: flex;
+      }
+      ::-ms-reveal {
+        display: none;
+      }
       ::-webkit-calendar-picker-indicator {
         background-color: var(${cssvarValues.input}-true);
         border-radius: 0.1rem;
       }
     `,
   ] as CSSResultGroup;
-  @property() name: string = undefined;
-  @property() value: string | any = undefined;
-  @property() label = "";
-  @property() def = "";
-  @property() pla?: string = undefined;
-  _input: HTMLInputElement;
-  compositing: boolean;
-  autofocus: boolean;
-  type?: string;
 
   namevalue(): [string, any] {
     return [this.name, this.value];
   }
 
-  nameValue = (): ReturnType<InputSTD["namevalue"]> => this.namevalue();
+  nameValue = () => this.namevalue();
 
   reset() {
     this.value = this.def;
@@ -59,6 +67,10 @@ export class InputSTD extends GodownElement {
     this._initName();
   }
 
+  disconnectedCallback() {
+    this.reset();
+  }
+
   protected _initName() {
     if (!this.name) {
       if (this.label || this.type) {
@@ -79,12 +91,6 @@ export class InputSTD extends GodownElement {
     }
   }
 
-  protected _focusCheck() {
-    if (this.autofocus) {
-      this.focus();
-    }
-  }
-
   protected _changeInputType(t: InputType) {
     this._input.type = t;
   }
@@ -94,12 +100,11 @@ export class InputSTD extends GodownElement {
   }
 
   protected firstUpdated() {
-    this._focusCheck();
     this._compositionCheck();
     this.reset();
   }
 
-  protected targetValue(e: Event) {
+  protected targetValue(e: Event): string | any {
     const target = e.target as HTMLInputElement;
     if (target.value.trim) {
       return target.value.trim();
@@ -117,7 +122,7 @@ export class FormSTD<T extends object = object> extends GodownElement {
     return [this.name, this.value];
   }
 
-  nameValue = (): ReturnType<FormSTD<T>["namevalue"]> => this.namevalue();
+  nameValue = () => this.namevalue();
 }
 
 export default {
