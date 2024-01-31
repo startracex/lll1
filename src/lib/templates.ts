@@ -16,17 +16,20 @@ export const path = (fill: string | void | 0 | false = "currentColor", stroke: s
 };
 
 interface HtmlSlot {
-  (name?: "pre" | "suf"): HTMLTemplate;
-
-  (name?: string): HTMLTemplate;
+  (): HTMLTemplate;
+  (name: string): HTMLTemplate;
+  <T>(name: string, feedback: T, node: ParentNode): T | HTMLTemplate;
 }
 
-export const htmlSlot: HtmlSlot = (name?: string) => {
+export const htmlSlot = (<T>(name: string, fallback: T, node: ParentNode) => {
   if (name) {
+    if (fallback && node && !node.querySelector(`[slot=${name}]`)) {
+      return fallback;
+    }
     return html`<slot name="${name}"></slot>`;
   }
   return html`<slot></slot>`;
-};
+}) as HtmlSlot;
 
 export const htmlStyle = (css: string) => {
   if (css) {
