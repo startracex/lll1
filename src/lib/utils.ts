@@ -55,6 +55,10 @@ export function each(node: Node, callback: (node: Node) => void) {
   }
 }
 
+export function random(m = 0, n = 1) {
+  return Math.random() * (n - m) + m;
+}
+
 export function doAssign(source: any, target: any) {
   const classList = "classList";
   if (classList in source) {

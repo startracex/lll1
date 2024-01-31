@@ -2,6 +2,7 @@ import { createScope, define } from "../root.js";
 import { css, html, property, query, state } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import EffectSTD from "./std.js";
+import { random } from "../lib/utils.js";
 
 const defineName = "typewriter-text";
 const cssvarScope = createScope(defineName);
@@ -88,10 +89,6 @@ export class TypewriterText extends EffectSTD {
   end() {
     this.ended = true;
   }
-}
-
-function random(m = 0, n = 1) {
-  return Math.random() * (n - m) + m;
 }
 
 export default TypewriterText;
