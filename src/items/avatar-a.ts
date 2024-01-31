@@ -13,6 +13,7 @@ export class AvatarAnchor extends ItemsSTD {
       :host {
         ${cssvarScope}--ava: 1.5em;
         display: inline-flex;
+        align-items: center;
       }
 
       * {

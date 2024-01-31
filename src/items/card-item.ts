@@ -20,6 +20,7 @@ export class CardItem extends ItemsSTD {
         margin: auto;
         display: block;
         width: fit-content;
+        color: var(${cssvarValues.text});
       }
 
       * {
