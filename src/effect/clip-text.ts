@@ -8,7 +8,11 @@ const cssvarScope = createScope(defineName);
 
 @define(defineName)
 export class ClipText extends EffectSTD {
+  /**
+   * The text to be clipped.
+   */
   @property() text = "";
+
   static styles = [
     EffectSTD.styles,
     css`

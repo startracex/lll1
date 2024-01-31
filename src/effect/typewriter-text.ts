@@ -9,17 +9,45 @@ const cssvarScope = createScope(defineName);
 
 @define(defineName)
 export class TypewriterText extends EffectSTD {
+  /**
+   * Raw text.
+   */
   @property() text = "";
+  /**
+   * Start immediately after {@linkcode TypewriterText.firstUpdated}.
+   */
   @property({ type: Boolean }) stopped = false;
+  /**
+   * If true, hide the cursor
+   */
   @property({ type: Boolean }) ended = false;
+  /**
+   * Maximum random time.
+   */
   @property({ type: Number }) max = 100;
+  /**
+   * Minimum random time.
+   */
   @property({ type: Number }) min = 50;
+  /**
+   * Fixed time.
+   */
   @property({ type: Number }) delay = 0;
+  /**
+   * The index at the beginning.
+   */
   @property({ type: Number }) index = 0;
+  /**
+   * Internal text.
+   */
   @state() content = "";
+
   timeoutID: number;
   @query("i") _i: HTMLElement;
 
+  /**
+   * {@linkcode TypewriterText.text} length.
+   */
   get len() {
     return this.text.length;
   }
@@ -98,6 +126,7 @@ export class TypewriterText extends EffectSTD {
 }
 
 export default TypewriterText;
+
 declare global {
   interface HTMLElementTagNameMap {
     "typewriter-text": TypewriterText;

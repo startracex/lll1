@@ -186,8 +186,14 @@ export class OverbreathText extends EffectSTD {
       }
     `,
   ] as CSSResultGroup;
+
+  /**
+   * One of the texts.
+   */
   @property() t1 = "";
+  // As t1.
   @property() t2 = "";
+  // As t2.
   @property() t3 = "";
 
   protected render(): HTMLTemplate[] {
