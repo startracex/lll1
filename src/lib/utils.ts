@@ -10,23 +10,28 @@ export function debounce(func: (_: any) => any, timeout: number) {
   };
 }
 
-export function deepQuerySelectorAll<E extends Element = HTMLElement>(selectors: string, root: E | ParentNode = document): E[] {
+export function deepQuerySelectorAll<E extends Element = HTMLElement>(selectors: string, root: E | ParentNode = document.body): E[] {
+  const result: E[] = [];
+
   if (!root || !selectors) {
-    return [];
+    return result;
   }
-  let a: E[];
+
   if ((root as E).shadowRoot) {
-    a = [...deepQuerySelectorAll<E>(selectors, (root as E).shadowRoot)];
-  } else {
-    a = [...root.querySelectorAll<E>(selectors)];
+    result.push(...deepQuerySelectorAll<E>(selectors, (root as E).shadowRoot));
   }
+
+  const a = root.querySelectorAll<E>(selectors);
+  result.push(...Array.from(a));
+
   for (const child of root.children) {
-    a.push(...deepQuerySelectorAll<E>(selectors, child));
+    result.push(...deepQuerySelectorAll<E>(selectors, child));
   }
-  return a;
+
+  return [...new Set(result)];
 }
 
-export function deepQuerySelector<E extends Element = HTMLElement>(selectors: string, root: E | ParentNode = document): E {
+export function deepQuerySelector<E extends Element = HTMLElement>(selectors: string, root: E | ParentNode = document.body): E {
   if (!root || !selectors) {
     return null;
   }
