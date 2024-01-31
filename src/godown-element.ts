@@ -7,7 +7,6 @@ import { LitElement } from "lit";
  * Global element.
  */
 class GodownElement extends LitElement {
-  [x: string]: any;
   static conf?: ConfType;
   static elementTagName?: string;
 
