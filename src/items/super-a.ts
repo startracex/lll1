@@ -83,10 +83,7 @@ export class SuperAnchor extends ItemsSTD {
   protected render(): HTMLTemplate {
     return html`<a href="${ifDefined(this.href)}" target="${this.target}">
       ${htmlSlot()}
-      <i>
-        <slot name="icon"></slot>
-        ${this._arrowSwitcher()}
-      </i>
+      <i> ${this._arrowSwitcher()} </i>
     </a>`;
   }
 
@@ -98,6 +95,8 @@ export class SuperAnchor extends ItemsSTD {
         return svgArrow(true);
       case "angle":
         return svgArrow();
+      default:
+        return htmlSlot("icon");
     }
   }
 }

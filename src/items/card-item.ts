@@ -69,7 +69,7 @@ export class CardItem extends ItemsSTD {
   protected render(): HTMLTemplate {
     return html`<div>
       <aside></aside>
-      <main>${htmlSlot("header")} ${htmlSlot()} ${htmlSlot("footer")}</main>
+      <main>${htmlSlot()}</main>
     </div>`;
   }
 

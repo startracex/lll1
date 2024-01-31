@@ -1,5 +1,4 @@
-import { css, type CSSResultGroup, html, property } from "../deps.js";
-import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
+import { css, type CSSResultGroup, property } from "../deps.js";
 import { define } from "../root.js";
 import ItemsSTD from "./std.js";
 
@@ -39,8 +38,8 @@ export class TimeBar extends ItemsSTD {
     `,
   ];
 
-  protected render(): HTMLTemplate {
-    return html`${htmlSlot("pre")}${this.value || TimeBar.fmt(this.format, this.time)}${htmlSlot()}`;
+  protected render(): string {
+    return this.value || TimeBar.fmt(this.format, this.time);
   }
 
   protected firstUpdated() {
