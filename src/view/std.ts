@@ -10,6 +10,7 @@ export class OpenAble extends GodownElement {
       :host {
         display: block;
         transition: all 0.3s ease-in-out;
+        height: fit-content;
       }
 
       span {
@@ -57,10 +58,28 @@ export class OpenAble extends GodownElement {
       }
     `,
   ] as CSSResultGroup;
+
+  /**
+   * Summary text.
+   */
+  @property() summary = "";
+  /**
+   * Make the content float.
+   */
   @property({ type: Boolean, reflect: true }) float = false;
+  /**
+   * Open the content.
+   */
   @property({ type: Boolean, reflect: true }) open = false;
+  /**
+   * Enable event mode.
+   */
   @property() on: OnEvents | void = "";
+  /**
+   * Disable the event mode.
+   */
   @property() off: OnEvents = "click";
+
   toggle(to = !this.open) {
     this.open = to;
   }
@@ -79,6 +98,7 @@ export class OpenAble extends GodownElement {
       this.dispatchEvent(new CustomEvent("change", { detail: this.open }));
     }
   }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected _handelClick(_: MouseEvent) {
     this.toggle();

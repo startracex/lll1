@@ -10,7 +10,11 @@ const defineName = "float-tips";
  */
 @define(defineName)
 export class FloatTips extends OpenAble {
+  /**
+   * Direction of appearance.
+   */
   @state() base: ("top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right")[] = ["top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"];
+
   static styles = [
     css`
       :host {

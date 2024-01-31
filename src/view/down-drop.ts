@@ -14,6 +14,7 @@ const defineName = "down-drop";
 @define(defineName)
 export class DownDrop extends OpenAble {
   @query("aside") private _balancer: HTMLDivElement;
+
   static styles = [
     css`
       :host {

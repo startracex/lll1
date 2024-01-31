@@ -7,9 +7,19 @@ const defineName = "rotation-pool";
 
 @define(defineName)
 export class RotationPool extends GodownElement {
+  /**
+   * The index of the element is displayed for the first time.
+   */
   @property({ type: Number }) index = 0;
+  /**
+   * If autochangee > 0, the rotation will be automated.
+   */
   @property({ type: Number }) autochange = 0;
+  /**
+   * Width.
+   */
   @property() width = "";
+
   @query("section") _section: HTMLElement;
   intervalID: number;
   _clone: HTMLElement[] = [];

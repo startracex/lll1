@@ -7,10 +7,17 @@ const defineName = "details-expand";
 
 @define(defineName)
 export class DetailsExpand extends OpenAble {
-  @property() summary = "";
+  /**
+   * If it is true, the summary event scope will fill the element.
+   */
   @property({ type: Boolean }) fill = false;
+  /**
+   * Reverse summary.
+   */
   @property({ type: Boolean }) reverse = false;
+
   @query("dd") _dd: HTMLDataListElement;
+
   static styles = [
     OpenAble.styles,
     css`

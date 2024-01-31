@@ -1,4 +1,4 @@
-import { css, html, property } from "../deps.js";
+import { css, html, property, query } from "../deps.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate } from "../lib/templates.js";
 import { debounce } from "../lib/utils.js";
 import { define } from "../root.js";
@@ -8,7 +8,11 @@ const defineName = "scroll-x";
 
 @define(defineName)
 export class ScrollX extends GodownElement {
+  /**
+   * Element height.
+   */
   @property() height = "";
+
   static styles = css`
     :host {
       display: block;
@@ -39,9 +43,7 @@ export class ScrollX extends GodownElement {
     }
   `;
 
-  get _section() {
-    return this.shadowRoot.querySelector("section");
-  }
+  @query("section") _section: HTMLElement;
 
   protected render(): HTMLTemplate {
     const style = this.height && `:host{height:${this.height}}`;

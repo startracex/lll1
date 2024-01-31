@@ -31,12 +31,30 @@ export class RouteView<T = unknown> extends GodownElement {
    * Current pathname (location.pathname).
    */
   @property() pathname = "";
-
+  /**
+   * Path prefix.
+   */
   @property() baseURL = "";
+  /**
+   * Rendered content when there is no match.
+   */
   @state() def = htmlSlot();
+  /**
+   * The type of routing query.
+   */
   @property() type: "united" | "child" | "slotted" | "field" = "united";
+  /**
+   * Rewrite history.
+   */
   @state() override = true;
+  /**
+   * Cache accessed.
+   */
   @property({ type: Boolean }) cache = false;
+
+  /**
+   * Cache record.
+   */
   record = new Map<string, ReturnType<typeof this.useRouter>>();
 
   set routes(v) {

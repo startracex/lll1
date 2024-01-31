@@ -1,4 +1,4 @@
-import { css, type CSSResultGroup, html, property, query, state } from "../deps.js";
+import { css, type CSSResultGroup, html, query } from "../deps.js";
 import { cssvarValues, define } from "../root.js";
 import { htmlSlot, type HTMLTemplate, svgArrow } from "../lib/templates.js";
 import { OpenAble } from "./std.js";
@@ -7,8 +7,6 @@ const defineName = "menu-list";
 
 @define(defineName)
 export class MenuList extends OpenAble {
-  @property() summary = "";
-  @state() def: boolean;
   @query("section") _section: HTMLElement;
   static styles = [
     OpenAble.styles,
@@ -23,11 +21,11 @@ export class MenuList extends OpenAble {
       }
 
       dt i {
-        background-color: rgb(${cssvarValues.mainRGB} / 0.055);
+        background-color: rgb(var(${cssvarValues.mainRGB}) / 0.055);
       }
 
       dt i:hover {
-        background-color: rgb(${cssvarValues.mainRGB} / 0.075);
+        background-color: rgb(var(${cssvarValues.mainRGB}) / 0.075);
       }
 
       :host([open]) svg {
@@ -47,7 +45,7 @@ export class MenuList extends OpenAble {
     }
     return html`<dl>
       <dt class="${noTitle}">
-        <span>${this.summary}${htmlSlot("summary")}</span>
+        <span>${this.summary || htmlSlot("summary")}</span>
         <i @click="${this._handelClick}"> ${this.renderIcon()} </i>
       </dt>
       <dd>
