@@ -213,10 +213,10 @@ export class BaseInput extends InputSTD {
         return html`<input id="input" class="input" type="file" accept="${ifDefined(this.accept)}" ?multiple="${!this.only}" @change="${this._handleFile}" />${htmlSlot()}`;
 
       case "number":
-        return html`<input ?autofocus="${this.autofocus}" id="input" class="input" type="number" placeholder="${ifDefined(this.pla)}" min="${this.min}" max="${this.max}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
+        return html`<input .value="${this.value}" ?autofocus="${this.autofocus}" id="input" class="input" type="number" placeholder="${ifDefined(this.pla)}" min="${this.min}" max="${this.max}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
 
       default:
-        return html`<input ?autofocus="${this.autofocus}" id="input" class="input" type="${this.type}" placeholder="${ifDefined(this.pla)}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
+        return html`<input .value="${this.value}" ?autofocus="${this.autofocus}" id="input" class="input" type="${this.type}" placeholder="${ifDefined(this.pla)}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
     }
   }
 }

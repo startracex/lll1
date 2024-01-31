@@ -110,7 +110,7 @@ export class LabelInput extends InputSTD {
   protected render(): HTMLTemplate[] {
     const result = html`<fieldset>
       <i>${htmlSlot("pre")}</i>
-      <input ?autofocus="${this.autofocus}" id="${this.name}" type="${this.type}" placeholder="${this.pla}" class="${this.type}" @input="${this._handleInput}" @change="${this._handleChange}" />
+      <input .value="${this.value}" ?autofocus="${this.autofocus}" id="${this.name}" type="${this.type}" placeholder="${this.pla}" class="${this.type}" @input="${this._handleInput}" @change="${this._handleChange}" />
       ${this.renderSuf()}
     </fieldset>`;
     if (this.label) {

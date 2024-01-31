@@ -149,7 +149,7 @@ export class SearchInput extends InputSTD {
   protected render(): HTMLTemplate {
     return html`<form action="${this.action}" method="${this.method}">
       <div>
-        <input ?autofocus="${this.autofocus}" name="${this.name}" @focus="${this._handleInput}" @input="${this._handleInput}" @change="${this._handleChange}" title="" placeholder="${ifDefined(this.pla)}" />
+        <input .value="${this.value}" ?autofocus="${this.autofocus}" name="${this.name}" @focus="${this._handleInput}" @input="${this._handleInput}" @change="${this._handleChange}" title="" placeholder="${ifDefined(this.pla)}" />
         <button @click="${this._handleSubmit}">${svgSearch()}</button>
       </div>
       <ul>

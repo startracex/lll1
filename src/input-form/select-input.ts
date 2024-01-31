@@ -125,6 +125,7 @@ export class SelectInput extends InputSTD {
     return html` <div>
       <section>${this.renderList()}</section>
       <input
+        .value="${this.value}"
         ?autofocus="${this.autofocus}"
         id="input"
         @focus="${() => {
