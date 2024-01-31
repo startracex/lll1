@@ -6,13 +6,12 @@ import { FormSTD } from "./std.js";
 
 @define("base-form")
 export class BaseForm extends FormSTD {
-  @property() enctype = "multipart/form-data";
+  @property() enctype: "application/x-www-form-urlencoded" | "multipart/form-data" | "text/plain" = "multipart/form-data";
+
+  @query("form") _form: HTMLFormElement;
+
   static styles = [
     css`
-      :host {
-        display: flow-root;
-      }
-
       form {
         display: flex;
         flex-direction: column;
@@ -26,10 +25,9 @@ export class BaseForm extends FormSTD {
       }
     `,
   ] as CSSResultGroup;
-  @query("form") _form: HTMLFormElement;
 
   protected render(): HTMLTemplate {
-    return html`<form enctype="multipart/form-data">
+    return html`<form enctype="${this.enctype}">
       ${htmlSlot("pre")}
       <main>${htmlSlot()}</main>
       ${htmlSlot("suf")}
@@ -97,7 +95,7 @@ export class BaseForm extends FormSTD {
   FormData(): FormData {
     const temp = {};
     const tempForm = document.createElement("form");
-    tempForm.enctype = "multipart/form-data";
+    tempForm.enctype = this.enctype;
     for (const slot of this._slots) {
       for (const i of slot.assignedNodes() as any) {
         if (i.FormData) {

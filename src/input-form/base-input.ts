@@ -1,17 +1,26 @@
 import { css, type CSSResultGroup, html, ifDefined, property, query } from "../deps.js";
-import { cssvar, cssvarValues, define, GodownElement } from "../root.js";
+import { cssvar, cssvarValues, define } from "../root.js";
 import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
-import { InputSTD, type InputType } from "./std.js";
+import { InputSTD } from "./std.js";
 
 const defineName = "base-input";
 
 @define(defineName)
 export class BaseInput extends InputSTD {
+  @property() accept = undefined;
+  @property() value: string | File | FileList = undefined;
+  @property({ type: Boolean }) only = false;
+  @property({ type: Number }) min = 0;
+  @property({ type: Number }) max = 100;
+  @property({ type: Number }) step = 1;
+
+  @query("#input") _input: HTMLInputElement;
+  @query(".range i") _ranged: HTMLElement;
+
   static styles = [
     InputSTD.styles,
     css`
       :host {
-        display: inline-flex;
         width: var(${cssvarValues.input}--width);
         height: var(${cssvarValues.input}--height);
         background: var(${cssvarValues.input}--background);
@@ -118,16 +127,6 @@ export class BaseInput extends InputSTD {
       }
     `,
   ] as CSSResultGroup;
-  @query("#input") _input: HTMLInputElement;
-  @query(".range i") _ranged: HTMLElement;
-  @property() accept = undefined;
-  @property({ reflect: true }) type: InputType = "text";
-  @property() value: string | File | FileList = undefined;
-  @property({ type: Boolean }) only = false;
-  @property({ type: Number }) min = 0;
-  @property({ type: Number }) max = 100;
-  @property({ type: Number }) step = 1;
-  @property({ type: Boolean }) autofocus = false;
 
   protected render(): HTMLTemplate {
     if (this.type === "range") {
@@ -137,13 +136,13 @@ export class BaseInput extends InputSTD {
         <b>
           <i></i>
         </b>
-      </div> `;
+      </div>`;
     }
     return html`<label for="input"> ${htmlSlot("pre")} ${this._typeSwitcher()} ${htmlSlot("suf")} </label>`;
   }
 
   connectedCallback() {
-    GodownElement.prototype.connectedCallback.apply(this);
+    super.connectedCallback();
     if (this.type === "file") {
       this.value = null;
     } else {
@@ -158,6 +157,7 @@ export class BaseInput extends InputSTD {
   }
 
   protected firstUpdated() {
+    super.firstUpdated();
     if (this.type === "range") {
       this._ranged.style.width = 100 * (parseInt(this.value as string) / (this.max - this.min)) + "%";
     }
@@ -195,10 +195,10 @@ export class BaseInput extends InputSTD {
         return html`<input id="input" class="input" type="file" accept="${ifDefined(this.accept)}" ?multiple="${!this.only}" @change="${this._handleFile}" />${htmlSlot()}`;
 
       case "number":
-        return html`<input id="input" class="input" type="number" placeholder="${ifDefined(this.pla)}" min="${this.min}" max="${this.max}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
+        return html`<input ?autofocus="${this.autofocus}" id="input" class="input" type="number" placeholder="${ifDefined(this.pla)}" min="${this.min}" max="${this.max}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
 
       default:
-        return html`<input id="input" class="input" type="${this.type}" placeholder="${ifDefined(this.pla)}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
+        return html`<input ?autofocus="${this.autofocus}" id="input" class="input" type="${this.type}" placeholder="${ifDefined(this.pla)}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
     }
   }
 }

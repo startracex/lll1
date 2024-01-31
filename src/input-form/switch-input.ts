@@ -8,6 +8,15 @@ const cssScope = createScope(defineName);
 
 @define(defineName)
 export class SwitchInput extends InputSTD {
+  @property() base: "fat" | "rect" = "rect";
+  @property({ type: Boolean }) checked = false;
+  @property({ type: Boolean }) disabled = false;
+  @property() def = "false";
+  @property() name = "checkbox";
+  @property() value = "on";
+
+  @query("input") _input: HTMLInputElement;
+
   static styles = [
     InputSTD.styles,
     css`
@@ -133,13 +142,6 @@ export class SwitchInput extends InputSTD {
       }
     `,
   ] as CSSResultGroup;
-  @property({ type: Boolean }) checked = false;
-  @property({ type: Boolean }) disabled = false;
-  @property() base: "fat" | "rect" = "rect";
-  @property() def = "false";
-  @property() name = "checkbox";
-  @property() value = "on";
-  @query("input") _input: HTMLInputElement;
 
   protected render(): HTMLTemplate {
     return html`<span class="${this.base}">

@@ -5,12 +5,17 @@ import { InputSTD } from "./std.js";
 
 @define("select-input")
 export class SelectInput extends InputSTD {
+  @property({ type: Boolean, reflect: true }) open = false;
+  @property({ type: Boolean, reflect: true }) only = false;
+  @property({ type: Array }) value = [];
+  @property() name = "select";
+  @property({ type: Array }) text: string[] = [];
+
   static styles = [
     InputSTD.styles,
     css`
       :host {
         background: var(${cssvarValues.input}--background);
-        display: inline-flex;
         outline: var(${cssvarValues.input}--outline-width) solid transparent;
         height: var(${cssvarValues.input}--height);
         width: var(${cssvarValues.input}--width);
@@ -93,12 +98,6 @@ export class SelectInput extends InputSTD {
       }
     `,
   ] as CSSResultGroup;
-  @property({ type: Boolean, reflect: true }) open = false;
-  @property({ type: Boolean, reflect: true }) only = false;
-  @property({ type: Array }) value = [];
-  @property() name = "select";
-  @property({ type: Array }) text: string[] = [];
-  @property({ type: Boolean }) autofocus = false;
 
   get assigned() {
     return super.assigned as any;
@@ -111,6 +110,7 @@ export class SelectInput extends InputSTD {
     return html` <div>
       <section>${this.renderList()}</section>
       <input
+        ?autofocus="${this.autofocus}"
         id="input"
         @focus="${() => {
           this.open = true;
@@ -172,15 +172,15 @@ export class SelectInput extends InputSTD {
         this.select(i);
       });
     this._focusCheck();
-    const click = "click";
+    const CLICK = "click";
     (this.assigned as HTMLElement[]).forEach((option: HTMLElement) => {
       if (this.getOptionValue(option)) {
-        this.addEvent(option, click, () => {
+        this.addEvent(option, CLICK, () => {
           this.select(this.getOptionValue(option), option.textContent);
         });
       } else if (option.children) {
         [...option.children].forEach((option: HTMLElement) => {
-          this.addEvent(option, click, () => {
+          this.addEvent(option, CLICK, () => {
             this.select(this.getOptionValue(option), option.textContent);
           });
         });
@@ -189,7 +189,7 @@ export class SelectInput extends InputSTD {
     this.addEvent(this, "change", () => {
       this.open = !this.only;
     });
-    this.addEvent(document, click, (e) => {
+    this.addEvent(document, CLICK, (e) => {
       if (!this.contains(e.target as Node)) {
         this.open = false;
       }
@@ -240,19 +240,21 @@ export class SelectInput extends InputSTD {
     this.requestUpdate();
   }
 
-  _handleInput() {
+  protected _handleInput() {
+    const BLOCK = "block";
+    const NONE = "none";
     let value = this._input.value.trim();
     if (!this.only && value.includes(";")) {
       value = value.split(";").pop().trim();
     }
     this.assigned.forEach((option) => {
       if (this.getOptionValue(option)) {
-        option.style.display = "block";
+        option.style.display = BLOCK;
       }
       if (option.children) {
-        option.style.display = "block";
+        option.style.display = BLOCK;
         [...option.children].forEach((subOption) => {
-          subOption.style.display = "block";
+          subOption.style.display = BLOCK;
         });
       }
     });
@@ -261,15 +263,15 @@ export class SelectInput extends InputSTD {
         const optionValue = this.getOptionValue(option);
         if (optionValue) {
           const isMatch = includesIgnoreCase(optionValue, value) || includesIgnoreCase(option.innerText, value);
-          option.style.display = isMatch ? "block" : "none";
+          option.style.display = isMatch ? BLOCK : NONE;
         } else if (option.children) {
           [...option.children].forEach((subOption) => {
             const subOptionValue = this.getOptionValue(subOption);
             const isSubMatch = includesIgnoreCase(subOptionValue, value) || includesIgnoreCase(subOption.innerText, value);
-            subOption.style.display = isSubMatch ? "block" : "none";
+            subOption.style.display = isSubMatch ? BLOCK : NONE;
           });
-          if ([...option.children].filter((option) => option.style.display === "block").length === 0) {
-            option.style.display = "none";
+          if ([...option.children].filter((option) => option.style.display === BLOCK).length === 0) {
+            option.style.display = NONE;
           }
         }
       });

@@ -9,8 +9,6 @@ const cssvarInput = createScope(defineName);
 
 @define(defineName)
 export class SearchInput extends InputSTD {
-  @query("input") _input!: HTMLInputElement;
-  @property({ type: Boolean }) autofocus = false;
   @property() query = "";
   @property() target = "";
   @property({ type: Boolean }) infer = false;
@@ -19,7 +17,8 @@ export class SearchInput extends InputSTD {
   @property() action = "./";
   @property() method: "get" | "post" = "get";
   @property() name = "q";
-  @property() pla?: string = undefined;
+
+  @query("input") _input!: HTMLInputElement;
   @state() list: any[] = [];
   @state() useInfer = async (x: string) => {
     await new Promise<void>((resolve) => {
@@ -29,15 +28,15 @@ export class SearchInput extends InputSTD {
     });
     return ["Undefined: useInfer", `Use: useInfer(${x} :string)`, "Return Array<string>"];
   };
+
   static styles = [
     InputSTD.styles,
     css`
       :host {
         ${cssvarInput}--width:var(${cssvarValues.input}--width);
+        ${cssvarInput}--input-padding: 0;
         width: var(${cssvarValues.input}--width);
         border-radius: var(${cssvarValues.input}--radius);
-        ${cssvarInput}--input-padding: 0;
-        display: inline-block;
       }
 
       div {
@@ -112,7 +111,7 @@ export class SearchInput extends InputSTD {
         min-width: 0;
         box-sizing: border-box;
         margin-left: 0.25em;
-        padding: var(${cssvarInput}--input-padding: 0;);
+        padding: var(${cssvarInput}--input-padding);
         font-size: 1rem;
       }
 
@@ -126,7 +125,7 @@ export class SearchInput extends InputSTD {
   protected render(): HTMLTemplate {
     return html`<form action="${this.action}" method="${this.method}">
       <div>
-        <input name="${this.name}" @focus="${this._handleInput}" @input="${this._handleInput}" @change="${this._handleChange}" title="" placeholder="${ifDefined(this.pla)}" />
+        <input ?autofocus="${this.autofocus}" name="${this.name}" @focus="${this._handleInput}" @input="${this._handleInput}" @change="${this._handleChange}" title="" placeholder="${ifDefined(this.pla)}" />
         <button @click="${this._handleSubmit}">${svgSearch()}</button>
       </div>
       <ul>

@@ -3,18 +3,27 @@ import { css, type CSSResultGroup, html, property, query, queryAll } from "../de
 import { type HTMLTemplate } from "../lib/templates.js";
 import { InputSTD } from "./std.js";
 
+const FOCUS = "focus";
+
 const defineName = "split-input";
 
 const cssScope = createScope(defineName);
 
 @define(defineName)
 export class SplitInput extends InputSTD {
+  @property({ type: Number }) max = 6;
+  @property({ type: Number }) index = -1;
+
+  @query("input") _input: HTMLInputElement;
+  @queryAll("span") _spans: NodeListOf<HTMLSpanElement>;
+  current = 0;
+  currentValue: (string | null)[] = [];
+
   static styles = [
     InputSTD.styles,
     css`
       :host {
         ${cssScope}--outline: .12em solid var( ${cssvarValues.input}--outline-color);
-        display: inline-flex;
         width: fit-content;
         border-radius: 1px;
       }
@@ -60,13 +69,6 @@ export class SplitInput extends InputSTD {
       }
     `,
   ] as CSSResultGroup;
-  @property({ type: Number }) max = 6;
-  @property({ type: Number }) index = -1;
-  @property({ type: Boolean }) autofocus = false;
-  @query("input") _input: HTMLInputElement;
-  @queryAll("span") _spans: NodeListOf<HTMLSpanElement>;
-  current = 0;
-  currentValue: (string | null)[] = [];
 
   protected render(): HTMLTemplate {
     return html`
@@ -80,7 +82,6 @@ export class SplitInput extends InputSTD {
   }
 
   protected firstUpdated() {
-    this._focusCheck();
     this.currentValue = this.value.split("").concat(Array(this.max - this.value.length).fill(null));
     this.current = this.index < 0 || this.index > this.max ? this.currentValue.indexOf(null) : this.index;
     this._spans.forEach((span, index) => {
@@ -97,7 +98,7 @@ export class SplitInput extends InputSTD {
     });
   }
 
-  _handleInput(e: InputEvent) {
+  protected _handleInput(e: InputEvent) {
     if (e.data === null) {
       if (this.currentValue[this.current] !== null) {
         this.currentValue[this.current] = null;
@@ -130,16 +131,15 @@ export class SplitInput extends InputSTD {
   }
 
   focusAt(i = this.current) {
-    const focus = "focus";
     this._spans.forEach((span) => {
-      span.classList.remove(focus);
+      span.classList.remove(FOCUS);
     });
-    this._spans[i]?.classList.add(focus);
+    this._spans[i]?.classList.add(FOCUS);
     this._input.value = "";
   }
 
   blur(i = this.current) {
-    this._spans[i]?.classList.remove("focus");
+    this._spans[i]?.classList.remove(FOCUS);
     this._input.blur();
   }
 
