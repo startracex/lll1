@@ -17,6 +17,23 @@ const colors = {
 
 @define(defineName)
 export class AlertItem extends ItemsSTD {
+  /**
+   * Type of performance.
+   */
+  @property() call: keyof typeof colors | "hide" = "info";
+  /**
+   * Close delay.
+   */
+  @property({ type: Number }) autoclose = 3000;
+  /**
+   * Alert title.
+   */
+  @property() title = "";
+  /**
+   * Alert content.
+   */
+  @property() content = "";
+
   static styles = [
     unsafeCSS(
       constructCSS(vars, colors, (raw) => {
@@ -97,10 +114,6 @@ export class AlertItem extends ItemsSTD {
       }
     `,
   ];
-  @property() call: keyof typeof colors | "hide" = "info";
-  @property({ type: Number }) autoclose = 3000;
-  @property() title = "";
-  @property() content = "";
 
   protected render(): HTMLTemplate {
     if (this.autoclose) {
