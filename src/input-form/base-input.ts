@@ -7,11 +7,29 @@ const defineName = "base-input";
 
 @define(defineName)
 export class BaseInput extends InputSTD {
+  /**
+   * Input sccept.
+   */
   @property() accept = undefined;
+  /**
+   * Value.
+   */
   @property() value: string | File | FileList = undefined;
+  /**
+   * Only single files are allowed to be selected.
+   */
   @property({ type: Boolean }) only = false;
+  /**
+   * Input min.
+   */
   @property({ type: Number }) min = 0;
+  /**
+   * Input max.
+   */
   @property({ type: Number }) max = 100;
+  /**
+   * Input step.
+   */
   @property({ type: Number }) step = 1;
 
   @query("#input") _input: HTMLInputElement;

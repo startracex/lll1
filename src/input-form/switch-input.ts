@@ -8,11 +8,29 @@ const cssScope = createScope(defineName);
 
 @define(defineName)
 export class SwitchInput extends InputSTD {
+  /**
+   * Border style.
+   */
   @property() base: "fat" | "rect" = "rect";
+  /**
+   * Whether this element is selected or not.
+   */
   @property({ type: Boolean }) checked = false;
+  /**
+   * Whether this element is disabled or not.
+   */
   @property({ type: Boolean }) disabled = false;
+  /**
+   * Parsed by JSON.parse to checked.
+   */
   @property() def = "false";
+  /**
+   * Input name.
+   */
   @property() name = "checkbox";
+  /**
+   * Input value.
+   */
   @property() value = "on";
 
   @query("input") _input: HTMLInputElement;

@@ -9,13 +9,37 @@ const cssvarInput = createScope(defineName);
 
 @define(defineName)
 export class SearchInput extends InputSTD {
+  /**
+   * Query selectors.
+   */
   @property() query = "";
+  /**
+   * Target selectors.
+   */
   @property() target = "";
+  /**
+   * Enable infer.
+   */
   @property({ type: Boolean }) infer = false;
+  /**
+   * Use remote.
+   */
   @property({ type: Boolean }) remote = false;
+  /**
+   * Float result.
+   */
   @property({ type: Boolean, reflect: true }) float = false;
+  /**
+   * Form action.
+   */
   @property() action = "./";
+  /**
+   * Form method.
+   */
   @property() method: "get" | "post" = "get";
+  /**
+   * Form name.
+   */
   @property() name = "q";
 
   @query("input") _input!: HTMLInputElement;

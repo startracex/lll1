@@ -11,7 +11,13 @@ const cssScope = createScope(defineName);
 
 @define(defineName)
 export class SplitInput extends InputSTD {
+  /**
+   * The number of simulated input boxes.
+   */
   @property({ type: Number }) max = 6;
+  /**
+   * Active index.
+   */
   @property({ type: Number }) index = -1;
 
   @query("input") _input: HTMLInputElement;

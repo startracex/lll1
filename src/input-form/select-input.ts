@@ -5,10 +5,25 @@ import { InputSTD } from "./std.js";
 
 @define("select-input")
 export class SelectInput extends InputSTD {
+  /**
+   *
+   */
   @property({ type: Boolean, reflect: true }) open = false;
+  /**
+   * Only a single option is allowed.
+   */
   @property({ type: Boolean, reflect: true }) only = false;
+  /**
+   * Selected values.
+   */
   @property({ type: Array }) value = [];
+  /**
+   * Input name.
+   */
   @property() name = "select";
+  /**
+   * Selected texts.
+   */
   @property({ type: Array }) text: string[] = [];
 
   static styles = [

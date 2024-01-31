@@ -6,6 +6,9 @@ import { FormSTD } from "./std.js";
 
 @define("base-form")
 export class BaseForm extends FormSTD {
+  /**
+   * Form enctype.
+   */
   @property() enctype: "application/x-www-form-urlencoded" | "multipart/form-data" | "text/plain" = "multipart/form-data";
 
   @query("form") _form: HTMLFormElement;
@@ -124,6 +127,9 @@ export class BaseForm extends FormSTD {
   }
 }
 
+/**
+ * SignForm is now an alias for {@linkcode BaseForm}.
+ */
 @define("sign-form")
 export class SignForm extends BaseForm {}
 
