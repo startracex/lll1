@@ -11,7 +11,7 @@ export class NavAside extends LayoutSTD {
   /**
    * The width of the screen for the position change.
    */
-  @property() m = "720px";
+  @property() mobile = "720px";
   /**
    * The position behavior.
    */
@@ -49,7 +49,7 @@ export class NavAside extends LayoutSTD {
     const position = this.position.split(/\s+/);
     const p = position[0] || "sticky";
     const pm = position[1] || "fixed";
-    const m = this.m || "720px";
+    const m = this.mobile || "720px";
     const style = `:host{position:${p} !important;}@media(min-width:${m}){:host{position:${pm} !important;width:fit-content !important;height:100% !important;}nav{display: flex !important;justify-content: space-between !important;flex-direction: column !important;align-content: flex-start !important;align-items: stretch !important;}}`;
     return html`<nav>${htmlSlot()}</nav>
       ${htmlStyle(style)}`;

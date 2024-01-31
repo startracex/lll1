@@ -14,7 +14,7 @@ export class FlexFlow extends LayoutSTD {
   /**
    * The width of the screen for the position change.
    */
-  @property() m = "720px";
+  @property() mobile = "720px";
 
   static styles = [
     css`
@@ -30,7 +30,7 @@ export class FlexFlow extends LayoutSTD {
     const flexWrap = flexflow[1] || "nowrap";
     const flexDirectionM = flexflow[2] || flexDirection || "column";
     const flexWrapM = flexflow[3] || flexWrap || "nowrap";
-    const m = this.m || "720px";
+    const m = this.mobile || "720px";
     const style = `:host{flex-direction:${flexDirection};flex-wrap:${flexWrap};}@media(max-width: ${m}){:host{flex-direction:${flexDirectionM};flex-wrap:${flexWrapM}}`;
     return html`${htmlSlot()} ${htmlStyle(style)}`;
   }

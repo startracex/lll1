@@ -42,7 +42,7 @@ export class LabelInput extends InputSTD {
   /**
    * Conditions for adjust layout.
    */
-  @property() m = "540px";
+  @property() mobile = "540px";
 
   @query("input") _input: HTMLInputElement;
 
@@ -114,7 +114,7 @@ export class LabelInput extends InputSTD {
       ${this.renderSuf()}
     </fieldset>`;
     if (this.label) {
-      const style = this.m && `}${styleWithLabel}@media (max-width: ${this.m}){${styleInMedia}`;
+      const style = this.mobile && `}${styleWithLabel}@media (max-width: ${this.mobile}){${styleInMedia}`;
       return [
         html`<label for="${this.name}">
           <span>${this.label}${htmlSlot()}</span>

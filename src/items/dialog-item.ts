@@ -4,6 +4,8 @@ import { type HTMLTemplate } from "../lib/templates.js";
 import ItemsSTD from "./std.js";
 import type { PropertyValueMap } from "lit";
 
+type Direction5 = "left" | "center" | "right" | "top" | "bottom";
+
 const defineName = "dialog-item";
 
 @define(defineName)
@@ -110,13 +112,13 @@ export class DialogItem extends ItemsSTD {
   /**
    * The direction in which it appears.
    */
-  @property({ type: String }) call: "left" | "center" | "right" | "top" | "bottom" = "center";
+  @property({ type: String }) direction: Direction5 = "center";
 
   @query("div") _div: HTMLDivElement;
 
   protected render(): HTMLTemplate {
     return html`<div>
-      <slot class="${this.call}"></slot>
+      <slot class="${this.direction}"></slot>
     </div>`;
   }
 

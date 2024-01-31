@@ -6,6 +6,8 @@ Fix utils.
 
 Update `search-input`.
 
+Modify the reactive properties, includes `label-input`, `dialog-item`, `flex-flow`, `nav-aside`, `float-tipe`.
+
 ## 2.4.2
 
 Fix deep queries.

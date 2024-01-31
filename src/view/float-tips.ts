@@ -3,6 +3,8 @@ import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import { define } from "../root.js";
 import OpenAble from "./std.js";
 
+type Direction8 = "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+
 const defineName = "float-tips";
 
 /**
@@ -13,7 +15,7 @@ export class FloatTips extends OpenAble {
   /**
    * Direction of appearance.
    */
-  @state() base: ("top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right")[] = ["top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"];
+  @state() direction: Direction8 | Direction8[] = "top";
 
   static styles = [
     css`
@@ -52,7 +54,7 @@ export class FloatTips extends OpenAble {
 
   protected render(): HTMLTemplate {
     return html`<main>
-      ${this.base.map((i) => {
+      ${(Array.isArray(this.direction) ? this.direction : [this.direction]).map((i) => {
         return html`
           <aside class="${i}">
             <slot name="${i}"></slot>
