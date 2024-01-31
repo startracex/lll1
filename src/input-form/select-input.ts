@@ -1,4 +1,4 @@
-import { css, type CSSResultGroup, html, ifDefined, property, query } from "../deps.js";
+import { css, type CSSResultGroup, html, property, query } from "../deps.js";
 import { cssvarValues, define, GodownElement } from "../root.js";
 import { htmlSlot, type HTMLTemplate, svgDelta, svgX } from "../lib/templates.js";
 import { InputSTD } from "./std.js";
@@ -6,7 +6,7 @@ import { InputSTD } from "./std.js";
 @define("select-input")
 export class SelectInput extends InputSTD {
   /**
-   *
+   * Open content.
    */
   @property({ type: Boolean, reflect: true }) open = false;
   /**
@@ -132,7 +132,7 @@ export class SelectInput extends InputSTD {
           this.open = true;
         }}"
         @input="${this._handleInput}"
-        placeholder="${ifDefined(this.pla)}"
+        placeholder="${this.pla}"
       />
       <label for="input">${svgDelta()}</label>
       <aside ?open="${this.open}">${htmlSlot()}</aside>

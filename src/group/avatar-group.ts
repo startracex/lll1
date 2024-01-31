@@ -1,9 +1,10 @@
-import { css, html, property } from "../deps.js";
+import { css, html, nothing, property } from "../deps.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate } from "../lib/templates.js";
 import { append } from "../lib/utils.js";
 import AvatarAnchor from "../items/avatar-a.js";
 import { define } from "../root.js";
 import GroupSTD from "./std.js";
+import { ifValue } from "../lib/directives.js";
 
 const defineName = "avatar-group";
 
@@ -34,15 +35,7 @@ export class AvatarGroup extends GroupSTD {
 
   protected render(): HTMLTemplate {
     const cssStr = `slot::slotted(:nth-of-type(n + ${(this.max || 0) + 1})) {display: none;}`;
-    return html`${htmlSlot()} ${htmlStyle(cssStr)} ${this.renderMore()}`;
-  }
-
-  private renderMore(): AvatarAnchor | undefined {
-    if (this.more > 0) {
-      const aa = new AvatarAnchor();
-      aa.more = this.more;
-      return aa;
-    }
+    return html`${htmlSlot()} ${htmlStyle(cssStr)} ${ifValue(this.more > 0, new AvatarAnchor({ more: this.more }), nothing)}`;
   }
 
   protected firstUpdated() {

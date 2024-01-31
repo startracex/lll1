@@ -3,6 +3,7 @@ import { css, html, property, state } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import { deepQuerySelectorAll } from "../lib/utils.js";
 import GroupSTD from "./std.js";
+import { ifValue } from "../lib/directives.js";
 import type { PropertyValueMap } from "lit";
 
 const defineName = "tab-group";
@@ -78,8 +79,8 @@ export class TabGroup extends GroupSTD {
 
   protected render(): HTMLTemplate {
     const headers = (this.headers || this.contents).map((value) => {
-      return html`<section
-        class="${this.index === value ? "active" : ""}"
+      return html` <section
+        class="${ifValue(this.index === value, "active")}"
         @click="${() => {
           this.select(value, true);
         }}"
@@ -104,7 +105,10 @@ export class TabGroup extends GroupSTD {
       if (active) {
         this.dispatchEvent(new CustomEvent("select", { detail: this.index }));
         slider.style.width = `${active.clientWidth}px`;
-        slider.animate([{ left: `${active.offsetLeft + active.clientWidth / 2}px` }], { duration: 250, fill: "forwards" });
+        slider.animate([{ left: `${active.offsetLeft + active.clientWidth / 2}px` }], {
+          duration: 250,
+          fill: "forwards",
+        });
       } else {
         slider.style.width = "0";
       }

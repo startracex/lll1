@@ -1,6 +1,7 @@
 import { css, type CSSResultGroup, html, property, query } from "../deps.js";
 import { htmlSlot, type HTMLTemplate, svgDeltaSmooth } from "../lib/templates.js";
 import { define } from "../root.js";
+import { ifValue } from "../lib/directives.js";
 import { OpenAble } from "./std.js";
 
 const defineName = "details-expand";
@@ -43,9 +44,9 @@ export class DetailsExpand extends OpenAble {
 
   protected render(): HTMLTemplate {
     return html`<dl>
-      <dt @click="${this._handelClick}" style="flex-direction:row${this.reverse ? "-reverse" : ""}">
+      <dt @click="${this._handelClick}" style="flex-direction:row${ifValue(this.reverse, "-reverse")}">
         <span> ${this.summary || htmlSlot("summary")} </span>
-        <i style="transform: rotate(${this.reverse ? "-18" : ""}0deg);"> ${this.renderIcon()} </i>
+        <i style="transform: rotate(${ifValue(this.reverse, "-18")}0deg);"> ${this.renderIcon()} </i>
       </dt>
       <dd>
         <section>${htmlSlot()}</section>

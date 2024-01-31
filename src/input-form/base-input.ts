@@ -1,4 +1,4 @@
-import { css, type CSSResultGroup, html, ifDefined, property, query } from "../deps.js";
+import { css, type CSSResultGroup, html, property, query } from "../deps.js";
 import { cssvar, cssvarValues, define } from "../root.js";
 import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import { InputSTD } from "./std.js";
@@ -210,13 +210,13 @@ export class BaseInput extends InputSTD {
   protected _typeSwitcher(): HTMLTemplate {
     switch (this.type) {
       case "file":
-        return html`<input id="input" class="input" type="file" accept="${ifDefined(this.accept)}" ?multiple="${!this.only}" @change="${this._handleFile}" />${htmlSlot()}`;
+        return html`<input id="input" class="input" type="file" accept="${this.accept}" ?multiple="${!this.only}" @change="${this._handleFile}" />${htmlSlot()}`;
 
       case "number":
-        return html`<input .value="${this.value}" ?autofocus="${this.autofocus}" id="input" class="input" type="number" placeholder="${ifDefined(this.pla)}" min="${this.min}" max="${this.max}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
+        return html`<input .value="${this.value}" ?autofocus="${this.autofocus}" id="input" class="input" type="number" placeholder="${this.pla}" min="${this.min}" max="${this.max}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
 
       default:
-        return html`<input .value="${this.value}" ?autofocus="${this.autofocus}" id="input" class="input" type="${this.type}" placeholder="${ifDefined(this.pla)}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
+        return html`<input .value="${this.value}" ?autofocus="${this.autofocus}" id="input" class="input" type="${this.type}" placeholder="${this.pla}" @input="${this._handleInput}" @change="${this._handleChange}" />`;
     }
   }
 }

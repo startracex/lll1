@@ -1,5 +1,5 @@
 import { createScope, cssvarValues, define } from "../root.js";
-import { css, type CSSResultGroup, html, ifDefined, property, query } from "../deps.js";
+import { css, type CSSResultGroup, html, property, query } from "../deps.js";
 import { htmlSlot, type HTMLTemplate, svgSearch } from "../lib/templates.js";
 import { InputSTD } from "./std.js";
 
@@ -131,7 +131,7 @@ export class SearchInput extends InputSTD {
   protected render(): HTMLTemplate {
     return html`<form action="${this.action}" method="${this.method}">
       <div>
-        <input .value="${this.value}" ?autofocus="${this.autofocus}" name="${this.name}" @focus="${this._handleInput}" @input="${this._handleInput}" title="" placeholder="${ifDefined(this.pla)}" />
+        <input .value="${this.value}" ?autofocus="${this.autofocus}" name="${this.name}" @focus="${this._handleInput}" @input="${this._handleInput}" title="" placeholder="${this.pla}" />
         <button @click="${this._handleSubmit}">${svgSearch()}</button>
       </div>
       <ul>
