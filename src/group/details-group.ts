@@ -21,23 +21,22 @@ export class DetailsGroup extends GroupSTD {
     return htmlSlot();
   }
 
-  protected async firstUpdated() {
-    await this.updateComplete;
-    if (this.index >= 0) {
-      this.assigned[this.index]?.setAttribute("open", "");
+  connectedCallback() {
+    super.connectedCallback();
+    if (this.only) {
+      this.addEvent(this, "click", this._handleClick);
     }
-    this.addEvent(this, "click", this._handleClick);
+    this.children[this.index]?.setAttribute("open", "");
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.index = -1;
   }
 
   protected _handleClick(e: MouseEvent) {
-    if (this.only) {
-      this.index = this.assigned.indexOf(e.target as HTMLElement);
-      this.assigned.forEach((e, i) => {
-        if (i !== this.index) {
-          e.removeAttribute("open");
-        }
-      });
-    }
+    this.children[this.index]?.removeAttribute("open");
+    this.index = this.assigned.indexOf(e.target as HTMLElement);
   }
 }
 
