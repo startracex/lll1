@@ -9,8 +9,15 @@ const defineName = "avatar-group";
 
 @define(defineName)
 export class AvatarGroup extends GroupSTD {
-  @property({ type: Number }) max = 0;
+  /**
+   * The maximum number of elements that can be accepted for this element.
+   */
+  @property({ type: Number }) max = 99;
+  /**
+   * When the content overflows, create an {@linkcode AvatarAnchor} with the same {@linkcode AvatarAnchor.more} attribute as more.
+   */
   @property({ type: Number }) more = 0;
+
   static styles = [
     css`
       :host {

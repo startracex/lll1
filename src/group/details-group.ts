@@ -7,8 +7,15 @@ const defineName = "details-group";
 
 @define(defineName)
 export class DetailsGroup extends GroupSTD {
+  /**
+   * Default open element index.
+   */
   @property({ type: Number }) index = -1;
+  /**
+   * If true, close the previous element when switching index.
+   */
   @property({ type: Boolean }) only = false;
+
   static styles = [
     css`
       :host {
