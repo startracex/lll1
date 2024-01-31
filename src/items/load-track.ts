@@ -1,6 +1,7 @@
-import { classMap, css, type CSSResultGroup, html, property, state } from "../deps.js";
+import { css, type CSSResultGroup, html, property } from "../deps.js";
 import { cssvarValues, define } from "../root.js";
 import { type HTMLTemplate } from "../lib/templates.js";
+
 import ItemsSTD from "./std.js";
 
 const defineName = "load-track";
@@ -43,21 +44,13 @@ export class LoadTrack extends ItemsSTD {
         }
       }
 
-      div.value i {
+      div.v i {
         animation: none;
         width: 20%;
       }
     `,
   ] as CSSResultGroup;
 
-  /**
-   * The current percentage value, without a percent sign.
-   */
-  @state() current = 20;
-  /**
-   * Whether or not there is an actual value for this element.
-   */
-  @state() hasValue = false;
   /**
    * Maximum.
    */
@@ -67,32 +60,19 @@ export class LoadTrack extends ItemsSTD {
    */
   @property({ type: Number }) min = 0;
   /**
-   * If true, the click event will reset the progress.
+   * Input value.
    */
-  @property({ type: Boolean }) modify = false;
-
-  set value(val) {
-    if (val === null || val === undefined || val === "") {
-      this.removeAttribute("value");
-      this.hasValue = false;
-    } else {
-      this.setAttribute("value", val);
-      this.hasValue = true;
-    }
-    this.current = this.parsePercent(val || 20);
-  }
-
-  get value() {
-    return this.getAttribute("value");
-  }
+  @property({ type: Number, reflect: true }) value = null;
 
   protected render(): HTMLTemplate {
+    let width = 20;
+    let className: string;
     if (this.value !== null) {
-      this.hasValue = true;
-      this.current = this.parsePercent(this.value);
+      width = this.parsePercent(this.value);
+      className = "v";
     }
-    return html`<div class="${classMap({ value: this.hasValue })}" @click="${this._handleClick}">
-      <i style="width:${this.current}%;"></i>
+    return html` <div class="${className}">
+      <i style="width:${width}%;"></i>
     </div>`;
   }
 
@@ -107,13 +87,6 @@ export class LoadTrack extends ItemsSTD {
       return parseFloat(String(s));
     }
     return (parseFloat(String(s)) / (this.max - this.min)) * 100;
-  }
-
-  protected _handleClick(e: MouseEvent) {
-    if (this.modify) {
-      this.value = ((e.offsetX / this.offsetWidth) * (this.max - this.min)).toString();
-      this.dispatchEvent(new CustomEvent("change", { detail: e.offsetX / this.offsetWidth }));
-    }
   }
 }
 
