@@ -8,6 +8,15 @@ const cssvarScope = createScope(defineName);
 
 @define(defineName)
 export class NavAside extends LayoutSTD {
+  /**
+   * The width of the screen for the position change.
+   */
+  @property() m = "720px";
+  /**
+   * The position behavior.
+   */
+  @property() position = "sticky fixed";
+
   static styles = [
     LayoutSTD.styles,
     css`
@@ -35,8 +44,6 @@ export class NavAside extends LayoutSTD {
       }
     `,
   ] as CSSResultGroup;
-  @property() m = "720px";
-  @property() position = "sticky fixed";
 
   protected render(): HTMLTemplate {
     const position = this.position.split(/\s+/);

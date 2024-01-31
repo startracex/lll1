@@ -7,7 +7,11 @@ const defineName = "with-wrap";
 
 @define(defineName)
 export class WithWrap extends LayoutSTD {
+  /**
+   * Slot name.
+   */
   @property() with = "";
+
   static styles = css`
     :host {
       display: contents;

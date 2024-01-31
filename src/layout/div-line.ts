@@ -8,6 +8,11 @@ const cssvarScope = createScope(defineName);
 
 @define(defineName)
 export class DivLine extends LayoutSTD {
+  /**
+   * Enable vertical.
+   */
+  @property({ type: Boolean }) v = false;
+
   static styles = [
     css`
       :host {
@@ -24,7 +29,6 @@ export class DivLine extends LayoutSTD {
         align-items: center;
         border-radius: inherit;
         width: 100%;
-        height: 100%;
       }
 
       hr {
@@ -40,6 +44,7 @@ export class DivLine extends LayoutSTD {
         display: flex;
         flex-direction: column;
       }
+
       .before {
         height: var(${cssvarScope}--breadth);
         max-width: var(${cssvarScope}--before-lenght);
@@ -58,7 +63,6 @@ export class DivLine extends LayoutSTD {
       }
     `,
   ];
-  @property({ type: Boolean }) v = false;
 
   protected render(): HTMLTemplate {
     return html`<div class="${this.v ? "v" : ""}">

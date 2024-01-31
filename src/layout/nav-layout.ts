@@ -8,6 +8,20 @@ const cssvarScope = createScope(defineName);
 
 @define(defineName)
 export class NavLayout extends LayoutSTD {
+  /**
+   * Main heading.
+   */
+  @property() host = "";
+  /**
+   * Subheading.
+   */
+  @property() subhead = "";
+
+  /**
+   * @deprecated
+   */
+  set: 0 | 1 | 2;
+
   static styles = [
     LayoutSTD.styles,
     css`
@@ -91,9 +105,6 @@ export class NavLayout extends LayoutSTD {
       }
     `,
   ] as CSSResultGroup;
-  @property() host = "";
-  @property() subhead = "";
-  @property({ type: Number }) set: 0 | 1 | 2 = 0;
 
   protected render(): HTMLTemplate {
     return html` ${htmlSlot("header")} ${this.renderNav()}

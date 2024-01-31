@@ -5,6 +5,9 @@ import LayoutSTD from "./std.js";
 
 const defineName = "drag-box";
 
+/**
+ * The DragBox does not extend beyond the range of {@linkcode DragBox.offsetsWidth} and {@linkcode DragBox.offsetsHeight}.
+ */
 @define(defineName)
 export class DragBox extends LayoutSTD {
   drag: boolean;
@@ -12,8 +15,16 @@ export class DragBox extends LayoutSTD {
   l: number;
   cx: number;
   cy: number;
+
+  /**
+   * Position x.
+   */
   @property() x = "auto";
+  /**
+   * Position y.
+   */
   @property() y = "auto";
+
   static styles = [
     css`
       :host {

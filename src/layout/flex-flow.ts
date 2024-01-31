@@ -7,8 +7,15 @@ const defineName = "flex-flow";
 
 @define(defineName)
 export class FlexFlow extends LayoutSTD {
+  /**
+   * The flex-flow behavior.
+   */
   @property() flexflow = "row nowrap column nowrap";
+  /**
+   * The width of the screen for the position change.
+   */
   @property() m = "720px";
+
   static styles = [
     css`
       :host {

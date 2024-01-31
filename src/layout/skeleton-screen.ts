@@ -8,9 +8,19 @@ const cssvarScope = createScope(defineName);
 
 @define(defineName)
 export class SkeletonScreen extends LayoutSTD {
+  /**
+   * Skeleton type.
+   */
   @property() type: "text" | "image" = "text";
+  /**
+   * Animation type.
+   */
   @property() animation: "position" | "opacity" = "position";
+  /**
+   * If false, hidden.
+   */
   @state() loading = true;
+
   static styles = [
     LayoutSTD.styles,
     css`
