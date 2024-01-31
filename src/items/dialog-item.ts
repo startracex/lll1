@@ -86,12 +86,32 @@ export class DialogItem extends ItemsSTD {
       }
     `,
   ];
+
+  /**
+   * Enable modal.
+   */
   @property({ type: Boolean, reflect: true }) modal = false;
+  /**
+   * Whether or not this element is activated.
+   */
   @property({ type: Boolean, reflect: true }) open = false;
+  /**
+   * Enable scale.
+   */
   @property({ type: Boolean }) scale = false;
+  /**
+   * Scale gap.
+   */
   @property({ type: Number }) gap = 0.1;
+  /**
+   * Exit key, which can be multiple.
+   */
   @property({ type: String }) key = "Escape";
+  /**
+   * The direction in which it appears.
+   */
   @property({ type: String }) call: "left" | "center" | "right" | "top" | "bottom" = "center";
+
   @query("div") _div: HTMLDivElement;
 
   protected render(): HTMLTemplate {

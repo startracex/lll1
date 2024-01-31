@@ -49,10 +49,26 @@ export class LoadTrack extends ItemsSTD {
       }
     `,
   ] as CSSResultGroup;
+
+  /**
+   * The current percentage value, without a percent sign.
+   */
   @state() current = 20;
+  /**
+   * Whether or not there is an actual value for this element.
+   */
   @state() hasValue = false;
+  /**
+   * Maximum.
+   */
   @property({ type: Number }) max = 1;
+  /**
+   * Minimum.
+   */
   @property({ type: Number }) min = 0;
+  /**
+   * If true, the click event will reset the progress.
+   */
   @property({ type: Boolean }) modify = false;
 
   set value(val) {
@@ -75,11 +91,17 @@ export class LoadTrack extends ItemsSTD {
       this.hasValue = true;
       this.current = this.parsePercent(this.value);
     }
-    return html` <div class="${classMap({ value: this.hasValue })}" @click="${this._handleClick}">
+    return html`<div class="${classMap({ value: this.hasValue })}" @click="${this._handleClick}">
       <i style="width:${this.current}%;"></i>
     </div>`;
   }
 
+  /**
+   * Convert s to a percentage without a percent sign.
+   *
+   * @param s String or number to convert.
+   * @returns Percentage without a percent sign.
+   */
   parsePercent(s: string | number = "0"): number {
     if (String(s).includes("%")) {
       return parseFloat(String(s));

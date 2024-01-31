@@ -108,10 +108,7 @@ export class AlertItem extends ItemsSTD {
     }
     return html`<div class="${this.call} alert" role="alert">
       <section class="content">
-        <strong>
-          <slot name="title"></slot>
-          ${this.title}</strong
-        >
+        <strong> ${htmlSlot("title")} ${this.title}</strong>
         ${htmlSlot()}${this.content}
       </section>
       <aside class="close" @click="${this.close}">${svgX()}</aside>

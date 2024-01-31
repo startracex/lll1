@@ -7,8 +7,15 @@ const defineName = "link-a";
 
 @define(defineName)
 export class LinkAnchor extends SuperAnchor {
+  /**
+   * True when the href is in the same pathname as the location.
+   */
   @property({ type: Boolean, reflect: true }) active = false;
+  /**
+   * If true, replaceState, or pushState.
+   */
   @property({ type: Boolean }) replace = false;
+
   static styles = SuperAnchor.styles;
 
   connectedCallback() {
@@ -18,17 +25,20 @@ export class LinkAnchor extends SuperAnchor {
     this.useActive();
   }
 
+  /**
+   * Set active to true when the {@linkcode LinkAnchor.href} is in the same pathname as the location.
+   */
   useActive() {
-    const url = new URL(this.href, window.location.href);
-    if (url.origin === window.location.origin) {
-      this.active = url.pathname === window.location.pathname;
+    const url = new URL(this.href, location.href);
+    if (url.origin === location.origin) {
+      this.active = url.pathname === location.pathname;
     }
   }
 
   protected _handleClick(e: MouseEvent) {
     const href = this.href ?? this.querySelector("[href]")?.getAttribute("href");
-    const url = new URL(href, window.location.href);
-    if (url.origin === window.location.origin) {
+    const url = new URL(href, location.href);
+    if (url.origin === location.origin) {
       e.preventDefault();
       if (this.replace) {
         this.replaceState(href);

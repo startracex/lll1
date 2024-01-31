@@ -56,7 +56,12 @@ export class CardItem extends ItemsSTD {
       }
     `,
   ] as CSSResultGroup;
+
+  /**
+   * Enable rotate.
+   */
   @property({ type: Boolean }) rotate = false;
+
   @query("main") protected _main!: HTMLElement;
   @query("aside") protected _aside!: HTMLElement;
 
@@ -78,7 +83,7 @@ export class CardItem extends ItemsSTD {
   }
 
   /**
-   * Cancel the aside offset
+   * Cancel the aside offset.
    */
   reset() {
     this._main.style.transition = ".5s";
@@ -86,8 +91,8 @@ export class CardItem extends ItemsSTD {
   }
 
   /**
-   * Offset aside
-   * @param e Mouse move event
+   * Offset aside.
+   * @param e Mouse move event.
    */
   protected _drawRotate(e: MouseEvent) {
     const { left, top, width, height } = this._main.getBoundingClientRect();

@@ -7,9 +7,19 @@ const defineName = "super-a";
 
 @define(defineName)
 export class SuperAnchor extends ItemsSTD {
+  /**
+   * Href for a element.
+   */
   @property() href: string = undefined;
+  /**
+   * Target for a element.
+   */
   @property() target = "_self";
+  /**
+   * Arrow type.
+   */
   @property() arrow: "" | "delta" | "arrow" | "angle" = "";
+
   static styles = [
     css`
       :host([arrow="delta"]) svg {

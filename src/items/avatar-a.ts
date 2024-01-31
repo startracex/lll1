@@ -49,10 +49,26 @@ export class AvatarAnchor extends ItemsSTD {
       }
     `,
   ];
+
+  /**
+   * Image src.
+   */
   @property() src: string | undefined | null = "";
+  /**
+   * Default image src.
+   */
   @property() def: string = undefined;
+  /**
+   * Link href.
+   */
   @property() href = undefined;
+  /**
+   * If the image is not available, the {@linkcode AvatarAnchor.avaName} will be displayed.
+   */
   @property() name = "";
+  /**
+   * If there is a value, the {@linkcode AvatarAnchor.avaMore} will be displayed.
+   */
   @property({ type: Number }) more = 0;
 
   protected render(): HTMLTemplate {
@@ -64,18 +80,27 @@ export class AvatarAnchor extends ItemsSTD {
 
   private renderAva(): HTMLTemplate {
     if (this.more) {
-      const more = this.more > 99 ? "..." : this.more;
-      return html`<span>+${more}</span>`;
+      return html`<span>${this.avaMore()}</span>`;
     }
     if (this.src) {
       return html`<img src="${this.src}" @error=${this.imgOnError} alt="" />`;
     }
     if (this.name) {
-      let name = this.name.slice(0, 2);
-      name = name[0].toUpperCase() + name.slice(1);
-      return html`<span>${name}</span>`;
+      return html`<span>${this.avaName()}</span>`;
     }
     return htmlSlot("avatar");
+  }
+
+  avaMore(): string | number {
+    if (this.more < 0) {
+      return "+";
+    }
+    return (this.more > 99 ? "99" : this.more) + "+";
+  }
+
+  avaName(): string {
+    const name = this.name.slice(0, 2);
+    return name[0].toUpperCase() + name.slice(1);
   }
 
   imgOnError(e: ErrorEvent) {

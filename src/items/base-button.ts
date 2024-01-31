@@ -19,12 +19,34 @@ const colors = {
 
 @define(defineName)
 export class BaseButton extends ItemsSTD {
-  @property({ type: Boolean, reflect: true }) disabled = false;
+  /**
+   * Whether to disable this element.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+  /**
+   * Add a outline to the element.
+   */
   @property({ type: Boolean, reflect: true }) outline = false;
+  /**
+   * Invert font and background color.
+   */
   @property({ type: Boolean, reflect: true }) ghost = false;
+  /**
+   * Whether this element is active or not.
+   */
   @property({ type: Boolean, reflect: true }) active = false;
+  /**
+   * Enables rounded corners to appear capsule shaped.
+   */
   @property({ type: Boolean, reflect: true }) radius = false;
+  /**
+   * The primary color.
+   */
   @property({ reflect: true }) color: "none" | keyof typeof colors = "black";
+  /**
+   * Text inside.
+   */
   @property() text = "";
   static styles = [
     unsafeCSS(
