@@ -70,6 +70,12 @@ export class TypewriterText extends EffectSTD {
     }
   }
 
+  protected updated(changedProperties: Map<string, any>) {
+    if (changedProperties.has("index")) {
+      this.dispatchEvent(new CustomEvent(this.index === this.len ? "done" : "write", { detail: this.content }));
+    }
+  }
+
   write(at = this.index) {
     this.content = this.text.slice(0, at + 1);
     const timeout = this.delay || random(this.max, this.min);
