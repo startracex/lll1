@@ -5,6 +5,9 @@ import { GodownElement } from "../root.js";
 
 const defineName = "rotation-pool";
 
+/**
+ * RotationPool rotates child elements.
+ */
 @define(defineName)
 export class RotationPool extends GodownElement {
   /**

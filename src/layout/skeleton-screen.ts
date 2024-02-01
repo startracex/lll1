@@ -6,6 +6,11 @@ import LayoutSTD from "./std.js";
 const defineName = "skeleton-screen";
 const cssvarScope = createScope(defineName);
 
+/**
+ * SkeletonScreen renders a skeleton screen.
+ *
+ * Inspired by Ant-design.
+ */
 @define(defineName)
 export class SkeletonScreen extends LayoutSTD {
   /**

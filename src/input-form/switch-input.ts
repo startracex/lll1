@@ -6,6 +6,11 @@ import { InputSTD } from "./std.js";
 const defineName = "switch-input";
 const cssScope = createScope(defineName);
 
+/**
+ * Switch renders a switch.
+ *
+ * Inspired by Steam.
+ */
 @define(defineName)
 export class SwitchInput extends InputSTD {
   /**

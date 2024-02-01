@@ -6,6 +6,9 @@ import { GodownElement } from "../root.js";
 
 const defineName = "scroll-x";
 
+/**
+ * ScrollX changes the scroll direction to horizontal.
+ */
 @define(defineName)
 export class ScrollX extends GodownElement {
   /**

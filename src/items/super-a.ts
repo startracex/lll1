@@ -5,6 +5,11 @@ import ItemsSTD from "./std.js";
 
 const defineName = "super-a";
 
+/**
+ * SuperAnchor similar to a.
+ *
+ * Has an optional arrow.
+ */
 @define(defineName)
 export class SuperAnchor extends ItemsSTD {
   /**

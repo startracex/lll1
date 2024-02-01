@@ -6,6 +6,11 @@ import { type HTMLTemplate } from "../lib/templates.js";
 const defineName = "overbreath-text";
 const cssvarScope = createScope(defineName);
 
+/**
+ * OverbreathText renders three animated pieces of text.
+ *
+ * Inspired by Vercel homepage (2022? - 2023).
+ */
 @define(defineName)
 export class OverbreathText extends EffectSTD {
   /**

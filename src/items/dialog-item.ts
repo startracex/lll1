@@ -8,6 +8,9 @@ type Direction5 = "left" | "center" | "right" | "top" | "bottom";
 
 const defineName = "dialog-item";
 
+/**
+ * DialogItem similar to dialog.
+ */
 @define(defineName)
 export class DialogItem extends ItemsSTD {
   /**

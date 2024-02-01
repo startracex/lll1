@@ -6,6 +6,9 @@ import ItemsSTD from "./std.js";
 
 const defineName = "load-track";
 
+/**
+ * LoadTrack similar to  progress.
+ */
 @define(defineName)
 export class LoadTrack extends ItemsSTD {
   /**
@@ -71,7 +74,7 @@ export class LoadTrack extends ItemsSTD {
       width = this.parsePercent(this.value);
       className = "v";
     }
-    return html` <div class="${className}">
+    return html`<div class="${className}">
       <i style="width:${width}%;"></i>
     </div>`;
   }

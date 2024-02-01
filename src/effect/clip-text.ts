@@ -6,6 +6,9 @@ import EffectSTD from "./std.js";
 const defineName = "clip-text";
 const cssvarScope = createScope(defineName);
 
+/**
+ * ClipText renders a gradient text.
+ */
 @define(defineName)
 export class ClipText extends EffectSTD {
   /**

@@ -6,6 +6,9 @@ import ItemsSTD from "./std.js";
 const defineName = "avatar-a";
 const cssvarScope = createScope(defineName);
 
+/**
+ * AvatarAnchor renders the avatar or name and has a href.
+ */
 @define(defineName)
 export class AvatarAnchor extends ItemsSTD {
   /**

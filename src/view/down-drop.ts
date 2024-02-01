@@ -7,9 +7,9 @@ import { OpenAble } from "./std.js";
 const defineName = "down-drop";
 
 /**
- * DownDrop will calculate a lateral offset to try to keep the content within the allowable range
+ * DownDrop will calculate a lateral offset to try to keep the content within the allowable range.
  *
- * Any named slot will be available as openable content
+ * Any named slot will be available as openable content.
  */
 @define(defineName)
 export class DownDrop extends OpenAble {

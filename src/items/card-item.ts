@@ -6,6 +6,9 @@ import ItemsSTD from "./std.js";
 const defineName = "card-item";
 const cssvarScope = createScope(defineName);
 
+/**
+ * CardItem renders a card.
+ */
 @define(defineName)
 export class CardItem extends ItemsSTD {
   /**

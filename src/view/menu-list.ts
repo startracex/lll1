@@ -6,6 +6,11 @@ import { OpenAble } from "./std.js";
 
 const defineName = "menu-list";
 
+/**
+ * MenuList renders the menu when it has a summary, otherwise a list.
+ *
+ * Inspired by Docusaurus (v1,v2).
+ */
 @define(defineName)
 export class MenuList extends OpenAble {
   @query("section") _section: HTMLElement;

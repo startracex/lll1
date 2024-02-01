@@ -5,6 +5,9 @@ import LayoutSTD from "./std.js";
 
 const defineName = "flex-flow";
 
+/**
+ * FlexFlow controls the flex layout based on the width of the screen.
+ */
 @define(defineName)
 export class FlexFlow extends LayoutSTD {
   /**

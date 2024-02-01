@@ -10,6 +10,9 @@ type WithRecord<T extends string> = Record<string, any> & Record<T, string>;
 
 const defineName = "route-view";
 
+/**
+ * RouteView has basic routing control.
+ */
 @define(defineName)
 export class RouteView<T = unknown> extends GodownElement {
   private _routes: (WithRecord<"path"> & { component?: T })[] = [];

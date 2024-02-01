@@ -7,6 +7,9 @@ import { random } from "../lib/utils.js";
 const defineName = "typewriter-text";
 const cssvarScope = createScope(defineName);
 
+/**
+ * TypewriterText renders a typewriter effect to text.
+ */
 @define(defineName)
 export class TypewriterText extends EffectSTD {
   /**

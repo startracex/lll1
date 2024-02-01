@@ -9,6 +9,9 @@ const defineName = "split-input";
 
 const cssScope = createScope(defineName);
 
+/**
+ * SplitInput renders multiple inputs.
+ */
 @define(defineName)
 export class SplitInput extends InputSTD {
   /**

@@ -10,6 +10,11 @@ const defineName = "tab-group";
 
 const cssvarScope = createScope(defineName);
 
+/**
+ * TabGroup used to support multiple tabs.
+ *
+ * Inspired by Next-ui.
+ */
 @define(defineName)
 export class TabGroup extends GroupSTD {
   /**

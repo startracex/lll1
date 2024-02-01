@@ -4,6 +4,9 @@ import { define } from "../root.js";
 import { each } from "../lib/utils.js";
 import { FormSTD } from "./std.js";
 
+/**
+ * BaseForm gets all the names and actual values of the child element.
+ */
 @define("base-form")
 export class BaseForm extends FormSTD {
   /**
@@ -129,6 +132,8 @@ export class BaseForm extends FormSTD {
 
 /**
  * SignForm is now an alias for {@linkcode BaseForm}.
+ *
+ * @extends BaseForm
  */
 @define("sign-form")
 export class SignForm extends BaseForm {

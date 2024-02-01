@@ -5,6 +5,9 @@ import GroupSTD from "./std.js";
 
 const defineName = "details-group";
 
+/**
+ * DetailsGroup used to support multiple details like.
+ */
 @define(defineName)
 export class DetailsGroup extends GroupSTD {
   /**

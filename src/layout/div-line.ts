@@ -6,6 +6,9 @@ import LayoutSTD from "./std.js";
 const defineName = "div-line";
 const cssvarScope = createScope(defineName);
 
+/**
+ * DivLine similar to hr.
+ */
 @define(defineName)
 export class DivLine extends LayoutSTD {
   /**

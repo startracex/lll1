@@ -33,6 +33,8 @@ const styleWithLabel = css`
 const defineName = "label-input";
 
 /**
+ * LabelInput renders label and input.
+ *
  * When there is a label, the layout will be adjusted according to the width of the screen.
  *
  * Otherwise it behaves similarly to the `BaseInput`.

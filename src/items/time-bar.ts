@@ -4,6 +4,9 @@ import ItemsSTD from "./std.js";
 
 const defineName = "time-bar";
 
+/**
+ * TimeBar renders a formatting time.
+ */
 @define(defineName)
 export class TimeBar extends ItemsSTD {
   /**

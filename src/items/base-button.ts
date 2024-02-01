@@ -17,6 +17,11 @@ const colors = {
   yellow: ["#fff", "linear-gradient(45deg, rgb(223 194 0 / 85%), rgb(230 255 0 / 65%))", "-2px 2px 5px 0px rgb(214 203 55 / 20%), 2px -2px 5px 0 rgb(202 203 137 / 20%)", "rgb(237 224 43 / 80%)"],
 };
 
+/**
+ * BaseButton.
+ *
+ * Inspired by Material-ui and Next-ui.
+ */
 @define(defineName)
 export class BaseButton extends ItemsSTD {
   /**

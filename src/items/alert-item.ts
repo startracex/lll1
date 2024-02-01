@@ -15,6 +15,11 @@ const colors = {
   danger: ["#a94442", "#f2dede", "#ebccd1", "#843534"],
 };
 
+/**
+ * AlertItem renders a alert.
+ *
+ * Inspired by Ant-design.
+ */
 @define(defineName)
 export class AlertItem extends ItemsSTD {
   /**

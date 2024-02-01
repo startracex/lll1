@@ -5,6 +5,11 @@ import { SuperAnchor } from "./super-a.js";
 
 const defineName = "link-a";
 
+/**
+ * LinkAnchor works with {@linkcode RouteView}.
+ *
+ * @extends SuperAnchor
+ */
 @define(defineName)
 export class LinkAnchor extends SuperAnchor {
   /**

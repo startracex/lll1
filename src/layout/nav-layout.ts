@@ -6,6 +6,9 @@ import LayoutSTD from "./std.js";
 const defineName = "nav-layout";
 const cssvarScope = createScope(defineName);
 
+/**
+ * NavLayout renders a navigation, an optional top header, an optional bottom footer.
+ */
 @define(defineName)
 export class NavLayout extends LayoutSTD {
   /**

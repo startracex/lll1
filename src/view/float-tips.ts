@@ -8,7 +8,7 @@ type Direction8 = "top" | "bottom" | "left" | "right" | "top-left" | "top-right"
 const defineName = "float-tips";
 
 /**
- * Use a named slot to set the location of openable content.
+ * FloatTips uses a named slot to set the location of openable content.
  */
 @define(defineName)
 export class FloatTips extends OpenAble {

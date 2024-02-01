@@ -6,6 +6,9 @@ import LayoutSTD from "./std.js";
 const defineName = "nav-aside";
 const cssvarScope = createScope(defineName);
 
+/**
+ * NavAside renders a side or top navigation.
+ */
 @define(defineName)
 export class NavAside extends LayoutSTD {
   /**

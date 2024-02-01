@@ -5,6 +5,9 @@ import LayoutSTD from "./std.js";
 
 const defineName = "with-wrap";
 
+/**
+ * WithWrap only renders a slot.
+ */
 @define(defineName)
 export class WithWrap extends LayoutSTD {
   /**

@@ -3,6 +3,9 @@ import { cssvarValues, define, GodownElement } from "../root.js";
 import { htmlSlot, type HTMLTemplate, svgDelta, svgX } from "../lib/templates.js";
 import { InputSTD } from "./std.js";
 
+/**
+ * SelectInput select matched elements.
+ */
 @define("select-input")
 export class SelectInput extends InputSTD {
   /**
@@ -176,8 +179,8 @@ export class SelectInput extends InputSTD {
     GodownElement.prototype.connectedCallback.call(this);
   }
 
-  getOptionValue(option: HTMLElement | any) {
-    return option.value || option.getAttribute("value");
+  getOptionValue(option: Element) {
+    return (option as HTMLOptionElement).value || option.getAttribute("value");
   }
 
   protected firstUpdated() {

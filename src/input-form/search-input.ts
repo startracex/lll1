@@ -7,6 +7,9 @@ const defineName = "search-input";
 
 const cssvarInput = createScope(defineName);
 
+/**
+ * SearchInput used for search behavior.
+ */
 @define(defineName)
 export class SearchInput extends InputSTD {
   /**

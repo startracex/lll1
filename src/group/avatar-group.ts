@@ -8,6 +8,9 @@ import { ifValue } from "../lib/directives.js";
 
 const defineName = "avatar-group";
 
+/**
+ * AvatarGroup ensure that the display content does not exceed the maximum value, and display the excess quantity.
+ */
 @define(defineName)
 export class AvatarGroup extends GroupSTD {
   /**

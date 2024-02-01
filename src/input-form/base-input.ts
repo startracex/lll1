@@ -5,6 +5,9 @@ import { InputSTD } from "./std.js";
 
 const defineName = "base-input";
 
+/**
+ * BaseInput.
+ */
 @define(defineName)
 export class BaseInput extends InputSTD {
   /**
