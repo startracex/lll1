@@ -7,12 +7,15 @@ import ItemsSTD from "./std.js";
 const defineName = "alert-item";
 const cssvarScope = createScope(defineName);
 
+const currentColor = "currentColor";
+
 const vars = ["color", "background", "border", "super"].map((v) => `${cssvarScope}--${v}`);
 const colors = {
   success: ["#3c763d", "#dff0d8", "#d6e9c6", "#2b542c"],
   info: ["#31708f", "#d9edf7", "#bce8f1", "#245269"],
   warning: ["#8a6d3b", "#fcf8e3", "#faebcc", "#66512c"],
   danger: ["#a94442", "#f2dede", "#ebccd1", "#843534"],
+  inherit: [currentColor, "inherit", currentColor, currentColor],
 };
 
 /**
@@ -47,7 +50,7 @@ export class AlertItem extends ItemsSTD {
     ),
     css`
       :host {
-        ${cssvarScope}--padding:0 0.25em 0 0.35em;
+        ${cssvarScope}--padding: .05em .25em .05em .35em;
         ${cssvarScope}--border-width: 0.15em;
         ${cssvarScope}--border-radius: 0.4em;
         border-radius: var(${cssvarScope}--border-radius);
@@ -68,7 +71,7 @@ export class AlertItem extends ItemsSTD {
         border-radius: inherit;
         border: var(${cssvarScope}--border-width) solid var(${cssvarScope}--border);
         color: var(${cssvarScope}--color);
-        background-color: var(${cssvarScope}--background);
+        background: var(${cssvarScope}--background);
         animation: alert 0.25s ease-in-out;
       }
 
@@ -83,19 +86,19 @@ export class AlertItem extends ItemsSTD {
         }
       }
 
-      section.content {
-        min-height: 1.6em;
-        line-height: 1.6em;
+      div {
+        min-height: 1.5em;
+        line-height: 1.5em;
       }
 
-      aside.close {
+      .close {
         height: fit-content;
         width: fit-content;
         border-radius: 50%;
-        transition: backdrop-filter inherit;
+        transition: inherit;
       }
 
-      aside.close:hover {
+      .close:hover {
         backdrop-filter: contrast(115%);
       }
 
@@ -105,17 +108,12 @@ export class AlertItem extends ItemsSTD {
         width: 1.6em;
       }
 
-      aside.close:hover path {
+      .close:hover path {
         stroke: var(${cssvarScope}--super);
       }
 
       path {
         stroke: var(${cssvarScope}--color);
-      }
-
-      .alert ::slotted(a) {
-        font-weight: bold;
-        color: var(${cssvarScope}--super);
       }
     `,
   ];
@@ -124,13 +122,13 @@ export class AlertItem extends ItemsSTD {
     if (this.autoclose) {
       setTimeout(() => this.close(), this.autoclose);
     }
-    return html`<div class="${this.call} alert" role="alert">
-      <section class="content">
-        <strong> ${htmlSlot("title")} ${this.title}</strong>
-        ${htmlSlot()}${this.content}
-      </section>
-      <aside class="close" @click="${this.close}">${svgX()}</aside>
-    </div>`;
+    return html`<main class="${this.call} alert" role="alert">
+      <div>
+        <strong> ${this.title || htmlSlot("title")}</strong>
+        ${this.content || htmlSlot()}
+      </div>
+      <aside class="close" @click="${this.close}">${htmlSlot("close", svgX(), this)}</aside>
+    </main>`;
   }
 
   close() {
