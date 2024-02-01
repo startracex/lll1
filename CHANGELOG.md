@@ -6,9 +6,11 @@ Fix utils.
 
 Update `search-input`.
 
-Modify the reactive properties, includes `label-input`, `dialog-item`, `flex-flow`, `nav-aside`, `float-tipe`.
+Modify the reactive properties, includes `label-input`,  `dialog-item`,  `flex-flow`,  `nav-aside`,  `float-tipe`.
 
 The define can get an unspecified name from the constructor.
+
+Rename `load-track` to `load-progress`.
 
 ## 2.4.2
 
