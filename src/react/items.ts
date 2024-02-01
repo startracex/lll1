@@ -27,7 +27,7 @@ export const LinkAnchor = createComponent({
 });
 
 export const LoadTrack = createComponent({
-  elementClass: X.LoadTrack,
+  elementClass: X.LoadProgress,
 });
 
 export const SuperAnchor = createComponent({

@@ -4,13 +4,13 @@ import { type HTMLTemplate } from "../lib/templates.js";
 
 import ItemsSTD from "./std.js";
 
-const defineName = "load-track";
+const defineName = "load-progress";
 
 /**
- * LoadTrack similar to  progress.
+ * LoadProgress similar to  progress.
  */
 @define(defineName)
-export class LoadTrack extends ItemsSTD {
+export class LoadProgress extends ItemsSTD {
   /**
    * Maximum.
    */
@@ -44,7 +44,6 @@ export class LoadTrack extends ItemsSTD {
         top: 0;
         left: 0;
         height: 100%;
-        width: 20%;
         background: var(${cssvarValues.cssvar}--accept);
         z-index: 2;
         transition: all 0.3s;
@@ -62,7 +61,6 @@ export class LoadTrack extends ItemsSTD {
 
       div.v i {
         animation: none;
-        width: 20%;
       }
     `,
   ] as CSSResultGroup;
@@ -93,10 +91,10 @@ export class LoadTrack extends ItemsSTD {
   }
 }
 
-export default LoadTrack;
+export default LoadProgress;
 
 declare global {
   interface HTMLElementTagNameMap {
-    "load-track": LoadTrack;
+    "load-track": LoadProgress;
   }
 }

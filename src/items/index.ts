@@ -4,6 +4,6 @@ export * from "./base-button.js";
 export * from "./card-item.js";
 export * from "./dialog-item.js";
 export * from "./link-a.js";
-export * from "./load-track.js";
+export * from "./load-progress.js";
 export * from "./super-a.js";
 export * from "./time-bar.js";
