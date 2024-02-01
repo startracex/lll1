@@ -92,8 +92,8 @@ export class OpenAble extends GodownElement {
     this.open = true;
   }
 
-  protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
-    const open = _changedProperties.get("open") as boolean;
+  protected updated(changedProperties: PropertyValueMap<this>) {
+    const open = changedProperties.get("open");
     if (typeof open === typeof !0) {
       this.dispatchEvent(new CustomEvent("change", { detail: this.open }));
     }

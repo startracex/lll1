@@ -1,8 +1,7 @@
-import { css, html, property, query } from "../deps.js";
+import { css, html, property, type PropertyValueMap, query } from "../deps.js";
 import { cssvarValues, define } from "../root.js";
 import { type HTMLTemplate } from "../lib/templates.js";
 import ItemsSTD from "./std.js";
-import type { PropertyValueMap } from "lit";
 
 type Direction5 = "left" | "center" | "right" | "top" | "bottom";
 
@@ -152,7 +151,7 @@ export class DialogItem extends ItemsSTD {
     this.open = false;
   }
 
-  protected updated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+  protected updated(changedProperties: PropertyValueMap<this>) {
     const hasOpen = changedProperties.has("open");
     if (hasOpen) {
       this.dispatchEvent(new CustomEvent(this.open ? "open" : "close"));

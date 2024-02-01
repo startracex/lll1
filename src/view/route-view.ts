@@ -1,4 +1,4 @@
-import { css, property, PropertyValueMap, state } from "../deps.js";
+import { css, property, type PropertyValueMap, state } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import { conf } from "../conf.js";
 import { deepQuerySelectorAll } from "../lib/utils.js";
@@ -151,7 +151,7 @@ export class RouteView<T = unknown> extends GodownElement {
    */
   routeChangeCallback: (ur: ReturnType<typeof this.useRouter>, first: boolean) => void = null;
 
-  protected updated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+  protected updated(changedProperties: PropertyValueMap<this>) {
     const shouldDispatch = changedProperties.has("pathname") || changedProperties.has("path");
     if (shouldDispatch) {
       const ur = this.useRouter();

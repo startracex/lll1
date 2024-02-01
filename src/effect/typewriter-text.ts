@@ -1,5 +1,5 @@
 import { createScope, define } from "../root.js";
-import { css, html, property, query, state } from "../deps.js";
+import { css, html, property, type PropertyValueMap, query, state } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import EffectSTD from "./std.js";
 import { random } from "../lib/utils.js";
@@ -101,7 +101,7 @@ export class TypewriterText extends EffectSTD {
     }
   }
 
-  protected updated(changedProperties: Map<string, any>) {
+  protected updated(changedProperties: PropertyValueMap<this>) {
     if (changedProperties.has("index")) {
       this.dispatchEvent(new CustomEvent(this.index === this.len ? "done" : "write", { detail: this.content }));
     }

@@ -1,10 +1,9 @@
 import { createScope, cssvarValues, define } from "../root.js";
-import { css, html, property, state } from "../deps.js";
+import { css, type CSSResultGroup, html, property, type PropertyValueMap, state } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import { deepQuerySelectorAll } from "../lib/utils.js";
 import GroupSTD from "./std.js";
 import { ifValue } from "../lib/directives.js";
-import type { PropertyValueMap } from "lit";
 
 const defineName = "tab-group";
 
@@ -80,7 +79,7 @@ export class TabGroup extends GroupSTD {
         z-index: 0;
       }
     `,
-  ];
+  ] as CSSResultGroup;
 
   protected render(): HTMLTemplate {
     const headers = (this.headers || this.contents).map((value) => {
@@ -102,7 +101,7 @@ export class TabGroup extends GroupSTD {
     `;
   }
 
-  protected updated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+  protected updated(changedProperties: PropertyValueMap<this>) {
     if (changedProperties.has("index")) {
       // Move slider.
       const active = this.shadowRoot.querySelector<HTMLElement>("section.active");
