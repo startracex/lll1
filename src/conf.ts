@@ -11,6 +11,9 @@ const defaultConfig: ConfType = {
     return this.prefix + origin + this.suffix;
   },
   define(name: string, constructor: CustomElementConstructor, options?: ElementDefinitionOptions) {
+    if (!name) {
+      name = constructor.name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+    }
     const tagName: string = this.tag(name);
     if (!tagName) {
       return;
@@ -57,5 +60,5 @@ export interface ConfType {
   reflect: boolean;
   suffix: string;
   tag: (origin: string) => string;
-  define: CustomElementRegistry["define"];
+  define: (name: string | void, constructor: CustomElementConstructor, options?: ElementDefinitionOptions) => void;
 }

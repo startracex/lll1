@@ -3,11 +3,11 @@ import { conf } from "./conf.js";
 import GodownElement from "./godown-element.js";
 
 /**
- * Define a custom element.
+ * {@linkcode conf.define} a custom element.
  * @param name Name for the new custom element. Must be a valid custom element name.
  * @param options Object that controls how the element is defined.
  */
-export const define = (name: string, options?: ElementDefinitionOptions) => (constructor: CustomElementConstructor) => {
+export const define = (name?: string, options?: ElementDefinitionOptions) => (constructor: CustomElementConstructor) => {
   conf.define(name, constructor, options);
 };
 
