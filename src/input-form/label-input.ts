@@ -114,7 +114,7 @@ export class LabelInput extends InputSTD {
       ${this.renderSuf()}
     </fieldset>`;
     if (this.label) {
-      const style = this.mobile && `}${styleWithLabel}@media (max-width: ${this.mobile}){${styleInMedia}`;
+      const style = this.mobile && `${styleWithLabel}@media (max-width: ${this.mobile}){${styleInMedia}}`;
       return [
         html`<label for="${this.name}">
           <span>${this.label}${htmlSlot()}</span>
