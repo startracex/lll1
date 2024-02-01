@@ -12,7 +12,7 @@ export const ifValue: RenderIf = <A, B>(value: boolean, a: A, b?: B) => {
 };
 
 /**
- * 
+ *
  * @param value Keys.
  * @param cases Match key and return value.
  * @param defaultCase Default.

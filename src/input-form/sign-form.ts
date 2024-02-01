@@ -132,7 +132,7 @@ export class BaseForm extends FormSTD {
  */
 @define("sign-form")
 export class SignForm extends BaseForm {
-    /**
+  /**
    * @deprecated
    */
   set: 0 | 1 | 2;

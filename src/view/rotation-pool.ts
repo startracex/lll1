@@ -23,6 +23,7 @@ export class RotationPool extends GodownElement {
   @query("section") _section: HTMLElement;
   intervalID: number;
   _clone: HTMLElement[] = [];
+
   static styles = [
     css`
       :host {

@@ -13,6 +13,8 @@ export class ScrollX extends GodownElement {
    */
   @property() height = "";
 
+  @query("section") _section: HTMLElement;
+
   static styles = css`
     :host {
       display: block;
@@ -42,8 +44,6 @@ export class ScrollX extends GodownElement {
       transform: rotate(90deg);
     }
   `;
-
-  @query("section") _section: HTMLElement;
 
   protected render(): HTMLTemplate {
     const style = this.height && `:host{height:${this.height}}`;
