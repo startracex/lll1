@@ -14,6 +14,8 @@ Rename `load-track` to `load-progress`.
 
 Add icons.
 
+Add querySlot.
+
 ## 2.4.2
 
 Fix deep queries.

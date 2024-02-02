@@ -53,6 +53,16 @@ class GodownElement extends LitElement {
   }
 
   /**
+   * Query for a element with slot names
+   *
+   * @param slotName Slot name.
+   * @returns Slot element.
+   */
+  querySlot(slotName: string): HTMLSlotElement | null {
+    return this.querySelector<HTMLSlotElement>(`[slot=${slotName}]`);
+  }
+
+  /**
    * Width of (`this.offsetParent` or `document.body`).
    */
   get offsetsWidth(): number {
