@@ -2,7 +2,7 @@ import { css, html, property } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import { define } from "../root.js";
 import { icons } from "../lib/templates.js";
-import LayoutSTD from "../view/std.js";
+import LayoutSTD from "./std.js";
 
 const defineName = "with-wrap";
 

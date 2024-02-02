@@ -4,4 +4,3 @@ export * from "./flex-flow.js";
 export * from "./nav-aside.js";
 export * from "./nav-layout.js";
 export * from "./skeleton-screen.js";
-export * from "./with-wrap.js";

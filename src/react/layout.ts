@@ -25,7 +25,3 @@ export const NavLayout = createComponent({
 export const SkeletonScreen = createComponent({
   elementClass: X.SkeletonScreen,
 });
-
-export const WithWrap = createComponent({
-  elementClass: X.WithWrap,
-});

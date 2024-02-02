@@ -28,3 +28,7 @@ export const RouteView = createComponent({
 export const ScrollX = createComponent({
   elementClass: X.ScrollX,
 });
+
+export const WithWrap = createComponent({
+  elementClass: X.WithWrap,
+});

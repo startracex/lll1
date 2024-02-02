@@ -16,6 +16,8 @@ Add icons.
 
 Add querySlot.
 
+Modify `with-wrap` behavior, move to view.
+
 ## 2.4.2
 
 Fix deep queries.

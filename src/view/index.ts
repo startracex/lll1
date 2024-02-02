@@ -5,3 +5,4 @@ export * from "./menu-list.js";
 export * from "./rotation-pool.js";
 export * from "./route-view.js";
 export * from "./scroll-x.js";
+export * from "./with-wrap.js";
