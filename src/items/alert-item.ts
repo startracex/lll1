@@ -122,7 +122,7 @@ export class AlertItem extends ItemsSTD {
     if (this.autoclose) {
       setTimeout(() => this.close(), this.autoclose);
     }
-    return html`<main class="${this.call} alert" role="alert">
+    return html`<main class="${this.call} alert">
       <div>
         <strong> ${this.title || htmlSlot("title")}</strong>
         ${this.content || htmlSlot()}
