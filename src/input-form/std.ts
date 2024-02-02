@@ -67,10 +67,6 @@ export class InputSTD extends GodownElement {
     this._initName();
   }
 
-  disconnectedCallback() {
-    this.reset();
-  }
-
   protected _initName() {
     if (!this.name) {
       if (this.label || this.type) {
