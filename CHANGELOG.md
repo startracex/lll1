@@ -12,6 +12,8 @@ The define can get an unspecified name from the constructor.
 
 Rename `load-track` to `load-progress`.
 
+Add icons.
+
 ## 2.4.2
 
 Fix deep queries.
