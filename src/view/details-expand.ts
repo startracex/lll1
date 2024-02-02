@@ -7,7 +7,7 @@ import { OpenAble } from "./std.js";
 const defineName = "details-expand";
 
 /**
- * DetailsExpand similar to delails.
+ * DetailsExpand similar to details.
  */
 @define(defineName)
 export class DetailsExpand extends OpenAble {

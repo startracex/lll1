@@ -19,8 +19,8 @@ export class DivLine extends LayoutSTD {
   static styles = [
     css`
       :host {
-        ${cssvarScope}--before-lenght: auto;
-        ${cssvarScope}--after-lenght: auto;
+        ${cssvarScope}--before-length: auto;
+        ${cssvarScope}--after-length: auto;
         ${cssvarScope}--breadth: .125em;
         display: block;
         color: currentColor;
@@ -50,19 +50,19 @@ export class DivLine extends LayoutSTD {
 
       .before {
         height: var(${cssvarScope}--breadth);
-        max-width: var(${cssvarScope}--before-lenght);
+        max-width: var(${cssvarScope}--before-length);
       }
       .after {
         height: var(${cssvarScope}--breadth);
-        max-width: var(${cssvarScope}--after-lenght);
+        max-width: var(${cssvarScope}--after-length);
       }
       .v .before {
         width: var(${cssvarScope}--breadth);
-        max-height: var(${cssvarScope}--before-lenght);
+        max-height: var(${cssvarScope}--before-length);
       }
       .v .after {
         width: var(${cssvarScope}--breadth);
-        max-height: var(${cssvarScope}--after-lenght);
+        max-height: var(${cssvarScope}--after-length);
       }
     `,
   ];

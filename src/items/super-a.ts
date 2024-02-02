@@ -17,7 +17,7 @@ export class SuperAnchor extends ItemsSTD {
    */
   @property() href: string = undefined;
   /**
-   * Target for a element.
+   * Target for an element.
    */
   @property() target = "_self";
   /**

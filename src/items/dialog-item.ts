@@ -17,7 +17,7 @@ export class DialogItem extends ItemsSTD {
    */
   @property({ type: Boolean, reflect: true }) modal = false;
   /**
-   * Whether or not this element is activated.
+   * Whether this element is activated.
    */
   @property({ type: Boolean, reflect: true }) open = false;
   /**
