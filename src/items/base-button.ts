@@ -7,20 +7,64 @@ import ItemsSTD from "./std.js";
 const defineName = "base-button";
 const cssvarScope = createScope(defineName);
 
-const vars = ["--color", "--background", "--box-shadow", "--ghost-color"];
+const shadow1 = "-2px 2px 5px -2px";
+const shadow2 = "2px -2px 5px -2px";
+const linearGradient = "linear-gradient";
+const fff = "#fff";
+const _000 = "#000";
+
+const vars = ["color", "background", "box-shadow", "ghost-color"];
 const colors = {
-  black: ["#fff", "linear-gradient(45deg, rgb(41 40 40), #2d3034)", "-2px 2px 5px 0px rgb(0 0 0 / 20%), 2px -2px 5px 0 rgb(99 99 99 / 20%)", "rgb(0 0 0 / 80%)"],
-  white: ["#000", "linear-gradient(45deg, rgb(240 240 240 / 85%), rgb(240 240 240 / 70%))", "-2px 2px 5px 0px rgb(255 255 255 / 20%), 2px -2px 5px 0 rgb(165 165 165 / 20%)", "rgb(255 255 255 / 80%)"],
-  red: ["#fff", "linear-gradient(45deg, rgb(207 19 34 / 85%), rgb(250 84 28 / 65%))", "-2px 2px 5px 0px rgb(181 35 44 / 20%), 2px -2px 5px 0 rgb(234 130 174 / 20%)", "rgb(214 11 23 / 80%)"],
-  green: ["#fff", "linear-gradient(45deg, rgb(25 149 56 / 85%), rgb(0 245 36 / 65%))", "-2px 2px 5px 0px rgb(63 179 69 / 20%), 2px -2px 5px 0 rgb(136 225 142 / 20%)", "rgb(60 214 68 / 80%)"],
-  blue: ["#fff", "linear-gradient(45deg, rgb(22 119 255 / 85%), rgb(21 198 198 / 65%))", "-2px 2px 5px 0px rgb(92 182 255 / 20%), 2px -2px 5px 0 rgb(135 232 222 / 20%)", "rgb(42 141 221 / 80%)"],
-  yellow: ["#fff", "linear-gradient(45deg, rgb(223 194 0 / 85%), rgb(230 255 0 / 65%))", "-2px 2px 5px 0px rgb(214 203 55 / 20%), 2px -2px 5px 0 rgb(202 203 137 / 20%)", "rgb(237 224 43 / 80%)"],
+  black: [
+    fff, //
+    `${linearGradient}(45deg, rgb(30 30 30), rgb(65 65 65))`,
+    `${shadow1} rgb(0 0 0 / 20%), ${shadow2} rgb(99 99 99 / 20%)`,
+    "rgb(22 20 20)",
+  ],
+  gary: [
+    fff, //
+    `${linearGradient}(45deg, rgb(65 65 65),  rgb(100 100 100))`,
+    `${shadow1} rgb(0 0 0 / 20%), ${shadow2} rgb(99 99 99 / 20%)`,
+    "rgb(56 56 56)",
+  ],
+  white: [
+    _000, //
+    `${linearGradient}(45deg, rgb(225 225 225), rgb(240 240 240))`,
+    `${shadow1} rgb(255 255 255 / 20%), ${shadow2} rgb(165 165 165 / 20%)`,
+    "rgb(212 212 212)",
+  ],
+  red: [
+    fff, //
+    `${linearGradient}(45deg, rgb(215 57 68), rgb(250 141 106))`,
+    `${shadow1} rgb(181 35 44 / 20%), ${shadow2} rgb(234 130 174 / 20%)`,
+    "rgb(214 11 23)",
+  ],
+  green: [
+    _000, //
+    `${linearGradient}(45deg, rgb(21 206 71), rgb(99 253 122))`,
+    `${shadow1} rgb(63 179 69 / 20%), ${shadow2} rgb(136 225 142 / 20%)`,
+    "rgb(60 214 68)",
+  ],
+  blue: [
+    fff, //
+    `${linearGradient}(45deg, rgb(14 143 255), rgb(121 211 255))`,
+    `${shadow1} rgb(92 182 255 / 20%), ${shadow2} rgb(135 232 222 / 20%)`,
+    "rgb(42 141 221)",
+  ],
+  yellow: [
+    _000, //
+    `${linearGradient}(45deg, rgb(255 190 54), rgb(255 249 68))`,
+    `${shadow1} rgb(214 203 55 / 20%), ${shadow2} rgb(202 203 137 / 20%)`,
+    "rgb(255 235 59)",
+  ],
 };
+
+type Colors = keyof typeof colors;
 
 /**
  * BaseButton.
  *
- * Inspired by Material-ui and Next-ui.
+ * Inspired by Next-ui.
  */
 @define(defineName)
 export class BaseButton extends ItemsSTD {
@@ -28,10 +72,6 @@ export class BaseButton extends ItemsSTD {
    * Whether to disable this element.
    */
   @property({ type: Boolean, reflect: true }) disabled = false;
-  /**
-   * Add a outline to the element.
-   */
-  @property({ type: Boolean, reflect: true }) outline = false;
   /**
    * Invert font and background color.
    */
@@ -45,15 +85,18 @@ export class BaseButton extends ItemsSTD {
    */
   @property({ type: Boolean, reflect: true }) radius = false;
   /**
+   * Enables scale when mousedown.
+   */
+  @property({ type: Boolean, reflect: true }) scale = false;
+  /**
    * The primary color.
    */
-  @property({ reflect: true }) color: "none" | keyof typeof colors = "black";
+  @property() color: "none" | Colors = "black";
   /**
    * Text inside.
    */
   @property() text = "";
 
-  @query("i") _i: HTMLElement;
   @query("b") _b: HTMLElement;
   @query("div") _div: HTMLButtonElement;
 
@@ -62,45 +105,86 @@ export class BaseButton extends ItemsSTD {
       constructCSS(
         vars,
         colors,
-        (raw) => `:host([color="${raw}"])`,
-        (k, v) => `${cssvarScope}${k}:${v}`,
+        (raw) => `[color=${raw}]`,
+        (k, v) => `${cssvarScope}--${k}:${v}`,
       ),
     ),
     css`
       :host {
-        ${cssvarScope}--padding-x: .25em;
-        ${cssvarScope}--padding-y: .075em;
-        ${cssvarScope}--padding: var(${cssvarScope}--padding-y) var(${cssvarScope}--padding-x);
-        ${cssvarScope}--ghost-width: .15em;
+        ${cssvarScope}--padding: .075em .25em;
+        ${cssvarScope}--deg: .075em .25em;
+        ${cssvarScope}--ghost-width: .09em;
         ${cssvarScope}--modal-opacity: .15;
         ${cssvarScope}--modal-opacity-end: 0;
-        ${cssvarScope}--modal-animation-duration: .8s;
-        color: var(${cssvarScope}--color);
-        background: var(${cssvarScope}--background);
-        box-shadow: var(${cssvarScope}--box-shadow);
-        display: inline-flex;
+        ${cssvarScope}--modal-animation-duration: 1s;
+        ${cssvarScope}--focus-scale: .975;
+        transition: 0.1s;
+        display: flex;
         width: fit-content;
-        border-radius: 4px;
+        border-radius: 0.25em;
         cursor: pointer;
+        background: none !important;
       }
 
       :host([disabled]) {
         cursor: not-allowed;
       }
 
+      :host([active][scale]) div {
+        scale: var(${cssvarScope}--focus-scale);
+      }
+
       slot {
-        pointer-events: none;
         display: flow-root;
       }
 
       div {
+        background: var(${cssvarScope}--background);
+        box-shadow: var(${cssvarScope}--box-shadow);
+        color: var(--godown--base-button--color, inherit);
         width: 100%;
         height: 100%;
         position: relative;
         overflow: hidden;
         border-radius: inherit;
+        transition-duration: inherit;
+        transition-property: scale;
+        pointer-events: none;
       }
 
+      b {
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        visibility: hidden;
+      }
+
+      p {
+        padding: var(${cssvarScope}--padding);
+        margin: 0;
+        user-select: none;
+        transition: 0;
+      }
+
+      :host([ghost]) p {
+        background-image: var(${cssvarScope}--background);
+        margin: calc(-1 * var(${cssvarScope}--ghost-width));
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      :host([ghost]) div {
+        background: transparent;
+        border: var(${cssvarScope}--ghost-width) solid var(${cssvarScope}--ghost-color);
+      }
+
+      :host([radius]) {
+        border-radius: calc(infinity * 1px);
+        ${cssvarScope}--padding: .075em .5em;
+      }
+    `,
+    css`
       i {
         position: absolute;
         top: 0;
@@ -114,38 +198,8 @@ export class BaseButton extends ItemsSTD {
         transform: translate(0, 0);
         background: currentColor;
         opacity: var(${cssvarScope}--modal-opacity-end);
-      }
-
-      b {
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        position: absolute;
-        visibility: hidden;
-      }
-
-      :host([active]) i {
         visibility: visible;
-        animation-name: i;
-        animation-duration: var(${cssvarScope}--modal-animation-duration);
-      }
-
-      p {
-        padding: var(${cssvarScope}--padding);
-        margin: 0;
-        user-select: none;
-      }
-
-      :host([ghost]) p {
-        background-image: var(${cssvarScope}--background);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
-      }
-
-      :host([ghost]) {
-        ${cssvarScope}--modal-opacity: .2;
-        background: transparent;
-        box-shadow: 0 0 0 var(${cssvarScope}--ghost-width) var(${cssvarScope}--ghost-color);
+        animation-duration: min(var(${cssvarScope}--modal-animation-duration), 2s);
       }
 
       :host([ghost]) i {
@@ -157,39 +211,29 @@ export class BaseButton extends ItemsSTD {
           transform: scale(0);
           opacity: var(${cssvarScope}--modal-opacity);
         }
-        100% {
+        80% {
           transform: scale(1);
+        }
+        100% {
           opacity: var(${cssvarScope}--modal-opacity-end);
         }
-      }
-
-      :host([outline]) {
-        ${cssvarScope}--modal-opacity-end:var( ${cssvarScope}--modal-opacity);
-      }
-
-      :host([outline][active]) {
-        outline: var(--godown--base-button--ghost-color) var(${cssvarScope}--ghost-width) solid;
-      }
-
-      :host([radius]) {
-        border-radius: calc(infinity * 1px);
-        ${cssvarScope}--padding-x: .5em;
       }
     `,
   ];
 
   protected render(): HTMLTemplate {
     return html`
-      <div>
-        <b>
-          <i></i>
-        </b>
+      <div color="${this.nextColor()}">
+        <b></b>
         <p>${this.text || htmlSlot()}</p>
       </div>
     `;
   }
 
   focus() {
+    if (this.disabled) {
+      return;
+    }
     this.active = true;
   }
 
@@ -198,19 +242,23 @@ export class BaseButton extends ItemsSTD {
   }
 
   protected firstUpdated() {
-    if (this.outline) {
-      this.addEvent(window, "click", this._handleClick.bind(this));
+    if (this.scale) {
+      this.addEvent(this, "mousedown", this.focus);
+      this.addEvent(this, "mouseup", (e: MouseEvent) => {
+        if (this.disabled) {
+          return;
+        }
+        this.blur();
+        this._handleModal(e);
+      });
+      this.addEvent(this, "mouseleave", this.blur);
+      return;
     } else {
-      this.addEvent(this, "mouseup", this.blur);
+      this.addEvent(document, "click", this._handelClick.bind(this));
     }
-    this.addEvent(this, "click", this._handleClick);
   }
 
   protected _handleModal(e: MouseEvent) {
-    if (this.disabled) {
-      return;
-    }
-    this.blur();
     const a = this._div.offsetHeight + 1;
     const b = this._div.offsetWidth + 1;
     const size = `${Math.sqrt(a * a + b * b) * 2}px`;
@@ -218,15 +266,44 @@ export class BaseButton extends ItemsSTD {
     this._b.style.width = size;
     this._b.style.height = size;
     this._b.style.transform = translate;
-    this.focus();
+    const i = document.createElement("i");
+    i.style.animationName = "i";
+    this._b.appendChild(i);
+    setTimeout(() => {
+      i.remove();
+    }, 2000);
   }
 
-  protected _handleClick(e: MouseEvent) {
+  protected _handelClick(e: MouseEvent) {
+    if (this.disabled) {
+      return;
+    }
     if (e.target === this) {
       this._handleModal(e);
+      this.focus();
     } else {
       this.blur();
     }
+  }
+
+  /**
+   * Get the color to render, default is this.color.
+   *
+   * @returns New color.
+   *
+   * Colors can be set for different states.
+   *
+   * The matching selector is `[color=COLOR]`.
+   *
+   * @example
+   * ```ts
+   * button.adoptStyles("[color=COLOR1]{...}")
+   * button.adoptStyles("[color=COLOR2]{...}")
+   * button.nextColor = () => state ? COLOR1 : COLOR2
+   * ```
+   */
+  nextColor(): Colors | string {
+    return this.color;
   }
 }
 
