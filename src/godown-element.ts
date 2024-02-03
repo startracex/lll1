@@ -1,5 +1,5 @@
+import { type AddOptions, EventsCollection, type EventsNames, type ListenerFunc } from "./lib/event-collection.js";
 import { deepQuerySelector, deepQuerySelectorAll, doAssign, type LikeString } from "./lib/utils.js";
-import EventsCollection, { EventListenerFunc } from "./lib/event-collection.js";
 import type { ConfType } from "./conf";
 import { LitElement } from "lit";
 
@@ -85,8 +85,8 @@ class GodownElement extends LitElement {
    * this.addEvent(src, "type", listener)
    * ```
    */
-  addEvent(src: any, type: string, listener: EventListenerFunc, alias?: string) {
-    this.__events.addEvent(src, type, listener, alias);
+  addEvent(src: any, type: EventsNames, listener: ListenerFunc, options?: AddOptions, alias?: PropertyKey) {
+    this.__events.addEvent(src, type, listener, options, alias);
   }
 
   /**
@@ -96,8 +96,8 @@ class GodownElement extends LitElement {
    * this.removeEvent(src, "type", listener)
    * ```
    */
-  removeEvent(src: any, type: string, id: string | EventListenerFunc) {
-    this.__events.removeEvent(src, type, id);
+  removeEvent(src: any, type: EventsNames, alias: PropertyKey | ListenerFunc) {
+    this.__events.removeEvent(src, type, alias);
   }
 
   removeAllEvents() {

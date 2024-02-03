@@ -1,68 +1,72 @@
-export type EventListenerFunc = (...args: any[]) => any;
+export type EventsMaps = WindowEventMap & DocumentEventMap;
+export type EventsNames = keyof EventsMaps;
+export type EventsTypes = GlobalEventHandlersEventMap[keyof GlobalEventHandlersEventMap];
+export type ListenerFunc = (event?: EventsTypes) => any | EventListenerOrEventListenerObject;
+export type AddOptions = boolean | AddEventListenerOptions;
 
 export class EventsCollection {
-  protected EventsCollection = new Map<string, Map<any, Set<EventListenerFunc>>>();
-  protected ListenersAlias = new Map<string, EventListenerFunc>();
+  protected Listeners = new Map<EventsNames, Map<HTMLElement, Set<ListenerFunc>>>();
+  protected ListenersAlias = new Map<PropertyKey, ListenerFunc>();
 
-  addEvent(src: any, type: string, listener: EventListenerFunc, alias?: string) {
-    const gotType = this.EventsCollection.get(type);
-    if (gotType) {
-      const gotEle = gotType.get(src);
-      if (gotEle) {
-        gotEle.add(listener);
+  addEvent(src: HTMLElement, type: EventsNames, listener: ListenerFunc, options?: AddOptions, alias?: PropertyKey) {
+    const eType = this.Listeners.get(type);
+    if (eType) {
+      const eElem = eType.get(src);
+      if (eElem) {
+        eElem.add(listener);
       } else {
-        const s = new Set<EventListenerFunc>();
-        s.add(listener);
-        gotType.set(src, s);
+        const set = new Set<ListenerFunc>();
+        set.add(listener);
+        eType.set(src, set);
       }
     } else {
-      const s = new Set<EventListenerFunc>();
+      const s = new Set<ListenerFunc>();
       s.add(listener);
-      const m = new Map<any, Set<EventListenerFunc>>();
+      const m = new Map<any, Set<ListenerFunc>>();
       m.set(src, s);
-      this.EventsCollection.set(type, m);
+      this.Listeners.set(type, m);
     }
-    src.addEventListener(type, listener);
+    src.addEventListener(type, listener, options);
     if (alias) {
       this.ListenersAlias.set(alias, listener);
     }
   }
 
-  removeEvent(src: any, type: string, id: string | EventListenerFunc) {
-    const gotType = this.EventsCollection.get(type);
-    if (gotType) {
-      const gotEle = gotType.get(src);
-      if (gotEle) {
-        if (typeof id === "string") {
-          const listener = this.ListenersAlias.get(id);
+  removeEvent(src: HTMLElement, type: EventsNames, alias: PropertyKey | ListenerFunc, option?: EventListenerOptions) {
+    const eType = this.Listeners.get(type);
+    if (eType) {
+      const eSet = eType.get(src);
+      if (eSet) {
+        if (typeof alias !== "function") {
+          const listener = this.ListenersAlias.get(alias);
           if (listener) {
-            gotEle.delete(listener);
-            src.removeEventListener(type, listener);
+            eSet.delete(listener);
+            src.removeEventListener(type, listener, option);
           }
         } else {
-          gotEle.forEach((listener) => {
-            src.removeEventListener(type, listener);
+          eSet.forEach((listener) => {
+            src.removeEventListener(type, listener, option);
           });
         }
-        if (gotEle.size === 0) {
-          gotType.delete(src);
+        if (!eSet.size) {
+          eType.delete(src);
         }
-        if (gotType.size === 0) {
-          this.EventsCollection.delete(type);
+        if (!eType.size) {
+          this.Listeners.delete(type);
         }
       }
     }
   }
 
   removeAllEvents() {
-    this.EventsCollection.forEach((typeMap, type) => {
+    this.Listeners.forEach((typeMap, type) => {
       typeMap.forEach((eventListeners, src) => {
         eventListeners.forEach((listener) => {
           src.removeEventListener(type, listener);
         });
       });
       typeMap.clear();
-      this.EventsCollection.delete(type);
+      this.Listeners.delete(type);
     });
     this.ListenersAlias.clear();
   }

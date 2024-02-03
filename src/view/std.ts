@@ -1,7 +1,8 @@
 import { css, type CSSResultGroup, property, type PropertyValueMap } from "../deps.js";
+import { EventsNames } from "../lib/event-collection.js";
 import { GodownElement } from "../root.js";
 
-export type OnEvents = string;
+export type OnEvents = EventsNames;
 
 export class OpenAble extends GodownElement {
   /**
@@ -19,7 +20,7 @@ export class OpenAble extends GodownElement {
   /**
    * Enable event mode.
    */
-  @property() on: OnEvents | void = "";
+  @property() on: OnEvents | "" = "";
   /**
    * Disable the event mode.
    */

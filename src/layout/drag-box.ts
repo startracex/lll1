@@ -49,7 +49,7 @@ export class DragBox extends LayoutSTD {
     this.t = this.offsetTop;
     this.l = this.offsetLeft;
     this.drag = true;
-    this.addEvent(document, "mousemove", this._handleDrag.bind(this), "0");
+    this.addEvent(document, "mousemove", this._handleDrag.bind(this), undefined, "0");
   }
 
   protected _handleDragEnd() {
