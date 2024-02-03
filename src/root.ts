@@ -50,7 +50,7 @@ GodownElement.styles = [
   `,
   css`
     :host {
-      ${cssvarValues.input}--width: 10.6rem;
+      ${cssvarValues.input}--width: 10em;
       ${cssvarValues.input}--height: 1.6em;
       ${cssvarValues.input}--background: var(${cssvarValues.main});
       ${cssvarValues.input}--true: rgb(48 132 240);

@@ -45,6 +45,7 @@ export class BaseInput extends InputSTD {
         width: var(${cssvarValues.input}--width);
         height: var(${cssvarValues.input}--height);
         background: var(${cssvarValues.input}--background);
+        margin: var(--godown--input--outline-width);
         outline: var(${cssvarValues.input}--outline);
         border-radius: var(${cssvarValues.input}--radius);
       }

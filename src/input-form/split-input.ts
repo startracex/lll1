@@ -32,7 +32,8 @@ export class SplitInput extends InputSTD {
     InputSTD.styles,
     css`
       :host {
-        ${cssScope}--outline: .12em solid var( ${cssvarValues.input}--outline-color);
+        ${cssScope}--outline: .15em solid var( ${cssvarValues.input}--outline-color);
+        margin: var(--godown--input--outline-width);
         width: fit-content;
         border-radius: 1px;
       }
@@ -46,15 +47,15 @@ export class SplitInput extends InputSTD {
         vertical-align: top;
         position: relative;
         display: inline-flex;
-        gap: 0.2em;
+        gap: 0.25em;
       }
 
       span {
         box-sizing: content-box;
         vertical-align: top;
         display: inline-flex;
-        width: 1.4em;
-        height: 1.4em;
+        width: 1.45em;
+        height: 1.45em;
         pointer-events: all;
       }
 

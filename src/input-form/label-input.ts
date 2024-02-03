@@ -52,6 +52,7 @@ export class LabelInput extends InputSTD {
     InputSTD.styles,
     css`
       :host {
+        margin: var(--godown--input--outline-width);
         border-radius: var(${cssvarValues.input}--radius);
       }
 

@@ -1,6 +1,7 @@
 import { css, type CSSResultGroup, html, property, query } from "../deps.js";
 import { cssvarValues, define, GodownElement } from "../root.js";
 import { htmlSlot, type HTMLTemplate, svgDelta, svgX } from "../lib/templates.js";
+import { ifValue } from "../lib/directives.js";
 import { InputSTD } from "./std.js";
 
 /**
@@ -34,6 +35,7 @@ export class SelectInput extends InputSTD {
     css`
       :host {
         background: var(${cssvarValues.input}--background);
+        margin: var(--godown--input--outline-width);
         outline: var(${cssvarValues.input}--outline-width) solid transparent;
         height: var(${cssvarValues.input}--height);
         width: var(${cssvarValues.input}--width);
@@ -128,7 +130,6 @@ export class SelectInput extends InputSTD {
     return html` <div>
       <section>${this.renderList()}</section>
       <input
-        .value="${this.value}"
         ?autofocus="${this.autofocus}"
         id="input"
         @focus="${() => {
@@ -137,7 +138,7 @@ export class SelectInput extends InputSTD {
         @input="${this._handleInput}"
         placeholder="${this.pla}"
       />
-      <label for="input">${svgDelta()}</label>
+      <label for="input"> ${ifValue(this.children.length > 0, svgDelta())}</label>
       <aside ?open="${this.open}">${htmlSlot()}</aside>
     </div>`;
   }

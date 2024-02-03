@@ -1,13 +1,17 @@
 {
   "files.exclude": {
     ".git": true,
-    "node_modules/": true,
+    ".github": true,
+    ".idea": true,
+    "node_modules": true,
+    "pnpm-lock.yaml": true,
     "LICENSE": true,
     "{rollup.,ts}config.{js,json}": true,
     ".npmrc": true,
     ".eslintrc": true,
     ".prettierrc": true
   },
+  "files.autoSaveWhenNoErrors": true,
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

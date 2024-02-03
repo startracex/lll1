@@ -50,6 +50,7 @@ export class SearchInput extends InputSTD {
         ${cssvarInput}--width:var(${cssvarValues.input}--width);
         ${cssvarInput}--input-padding: 0 0 0 .35em;
         width: var(${cssvarValues.input}--width);
+        margin: var(--godown--input--outline-width);
         border-radius: var(${cssvarValues.input}--radius);
         background: var(${cssvarValues.input}--background);
       }
@@ -113,15 +114,14 @@ export class SearchInput extends InputSTD {
       }
 
       button {
-        width: 1.8rem;
-        height: 1.5rem;
+        width: 1.8em;
+        height: inherit;
       }
 
       input {
         flex: 1;
         min-width: 0;
         box-sizing: border-box;
-        font-size: 1rem;
       }
 
       svg {
@@ -135,7 +135,7 @@ export class SearchInput extends InputSTD {
     return html`<form action="${this.action}" method="${this.method}">
       <div>
         <input .value="${this.value}" ?autofocus="${this.autofocus}" name="${this.name}" @focus="${this._handleInput}" @input="${this._handleInput}" title="" placeholder="${this.pla}" />
-        <button @click="${this._handleSubmit}">${svgSearch()}</button>
+        <button @click="${this._handleSubmit}">${htmlSlot("search", svgSearch(), this)}</button>
       </div>
       <ul>
         ${htmlSlot()}
@@ -150,7 +150,7 @@ export class SearchInput extends InputSTD {
     this.dispatchEvent(new CustomEvent("submit", { detail: this.value }));
   }
 
-  protected async _handleInput(e: Event) {
+  protected _handleInput(e: Event) {
     e.stopPropagation();
     const value: string = this.targetValue(e);
     if (value === this.value) {
