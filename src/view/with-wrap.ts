@@ -1,8 +1,7 @@
 import { css, html, property } from "../deps.js";
+import { define, GodownElement } from "../root.js";
 import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
-import { define } from "../root.js";
 import { icons } from "../lib/templates.js";
-import LayoutSTD from "./std.js";
 
 const defineName = "with-wrap";
 
@@ -10,7 +9,7 @@ const defineName = "with-wrap";
  * WithWrap is used for wrap content.
  */
 @define(defineName)
-export class WithWrap extends LayoutSTD {
+export class WithWrap extends GodownElement {
   /**
    * Behavioral basis.
    */
