@@ -1,6 +1,7 @@
 import { createScope, cssvarValues, define } from "../root.js";
 import { css, type CSSResultGroup, html, property, query } from "../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
+import { ifValue } from "../lib/directives.js";
 import ItemsSTD from "./std.js";
 
 const defineName = "card-item";
@@ -26,12 +27,16 @@ export class CardItem extends ItemsSTD {
         ${cssvarScope}--offset: .25em;
         ${cssvarScope}--background: var(${cssvarValues.main});
         ${cssvarScope}--wapper-background: none;
-        ${cssvarScope}--outline: 1px solid rgb(var(${cssvarValues.textRGB}) / 12.5%);
-        ${cssvarScope}--box-shadow: 0 0 .5em 0 rgb(var(${cssvarValues.mainRGB}) / 60%);
+        ${cssvarScope}--outline: 0;
+        ${cssvarScope}--box-shadow: 0 .05em .4em 0 rgb(var(${cssvarValues.mainRGB}) / 60%);
+        ${cssvarScope}--hr-width: 100%;
+        ${cssvarScope}--hr-height: .05em;
+        ${cssvarScope}--padding: .75em;
         margin: auto;
         display: block;
         width: fit-content;
         color: var(${cssvarValues.text});
+        border-radius: 0.2em;
       }
 
       * {
@@ -44,11 +49,13 @@ export class CardItem extends ItemsSTD {
         outline: var(${cssvarScope}--outline);
         box-shadow: var(${cssvarScope}--box-shadow);
         background: var(${cssvarScope}--background);
+        z-index: 2;
+        position: relative;
       }
 
       aside {
         box-sizing: content-box;
-        z-index: -1;
+        z-index: 0;
         height: 100%;
         width: 100%;
         position: absolute;
@@ -66,22 +73,51 @@ export class CardItem extends ItemsSTD {
       i {
         position: absolute;
       }
+
+      hr {
+        width: var(${cssvarScope}--hr-width);
+        height: var(${cssvarScope}--hr-height);
+        margin: auto;
+        display: block;
+        background: currentColor;
+        opacity: 0.5;
+      }
+
+      slot {
+        display: block;
+        padding: var(${cssvarScope}--padding);
+      }
     `,
   ] as CSSResultGroup;
 
   protected render(): HTMLTemplate {
+    const HEADER = "header";
+    const FOOTER = "footer";
     return html`<div>
       <aside></aside>
-      <main>${htmlSlot()}</main>
+      <main>
+        ${ifValue(
+          this.querySlot(HEADER) as unknown as boolean,
+          html`
+            ${htmlSlot(HEADER)}
+            <hr />
+          `,
+        )}
+        ${htmlSlot()}
+        ${ifValue(
+          this.querySlot(FOOTER) as unknown as boolean,
+          html`
+            <hr />
+            ${htmlSlot(FOOTER)}
+          `,
+        )}
+      </main>
     </div>`;
   }
 
   protected firstUpdated() {
     if (this.rotate) {
-      this.addEvent(this._main, "mousemove", (e: MouseEvent) => {
-        this._drawRotate(e);
-        this._main.style.transition = "none";
-      });
+      this.addEvent(this._main, "mousemove", this._drawRotate.bind(this));
       this.addEvent(this._aside, "mouseleave", this.reset.bind(this));
     }
   }
@@ -107,6 +143,7 @@ export class CardItem extends ItemsSTD {
     const rotateX = -(rotate * (offsetY - height / 2)) / height / 1.5;
     const rotateY = (rotate * (offsetX - width / 2)) / width / 1.5;
     this._main.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    this._main.style.transition = "none";
   }
 }
 
