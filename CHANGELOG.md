@@ -18,6 +18,8 @@ Add querySlot.
 
 Modify `with-wrap` behavior, move to view.
 
+Rename `down-drop` to `offset-expand`, `float-tips` to `tool-tip`, update elements behavior.
+
 ## 2.4.2
 
 Fix deep queries.

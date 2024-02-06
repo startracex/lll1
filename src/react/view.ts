@@ -6,16 +6,12 @@ export const DetailsExpand = createComponent({
   elementClass: X.DetailsExpand,
 });
 
-export const DownDrop = createComponent({
-  elementClass: X.DownDrop,
-});
-
-export const FloatTips = createComponent({
-  elementClass: X.FloatTips,
-});
-
 export const MenuList = createComponent({
   elementClass: X.MenuList,
+});
+
+export const OffsetExpand = createComponent({
+  elementClass: X.OffsetExpand,
 });
 
 export const RotationPool = createComponent({
@@ -27,6 +23,10 @@ export const RouteView = createComponent({
 
 export const ScrollX = createComponent({
   elementClass: X.ScrollX,
+});
+
+export const ToolTip = createComponent({
+  elementClass: X.ToolTip,
 });
 
 export const WithWrap = createComponent({

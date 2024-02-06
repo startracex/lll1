@@ -2,7 +2,13 @@ import { css, type CSSResultGroup, property, type PropertyValueMap } from "../de
 import { EventsNames } from "../lib/event-collection.js";
 import { GodownElement } from "../root.js";
 
-export type OnEvents = EventsNames;
+export type Direction4 = "left" | "right" | "top" | "bottom";
+
+export type Direction5 = Direction4 | "center";
+
+export type Direction8 = Direction4 | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+
+export type OnEvents = EventsNames | "";
 
 export class OpenAble extends GodownElement {
   /**
@@ -20,18 +26,21 @@ export class OpenAble extends GodownElement {
   /**
    * Enable event mode.
    */
-  @property() on: OnEvents | "" = "";
+  @property() on: OnEvents = "";
   /**
-   * Disable the event mode.
+   * Direction of appearance.
    */
-  @property() off: OnEvents = "click";
+  @property() direction: Direction4 | Direction8 | Direction5 | "" = "";
 
   static styles = [
     GodownElement.styles,
     css`
       :host {
         display: block;
-        transition: all 0.3s ease-in-out;
+        transition:
+          all 0.3s ease-in-out,
+          color 0s,
+          background 0s;
         height: fit-content;
       }
 
@@ -45,6 +54,7 @@ export class OpenAble extends GodownElement {
       dl {
         height: 100%;
         position: relative;
+        overflow: hidden;
       }
 
       dt {
@@ -53,6 +63,7 @@ export class OpenAble extends GodownElement {
         justify-content: space-between;
         background: inherit;
         align-items: center;
+        height: 100%;
       }
 
       * {
