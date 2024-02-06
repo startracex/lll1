@@ -27,11 +27,15 @@ export class MenuList extends OpenAble {
       }
 
       dt i {
-        background-color: rgb(var(${cssvarValues.mainRGB}) / 0.055);
+        background: rgb(var(${cssvarValues.mainRGB}) / 0.055);
       }
 
       dt i:hover {
-        background-color: rgb(var(${cssvarValues.mainRGB}) / 0.075);
+        background: rgb(var(${cssvarValues.mainRGB}) / 0.075);
+      }
+
+      dd {
+        padding: 0.2em;
       }
 
       :host([open]) svg {

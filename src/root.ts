@@ -55,7 +55,7 @@ GodownElement.styles = [
       ${cssvarValues.input}--background: var(${cssvarValues.main});
       ${cssvarValues.input}--true: rgb(48 132 240);
       ${cssvarValues.input}--false: rgb(198 198 198);
-      ${cssvarValues.input}--control: var(${cssvar}--text);
+      ${cssvarValues.input}--control:var(${cssvarValues.text});
       ${cssvarValues.input}--control-edge: var(${cssvarValues.input}--true);
       ${cssvarValues.input}--outline-color: var(${cssvar}--accept);
       ${cssvarValues.input}--outline-width: .15em;

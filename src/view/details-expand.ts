@@ -25,10 +25,6 @@ export class DetailsExpand extends OpenAble {
   static styles = [
     OpenAble.styles,
     css`
-      dt {
-        height: 100%;
-      }
-
       i {
         height: 1.2em;
         min-width: 1.2em;
