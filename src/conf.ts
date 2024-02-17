@@ -3,13 +3,13 @@ import type GodownElement from "./godown-element";
 const defaultConfig: ConfType = {
   assign: null,
   cssvar: "godown",
-  classmap: new Map(),
-  namemap: new Map(),
+  classMap: new Map(),
+  nameMap: new Map(),
   reflect: false,
   prefix: "",
   suffix: "",
   tag(origin: string) {
-    const name = this.namemap.get(origin) || origin;
+    const name = this.nameMap.get(origin) || origin;
     return this.prefix + name + this.suffix;
   },
   define(name: string | void, constructor: CustomElementConstructor, options?: ElementDefinitionOptions) {
@@ -20,8 +20,8 @@ const defaultConfig: ConfType = {
     if (!customElements.get(tagName)) {
       customElements.define(tagName, constructor, options);
       (constructor as typeof GodownElement).elementTagName = tagName;
-      this.namemap.set(name, tagName);
-      this.classmap.set(tagName, constructor);
+      this.nameMap.set(name, tagName);
+      this.classMap.set(tagName, constructor);
     }
   },
 };
@@ -66,11 +66,11 @@ export interface ConfType {
   /**
    * Mapping of element names to constructors.
    */
-  classmap: Accessor<string, CustomElementConstructor>;
+  classMap: Accessor<string, CustomElementConstructor>;
   /**
    * Mapping of element names.
    */
-  namemap: Accessor<string, string>;
+  nameMap: Accessor<string, string>;
   /**
    * Reflect to globalThis.
    */
@@ -87,7 +87,7 @@ export interface ConfType {
    *
    * @param origin
    * @returns Name to define.
-   * If the name is not in {@linkcode ConfType.namemap},
+   * If the name is not in {@linkcode ConfType.nameMap},
    * the name is {@linkcode ConfType.prefix} + `origin` + {@linkcode ConfType.tag.suffix}.
    */
   tag: (origin: string) => string;

@@ -218,7 +218,7 @@ export class RouteView<T = unknown> extends GodownElement {
   }
 
   static updateAll() {
-    const routeViewTagName = conf.namemap.get("route-view");
+    const routeViewTagName = conf.nameMap.get("route-view");
     if (!routeViewTagName) {
       return;
     }

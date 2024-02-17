@@ -4,6 +4,8 @@
 
 Update the configuration.
 
+UpperCamelCase nameMap, classMap.
+
 ## 2.5.0
 
 Fix utils.
