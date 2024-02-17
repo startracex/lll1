@@ -1,11 +1,11 @@
-export function debounce(func: (_: any) => any, timeout: number) {
-  let timer = null;
-  return function () {
+export function debounce(func: (_: any) => any, timeout: number): () => void {
+  let timer: number | null = null;
+  return function (this: any, ...args: any[]) {
     if (timer) {
       clearTimeout(timer);
     }
     timer = setTimeout(() => {
-      func.apply(this, arguments);
+      func.apply(this, args);
     }, timeout);
   };
 }
