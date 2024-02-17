@@ -33,7 +33,7 @@ export class SplitInput extends InputSTD {
     css`
       :host {
         ${cssScope}--outline: .15em solid var( ${cssvarValues.input}--outline-color);
-        margin: var(--godown--input--outline-width);
+        margin: var(${cssvarValues.input}--outline-width);
         width: fit-content;
         border-radius: 1px;
       }

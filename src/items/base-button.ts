@@ -141,7 +141,7 @@ export class BaseButton extends ItemsSTD {
       div {
         background: var(${cssvarScope}--background);
         box-shadow: var(${cssvarScope}--box-shadow);
-        color: var(--godown--base-button--color, inherit);
+        color: var(${cssvarScope}--color, inherit);
         width: 100%;
         height: 100%;
         position: relative;

@@ -4,6 +4,7 @@ import { htmlSlot, type HTMLTemplate } from "../lib/templates.js";
 import { InputSTD } from "./std.js";
 
 const defineName = "switch-input";
+
 const cssScope = createScope(defineName);
 
 /**

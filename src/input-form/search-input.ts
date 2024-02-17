@@ -5,7 +5,7 @@ import { InputSTD } from "./std.js";
 
 const defineName = "search-input";
 
-const cssvarInput = createScope(defineName);
+const cssScope = createScope(defineName);
 
 /**
  * SearchInput used for search behavior.
@@ -47,16 +47,16 @@ export class SearchInput extends InputSTD {
     InputSTD.styles,
     css`
       :host {
-        ${cssvarInput}--width:var(${cssvarValues.input}--width);
-        ${cssvarInput}--input-padding: 0 0 0 .35em;
+        ${cssScope}--width:var(${cssvarValues.input}--width);
+        ${cssScope}--input-padding: 0 0 0 .35em;
         width: var(${cssvarValues.input}--width);
-        margin: var(--godown--input--outline-width);
+        margin: var(${cssvarValues.input}-outline-width);
         border-radius: var(${cssvarValues.input}--radius);
         background: var(${cssvarValues.input}--background);
       }
 
       div {
-        padding: var(${cssvarInput}--input-padding);
+        padding: var(${cssScope}--input-padding);
         height: var(${cssvarValues.input}--height);
         flex: 1;
         display: flex;

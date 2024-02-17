@@ -4,10 +4,12 @@ import { htmlSlot, type HTMLTemplate, svgDelta, svgX } from "../lib/templates.js
 import { ifValue } from "../lib/directives.js";
 import { InputSTD } from "./std.js";
 
+const defineName = "select-input";
+
 /**
  * SelectInput select matched elements.
  */
-@define("select-input")
+@define(defineName)
 export class SelectInput extends InputSTD {
   /**
    * Open content.
@@ -35,7 +37,7 @@ export class SelectInput extends InputSTD {
     css`
       :host {
         background: var(${cssvarValues.input}--background);
-        margin: var(--godown--input--outline-width);
+        margin: var(${cssvarValues.input}--outline-width);
         outline: var(${cssvarValues.input}--outline-width) solid transparent;
         height: var(${cssvarValues.input}--height);
         width: var(${cssvarValues.input}--width);
