@@ -1,28 +1,27 @@
 import type GodownElement from "./godown-element";
+
 const defaultConfig: ConfType = {
   assign: null,
   cssvar: "godown",
-  namemap: new Map(),
   classmap: new Map(),
-  prefix: "",
+  namemap: new Map(),
   reflect: false,
+  prefix: "",
   suffix: "",
   tag(origin: string) {
-    return this.prefix + origin + this.suffix;
+    const name = this.namemap.get(origin) || origin;
+    return this.prefix + name + this.suffix;
   },
-  define(name: string, constructor: CustomElementConstructor, options?: ElementDefinitionOptions) {
+  define(name: string | void, constructor: CustomElementConstructor, options?: ElementDefinitionOptions) {
     if (!name) {
       name = constructor.name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
     }
-    const tagName: string = this.tag(name);
-    if (!tagName) {
-      return;
-    }
+    const tagName = this.tag(name);
     if (!customElements.get(tagName)) {
       customElements.define(tagName, constructor, options);
       (constructor as typeof GodownElement).elementTagName = tagName;
       this.namemap.set(name, tagName);
-      this.classmap.set(name, constructor);
+      this.classmap.set(tagName, constructor);
     }
   },
 };
@@ -33,10 +32,14 @@ export default conf;
 export function init(CONFObject: Partial<ConfType>, source: ConfType = conf): ConfType {
   Object.assign(source, CONFObject);
   if (source.reflect) {
-    // Reflect conf to globalThis
+    // Reflect to globalThis.
     globalThis.GodownWebComponentsCONF = source;
   } else {
-    delete globalThis.GodownWebComponentsCONF;
+    try {
+      delete globalThis.GodownWebComponentsCONF;
+    } catch (e) {
+      /* empty */
+    }
   }
   return source;
 }
@@ -52,13 +55,55 @@ declare global {
 }
 
 export interface ConfType {
+  /**
+   * When a {@linkcode GodownElement} element is created, assign to the element.
+   */
   assign: null | Record<string, any>;
+  /**
+   * CSS variable prefix, without `--`.
+   */
   cssvar: string;
-  namemap: Map<string, string>;
-  classmap: Map<string, CustomElementConstructor>;
-  prefix: string;
+  /**
+   * Mapping of element names to constructors.
+   */
+  classmap: Accessor<string, CustomElementConstructor>;
+  /**
+   * Mapping of element names.
+   */
+  namemap: Accessor<string, string>;
+  /**
+   * Reflect to globalThis.
+   */
   reflect: boolean;
+  /**
+   * Name prefix.
+   */
+  prefix: string;
+  /**
+   * Name suffix.
+   */
   suffix: string;
+  /**
+   *
+   * @param origin
+   * @returns Name to define.
+   * If the name is not in {@linkcode ConfType.namemap},
+   * the name is {@linkcode ConfType.prefix} + `origin` + {@linkcode ConfType.tag.suffix}.
+   */
   tag: (origin: string) => string;
+  /**
+   * Define a Element.
+   *
+   * @param name Define name.
+   * @param constructor Custom element constructor.
+   * @param options Element definition options.
+   */
   define: (name: string | void, constructor: CustomElementConstructor, options?: ElementDefinitionOptions) => void;
 }
+
+export interface GetSet<K, V> {
+  get: (key: K) => V;
+  set(key: K, value: V): void;
+}
+
+export type Accessor<K, V> = GetSet<K, V> | (K extends PropertyKey ? GetSet<K, V> & Record<K, V> : never);

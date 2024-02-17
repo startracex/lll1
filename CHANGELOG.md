@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 2.5.1
+
+Update the configuration.
+
 ## 2.5.0
 
 Fix utils.
