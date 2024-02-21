@@ -16,6 +16,8 @@ Update tsconfig.
 
 Update eslint rules.
 
+Update vscode settings.
+
 ## 2.5.1
 
 Update the configuration.
@@ -28,7 +30,7 @@ Fix utils.
 
 Update `search-input`.
 
-Modify the reactive properties, includes `label-input`,  `dialog-item`,  `flex-flow`,  `nav-aside`,  `float-tipe`.
+Modify the reactive properties, includes `label-input`, `dialog-item`, `flex-flow`, `nav-aside`, `float-tipe`.
 
 The define can get an unspecified name from the constructor.
 

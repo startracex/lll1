@@ -6,7 +6,6 @@
     "node_modules": true,
     "pnpm-lock.yaml": true,
     "LICENSE": true,
-    "{rollup.,ts}config.{js,json}": true,
     ".npmrc": true,
     ".eslintrc": true,
     ".prettierrc": true
@@ -24,5 +23,7 @@
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "lit-plugin.rules.no-invalid-css": "off"
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
