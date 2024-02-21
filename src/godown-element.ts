@@ -1,7 +1,8 @@
+import { LitElement } from "lit";
+
+import type { ConfType } from "./conf";
 import { type AddOptions, EventsCollection, type EventsNames, type ListenerFunc } from "./lib/event-collection.js";
 import { deepQuerySelector, deepQuerySelectorAll, doAssign, type LikeString } from "./lib/utils.js";
-import type { ConfType } from "./conf";
-import { LitElement } from "lit";
 
 /**
  * Global element.
