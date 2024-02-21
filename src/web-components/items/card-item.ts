@@ -96,7 +96,7 @@ export class CardItem extends GodownElement {
       <aside></aside>
       <main>
         ${ifValue(
-          this.querySlot(HEADER) as unknown as boolean,
+          this.querySlot(HEADER),
           html`
             ${htmlSlot(HEADER)}
             <hr />
@@ -104,7 +104,7 @@ export class CardItem extends GodownElement {
         )}
         ${htmlSlot()}
         ${ifValue(
-          this.querySlot(FOOTER) as unknown as boolean,
+          this.querySlot(FOOTER),
           html`
             <hr />
             ${htmlSlot(FOOTER)}

@@ -1,4 +1,4 @@
-import { css, html, nothing, property } from "../../deps.js";
+import { css, html, property } from "../../deps.js";
 import { ifValue } from "../../lib/directives.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate } from "../../lib/templates.js";
 import { append } from "../../lib/utils.js";
@@ -37,7 +37,7 @@ export class AvatarGroup extends GodownElement {
 
   protected render(): HTMLTemplate {
     const cssStr = `slot::slotted(:nth-of-type(n + ${(this.max || 0) + 1})) {display: none;}`;
-    return html`${htmlSlot()} ${htmlStyle(cssStr)} ${ifValue(this.more > 0, new AvatarA({ more: this.more }), nothing)}`;
+    return html`${htmlSlot()} ${htmlStyle(cssStr)} ${ifValue(this.more > 0, new AvatarA({ more: this.more }))}`;
   }
 
   protected firstUpdated() {

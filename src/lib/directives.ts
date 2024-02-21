@@ -1,13 +1,11 @@
 import { nothing } from "lit";
 
-type Nothing = typeof nothing;
-
 interface RenderIf {
-  <A, B>(value: boolean, a: A, b: B): A | B | Nothing;
-  <A>(value: boolean, a: A): A | Nothing;
+  <A, B>(value: unknown, a: A, b: B): A | B;
+  <A>(value: unknown, a: A): A;
 }
 
-export const ifValue: RenderIf = <A, B>(value: boolean, a: A, b?: B) => {
+export const ifValue: RenderIf = <A, B>(value: unknown, a: A, b?: B) => {
   return (value && a) || b || nothing;
 };
 
