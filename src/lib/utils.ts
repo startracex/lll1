@@ -179,3 +179,18 @@ export function constructCSS(vars: LikeString[], selectorProperties: Record<stri
 export interface LikeString {
   toString(): string;
 }
+
+export function dashToCamel(str: string, upperFirst = true) {
+  str = str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+  return upperFirst ? str[0].toUpperCase() + str.slice(1) : str;
+}
+
+export function camelToDash(str: string) {
+  return (
+    str[0].toLowerCase() +
+    str
+      .slice(1)
+      .replace(/([A-Z])/g, "-$1")
+      .toLowerCase()
+  );
+}
