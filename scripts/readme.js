@@ -3,7 +3,7 @@
  */
 import fs from "fs/promises";
 import path from "path";
-import { createLog, log, paths } from "./deps.js";
+import { createLog, paths } from "./deps.js";
 
 const readme = "./README.md";
 

@@ -3,9 +3,8 @@
  */
 
 import { startDevServer } from "@web/dev-server";
-import { log } from "node:console";
 import { cwd } from "node:process";
-import { walkExt } from "./deps.js";
+import { log, walkExt } from "./deps.js";
 
 (async () => {
   const port = 9527;

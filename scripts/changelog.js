@@ -2,8 +2,7 @@
  * Generate change log to the current version.
  */
 import fs from "fs/promises";
-import { log } from "node:console";
-import { createLog, packageJSON } from "./deps.js";
+import { log, createLog, packageJSON } from "./deps.js";
 
 const changelog = "./CHANGELOG.md";
 
