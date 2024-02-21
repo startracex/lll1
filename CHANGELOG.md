@@ -14,6 +14,8 @@ Update scripts.
 
 Update tsconfig.
 
+Update eslint rules.
+
 ## 2.5.1
 
 Update the configuration.

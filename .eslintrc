@@ -3,15 +3,27 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/stylistic"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/stylistic"
+  ],
   "parser": "@typescript-eslint/parser",
-  "ignorePatterns": ["public", "build", "**/*.js"],
+  "ignorePatterns": [
+    "public",
+    "build",
+    "**/*.js"
+  ],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint",
+    "simple-import-sort"
+  ],
   "rules": {
+    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/prefer-for-of": "off",
     "@typescript-eslint/no-this-alias": "off",
@@ -34,13 +46,10 @@
         "allowTemplateLiterals": true
       }
     ],
-    "semi": ["warn", "always"],
-    "sort-imports": [
+    "semi": [
       "warn",
-      {
-        "ignoreCase": true,
-        "memberSyntaxSortOrder": ["none", "multiple", "single", "all"]
-      }
-    ]
+      "always"
+    ],
+    "simple-import-sort/imports": "warn"
   }
 }
