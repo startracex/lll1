@@ -35,7 +35,7 @@ import { AlertItem } from "npm:godown";
 ### React
 
 ```jsx
-import { AlertItem } from "godown/react";
+import { AlertItem } from "godown/react.js";
 
 export default function () {
   return <AlertItem title="Alert" />;
@@ -101,35 +101,3 @@ pnpm publish
 # or
 npm publish ./public
 ```
-
-## Directory Structure
-
-files
-
-`conf.ts` - global configuration
-
-`deps.ts` - dependencies
-
-`godown-element.ts` - base element
-
-`root.ts` - Apply styles and configurations
-
-`index.ts` - entry
-
-directories
-
-`effect` - focus on the effect
-
-`group` - grouped other components
-
-`input-form` - forms and input controls
-
-`items` - individual components or others
-
-`layout` - components that affect the layout
-
-`view` - components for content display
-
-`lib` - library
-
-`react` - converted to react components

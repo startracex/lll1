@@ -20,6 +20,8 @@ Update vscode settings.
 
 Update gitignore, ignore the indexes of the exporters.
 
+Update readme.
+
 ## 2.5.1
 
 Update the configuration.
