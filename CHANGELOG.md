@@ -1,5 +1,7 @@
 # CHANGE LOG
 
+## 2.6.1
+
 Fix declare.
 
 Fix components, remove `open-list`.
