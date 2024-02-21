@@ -1,4 +1,5 @@
 import { css, type CSSResult, type CSSResultGroup, unsafeCSS } from "lit";
+
 import { conf } from "./conf.js";
 import GodownElement from "./godown-element.js";
 
@@ -11,17 +12,19 @@ export const define = (name?: string, options?: ElementDefinitionOptions) => (co
   conf.define(name, constructor, options);
 };
 
+const scopeString = "--";
+
 /**
  * Custom CSS variable prefix, join with "--".
  */
-export const cssvar = unsafeCSS("--" + conf.cssvar.replace(/[^a-zA-Z0-9\\-]/g, ""));
+export const cssvar = unsafeCSS(scopeString + conf.cssvar.replace(/[^a-zA-Z0-9\\-]/g, ""));
 
 export function createScope(scope: string): CSSResult {
   return joinScope(conf.tag(scope));
 }
 
 function joinScope(s: string) {
-  return unsafeCSS(`${cssvar}--${s}`);
+  return unsafeCSS(cssvar + scopeString + s);
 }
 
 export const cssvarValues = {
