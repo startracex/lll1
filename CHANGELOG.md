@@ -2,6 +2,10 @@
 
 Fix declare.
 
+### Development
+
+Update package.json scripts.
+
 ## 2.6.0
 
 Move all components to `src/web-components`.

@@ -9,12 +9,13 @@
     "directory": "public"
   },
   "scripts": {
-    "build": "node ./scripts/build.js && tsc",
+    "build": "node ./scripts/build.js",
     "build:min": "node ./scripts/build-min.js",
     "build:watch": "tsc --watch",
     "dev": "vite",
+    "export": "node ./scripts/exports.js",
     "fmt": "prettier --write ./src",
-    "lint": "eslint --ext .ts ./src",
+    "lint": "eslint --ext .ts ./src --fix",
     "push": "git push && git push --tags",
     "readme": "node ./scripts/readme.js",
     "watch": "tsc --watch"
