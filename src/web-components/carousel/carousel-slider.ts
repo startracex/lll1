@@ -183,6 +183,6 @@ export default CarouselSlider;
 
 declare global {
   interface HTMLElementTagNameMap {
-    "rotation-port": CarouselSlider;
+    "carousel-slider": CarouselSlider;
   }
 }

@@ -1,5 +1,7 @@
 # CHANGE LOG
 
+Fix declare.
+
 ## 2.6.0
 
 Move all components to `src/web-components`.

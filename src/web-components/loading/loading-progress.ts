@@ -93,6 +93,6 @@ export default LoadingProgress;
 
 declare global {
   interface HTMLElementTagNameMap {
-    "load-track": LoadingProgress;
+    "loading-progress": LoadingProgress;
   }
 }

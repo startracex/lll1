@@ -86,6 +86,6 @@ export default WrapView;
 
 declare global {
   interface HTMLElementTagNameMap {
-    "with-wrap": WrapView;
+    "wrap-view": WrapView;
   }
 }
