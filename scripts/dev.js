@@ -2,10 +2,10 @@
  * Start the development server.
  */
 
-import { cwd } from "node:process";
-import { log } from "node:console";
 import { startDevServer } from "@web/dev-server";
-import { walkExt } from "./lib.js";
+import { log } from "node:console";
+import { cwd } from "node:process";
+import { walkExt } from "./deps.js";
 
 (async () => {
   const port = 9527;

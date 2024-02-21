@@ -3,7 +3,7 @@
  */
 import fs from "fs/promises";
 import { log } from "node:console";
-import { packageJSON } from "./lib.js";
+import { createLog, packageJSON } from "./deps.js";
 
 const changelog = "./CHANGELOG.md";
 
@@ -45,26 +45,14 @@ await fs
         if (oldText === text) {
           log("changelog: No changes");
         } else {
-          await fs
-            .writeFile(changelogRelease, text)
-            .then(() => {
-              log(`changelog: Modified ${changelogRelease}`);
-            })
-            .catch(log);
+          await fs.writeFile(changelogRelease, text).then(createLog(`changelog: Modified ${changelogRelease}`));
         }
       })
       .catch(async (err) => {
         if (err.code === "ENOENT") {
-          await fs
-            .writeFile(changelogRelease, text)
-            .then(() => {
-              log(`changelog: Generated ${changelogRelease}`);
-            })
-            .catch(log);
+          await fs.writeFile(changelogRelease, text).then(createLog(`changelog: Generated ${changelogRelease}`));
         } else {
           log(err);
         }
       });
-  })
-
-  .catch(log);
+  });

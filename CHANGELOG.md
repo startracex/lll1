@@ -8,6 +8,10 @@ Update deps exports.
 
 Update index exports.
 
+### Development
+
+Update scripts.
+
 ## 2.5.1
 
 Update the configuration.
