@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+Update `nav-layout`.
+
+Remove `nav-aside`.
+
 ## 2.6.1
 
 Fix declare.
