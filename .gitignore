@@ -4,6 +4,7 @@ test
 CHANGELOG.release.md
 build
 public
+**/*.html
 src/react/index.ts
 src/web-components/*/index.ts
 src/web-components/index.ts
