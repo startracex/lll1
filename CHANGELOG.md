@@ -12,6 +12,8 @@ Update index exports.
 
 Update scripts.
 
+Update tsconfig.
+
 ## 2.5.1
 
 Update the configuration.
