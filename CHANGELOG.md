@@ -6,6 +6,8 @@ Sort imports.
 
 Update deps exports.
 
+Update index exports.
+
 ## 2.5.1
 
 Update the configuration.
