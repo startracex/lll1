@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+Move all components to `src/web-components`.
+
+Sort imports.
+
 ## 2.5.1
 
 Update the configuration.

@@ -1,6 +1,7 @@
 import { createComponent, EventName, Options, ReactWebComponent } from "@lit/react";
-import type GodownElement from "../godown-element.js";
 import * as React from "react";
+
+import type GodownElement from "../godown-element.js";
 
 export const create = <
   /**/
