@@ -35,10 +35,12 @@ for (const [key, value] of Object.entries(categoryElements)) {
     if (tsTops.includes(elementName)) {
       panic(`Duplicate files: ./src/${elementName}.ts`);
     }
+  }
+  for (const elementName of value) {
+    packageJSON.exports[`./${elementName}`] = `./${elementName}.js`;
     const genFile = `src/${elementName}.ts`;
     genFiles.push(genFile);
     await fs.writeFile(genFile, `export { default } from "./${paths.webComponents}/${key}/${elementName}.js";`);
-    packageJSON.exports[`./${elementName}`] = `./${elementName}.js`;
   }
 }
 
