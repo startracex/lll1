@@ -27,9 +27,10 @@ export class CardItem extends GodownElement {
         ${cssvarScope}--background: var(${cssvarValues.main});
         ${cssvarScope}--wapper-background: none;
         ${cssvarScope}--outline: 0;
-        ${cssvarScope}--box-shadow: 0 .05em .4em 0 rgb(var(${cssvarValues.mainRGB}) / 60%);
+        ${cssvarScope}--box-shadow: 0 .05em 1.2em 0 rgb(var(${cssvarValues.textRGB}) / 12%);
         ${cssvarScope}--hr-width: 100%;
         ${cssvarScope}--hr-height: .05em;
+        ${cssvarScope}--hr-background: #80808080;
         ${cssvarScope}--padding: .75em;
         margin: auto;
         display: block;
@@ -78,8 +79,7 @@ export class CardItem extends GodownElement {
         height: var(${cssvarScope}--hr-height);
         margin: auto;
         display: block;
-        background: currentColor;
-        opacity: 0.5;
+        background: var(${cssvarScope}--hr-background);
       }
 
       slot {

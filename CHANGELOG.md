@@ -2,6 +2,8 @@
 
 Fix declare.
 
+Fix components, remove `open-list`.
+
 ### Development
 
 Update package.json scripts.

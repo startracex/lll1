@@ -1,5 +1,5 @@
 import { css, type CSSResultGroup, property, type PropertyValueMap } from "../../deps.js";
-import { EventsNames } from "../../lib/event-collection.js";
+import { type EventsNames } from "../../lib/event-collection.js";
 import { GodownElement } from "../../root.js";
 
 export type Direction4 = "left" | "right" | "top" | "bottom";
@@ -7,6 +7,8 @@ export type Direction4 = "left" | "right" | "top" | "bottom";
 export type Direction5 = Direction4 | "center";
 
 export type Direction8 = Direction4 | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+
+export type Direction9 = Direction8 | "center";
 
 export type OnEvents = EventsNames | "";
 
@@ -30,7 +32,7 @@ export class OpenableElement extends GodownElement {
   /**
    * Direction of appearance.
    */
-  @property() direction: Direction4 | Direction8 | Direction5 | "" = "";
+  @property() direction: Direction9 | "" = "";
 
   static styles = [
     GodownElement.styles,
@@ -42,52 +44,6 @@ export class OpenableElement extends GodownElement {
           color 0s,
           background 0s;
         height: fit-content;
-      }
-
-      span {
-        display: inline-flex;
-        align-items: center;
-        flex: 1;
-        white-space: nowrap;
-      }
-
-      dl {
-        height: 100%;
-        position: relative;
-        overflow: hidden;
-      }
-
-      dt {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        background: inherit;
-        align-items: center;
-        height: 100%;
-      }
-
-      * {
-        transition: inherit;
-      }
-
-      dd {
-        overflow: hidden;
-        display: grid;
-        grid-template-rows: 0fr;
-      }
-
-      section {
-        min-height: 0;
-        overflow: hidden;
-      }
-
-      :host([open]) dd {
-        grid-template-rows: 1fr;
-      }
-
-      :host([float]) dd {
-        top: 100%;
-        position: absolute;
       }
     `,
   ] as CSSResultGroup;

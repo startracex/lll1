@@ -1,8 +1,7 @@
-import { css, html, property, type PropertyValueMap, query } from "../../deps.js";
-import { type HTMLTemplate } from "../../lib/templates.js";
-import { cssvarValues, define, GodownElement } from "../../root.js";
-
-type Direction5 = "left" | "center" | "right" | "top" | "bottom";
+import { css, CSSResultGroup, html, property, query } from "../../deps.js";
+import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
+import { cssvar, cssvarValues, define } from "../../root.js";
+import OpenableElement, { Direction9 } from "./open.js";
 
 const defineName = "open-dialog";
 
@@ -10,15 +9,12 @@ const defineName = "open-dialog";
  * OpenDialog similar to dialog.
  */
 @define(defineName)
-export class OpenDialog extends GodownElement {
+export class OpenDialog extends OpenableElement {
+  direction: Direction9 = "center";
   /**
    * Enable modal.
    */
   @property({ type: Boolean, reflect: true }) modal = false;
-  /**
-   * Whether this element is activated.
-   */
-  @property({ type: Boolean, reflect: true }) open = false;
   /**
    * Enable scale.
    */
@@ -26,21 +22,30 @@ export class OpenDialog extends GodownElement {
   /**
    * Scale gap.
    */
-  @property({ type: Number }) gap = 0.1;
+  @property({ type: Number }) gap = 0.2;
   /**
    * Exit key, which can be multiple.
    */
   @property({ type: String }) key = "Escape";
-  /**
-   * The direction in which it appears.
-   */
-  @property({ type: String }) direction: Direction5 = "center";
 
   @query("div") _div: HTMLDivElement;
 
-  static styles = [
+  static styles: CSSResultGroup = [
+    OpenableElement.styles,
     css`
       :host {
+        display: block;
+        transition:
+          all 0.3s ease-in-out,
+          color 0s,
+          background 0s;
+        height: fit-content;
+      }
+    `,
+    css`
+      :host {
+        ${cssvar}--background: rgb(var(${cssvarValues.mainRGB}) / 0%);
+        ${cssvar}--background-modal: rgb(var(${cssvarValues.mainRGB}) / 15%);
         position: fixed;
         height: 100%;
         width: 100%;
@@ -51,7 +56,7 @@ export class OpenDialog extends GodownElement {
         transition: all 0.3s;
         display: flex;
         visibility: hidden;
-        background: rgb(${cssvarValues.mainRGB} / 0%);
+        background: var(${cssvar}--background);
         pointer-events: none;
       }
 
@@ -62,7 +67,7 @@ export class OpenDialog extends GodownElement {
       :host([open][modal]) {
         pointer-events: all;
         backdrop-filter: blur(0.25px);
-        background: rgb(${cssvarValues.mainRGB} / 20%);
+        background: var(${cssvar}--background-modal);
       }
 
       :host([open]) slot {
@@ -75,6 +80,7 @@ export class OpenDialog extends GodownElement {
         width: 100%;
         display: flex;
         transition: inherit;
+        transform: scale(var(--s));
       }
 
       slot {
@@ -87,46 +93,51 @@ export class OpenDialog extends GodownElement {
         pointer-events: all;
       }
 
-      .center {
-        transform: translateY(-15%);
+      div {
+        position: relative;
       }
 
-      .top {
-        width: 100%;
-        margin-top: 0;
-        transform: translateY(-15%);
+      slot {
+        position: absolute;
       }
 
-      .right {
-        height: 100%;
-        margin-right: 0;
-        transform: translateX(15%);
+      [class^="top"] slot {
+        top: 0;
       }
 
+      [class^="bottom"] slot {
+        bottom: 0;
+      }
+
+      [class$="right"] slot {
+        right: 0%;
+      }
+
+      [class$="left"] slot {
+        left: 0%;
+      }
+
+      div[class$="center"],
+      .top,
+      .left,
+      .right,
       .bottom {
-        width: 100%;
-        margin-bottom: 0;
-        transform: translateY(15%);
-      }
-
-      .left {
-        height: 100%;
-        margin-left: 0;
-        transform: translateX(-15%);
+        align-items: center;
+        justify-content: center;
+        align-items: center;
+        justify-content: center;
       }
     `,
   ];
 
   protected render(): HTMLTemplate {
-    return html`<div>
-      <slot class="${this.direction}"></slot>
-    </div>`;
+    return html`<div style="--s:1" class="${this.direction}">${htmlSlot()}</div>`;
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.addEvent(this, "submit", this._handelSubmit);
-    if (this.scale) {
+    if (this.scale && this.direction === "center") {
       this.addEvent(this, "wheel", this._handleWheel);
     }
     if (this.key) {
@@ -137,40 +148,19 @@ export class OpenDialog extends GodownElement {
     }
   }
 
-  show() {
-    this.open = true;
-  }
-
   showModal() {
     this.modal = true;
     this.show();
   }
 
-  close() {
-    this.open = false;
-  }
-
-  protected updated(changedProperties: PropertyValueMap<this>) {
-    const hasOpen = changedProperties.has("open");
-    if (hasOpen) {
-      this.dispatchEvent(new CustomEvent(this.open ? "open" : "close"));
-    }
-  }
-
   protected _handleWheel(e: any) {
-    if (this.scale) {
-      const s = this._div.style.transform.match(/scale\((.*)\)/);
-      let scale = 1;
-      if (s) {
-        scale = Number(s[1]);
-      }
-      if (e.deltaY > 0) {
-        scale -= this.gap;
-      } else {
-        scale += this.gap;
-      }
-      this._div.style.transform = `scale(${scale})`;
+    let scale = Number(this._div.style.getPropertyValue("--s"));
+    if (e.deltaY > 0) {
+      scale -= this.gap;
+    } else {
+      scale += this.gap;
     }
+    this._div.style.setProperty("--s", `${scale}`);
   }
 
   protected _handleKeydown(e: KeyboardEvent) {

@@ -46,21 +46,21 @@ export class TabGroup extends GodownElement {
         ${cssvarScope}--cursor: default;
         background: var(${cssvarScope}--background);
         display: block;
+        color: var(${cssvarValues.text});
       }
 
       nav {
         display: grid;
         grid-auto-flow: column;
-        gap: 0.5em;
+        gap: 0.25em;
         position: relative;
         border-radius: inherit;
       }
 
       section {
         white-space: nowrap;
-        min-width: 2em;
         border-radius: inherit;
-        padding: 0 0.2em;
+        padding: 0.15em 0.2em;
         cursor: var(${cssvarScope}--cursor);
         z-index: 1;
         display: flex;
@@ -74,7 +74,7 @@ export class TabGroup extends GodownElement {
         padding: 0;
         background: var(${cssvarScope}--background-active);
         transform: translateX(-50%);
-        transition: all 0.25s ease 0s;
+        transition: all 180ms ease 0s;
         z-index: 0;
       }
     `,
@@ -82,7 +82,7 @@ export class TabGroup extends GodownElement {
 
   protected render(): HTMLTemplate {
     const headers = (this.headers || this.contents).map((value) => {
-      return html` <section
+      return html`<section
         class="${ifValue(this.index === value, "active")}"
         @click="${() => {
           this.select(value, true);
@@ -109,7 +109,7 @@ export class TabGroup extends GodownElement {
         this.dispatchEvent(new CustomEvent("select", { detail: this.index }));
         slider.style.width = `${active.clientWidth}px`;
         slider.animate([{ left: `${active.offsetLeft + active.clientWidth / 2}px` }], {
-          duration: 250,
+          duration: 180,
           fill: "forwards",
         });
       } else {

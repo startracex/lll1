@@ -15,7 +15,6 @@ const defineName = "open-offset";
 export class OpenOffset extends OpenableElement {
   direction: Direction4;
 
-  @query("span") private _span: HTMLElement;
   @query("aside") private _balancer: HTMLElement;
 
   static styles = [

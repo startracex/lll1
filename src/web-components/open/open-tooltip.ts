@@ -1,6 +1,6 @@
-import { css, html, property } from "../../deps.js";
+import { css, CSSResultGroup, html, property } from "../../deps.js";
 import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
-import { define } from "../../root.js";
+import { cssvarValues, define } from "../../root.js";
 import { type Direction8, OpenableElement } from "./open.js";
 
 const defineName = "open-tooltip";
@@ -18,9 +18,11 @@ export class OpenTooltip extends OpenableElement {
    */
   @property() align: "center" | "flex-star" | "flex-end" | "" = "";
 
-  static styles = [
+  static styles: CSSResultGroup = [
+    OpenableElement.styles,
     css`
       :host {
+        color: var(${cssvarValues.text});
         display: inline-flex;
         transition: 0.3s ease-in-out;
         justify-content: center;
@@ -71,10 +73,6 @@ export class OpenTooltip extends OpenableElement {
       ${htmlSlot()}
       <aside class="${this.direction || "top"}">${this.summary || htmlSlot("summary")}</aside>
     </main>`;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
   }
 }
 

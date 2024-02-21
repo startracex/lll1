@@ -1,10 +1,11 @@
 import { css, type CSSResultGroup, html, property, query } from "../../deps.js";
-import { ifValue } from "../../lib/directives.js";
 import { htmlSlot, type HTMLTemplate, svgDeltaSmooth } from "../../lib/templates.js";
-import { define } from "../../root.js";
+import { createScope, cssvarValues, define } from "../../root.js";
 import { OpenableElement } from "./open.js";
 
 const defineName = "open-details";
+
+const cssvarScope = createScope(defineName);
 
 /**
  * OpenDetails similar to details.
@@ -25,27 +26,78 @@ export class OpenDetails extends OpenableElement {
   static styles = [
     OpenableElement.styles,
     css`
-      i {
-        height: 1.2em;
-        min-width: 1.2em;
-        aspect-ratio: 1/1;
+      :host {
+        color: var(${cssvarValues.text});
+        ${cssvarScope}--icon-deg-open: -90deg;
+        ${cssvarScope}--icon-deg: 0deg;
+        ${cssvarScope}--summary-direction: row;
+      }
+      span {
+        display: inline-flex;
+        align-items: center;
+        white-space: nowrap;
+      }
+
+      dl {
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      dt {
         display: flex;
-        margin-left: auto;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        background: inherit;
+        align-items: center;
+        height: 100%;
+        flex-direction: var(${cssvarScope}--summary-direction);
+      }
+
+      dd {
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: 0fr;
+      }
+
+      * {
+        transition: inherit;
+      }
+
+      section {
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      i {
+        height: 1em;
+        wdith: 1em;
+        display: flex;
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
+        transform: rotate(var(${cssvarScope}--icon-deg));
+      }
+
+      :host([open]) dd {
+        grid-template-rows: 1fr;
+      }
+
+      :host([float]) dd {
+        top: 100%;
+        position: absolute;
       }
 
       :host([open]) i {
-        transform: rotate(-90deg) !important;
+        transform: rotate(var(${cssvarScope}--icon-deg-open));
       }
     `,
   ] as CSSResultGroup;
 
   protected render(): HTMLTemplate {
     return html`<dl>
-      <dt @click="${this._handelClick}" style="flex-direction:row${ifValue(this.reverse, "-reverse")}">
+      <dt @click="${this._handelClick}">
         <span> ${this.summary || htmlSlot("summary")} </span>
-        <i style="transform: rotate(${ifValue(this.reverse, "-18")}0deg);"> ${this.renderIcon()} </i>
+        <i>${this.renderIcon()}</i>
       </dt>
       <dd>
         <section>${htmlSlot()}</section>
