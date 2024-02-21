@@ -1,7 +1,9 @@
 node_modules
-/test
-/public/*
-!/public/README.md
+test
+.idea
 CHANGELOG.release.md
 build
-.idea
+public
+src/react/index.ts
+src/web-components/*/index.ts
+src/web-components/index.ts

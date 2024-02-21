@@ -18,6 +18,8 @@ Update eslint rules.
 
 Update vscode settings.
 
+Update gitignore, ignore the indexes of the exporters.
+
 ## 2.5.1
 
 Update the configuration.
