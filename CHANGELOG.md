@@ -4,6 +4,8 @@ Update `nav-layout`.
 
 Remove `nav-aside`.
 
+Remove `scroll-x`.
+
 ## 2.6.1
 
 Fix declare.
