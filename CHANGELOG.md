@@ -1,5 +1,7 @@
 # CHANGE LOG
 
+## 2.7.0
+
 Remove `sign-form`.
 
 Restructure the project.
