@@ -8,6 +8,8 @@ Add naming support for different versions.
 
 Add and use new naming schemes.
 
+Update readme.
+
 ### Development
 
 Add and modify scripts.
