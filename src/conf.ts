@@ -1,36 +1,38 @@
 import type GodownElement from "./godown-element";
+import naming from "./naming";
 
 const defaultConfig: ConfType = {
   assign: null,
   cssvar: "godown",
   classMap: new Map(),
   nameMap: new Map(),
+  naming: "latest",
   reflect: false,
   prefix: "",
   suffix: "",
   tag(origin: string) {
-    const name = this.nameMap.get(origin) || origin;
-    return this.prefix + name + this.suffix;
+    if (this.naming) {
+      origin = naming[this.naming]?.get(origin) || origin;
+    }
+    return origin;
   },
-  define(name: string | void, constructor: CustomElementConstructor, options?: ElementDefinitionOptions) {
-    if (!name) {
-      name = constructor.name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+  define(name: string, constructor: CustomElementConstructor, options?: ElementDefinitionOptions) {
+    name ||= constructor.name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+    const tagName = this.prefix + this.tag(name) + this.suffix;
+    if (!tagName.includes("-") || customElements.get(name)) {
+      return;
     }
-    const tagName = this.tag(name);
-    if (!customElements.get(tagName)) {
-      customElements.define(tagName, constructor, options);
-      (constructor as typeof GodownElement).elementTagName = tagName;
-      this.nameMap.set(name, tagName);
-      this.classMap.set(tagName, constructor);
-    }
+    this.nameMap.set(name, tagName);
+    (constructor as typeof GodownElement).elementTagName = tagName;
+    conf.classMap.set(tagName, constructor);
+    customElements.define(tagName, constructor, options);
   },
 };
 
 export const conf: ConfType = init(globalThis.GodownWebComponentsCONF, defaultConfig);
-export default conf;
 
-export function init(CONFObject: Partial<ConfType>, source: ConfType = conf): ConfType {
-  Object.assign(source, CONFObject);
+export function init(config: Partial<ConfType>, source: ConfType = conf): ConfType {
+  Object.assign(source, config);
   if (source.reflect) {
     // Reflect to globalThis.
     globalThis.GodownWebComponentsCONF = source;
@@ -44,13 +46,18 @@ export function init(CONFObject: Partial<ConfType>, source: ConfType = conf): Co
   return source;
 }
 
-export function defineConfig(CONFObject: Partial<ConfType>): ConfType {
-  return init(CONFObject, conf);
+export function defineConfig(config: Parameters<typeof init>[0]): ConfType {
+  return init(config, conf);
 }
+
+export default conf;
 
 declare global {
   interface globalThis {
     GodownWebComponentsCONF: ConfType;
+  }
+  interface DocumentEventMap {
+    "godown-define": DefineEvent;
   }
 }
 
@@ -71,6 +78,7 @@ export interface ConfType {
    * Mapping of element names.
    */
   nameMap: Accessor<string, string>;
+  naming: "" | keyof typeof naming;
   /**
    * Reflect to globalThis.
    */
@@ -101,9 +109,20 @@ export interface ConfType {
   define: (name: string | void, constructor: CustomElementConstructor, options?: ElementDefinitionOptions) => void;
 }
 
+export interface DefineEvent {
+  detail: {
+    name: string;
+    constructor: typeof GodownElement;
+    options?: ElementDefinitionOptions;
+  };
+}
+
 export interface GetSet<K, V> {
   get: (key: K) => V;
   set(key: K, value: V): void;
 }
 
-export type Accessor<K, V> = GetSet<K, V> | (K extends PropertyKey ? GetSet<K, V> & Record<K, V> : never);
+export type MixedRecord<K, V, M> = M | (K extends PropertyKey ? M & Record<K, V> : never);
+export type SetAccessor<K = string, V = string | undefined> = MixedRecord<K, V, { set(key: K, value: V): void }>;
+export type GetAccessor<K = string, V = string | undefined> = MixedRecord<K, V, { get: (key: K) => V }>;
+export type Accessor<K = string, V = string | undefined> = GetAccessor<K, V> & SetAccessor<K, V>;

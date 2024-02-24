@@ -1,7 +1,8 @@
-import { css, type CSSResultGroup, html, property, query } from "../../deps.js";
+import { css, type CSSResultGroup, html, property, query } from "../../.deps.js";
+import { define } from "../../decorators/define.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate, svgEye } from "../../lib/templates.js";
-import { cssvarValues, define } from "../../root.js";
-import { InputElement } from "./input.js";
+import { GodownInput } from "../../supers/input.js";
+import { cssvarValues } from "../../supers/root.js";
 
 const PASSWORD = "password";
 
@@ -33,14 +34,14 @@ const styleWithLabel = css`
 const defineName = "label-input";
 
 /**
- * LabelInput renders label and input.
+ * {@linkcode LabelInput } renders label and input.
  *
  * When there is a label, the layout will be adjusted according to the width of the screen.
  *
  * Otherwise it behaves similarly to the `BaseInput`.
  */
 @define(defineName)
-export class LabelInput extends InputElement {
+export class LabelInput extends GodownInput {
   /**
    * Conditions for adjust layout.
    */
@@ -49,7 +50,7 @@ export class LabelInput extends InputElement {
   @query("input") _input: HTMLInputElement;
 
   static styles = [
-    InputElement.styles,
+    GodownInput.styles,
     css`
       :host {
         margin: var(${cssvarValues.input}--outline-width);
@@ -161,5 +162,6 @@ export default LabelInput;
 declare global {
   interface HTMLElementTagNameMap {
     "label-input": LabelInput;
+    "g-label-input": LabelInput;
   }
 }

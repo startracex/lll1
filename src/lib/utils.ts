@@ -64,14 +64,6 @@ export function random(m = 0, n = 1) {
   return Math.random() * (n - m) + m;
 }
 
-export function doAssign(source: any, target: any) {
-  const classList = "classList";
-  if (classList in source) {
-    source[classList] = [...target[classList], ...source[classList]];
-  }
-  Object.assign(target, source);
-}
-
 /**
  * Create element from args append to target.
  * @param target Appended target element, target or document.querySelector(target) or document.body.

@@ -2,7 +2,7 @@ import { LitElement } from "lit";
 
 import type { ConfType } from "./conf";
 import { type AddOptions, EventsCollection, type EventsNames, type ListenerFunc } from "./lib/event-collection.js";
-import { deepQuerySelector, deepQuerySelectorAll, doAssign, type LikeString } from "./lib/utils.js";
+import { deepQuerySelector, deepQuerySelectorAll, type LikeString } from "./lib/utils.js";
 
 /**
  * Global element.
@@ -107,17 +107,25 @@ class GodownElement extends LitElement {
 
   private __assign: void | (Record<string, any> & { classList?: DOMTokenList | string[] });
 
-  constructor(assign: typeof GodownElement.prototype.__assign = GodownElement.conf?.assign) {
+  constructor(assign: typeof GodownElement.prototype.__assign) {
     super();
     this.__events = new EventsCollection();
-    this.__assign = assign;
+    this.__assign = {
+      ...GodownElement.conf?.assign,
+      ...assign,
+    };
   }
 
   connectedCallback() {
     super.connectedCallback();
     if (this.__assign) {
       this.__assign.__assign = null;
-      doAssign(this.__assign, this);
+      const classList = "classList";
+      if (classList in this.__assign) {
+        this.classList.add(...this.__assign[classList]);
+        delete this.__assign[classList];
+      }
+      Object.assign(this, this.__assign);
     }
   }
 

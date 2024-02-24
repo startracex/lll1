@@ -1,11 +1,12 @@
-import { css, property } from "../../deps.js";
+import { css, property } from "../../.deps.js";
+import { define } from "../../decorators/define.js";
 import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
-import { define, GodownElement } from "../../root.js";
+import { GodownElement } from "../../supers/root.js";
 
 const defineName = "details-group";
 
 /**
- * DetailsGroup used to support multiple details like.
+ * {@linkcode DetailsGroup} used to support multiple details like.
  */
 @define(defineName)
 export class DetailsGroup extends GodownElement {
@@ -54,5 +55,6 @@ export default DetailsGroup;
 declare global {
   interface HTMLElementTagNameMap {
     "details-group": DetailsGroup;
+    "g-details-group": DetailsGroup;
   }
 }

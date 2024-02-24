@@ -1,16 +1,17 @@
-import { css, type CSSResultGroup, html, property, query } from "../../deps.js";
+import { css, type CSSResultGroup, html, property, query } from "../../.deps.js";
+import { define } from "../../decorators/define.js";
 import { ifValue } from "../../lib/directives.js";
 import { htmlSlot, type HTMLTemplate, svgDelta, svgX } from "../../lib/templates.js";
-import { cssvarValues, define, GodownElement } from "../../root.js";
-import { InputElement } from "./input.js";
+import { GodownInput } from "../../supers/input.js";
+import { cssvarValues, GodownElement } from "../../supers/root.js";
 
 const defineName = "select-input";
 
 /**
- * SelectInput select matched elements.
+ * {@linkcode SelectInput} select matched elements.
  */
 @define(defineName)
-export class SelectInput extends InputElement {
+export class SelectInput extends GodownInput {
   /**
    * Open content.
    */
@@ -33,7 +34,7 @@ export class SelectInput extends InputElement {
   @property({ type: Array }) text: string[] = [];
 
   static styles = [
-    InputElement.styles,
+    GodownInput.styles,
     css`
       :host {
         background: var(${cssvarValues.input}--background);
@@ -330,5 +331,6 @@ function includesIgnoreCase(a: string, b: string): boolean {
 declare global {
   interface HTMLElementTagNameMap {
     "select-input": SelectInput;
+    "g-select-input": SelectInput;
   }
 }

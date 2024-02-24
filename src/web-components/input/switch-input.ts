@@ -1,19 +1,20 @@
-import { css, type CSSResultGroup, html, property, query } from "../../deps.js";
+import { css, type CSSResultGroup, html, property, query } from "../../.deps.js";
+import { define } from "../../decorators/define.js";
 import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
-import { createScope, cssvarValues, define } from "../../root.js";
-import { InputElement } from "./input.js";
+import { GodownInput } from "../../supers/input.js";
+import { createScope, cssvarValues } from "../../supers/root.js";
 
 const defineName = "switch-input";
 
 const cssScope = createScope(defineName);
 
 /**
- * Switch renders a switch.
+ * {@linkcode SwitchInput } renders a switch.
  *
  * Inspired by Steam.
  */
 @define(defineName)
-export class SwitchInput extends InputElement {
+export class SwitchInput extends GodownInput {
   /**
    * Border style.
    */
@@ -42,7 +43,7 @@ export class SwitchInput extends InputElement {
   @query("input") _input: HTMLInputElement;
 
   static styles = [
-    InputElement.styles,
+    GodownInput.styles,
     css`
       :host {
         ${cssScope}--width: 3em;
@@ -208,5 +209,6 @@ export default SwitchInput;
 declare global {
   interface HTMLElementTagNameMap {
     "switch-input": SwitchInput;
+    "g-switch-input": SwitchInput;
   }
 }

@@ -1,12 +1,13 @@
-import { css, type CSSResultGroup, html } from "../../deps.js";
+import { css, type CSSResultGroup, html } from "../../.deps.js";
+import { define } from "../../decorators/define.js";
 import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
-import { createScope, cssvarValues, define, GodownElement } from "../../root.js";
+import { createScope, cssvarValues, GodownElement } from "../../supers/root.js";
 
 const defineName = "nav-layout";
 const cssvarScope = createScope(defineName);
 
 /**
- * NavLayout renders a navigation, an optional top header, an optional bottom footer.
+ * {@linkcode NavLayout} renders a navigation, an optional top header, an optional bottom footer.
  *
  * @slot - The main content of the layout.
  *
@@ -82,5 +83,6 @@ export default NavLayout;
 declare global {
   interface HTMLElementTagNameMap {
     "nav-layout": NavLayout;
+    "g-nav-layout": NavLayout;
   }
 }

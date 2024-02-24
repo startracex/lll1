@@ -1,7 +1,8 @@
-import { css, type CSSResultGroup, html, property, query, queryAll } from "../../deps.js";
+import { css, type CSSResultGroup, html, property, query, queryAll } from "../../.deps.js";
+import { define } from "../../decorators/define.js";
 import { type HTMLTemplate } from "../../lib/templates.js";
-import { createScope, cssvarValues, define } from "../../root.js";
-import { InputElement } from "./input.js";
+import { GodownInput } from "../../supers/input.js";
+import { createScope, cssvarValues } from "../../supers/root.js";
 
 const FOCUS = "focus";
 
@@ -10,10 +11,10 @@ const defineName = "split-input";
 const cssScope = createScope(defineName);
 
 /**
- * SplitInput renders multiple inputs.
+ * {@linkcode SplitInput } renders multiple inputs.
  */
 @define(defineName)
-export class SplitInput extends InputElement {
+export class SplitInput extends GodownInput {
   /**
    * The number of simulated input boxes.
    */
@@ -29,7 +30,7 @@ export class SplitInput extends InputElement {
   currentValue: (string | null)[] = [];
 
   static styles = [
-    InputElement.styles,
+    GodownInput.styles,
     css`
       :host {
         ${cssScope}--outline: .15em solid var( ${cssvarValues.input}--outline-color);
@@ -169,5 +170,6 @@ export default SplitInput;
 declare global {
   interface HTMLElementTagNameMap {
     "split-input": SplitInput;
+    "g-split-input": SplitInput;
   }
 }

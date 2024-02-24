@@ -1,17 +1,18 @@
-import { css, type CSSResultGroup, html, property, query } from "../../deps.js";
+import { css, type CSSResultGroup, html, property, query } from "../../.deps.js";
+import { define } from "../../decorators/define.js";
 import { htmlSlot, type HTMLTemplate, svgSearch } from "../../lib/templates.js";
-import { createScope, cssvarValues, define } from "../../root.js";
-import { InputElement } from "./input.js";
+import { GodownInput } from "../../supers/input.js";
+import { createScope, cssvarValues } from "../../supers/root.js";
 
 const defineName = "search-input";
 
 const cssScope = createScope(defineName);
 
 /**
- * SearchInput used for search behavior.
+ * {@linkcode SearchInput}  used for search behavior.
  */
 @define(defineName)
-export class SearchInput extends InputElement {
+export class SearchInput extends GodownInput {
   /**
    * Query selectors.
    */
@@ -44,7 +45,7 @@ export class SearchInput extends InputElement {
   @query("input") _input!: HTMLInputElement;
 
   static styles = [
-    InputElement.styles,
+    GodownInput.styles,
     css`
       :host {
         ${cssScope}--width:var(${cssvarValues.input}--width);
@@ -189,5 +190,6 @@ export default SearchInput;
 declare global {
   interface HTMLElementTagNameMap {
     "search-input": SearchInput;
+    "g-search-input": SearchInput;
   }
 }

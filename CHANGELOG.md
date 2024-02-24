@@ -2,6 +2,12 @@
 
 Remove `sign-form`.
 
+Restructure the project.
+
+Add naming support for different versions.
+
+Add and use new naming schemes.
+
 ## 2.6.2
 
 Update `nav-layout`.

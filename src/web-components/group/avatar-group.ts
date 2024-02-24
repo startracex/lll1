@@ -1,14 +1,15 @@
-import { css, html, property } from "../../deps.js";
+import { css, html, property } from "../../.deps.js";
+import { define } from "../../decorators/define.js";
 import { ifValue } from "../../lib/directives.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate } from "../../lib/templates.js";
 import { append } from "../../lib/utils.js";
-import { define, GodownElement } from "../../root.js";
-import AvatarA from "../a/avatar-a.js";
+import { GodownElement } from "../../supers/root.js";
+import Avatar from "../avatar/avatar.js";
 
 const defineName = "avatar-group";
 
 /**
- * AvatarGroup ensure that the display content does not exceed the maximum value, and display the excess quantity.
+ * {@linkcode AvatarGroup} ensure that the display content does not exceed the maximum value, and display the excess quantity.
  */
 @define(defineName)
 export class AvatarGroup extends GodownElement {
@@ -17,7 +18,7 @@ export class AvatarGroup extends GodownElement {
    */
   @property({ type: Number }) max = 99;
   /**
-   * When the content overflows, create an {@linkcode AvatarA} with the same {@linkcode AvatarA.more} attribute as more.
+   * When the content overflows, create an {@linkcode Avatar} with the same {@linkcode Avatar.more} attribute as more.
    */
   @property({ type: Number }) more = 0;
 
@@ -37,7 +38,7 @@ export class AvatarGroup extends GodownElement {
 
   protected render(): HTMLTemplate {
     const cssStr = `slot::slotted(:nth-of-type(n + ${(this.max || 0) + 1})) {display: none;}`;
-    return html`${htmlSlot()} ${htmlStyle(cssStr)} ${ifValue(this.more > 0, new AvatarA({ more: this.more }))}`;
+    return html`${htmlSlot()} ${htmlStyle(cssStr)} ${ifValue(this.more > 0, new Avatar({ more: this.more }))}`;
   }
 
   protected firstUpdated() {
@@ -46,7 +47,7 @@ export class AvatarGroup extends GodownElement {
     }
   }
 
-  append(args = new AvatarA()) {
+  append(args = new Avatar()) {
     if (this.max && this.assigned.length === this.max) {
       this.assigned.pop().style.display = "none";
       append(this, args);
@@ -80,5 +81,6 @@ export default AvatarGroup;
 declare global {
   interface HTMLElementTagNameMap {
     "avatar-group": AvatarGroup;
+    "g-avatar-group": AvatarGroup;
   }
 }

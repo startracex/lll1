@@ -1,11 +1,12 @@
-import { css, html, property } from "../../deps.js";
+import { css, html, property } from "../../.deps.js";
+import { define } from "../../decorators/define.js";
 import { htmlSlot, htmlStyle, type HTMLTemplate } from "../../lib/templates.js";
-import { define, GodownElement } from "../../root.js";
+import { GodownElement } from "../../supers/root.js";
 
 const defineName = "flex-flow";
 
 /**
- * FlexFlow controls the flex layout based on the width of the screen.
+ * {@linkcode FlexFlow} controls the flex layout based on the width of the screen.
  */
 @define(defineName)
 export class FlexFlow extends GodownElement {
@@ -42,5 +43,6 @@ export default FlexFlow;
 declare global {
   interface HTMLElementTagNameMap {
     "flex-flow": FlexFlow;
+    "g-flex-flow": FlexFlow;
   }
 }
