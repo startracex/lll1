@@ -6,11 +6,13 @@
 import { categoryElements, createLog, info, log, packageJSON, panic, paths } from "./deps.js";
 import "./changelog.js";
 import "./readme.js";
-import "./exports.js";
+import "./export.js";
 import fs from "fs/promises";
 import { glob } from "glob";
 import { exec } from "node:child_process";
 import path from "path";
+import convertTemplate from "./templates/converter.js";
+import * as templates from "./templates/templates.js";
 
 const copyFiles = ["LICENSE"];
 
@@ -22,6 +24,7 @@ copyFiles.forEach(async (file) => {
 packageJSON.exports = {
   ".": "./index.js",
   "./*": "./*",
+  "./react": "./react/index.js",
 };
 
 const tsTops = (await glob("src/*.ts", { posix: true })).map((file) => file.replace("src/", "").replace(".ts", ""));
@@ -40,7 +43,7 @@ for (const [key, value] of Object.entries(categoryElements)) {
     packageJSON.exports[`./${elementName}`] = `./${elementName}.js`;
     const genFile = `src/${elementName}.ts`;
     genFiles.push(genFile);
-    await fs.writeFile(genFile, `export { default } from "./${paths.webComponents}/${key}/${elementName}.js";`);
+    await fs.writeFile(genFile, convertTemplate(templates.exportAsDefault, `./${paths.webComponents}/${key}/${elementName}.js`));
   }
 }
 

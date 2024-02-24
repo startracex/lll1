@@ -41,11 +41,9 @@ if (!existsSync(publishDirectory)) {
   mkdirSync(publishDirectory);
 }
 
-await fs
-  .access(publishDirectory)
-  .catch(async () => {
-    await fs.mkdir(publishDirectory);
-  });
+await fs.access(publishDirectory).catch(async () => {
+  await fs.mkdir(publishDirectory);
+});
 
 const webComponents = "web-components";
 
@@ -56,7 +54,7 @@ export const paths = {
 };
 
 export const elementsFiles = (
-  await glob(`${paths.componentsDirectory}/*/*-*.ts`, {
+  await glob(`${paths.componentsDirectory}/*/*.ts`, {
     posix: true,
   })
 ).sort();
@@ -67,7 +65,10 @@ export const categoryElements = elementsFiles.reduce((acc, str) => {
   if (!acc[category]) {
     acc[category] = [];
   }
-  acc[category].push(str.slice(lastSlashIndex + 1, -".ts".length));
+  const f = str.slice(lastSlashIndex + 1, -".ts".length);
+  if (f !== "index") {
+    acc[category].push(f);
+  }
   return acc;
 }, {});
 

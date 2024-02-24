@@ -8,6 +8,10 @@ Add naming support for different versions.
 
 Add and use new naming schemes.
 
+### Development
+
+Add and modify scripts.
+
 ## 2.6.2
 
 Update `nav-layout`.

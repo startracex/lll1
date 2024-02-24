@@ -1,5 +1,7 @@
 /**
  * Start the development server.
+ *
+ * Use vite instead.
  */
 
 import { startDevServer } from "@web/dev-server";
