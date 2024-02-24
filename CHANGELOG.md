@@ -1,5 +1,7 @@
 # CHANGE LOG
 
+Remove `sign-form`.
+
 ## 2.6.2
 
 Update `nav-layout`.
