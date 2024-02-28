@@ -1,8 +1,12 @@
 import { css, html, ifDefined, property } from "../.deps.js";
-import { htmlSlot, type HTMLTemplate, svgArrow, svgDelta } from "../lib/templates.js";
+import { htmlSlot, type HTMLTemplate, svgArrow, svgDelta, svgLink } from "../lib/templates.js";
 import { GodownElement } from "./root.js";
 
 export class GodownAnchor extends GodownElement {
+  /**
+   * True when the href is in the same pathname as the location.
+   */
+  @property({ type: Boolean, reflect: true }) active = false;
   /**
    * Href for a element.
    */
@@ -14,7 +18,7 @@ export class GodownAnchor extends GodownElement {
   /**
    * Arrow type.
    */
-  @property() arrow: "" | "delta" | "arrow" | "angle" = "";
+  @property() arrow: "" | "link" | "delta" | "arrow" | "angle" = "";
 
   static styles = [
     css`
@@ -79,7 +83,7 @@ export class GodownAnchor extends GodownElement {
   protected render(): HTMLTemplate {
     return html`<a href="${ifDefined(this.href)}" target="${this.target}">
       ${htmlSlot()}
-      <i> ${this._arrowSwitcher()} </i>
+      <i>${this._arrowSwitcher()}</i>
     </a>`;
   }
 
@@ -91,8 +95,17 @@ export class GodownAnchor extends GodownElement {
         return svgArrow(true);
       case "angle":
         return svgArrow();
+      case "link":
+        return svgLink();
       default:
         return htmlSlot("icon");
+    }
+  }
+
+  useActive() {
+    const url = new URL(this.href, location.href);
+    if (url.origin === location.origin) {
+      this.active = url.pathname === location.pathname;
     }
   }
 }

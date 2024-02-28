@@ -13,10 +13,6 @@ const defineName = "router-a";
 @define(defineName)
 export class RouterA extends GodownAnchor {
   /**
-   * True when the href is in the same pathname as the location.
-   */
-  @property({ type: Boolean, reflect: true }) active = false;
-  /**
    * If true, replaceState, or pushState.
    */
   @property({ type: Boolean }) replace = false;
@@ -26,16 +22,6 @@ export class RouterA extends GodownAnchor {
     this.addEvent(this, "click", this._handleClick);
     this.addEvent(window, "popstate", this.useActive.bind(this));
     this.useActive();
-  }
-
-  /**
-   * Set active to true when the {@linkcode RouterA.href} is in the same pathname as the location.
-   */
-  useActive() {
-    const url = new URL(this.href, location.href);
-    if (url.origin === location.origin) {
-      this.active = url.pathname === location.pathname;
-    }
   }
 
   protected _handleClick(e: MouseEvent) {
@@ -52,23 +38,28 @@ export class RouterA extends GodownAnchor {
   }
 
   pushState(url = this.href, data = null) {
-    RouterA.pushState(data, "", url);
+    history.pushState(data, "", url);
     this.useActive();
+    this.updateRouter();
   }
 
   replaceState(url = this.href, data = null) {
-    RouterA.replaceState(data, "", url);
+    history.replaceState(data, "", url);
     this.useActive();
+    this.updateRouter();
   }
 
-  static pushState(data: any, unused: string, url?: string) {
-    history.pushState(data, unused, url);
-    Router.updateAll();
-  }
-
-  static replaceState(data: any, unused: string, url?: string) {
-    history.replaceState(data, unused, url);
-    Router.updateAll();
+  updateRouter() {
+    const tagName = RouterA.conf.nameMap.get("route-view");
+    if (!tagName) {
+      return;
+    }
+    const routers = this.deepQuerySelectorAll<Router>(tagName, document.body);
+    routers.forEach((item) => {
+      if (!item.override) {
+        item.pathname = window.location.pathname;
+      }
+    });
   }
 }
 
