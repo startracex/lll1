@@ -88,6 +88,7 @@ export default Wrapper;
 declare global {
   interface HTMLElementTagNameMap {
     "wrap-view": Wrapper;
+    "with-wrap": Wrapper;
     "g-wrapper": Wrapper;
   }
 }

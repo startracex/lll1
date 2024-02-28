@@ -2,6 +2,8 @@
 
 Remove the button scale property.
 
+Add types of legacy tags.
+
 ## 2.7.0
 
 Remove `sign-form`.

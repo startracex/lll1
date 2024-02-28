@@ -183,6 +183,7 @@ export default Dialog;
 declare global {
   interface HTMLElementTagNameMap {
     "open-dialog": Dialog;
+    "dialog-item": Dialog;
     "g-dialog": Dialog;
   }
 }

@@ -82,6 +82,7 @@ export default Tooltip;
 declare global {
   interface HTMLElementTagNameMap {
     "open-tooltip": Tooltip;
+    "tool-tip": Tooltip;
     "g-open-tooltip": Tooltip;
   }
 }

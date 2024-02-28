@@ -95,6 +95,7 @@ export default Progress;
 declare global {
   interface HTMLElementTagNameMap {
     "loading-progress": Progress;
+    "load-track": Progress;
     "g-progress": Progress;
   }
 }

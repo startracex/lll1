@@ -184,6 +184,7 @@ export default Carousel;
 declare global {
   interface HTMLElementTagNameMap {
     "carousel-slider": Carousel;
+    "rotation-pool": Carousel;
     "g-carousel": Carousel;
   }
 }

@@ -35,9 +35,9 @@ const legacy_2_5 = {
   },
 };
 
+// Declared.
 const legacy_2_6 = {
   ...legacy_2_5,
-  avatar: "avatar-a",
   carousel: "carousel-slider",
   details: "open-details",
   dialog: "open-dialog",

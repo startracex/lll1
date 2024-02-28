@@ -81,6 +81,7 @@ export default Divider;
 declare global {
   interface HTMLElementTagNameMap {
     "divider-line": Divider;
+    "div-line": Divider;
     "g-divider": Divider;
   }
 }
