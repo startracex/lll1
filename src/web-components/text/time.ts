@@ -10,6 +10,10 @@ const defineName = "time";
 @define(defineName)
 export class Time extends GodownElement {
   /**
+   * Cancels the next character formatting.
+   */
+  @property() escape = "%";
+  /**
    * Format strings.
    * {@linkcode Time.fmt}
    */
@@ -42,7 +46,7 @@ export class Time extends GodownElement {
   ];
 
   protected render(): string {
-    return this.value || Time.fmt(this.format, this.time);
+    return this.value || Time.fmt(this.format, this.time, this.escape);
   }
 
   protected firstUpdated() {
@@ -58,28 +62,37 @@ export class Time extends GodownElement {
   }
 
   /**
+   * Y for year\
+   * M for month\
+   * D for day\
+   * h for hour\
+   * m for minute\
+   * s for second\
+   * S for milli Second\
+   * Z for time zone.
+   *
    * @param fm Format string.
    * @param tm Time.
-   * @returns F.ormat result\
-   *
-   * Y for years\
-   * M for months\
-   * D for days\
-   * h for hours\
-   * m for minutes\
-   * s for seconds\
-   * Z for time zones.
+   * @returns Format result
    */
-  static fmt(fm: string, tm: Date): string {
-    if (fm === "") {
+  static fmt(fm: string, tm: Date, em: string): string {
+    if (!fm) {
       return fm;
     }
+    if (isNaN(tm.getTime())) {
+      return undefined;
+    }
     const rest = [];
-    fm = fm.replace(/%([ZYMDhms%])/g, (_, p1) => {
+    const replaced = `${em}${em}`;
+    fm = fm.replace(new RegExp(`${em}([ZYMDhmsS${em}])`, "g"), (_, p1) => {
       rest.push(p1);
-      return "%%";
+      return replaced;
     });
-    const formatNumber = (date: number) => date.toString().padStart(2, "0").split("");
+
+    function formatNumber(n: number, max = 2) {
+      return n.toString().padStart(max, "0").split("");
+    }
+
     const z = tm.getTimezoneOffset() / -60;
     const switcher: Record<string, string[]> = {
       Z: [z >= 0 ? "+" + z.toString() : z.toString()],
@@ -89,11 +102,13 @@ export class Time extends GodownElement {
       h: formatNumber(tm.getHours()),
       m: formatNumber(tm.getMinutes()),
       s: formatNumber(tm.getSeconds()),
+      S: formatNumber(tm.getMilliseconds(), 3),
     };
     const result: string[] = [];
     for (const f of fm.split("").reverse()) {
-      if (switcher[f]) {
-        result.push(switcher[f]?.pop());
+      const s = switcher[f]?.pop();
+      if (s) {
+        result.push(s);
       } else {
         result.push(f);
       }
@@ -101,7 +116,7 @@ export class Time extends GodownElement {
     return result
       .reverse()
       .join("")
-      .replace(/%%/g, () => {
+      .replace(new RegExp(replaced, "g"), () => {
         return rest.shift();
       });
   }
