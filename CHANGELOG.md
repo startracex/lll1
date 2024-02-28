@@ -1,5 +1,7 @@
 # CHANGE LOG
 
+Remove the button scale property.
+
 ## 2.7.0
 
 Remove `sign-form`.

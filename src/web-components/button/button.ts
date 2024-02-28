@@ -85,10 +85,6 @@ export class Button extends GodownElement {
    */
   @property({ type: Boolean, reflect: true }) radius = false;
   /**
-   * Enables scale when mousedown.
-   */
-  @property({ type: Boolean, reflect: true }) scale = false;
-  /**
    * The primary color.
    */
   @property() color: "none" | Colors = "black";
@@ -130,12 +126,8 @@ export class Button extends GodownElement {
         cursor: not-allowed;
       }
 
-      :host([active][scale]) div {
+      :host(:active) div {
         scale: var(${cssvarScope}--focus-scale);
-      }
-
-      slot {
-        display: flow-root;
       }
 
       div {
@@ -242,20 +234,7 @@ export class Button extends GodownElement {
   }
 
   protected firstUpdated() {
-    if (this.scale) {
-      this.addEvent(this, "mousedown", this.focus);
-      this.addEvent(this, "mouseup", (e: MouseEvent) => {
-        if (this.disabled) {
-          return;
-        }
-        this.blur();
-        this._handleModal(e);
-      });
-      this.addEvent(this, "mouseleave", this.blur);
-      return;
-    } else {
-      this.addEvent(document, "click", this._handelClick.bind(this));
-    }
+    this.addEvent(document, "click", this._handelClick.bind(this));
   }
 
   protected _handleModal(e: MouseEvent) {
