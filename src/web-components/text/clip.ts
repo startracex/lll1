@@ -41,5 +41,6 @@ export default Clip;
 declare global {
   interface HTMLElementTagNameMap {
     "clip-text": Clip;
+    "g-clip": Clip;
   }
 }

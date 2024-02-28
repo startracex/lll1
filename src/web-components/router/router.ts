@@ -236,6 +236,6 @@ export default Router;
 declare global {
   interface HTMLElementTagNameMap {
     "route-view": Router;
-    router: Router;
+    "g-router": Router;
   }
 }

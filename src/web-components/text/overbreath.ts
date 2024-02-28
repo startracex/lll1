@@ -218,5 +218,6 @@ export default Overbreath;
 declare global {
   interface HTMLElementTagNameMap {
     "overbreath-text": Overbreath;
+    "g-overbreath": Overbreath;
   }
 }

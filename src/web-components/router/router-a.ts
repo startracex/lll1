@@ -68,6 +68,6 @@ export default RouterA;
 declare global {
   interface HTMLElementTagNameMap {
     "link-a": RouterA;
-    "router-a": RouterA;
+    "g-router-a": RouterA;
   }
 }

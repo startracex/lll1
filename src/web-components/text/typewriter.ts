@@ -133,5 +133,6 @@ export default Typewriter;
 declare global {
   interface HTMLElementTagNameMap {
     "typewriter-text": Typewriter;
+    "g-typewriter": Typewriter;
   }
 }

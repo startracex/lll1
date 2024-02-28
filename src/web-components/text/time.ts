@@ -127,5 +127,6 @@ export default Time;
 declare global {
   interface HTMLElementTagNameMap {
     "time-bar": Time;
+    "g-time": Time;
   }
 }

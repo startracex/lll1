@@ -152,6 +152,6 @@ export default Card;
 declare global {
   interface HTMLElementTagNameMap {
     "card-item": Card;
-    "g-item": Card;
+    "g-card": Card;
   }
 }
