@@ -7,7 +7,7 @@ const defineName = "overbreath";
 const cssvarScope = createScope(defineName);
 
 /**
- * OverbreathText renders three animated pieces of text.
+ * {@linkcode Overbreath} renders three animated pieces of text.
  *
  * Inspired by Vercel homepage (2022? - 2023).
  */

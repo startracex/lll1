@@ -5,7 +5,7 @@ import { GodownElement } from "../../supers/root.js";
 const defineName = "time";
 
 /**
- * TimeBar renders a formatting time.
+ * {@linkcode Time} renders a formatting time.
  */
 @define(defineName)
 export class Time extends GodownElement {

@@ -8,7 +8,7 @@ const defineName = "typewriter";
 const cssvarScope = createScope(defineName);
 
 /**
- * TypewriterText renders a typewriter effect to text.
+ * {@linkcode Typewriter} renders a typewriter effect to text.
  */
 @define(defineName)
 export class Typewriter extends GodownElement {
