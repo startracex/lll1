@@ -1,5 +1,7 @@
 # CHANGE LOG
 
+## 2.7.2
+
 Fix `button` style.
 
 Add `text`.
