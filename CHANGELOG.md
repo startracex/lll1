@@ -1,5 +1,7 @@
 # CHANGE LOG
 
+## 2.7.1
+
 Remove the button scale property.
 
 Add types of legacy tags.
