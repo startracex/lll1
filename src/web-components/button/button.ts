@@ -12,48 +12,49 @@ const shadow2 = "2px -2px 5px -2px";
 const linearGradient = "linear-gradient";
 const fff = "#fff";
 const _000 = "#000";
+const deg = `var(${cssvarScope}--deg)`;
 
 const vars = ["color", "background", "box-shadow", "ghost-color"];
 const colors = {
   black: [
     fff, //
-    `${linearGradient}(45deg, rgb(30 30 30), rgb(65 65 65))`,
+    `${linearGradient}(${deg}, rgb(30 30 30), rgb(65 65 65))`,
     `${shadow1} rgb(0 0 0 / 20%), ${shadow2} rgb(99 99 99 / 20%)`,
     "rgb(22 20 20)",
   ],
   gary: [
     fff, //
-    `${linearGradient}(45deg, rgb(65 65 65),  rgb(100 100 100))`,
+    `${linearGradient}(${deg}, rgb(65 65 65),  rgb(100 100 100))`,
     `${shadow1} rgb(0 0 0 / 20%), ${shadow2} rgb(99 99 99 / 20%)`,
     "rgb(56 56 56)",
   ],
   white: [
     _000, //
-    `${linearGradient}(45deg, rgb(225 225 225), rgb(240 240 240))`,
+    `${linearGradient}(${deg}, rgb(225 225 225), rgb(240 240 240))`,
     `${shadow1} rgb(255 255 255 / 20%), ${shadow2} rgb(165 165 165 / 20%)`,
     "rgb(212 212 212)",
   ],
   red: [
     fff, //
-    `${linearGradient}(45deg, rgb(215 57 68), rgb(250 141 106))`,
+    `${linearGradient}(${deg}, rgb(215 57 68), rgb(250 141 106))`,
     `${shadow1} rgb(181 35 44 / 20%), ${shadow2} rgb(234 130 174 / 20%)`,
     "rgb(214 11 23)",
   ],
   green: [
     _000, //
-    `${linearGradient}(45deg, rgb(21 206 71), rgb(99 253 122))`,
+    `${linearGradient}(${deg}, rgb(21 206 71), rgb(99 253 122))`,
     `${shadow1} rgb(63 179 69 / 20%), ${shadow2} rgb(136 225 142 / 20%)`,
     "rgb(60 214 68)",
   ],
   blue: [
     fff, //
-    `${linearGradient}(45deg, rgb(14 143 255), rgb(121 211 255))`,
+    `${linearGradient}(${deg}, rgb(14 143 255), rgb(121 211 255))`,
     `${shadow1} rgb(92 182 255 / 20%), ${shadow2} rgb(135 232 222 / 20%)`,
     "rgb(42 141 221)",
   ],
   yellow: [
     _000, //
-    `${linearGradient}(45deg, rgb(255 190 54), rgb(255 249 68))`,
+    `${linearGradient}(${deg}, rgb(255 190 54), rgb(255 249 68))`,
     `${shadow1} rgb(214 203 55 / 20%), ${shadow2} rgb(202 203 137 / 20%)`,
     "rgb(255 235 59)",
   ],
@@ -107,8 +108,8 @@ export class Button extends GodownElement {
     ),
     css`
       :host {
-        ${cssvarScope}--padding: .075em .25em;
-        ${cssvarScope}--deg: .075em .25em;
+        ${cssvarScope}--padding: .05em .25em;
+        ${cssvarScope}--deg: 45deg;
         ${cssvarScope}--ghost-width: .09em;
         ${cssvarScope}--modal-opacity: .15;
         ${cssvarScope}--modal-opacity-end: 0;
@@ -126,7 +127,7 @@ export class Button extends GodownElement {
         cursor: not-allowed;
       }
 
-      :host(:active) div {
+      :host(:active) {
         scale: var(${cssvarScope}--focus-scale);
       }
 
@@ -142,6 +143,7 @@ export class Button extends GodownElement {
         transition-duration: inherit;
         transition-property: scale;
         pointer-events: none;
+        box-sizing: border-box;
       }
 
       b {
@@ -155,7 +157,7 @@ export class Button extends GodownElement {
         padding: var(${cssvarScope}--padding);
         margin: 0;
         user-select: none;
-        transition: 0;
+        transition: none;
       }
 
       :host([ghost]) p {

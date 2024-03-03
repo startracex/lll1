@@ -1,5 +1,7 @@
 # CHANGE LOG
 
+Fix `button` style.
+
 ## 2.7.1
 
 Remove the button scale property.
