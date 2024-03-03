@@ -16,6 +16,13 @@ npm i godown
 <g-alert title="Alert"></g-alert>
 ```
 
+Can't use a single tag.
+
+```html
+<g-alert title="Alert"/>
+<!-- ERROR -->
+```
+
 ### JS
 
 ```js
@@ -51,6 +58,8 @@ export default function () {
 ## Custom
 
 ### Custom element tag name
+
+The name must contain `-`.
 
 ```js
 import { defineConfig } from "godown/conf";
@@ -104,7 +113,7 @@ The CSS variable of the element will be `${cssvar} + element name + description`
 The following CSS variables now affect element styles.
 
 ```html
-<g-button scale style="--ge--g-button--focus-scale:.95;"></g-button>
+<g-button style="--ge--g-button--focus-scale: .95;"></g-button>
 ```
 
 ### Custom initial property
@@ -124,7 +133,7 @@ defineConfig({
 Assign when elements are **connected**.
 
 ```html
-<g-button class="godown-element custom-element" color="blue"> Button </g-button>
+<g-button class="godown-element custom-element" color="blue">Button</g-button>
 
 <g-input class="godown-element custom-element" color="blue"></g-input>
 ```
