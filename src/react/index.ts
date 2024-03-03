@@ -113,6 +113,10 @@ export const Overbreath = create({
   elementClass: (await import("../web-components/text/overbreath.js")).default,
 });
 
+export const Text = create({
+  elementClass: (await import("../web-components/text/text.js")).default,
+});
+
 export const Time = create({
   elementClass: (await import("../web-components/text/time.js")).default,
 });

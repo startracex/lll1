@@ -26,6 +26,7 @@ export { Skeleton } from "./skeleton/skeleton.js";
 export { Tabs } from "./tabs/tabs.js";
 export { Clip } from "./text/clip.js";
 export { Overbreath } from "./text/overbreath.js";
+export { Text } from "./text/text.js";
 export { Time } from "./text/time.js";
 export { Typewriter } from "./text/typewriter.js";
 export { Tooltip } from "./tooltip/tooltip.js";

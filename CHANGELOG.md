@@ -2,6 +2,8 @@
 
 Fix `button` style.
 
+Add `text`.
+
 ## 2.7.1
 
 Remove the button scale property.
