@@ -1,5 +1,7 @@
 # CHANGE LOG
 
+Fix import.
+
 ## 2.7.2
 
 Fix `button` style.

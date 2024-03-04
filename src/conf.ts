@@ -1,5 +1,5 @@
 import type GodownElement from "./godown-element";
-import naming from "./naming";
+import naming from "./naming.js";
 
 const defaultConfig: ConfType = {
   assign: null,
