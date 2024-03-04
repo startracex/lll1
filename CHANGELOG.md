@@ -1,5 +1,7 @@
 # CHANGE LOG
 
+## 2.7.4
+
 Fix export.
 
 ## 2.7.3

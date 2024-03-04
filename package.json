@@ -1,6 +1,6 @@
 {
   "name": "godown",
-  "version": "2.7.3",
+  "version": "2.7.4",
   "main": "./index.js",
   "type": "module",
   "private": true,
