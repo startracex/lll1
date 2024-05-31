@@ -1,0 +1,7 @@
+{
+  "extends": "@godown/tsconfig/base.json",
+
+  "include": [
+    "**/*.ts"
+  ],
+}
