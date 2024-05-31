@@ -1,0 +1,33 @@
+{
+  "name": "@godown/element",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "main": "element.js",
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "clean": "tsc --build --clean",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/startracex/godown.git",
+    "directory": "packages/element"
+  },
+  "keywords": [],
+  "author": "startracex",
+  "license": "MIT",
+  "dependencies": {
+    "lit": "^3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "element.{js,d.ts}+(|.map)",
+    "config.{js,d.ts}+(|.map)",
+    "tools",
+    "decorators",
+    "directives"
+  ]
+}
