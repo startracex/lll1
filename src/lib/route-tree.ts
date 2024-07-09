@@ -67,11 +67,11 @@ export class RouteTree {
 
   /**
    *
-   * @param s Pattern, may contains dynamic matching parameters
-   * @returns {object} key, carry, multi
-   * @property {string} key - Dynamic key
-   * @property {number} carry - The length of the modifier symbol for the dynamic prefix
-   * @property {boolean} multi - Ignore after
+   * @param s Pattern, may contains dynamic matching parameters.
+   * @returns {object} key, carry, multi.
+   * @property {string} key - Dynamic key.
+   * @property {number} carry - The length of the modifier symbol for the dynamic prefix.
+   * @property {boolean} multi - Ignore after.
    */
   static dynamic(s: string): {
     key: string;

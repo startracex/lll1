@@ -3,7 +3,12 @@
     "target": "ES2021",
     "module": "ESNext",
     "moduleResolution": "node",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
@@ -18,8 +23,15 @@
     "skipLibCheck": true,
     "inlineSources": true,
     "importHelpers": true,
-    "sourceRoot": "https://github.com/startracex/godown/tree/main/src"
+    "sourceRoot": "https://github.com/startracex/godown/tree/main/src",
+    "jsx": "preserve",
+    "jsxFactory": "factory",
+    "jsxFragmentFactory": "fragment"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

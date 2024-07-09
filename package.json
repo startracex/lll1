@@ -5,17 +5,18 @@
   "type": "module",
   "private": true,
   "publishConfig": {
-    "access": "public",
     "directory": "public"
   },
   "scripts": {
     "build": "node ./scripts/build.js",
     "build:min": "node ./scripts/rollup-build-min.js",
     "dev": "vite",
-    "export": "node ./scripts/export.js",
+    "export": "node ./scripts/make-export.js",
     "fmt": "prettier --write ./src",
     "lint": "eslint --ext .ts ./src --fix",
-    "push": "git push && git push --tags"
+    "meta": "node ./scripts/make-meta.js",
+    "push": "git push && git push --tags",
+    "css": "node ./scripts/css-prefixion.js"
   },
   "keywords": [
     "godown",
@@ -34,7 +35,9 @@
   },
   "dependencies": {
     "@lit/react": "^1.0.1",
+    "autoprefixer": "^10.4.19",
     "lit": "^3.0.0",
+    "postcss": "^8.4.39",
     "react": "^18.2.0",
     "tslib": "^2.6.2"
   },
@@ -45,14 +48,14 @@
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
     "@web/rollup-plugin-html": "^1.11.1",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "eslint-plugin-simple-import-sort": "^12.0.0",
     "glob": "^10.3.10",
     "prettier": "^3.2.5",
     "rollup": "^3.29.4",
     "rollup-plugin-minify-html-literals": "^1.2.6",
     "rollup-plugin-typescript2": "^0.36.0",
-    "typescript": "^5.3.3",
-    "vite": "^5.0.11"
+    "typescript": "^5.4.2",
+    "vite": "^5.1.5"
   }
 }

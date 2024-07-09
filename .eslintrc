@@ -10,8 +10,6 @@
   ],
   "parser": "@typescript-eslint/parser",
   "ignorePatterns": [
-    "public",
-    "build",
     "**/*.js"
   ],
   "parserOptions": {

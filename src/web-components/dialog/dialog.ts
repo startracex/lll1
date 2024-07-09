@@ -1,151 +1,120 @@
-import { css, CSSResultGroup, html, property, query } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
-import GodownOpenable, { Direction9 } from "../../supers/openable.js";
-import { cssvar, cssvarValues } from "../../supers/root.js";
+import { css, html, property } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import { htmlSlot } from "../../lib/directives.js";
+import GodownSuperOpenable, { type Direction9 } from "../../proto/super-openable.js";
+import { createScope, cssGlobalVars } from "../../styles/global.js";
 
-const defineName = "dialog";
+const protoName = "dialog";
+const cssScope = createScope(protoName);
 
 /**
  * {@linkcode Dialog} similar to dialog.
  */
-@define(defineName)
-export class Dialog extends GodownOpenable {
+@godown(protoName)
+@styles([
+  css`
+    :host {
+      --${cssScope}--background: none;
+      --${cssScope}--background-modal: rgb(var(--${cssGlobalVars.backgroundRGB}) / 15%);
+      background: var(--${cssScope}--background);
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      inset:0;
+      display: flex;
+      visibility: hidden;
+      transition: all 0.3s;
+      pointer-events: none;
+    }
+
+    :host([open]) {
+      visibility: visible;
+    }
+
+    :host([open][modal]) {
+      pointer-events: all;
+      background: var(--${cssScope}--background-modal);
+    }
+
+    :host([open]) div {
+      opacity: 1;
+    }
+
+    div {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      opacity: 0;
+      position: relative;
+    }
+
+    slot {
+      display: block;
+      width: -moz-fit-content;
+      width: fit-content;
+      height: -moz-fit-content;
+      height: fit-content;
+      margin: auto;
+      transition: inherit;
+      pointer-events: all;
+      position: absolute;
+    }
+
+    [class^="top"] slot {
+      top: 0;
+    }
+
+    [class^="bottom"] slot {
+      bottom: 0;
+    }
+
+    [class$="right"] slot {
+      right: 0%;
+    }
+
+    [class$="left"] slot {
+      left: 0%;
+    }
+
+    div[class$="center"],
+    .top,
+    .left,
+    .right,
+    .bottom {
+      align-items: center;
+      justify-content: center;
+    }
+  `,
+])
+export class Dialog extends GodownSuperOpenable {
   direction: Direction9 = "center";
   /**
    * Enable modal.
    */
   @property({ type: Boolean, reflect: true }) modal = false;
   /**
-   * Enable scale.
+   * @deprecated
    */
-  @property({ type: Boolean }) scale = false;
+  scale: boolean;
   /**
-   * Scale gap.
+   * @deprecated
    */
-  @property({ type: Number }) gap = 0.2;
+  gap: number;
   /**
    * Exit key, which can be multiple.
    */
   @property({ type: String }) key = "Escape";
 
-  @query("div") _div: HTMLDivElement;
-
-  static styles: CSSResultGroup = [
-    GodownOpenable.styles,
-    css`
-      :host {
-        display: block;
-        transition:
-          all 0.3s ease-in-out,
-          color 0s,
-          background 0s;
-        height: fit-content;
-      }
-    `,
-    css`
-      :host {
-        ${cssvar}--background: rgb(var(${cssvarValues.mainRGB}) / 0%);
-        ${cssvar}--background-modal: rgb(var(${cssvarValues.mainRGB}) / 15%);
-        position: fixed;
-        height: 100%;
-        width: 100%;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        transition: all 0.3s;
-        display: flex;
-        visibility: hidden;
-        background: var(${cssvar}--background);
-        pointer-events: none;
-      }
-
-      :host([open]) {
-        visibility: visible;
-      }
-
-      :host([open][modal]) {
-        pointer-events: all;
-        backdrop-filter: blur(0.25px);
-        background: var(${cssvar}--background-modal);
-      }
-
-      :host([open]) slot {
-        opacity: 1 !important;
-        transform: translateY(0) translateX(0) !important;
-      }
-
-      div {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        transition: inherit;
-        transform: scale(var(--s));
-      }
-
-      slot {
-        display: block;
-        width: fit-content;
-        height: fit-content;
-        margin: auto;
-        opacity: 0;
-        transition: inherit;
-        pointer-events: all;
-      }
-
-      div {
-        position: relative;
-      }
-
-      slot {
-        position: absolute;
-      }
-
-      [class^="top"] slot {
-        top: 0;
-      }
-
-      [class^="bottom"] slot {
-        bottom: 0;
-      }
-
-      [class$="right"] slot {
-        right: 0%;
-      }
-
-      [class$="left"] slot {
-        left: 0%;
-      }
-
-      div[class$="center"],
-      .top,
-      .left,
-      .right,
-      .bottom {
-        align-items: center;
-        justify-content: center;
-        align-items: center;
-        justify-content: center;
-      }
-    `,
-  ];
-
-  protected render(): HTMLTemplate {
-    return html`<div style="--s:1" class="${this.direction}">${htmlSlot()}</div>`;
+  protected render() {
+    return html`<div part="root" class="${this.direction}">${htmlSlot()}</div>`;
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.addEvent(this, "submit", this._handelSubmit);
-    if (this.scale && this.direction === "center") {
-      this.addEvent(this, "wheel", this._handleWheel);
-    }
     if (this.key) {
       this.addEvent(document, "keydown", this._handleKeydown.bind(this));
-    }
-    if (this.open) {
-      this.show();
     }
   }
 
@@ -154,18 +123,14 @@ export class Dialog extends GodownOpenable {
     this.show();
   }
 
-  protected _handleWheel(e: any) {
-    let scale = Number(this._div.style.getPropertyValue("--s"));
-    if (e.deltaY > 0) {
-      scale -= this.gap;
-    } else {
-      scale += this.gap;
+  protected _handelWheel(e: WheelEvent) {
+    if (this.modal) {
+      e.preventDefault();
     }
-    this._div.style.setProperty("--s", `${scale}`);
   }
 
   protected _handleKeydown(e: KeyboardEvent) {
-    const keys = this.key.split(/[^a-zA-Z0-9]/).filter((s) => s);
+    const keys = this.key.split(/[\s;]/);
     if (keys.includes(e.key) || keys.includes(e.code)) {
       this.close();
     }
@@ -179,11 +144,3 @@ export class Dialog extends GodownOpenable {
 }
 
 export default Dialog;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "open-dialog": Dialog;
-    "dialog-item": Dialog;
-    "g-dialog": Dialog;
-  }
-}

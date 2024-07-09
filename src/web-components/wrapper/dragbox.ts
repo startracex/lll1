@@ -1,14 +1,29 @@
-import { css, html, property } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
-import { GodownElement } from "../../supers/root.js";
+import { css, html, property } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import styles from "../../decorators/styles.js";
+import { htmlSlot } from "../../lib/directives.js";
+import { ListenerFunc } from "../../lib/event-coll.js";
+import { GodownElement } from "../../proto/godown-element.js";
 
-const defineName = "dragbox";
+const protoName = "dragbox";
 
 /**
  * {@linkcode Dragbox} does not extend beyond the range of {@linkcode Dragbox.offsetsWidth} and {@linkcode Dragbox.offsetsHeight}.
  */
-@define(defineName)
+@godown(protoName)
+@styles([
+  css`
+    :host {
+      position: absolute;
+      display: block;
+    }
+
+    :host(:active) {
+      -webkit-user-select: none;
+      user-select: none;
+    }
+  `,
+])
 export class Dragbox extends GodownElement {
   drag: boolean;
   t: number;
@@ -25,22 +40,12 @@ export class Dragbox extends GodownElement {
    */
   @property() y = "auto";
 
-  static styles = [
-    css`
-      :host {
-        position: relative;
-        display: inline-flex;
-      }
-    `,
-  ];
-
-  protected render(): HTMLTemplate {
+  protected render() {
     return html`<div @mousedown="${this._handleDragStart}" @mouseup="${this._handleDragEnd}">${htmlSlot()}</div>`;
   }
 
   protected firstUpdated() {
     this.reset();
-    this.addEvent(document, "mouseup", this._handleDragEnd.bind(this));
   }
 
   protected _handleDragStart(e: MouseEvent) {
@@ -49,12 +54,17 @@ export class Dragbox extends GodownElement {
     this.t = this.offsetTop;
     this.l = this.offsetLeft;
     this.drag = true;
-    this.addEvent(document, "mousemove", this._handleDrag.bind(this), undefined, "0");
+    this.mouseMoveEvent = this.addEvent(document, "mousemove", this._handleDrag.bind(this));
+    this.mouseLeaveEvent = this.addEvent(document, "mouseleave", this._handleDragEnd.bind(this));
   }
+
+  mouseMoveEvent: ListenerFunc;
+  mouseLeaveEvent: ListenerFunc;
 
   protected _handleDragEnd() {
     this.drag = false;
-    this.removeEvent(document, "mousemove", "0");
+    this.removeEvent(document, "mousemove", this.mouseMoveEvent);
+    this.removeEvent(document, "mouseleave", this.mouseLeaveEvent);
   }
 
   protected _handleDrag(e: MouseEvent) {
@@ -63,38 +73,34 @@ export class Dragbox extends GodownElement {
     }
     const nl = e.clientX - (this.cx - this.l);
     const nt = e.clientY - (this.cy - this.t);
+    const { style, offsetsWidth, offsetsHeight, offsetWidth, offsetHeight } = this;
     if (nl < 0) {
-      this.style.left = "0";
-    } else if (nl < this.offsetsWidth - this.offsetWidth) {
-      this.style.left = `${nl}px`;
+      style.left = "0";
+    } else if (nl < offsetsWidth - offsetWidth) {
+      style.left = `${nl}px`;
     } else {
-      this.style.left = `${this.offsetsWidth - this.offsetWidth}"px"`;
+      style.left = `${offsetsWidth - offsetWidth}"px"`;
     }
     if (nt < 0) {
-      this.style.top = "0";
-    } else if (nt < this.offsetsHeight - this.offsetHeight) {
-      this.style.top = `${nt}px`;
+      style.top = "0";
+    } else if (nt < offsetsHeight - offsetHeight) {
+      style.top = `${nt}px`;
     } else {
-      this.style.top = `${this.offsetsHeight - this.offsetHeight}px`;
+      style.top = `${offsetsHeight - offsetHeight}px`;
     }
   }
 
   reset() {
-    this.style.left = this.x || "0";
-    this.style.top = this.y || "0";
-    if (this.offsetLeft > this.offsetsWidth - this.offsetWidth) {
-      this.style.left = `${this.offsetsWidth - this.offsetWidth}px`;
+    const { x, y, style, offsetsWidth, offsetsHeight, offsetWidth, offsetHeight, offsetLeft, offsetTop } = this;
+    style.left = x || "0";
+    style.top = y || "0";
+    if (offsetLeft > offsetsWidth - offsetWidth) {
+      style.left = `${offsetsWidth - offsetWidth}px`;
     }
-    if (this.offsetTop > this.offsetsHeight - this.offsetHeight) {
-      this.style.top = `${this.offsetsHeight - this.offsetHeight}px`;
+    if (offsetTop > offsetsHeight - offsetHeight) {
+      style.top = `${offsetsHeight - offsetHeight}px`;
     }
   }
 }
 
 export default Dragbox;
-declare global {
-  interface HTMLElementTagNameMap {
-    "drag-box": Dragbox;
-    "g-dragbox": Dragbox;
-  }
-}

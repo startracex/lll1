@@ -1,19 +1,27 @@
-import { css, property, type PropertyValueMap, state } from "../../.deps.js";
-import { conf } from "../../conf.js";
-import { define } from "../../decorators/define.js";
+import { css, property, type PropertyValueMap, state } from "../../_deps.js";
+import conf from "../../conf.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import { htmlSlot, type HTMLTemplate } from "../../lib/directives.js";
 import RouteTree from "../../lib/route-tree.js";
-import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
 import { deepQuerySelectorAll } from "../../lib/utils.js";
-import { GodownElement } from "../../supers/root.js";
+import { GodownElement } from "../../proto/godown-element.js";
 
 type WithRecord<T extends string> = Record<string, any> & Record<T, string>;
 
-const defineName = "router";
+const protoName = "router";
 
 /**
  * {@linkcode Router} has basic routing control.
+ *
+ * To switch routes, use history api or router-link.
  */
-@define(defineName)
+@godown(protoName)
+@styles(css`
+  :host {
+    display: contents;
+  }
+`)
 export class Router<T = unknown> extends GodownElement {
   private _routes: (WithRecord<"path"> & { component?: T })[] = [];
   private _routeTree: RouteTree = new RouteTree();
@@ -41,11 +49,11 @@ export class Router<T = unknown> extends GodownElement {
   /**
    * Rendered content when there is no match.
    */
-  @state() def = htmlSlot();
+  @state() default: HTMLTemplate = htmlSlot();
   /**
    * The type of routing query.
    */
-  @property() type: "united" | "child" | "slotted" | "field" = "united";
+  @property() type: "united" | "slotted" | "field" = "united";
   /**
    * Rewrite history.
    */
@@ -61,9 +69,6 @@ export class Router<T = unknown> extends GodownElement {
   record = new Map<string, ReturnType<typeof this.useRouter>>();
 
   set routes(v) {
-    if (Object.prototype.toString.call(v) !== "[object Array]") {
-      return;
-    }
     this._routes = v;
     this.reset();
     for (const route of v) {
@@ -76,20 +81,13 @@ export class Router<T = unknown> extends GodownElement {
     return this._routes;
   }
 
-  static styles = [
-    css`
-      :host {
-        display: contents;
-      }
-    `,
-  ];
-
   reset() {
     this._routeTree = new RouteTree();
     this.record.clear();
   }
 
   protected render(): T | HTMLTemplate {
+    this.params = {};
     if (this.cache) {
       const cached = this.record.get(this.pathname);
       if (cached) {
@@ -97,12 +95,10 @@ export class Router<T = unknown> extends GodownElement {
         return this.component;
       }
     }
-    this.params = {};
     switch (this.type) {
       case "field":
         this.component = this.fieldComponent();
         break;
-      case "child":
       case "slotted":
         this.component = this.slottedComponent();
         break;
@@ -110,10 +106,10 @@ export class Router<T = unknown> extends GodownElement {
         this.component = this.fieldComponent() ?? this.slottedComponent();
         break;
     }
-    return this.component ?? this.def;
+    return this.component ?? this.default;
   }
 
-  useRouter() {
+  useRouter(): { path: string; component: HTMLTemplate | T; params: Record<string, string>; pathname: string } {
     return {
       pathname: this.pathname,
       params: this.params,
@@ -133,6 +129,11 @@ export class Router<T = unknown> extends GodownElement {
     });
     const self = this;
     const pushHistory = history.pushState;
+
+    const { override } = conf;
+    if (!override.pushState) {
+      override.pushState = pushHistory;
+    }
     history.pushState = function () {
       pushHistory.apply(this, arguments);
       self.pathname = window.location.pathname;
@@ -181,14 +182,14 @@ export class Router<T = unknown> extends GodownElement {
   }
 
   slottedComponent(usedRouteTemplate?: string): null | HTMLTemplate {
-    const childNodes = this.querySelectorAll(":scope > *[slot]");
+    const childNodes = this.slottedChildren;
     if (!childNodes.length) {
       return null;
     }
     const slottedPaths = Array.from(childNodes).map((node) => {
-      const slotname = node.getAttribute("slot");
+      const slotName = node.getAttribute("slot");
       return {
-        path: slotname,
+        path: slotName,
       };
     });
     const tempRouteTree = new RouteTree();
@@ -196,7 +197,7 @@ export class Router<T = unknown> extends GodownElement {
       tempRouteTree.insert(withPath.path);
     }
     if (!usedRouteTemplate) {
-      usedRouteTemplate = this.useWhichRoute(this.pathname, undefined, tempRouteTree);
+      usedRouteTemplate = tempRouteTree.useWhich(this.pathname);
       if (!usedRouteTemplate) {
         return null;
       }
@@ -209,20 +210,16 @@ export class Router<T = unknown> extends GodownElement {
     return htmlSlot(slotElement.path);
   }
 
-  useWhichRoute(path: string, baseURL = this.baseURL, appl: RouteTree = this._routeTree): string | null {
-    return appl.useWhich(baseURL + path);
+  useWhichRoute(path: string): string | null {
+    return this._routeTree.useWhich(this.baseURL + path);
   }
 
-  parseRouterParams(routeTemplate: string, originpath: string, appl: RouteTree = this._routeTree): Record<string, string> {
-    return appl.parseParams(originpath, routeTemplate);
+  parseRouterParams(routeTemplate: string, path: string): Record<string, string> {
+    return this._routeTree.parseParams(path, routeTemplate);
   }
 
   static updateAll() {
-    const routeViewTagName = conf.nameMap.get("route-view");
-    if (!routeViewTagName) {
-      return;
-    }
-    const routeViewArray = deepQuerySelectorAll<Router>(routeViewTagName, document.body);
+    const routeViewArray = deepQuerySelectorAll<Router>(Router.elementTagName, document.body);
     routeViewArray.forEach((ArrayItem) => {
       if (!ArrayItem.override) {
         ArrayItem.pathname = window.location.pathname;
@@ -232,10 +229,3 @@ export class Router<T = unknown> extends GodownElement {
 }
 
 export default Router;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "route-view": Router;
-    "g-router": Router;
-  }
-}

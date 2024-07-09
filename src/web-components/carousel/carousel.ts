@@ -1,125 +1,118 @@
-import { css, html, property, query } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { htmlSlot, htmlStyle, type HTMLTemplate, svgArrow } from "../../lib/templates.js";
-import { GodownElement } from "../../supers/root.js";
+import { css, html, property } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { part } from "../../decorators/part.js";
+import { styles } from "../../decorators/styles.js";
+import { htmlSlot } from "../../lib/directives.js";
+import { htmlStyle } from "../../lib/directives.js";
+import { svgArrow } from "../../lib/icons.js";
+import { GodownElement } from "../../proto/godown-element.js";
 
-const defineName = "carousel";
+const protoName = "carousel";
 
 /**
  * {@linkcode Carousel} rotates child elements.
  */
-@define(defineName)
+@godown(protoName)
+@styles([
+  css`
+    :host {
+      display: block;
+      transition: all 0.2s;
+    }
+
+    [part="root"] {
+      overflow: hidden;
+    }
+
+    div {
+      width: 100%;
+      display: flex;
+      position: relative;
+      transition: inherit;
+    }
+
+    a {
+      position: absolute;
+      height: 100%;
+      width: -moz-fit-content;
+      width: fit-content;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    [part="prev"] {
+      left: 0;
+    }
+
+    [part="prev"] svg {
+      transform: rotate(180deg);
+    }
+
+    [part="next"] {
+      right: 0;
+    }
+
+    i {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+      width: 2em;
+      height: 100%;
+    }
+
+    svg {
+      flex: 1;
+      max-height: 100%;
+      max-width: 100%;
+    }
+
+    a:hover i {
+      background-color: #0000001a;
+      width: 2.2em;
+    }
+
+    i svg path {
+      stroke-width: 4;
+    }
+
+    slot::slotted(*) {
+      flex-shrink: 0 !important;
+    }
+  `,
+])
 export class Carousel extends GodownElement {
   /**
    * The index of the element is displayed for the first time.
    */
   @property({ type: Number }) index = 0;
   /**
-   * If autochangee > 0, the rotation will be automated.
+   * If autoChange > 0, the rotation will be automated.
    */
-  @property({ type: Number }) autochange = 0;
+  @property({ type: Number }) autoChange = 0;
   /**
    * Width.
    */
   @property() width = "";
 
-  @query("section") _section: HTMLElement;
+  @part("move-root") _moveRoot: HTMLElement;
   intervalID: number;
   _clone: HTMLElement[] = [];
 
-  static styles = [
-    css`
-      :host {
-        display: block;
-        transition: all 0.2s;
-      }
-
-      div {
-        overflow: hidden;
-      }
-
-      div,
-      section {
-        width: 100%;
-        display: flex;
-        position: relative;
-        transition: inherit;
-      }
-
-      a {
-        position: absolute;
-        height: 100%;
-        width: fit-content;
-        z-index: 1;
-        display: flex;
-        align-items: center;
-      }
-
-      .prev {
-        left: 0;
-      }
-
-      .prev svg {
-        transform: rotate(180deg);
-      }
-
-      .next {
-        right: 0;
-      }
-
-      i {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: 0.3s;
-        width: 2em;
-        height: 100%;
-      }
-
-      svg {
-        flex: 1;
-        max-height: 100%;
-        max-width: 100%;
-      }
-
-      a:hover i {
-        background-color: #0000001a;
-        width: 2.2em;
-      }
-
-      i svg path {
-        stroke-width: 4;
-      }
-
-      slot::slotted(*) {
-        flex-shrink: 0 !important;
-      }
-    `,
-  ];
-
-  protected render(): HTMLTemplate {
+  protected render() {
     const style = this.width && `:host{width:${this.width.split(";")[0]};}`;
-    return html`<div>
-      <a class="prev" @click="${this.prev}">${this.renderA("pre")}</a>
-      <section>${htmlSlot()}</section>
+    return html`<div part="root">
+      <a part="prev" class="prev" @click="${this.prev}">
+        <i>${svgArrow()}</i>
+      </a>
+      <div part="move-root">${htmlSlot()}</div>
+      <a part="next" class="next" @click="${this.next}">
+        <i>${svgArrow()}</i>
+      </a>
       ${htmlStyle(style)}
-      <a class="next" @click="${this.next}">${this.renderA("suf")}</a>
     </div>`;
-  }
-
-  private renderA(slot: string): HTMLTemplate {
-    if (this.querySelector(`[slot=${slot}]`)) {
-      return htmlSlot(slot);
-    }
-    return html`<i>${svgArrow()}</i>`;
-  }
-
-  remount(index?: number) {
-    super.remount(undefined);
-    if (index !== undefined) {
-      this.show(index);
-    }
   }
 
   protected firstUpdated() {
@@ -139,10 +132,10 @@ export class Carousel extends GodownElement {
       this.insertBefore(first, this.firstElementChild);
       this.show(this.index);
     }
-    if (this.autochange) {
+    if (this.autoChange) {
       this.intervalID = setInterval(() => {
         this.next();
-      }, this.autochange);
+      }, this.autoChange);
     }
   }
 
@@ -152,15 +145,15 @@ export class Carousel extends GodownElement {
 
   show(i: number) {
     this.index = i;
-    this._section.style.transform = `translateX(-${i}00%)`;
-    this._section.style.transition = "inherit";
+    this._moveRoot.style.transform = `translateX(-${i}00%)`;
+    this._moveRoot.style.transition = "inherit";
   }
 
   next() {
     if (this.index === this.assigned.length - 3) {
-      this._section.style.transform = `translateX(100%)`;
-      this._section.style.transition = "none";
-      this._section.getBoundingClientRect();
+      this._moveRoot.style.transform = `translateX(100%)`;
+      this._moveRoot.style.transition = "none";
+      this._moveRoot.getBoundingClientRect();
       this.show(0);
     } else {
       this.show(this.index + 1);
@@ -169,9 +162,9 @@ export class Carousel extends GodownElement {
 
   prev() {
     if (this.index === 0) {
-      this._section.style.transform = `translateX(-${this.assigned.length - 2}00%)`;
-      this._section.style.transition = `none`;
-      this._section.getBoundingClientRect();
+      this._moveRoot.style.transform = `translateX(-${this.assigned.length - 2}00%)`;
+      this._moveRoot.style.transition = `none`;
+      this._moveRoot.getBoundingClientRect();
       this.show(this.assigned.length - 3);
     } else {
       this.show(this.index - 1);
@@ -180,11 +173,3 @@ export class Carousel extends GodownElement {
 }
 
 export default Carousel;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "carousel-slider": Carousel;
-    "rotation-pool": Carousel;
-    "g-carousel": Carousel;
-  }
-}

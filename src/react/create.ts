@@ -1,7 +1,7 @@
 import { createComponent, EventName, Options, ReactWebComponent } from "@lit/react";
 import * as React from "react";
 
-import type GodownElement from "../godown-element.js";
+import type GodownElement from "../proto/godown-element";
 
 export const create = <
   /**/
@@ -12,7 +12,10 @@ export const create = <
   option: Partial<Options<I, E>>,
   ns: typeof React = React,
 ): ReactWebComponent<I, E> => {
-  option.tagName = option.tagName || (option.elementClass as unknown as typeof GodownElement)?.elementTagName || option.elementClass.name;
+  option.tagName =
+    option.tagName ||
+    (option.elementClass as unknown as typeof GodownElement).elementTagName ||
+    option.elementClass.name;
   return createComponent<I, E>({
     ...(option as Options<I, E>),
     react: ns,

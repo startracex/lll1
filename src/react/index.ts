@@ -1,138 +1,163 @@
 "use client";
+/* eslint-disable */
+import _Rotate from "../rotate.js";
+import _Dragbox from "../dragbox.js";
+import _Tooltip from "../tooltip.js";
+import _Typewriter from "../typewriter.js";
+import _Time from "../time.js";
+import _Text from "../text.js";
+import _Overbreath from "../overbreath.js";
+import _Skeleton from "../skeleton.js";
+import _Router from "../router.js";
+import _Progress from "../progress.js";
+import _RouterLink from "../router-link.js";
+import _Link from "../link.js";
+import _Layout from "../layout.js";
+import _GridFlow from "../grid-flow.js";
+import _FlexFlow from "../flex-flow.js";
+import _SwitchInput from "../switch-input.js";
+import _SplitInput from "../split-input.js";
+import _SelectInput from "../select-input.js";
+import _SearchInput from "../search-input.js";
+import _RangeInput from "../range-input.js";
+import _LabelInput from "../label-input.js";
+import _Input from "../input.js";
+import _Form from "../form.js";
+import _Divider from "../divider.js";
+import _Dialog from "../dialog.js";
+import _Details from "../details.js";
+import _Carousel from "../carousel.js";
+import _Card from "../card.js";
+import _Button from "../button.js";
+import _Avatar from "../avatar.js";
+import _AvatarGroup from "../avatar-group.js";
+import _Alert from "../alert.js";
 import { create } from "./create.js";
 
-export const A = create({
-  elementClass: (await import("../web-components/a/a.js")).default,
-});
-
 export const Alert = create({
-  elementClass: (await import("../web-components/alert/alert.js")).default,
-});
-
-export const Avatar = create({
-  elementClass: (await import("../web-components/avatar/avatar.js")).default,
-});
-
-export const Button = create({
-  elementClass: (await import("../web-components/button/button.js")).default,
-});
-
-export const Card = create({
-  elementClass: (await import("../web-components/card/card.js")).default,
-});
-
-export const Carousel = create({
-  elementClass: (await import("../web-components/carousel/carousel.js")).default,
-});
-
-export const Details = create({
-  elementClass: (await import("../web-components/details/details.js")).default,
-});
-
-export const Dialog = create({
-  elementClass: (await import("../web-components/dialog/dialog.js")).default,
-});
-
-export const Form = create({
-  elementClass: (await import("../web-components/form/form.js")).default,
+  elementClass: _Alert,
 });
 
 export const AvatarGroup = create({
-  elementClass: (await import("../web-components/group/avatar-group.js")).default,
+  elementClass: _AvatarGroup,
 });
 
-export const DetailsGroup = create({
-  elementClass: (await import("../web-components/group/details-group.js")).default,
+export const Avatar = create({
+  elementClass: _Avatar,
 });
 
-export const Input = create({
-  elementClass: (await import("../web-components/input/input.js")).default,
+export const Button = create({
+  elementClass: _Button,
 });
 
-export const LabelInput = create({
-  elementClass: (await import("../web-components/input/label-input.js")).default,
+export const Card = create({
+  elementClass: _Card,
 });
 
-export const SearchInput = create({
-  elementClass: (await import("../web-components/input/search-input.js")).default,
+export const Carousel = create({
+  elementClass: _Carousel,
 });
 
-export const SelectInput = create({
-  elementClass: (await import("../web-components/input/select-input.js")).default,
+export const Details = create({
+  elementClass: _Details,
 });
 
-export const SplitInput = create({
-  elementClass: (await import("../web-components/input/split-input.js")).default,
-});
-
-export const SwitchInput = create({
-  elementClass: (await import("../web-components/input/switch-input.js")).default,
+export const Dialog = create({
+  elementClass: _Dialog,
 });
 
 export const Divider = create({
-  elementClass: (await import("../web-components/layout/divider.js")).default,
+  elementClass: _Divider,
+});
+
+export const Form = create({
+  elementClass: _Form,
+});
+
+export const Input = create({
+  elementClass: _Input,
+});
+
+export const LabelInput = create({
+  elementClass: _LabelInput,
+});
+
+export const RangeInput = create({
+  elementClass: _RangeInput,
+});
+
+export const SearchInput = create({
+  elementClass: _SearchInput,
+});
+
+export const SelectInput = create({
+  elementClass: _SelectInput,
+});
+
+export const SplitInput = create({
+  elementClass: _SplitInput,
+});
+
+export const SwitchInput = create({
+  elementClass: _SwitchInput,
 });
 
 export const FlexFlow = create({
-  elementClass: (await import("../web-components/layout/flex-flow.js")).default,
+  elementClass: _FlexFlow,
 });
 
-export const NavLayout = create({
-  elementClass: (await import("../web-components/layout/nav-layout.js")).default,
+export const GridFlow = create({
+  elementClass: _GridFlow,
 });
 
-export const OpenOffset = create({
-  elementClass: (await import("../web-components/offset/open-offset.js")).default,
+export const Layout = create({
+  elementClass: _Layout,
+});
+
+export const Link = create({
+  elementClass: _Link,
+});
+
+export const RouterLink = create({
+  elementClass: _RouterLink,
 });
 
 export const Progress = create({
-  elementClass: (await import("../web-components/progress/progress.js")).default,
-});
-
-export const RouterA = create({
-  elementClass: (await import("../web-components/router/router-a.js")).default,
+  elementClass: _Progress,
 });
 
 export const Router = create({
-  elementClass: (await import("../web-components/router/router.js")).default,
+  elementClass: _Router,
 });
 
 export const Skeleton = create({
-  elementClass: (await import("../web-components/skeleton/skeleton.js")).default,
-});
-
-export const Tabs = create({
-  elementClass: (await import("../web-components/tabs/tabs.js")).default,
-});
-
-export const Clip = create({
-  elementClass: (await import("../web-components/text/clip.js")).default,
+  elementClass: _Skeleton,
 });
 
 export const Overbreath = create({
-  elementClass: (await import("../web-components/text/overbreath.js")).default,
+  elementClass: _Overbreath,
 });
 
 export const Text = create({
-  elementClass: (await import("../web-components/text/text.js")).default,
+  elementClass: _Text,
 });
 
 export const Time = create({
-  elementClass: (await import("../web-components/text/time.js")).default,
+  elementClass: _Time,
 });
 
 export const Typewriter = create({
-  elementClass: (await import("../web-components/text/typewriter.js")).default,
+  elementClass: _Typewriter,
 });
 
 export const Tooltip = create({
-  elementClass: (await import("../web-components/tooltip/tooltip.js")).default,
+  elementClass: _Tooltip,
 });
 
 export const Dragbox = create({
-  elementClass: (await import("../web-components/wrapper/dragbox.js")).default,
+  elementClass: _Dragbox,
 });
 
-export const Wrapper = create({
-  elementClass: (await import("../web-components/wrapper/wrapper.js")).default,
+export const Rotate = create({
+  elementClass: _Rotate,
 });

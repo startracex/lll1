@@ -1,13 +1,23 @@
-import { css, type CSSResultGroup, property } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { GodownElement } from "../../supers/root.js";
+import { type PropertyValues } from "lit";
 
-const defineName = "time";
+import { css, property } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import styles from "../../decorators/styles.js";
+import { GodownElement } from "../../proto/godown-element.js";
+
+const protoName = "time";
 
 /**
  * {@linkcode Time} renders a formatting time.
  */
-@define(defineName)
+@godown(protoName)
+@styles([
+  css`
+    :host {
+      text-align: center;
+    }
+  `,
+])
 export class Time extends GodownElement {
   /**
    * Cancels the next character formatting.
@@ -18,10 +28,6 @@ export class Time extends GodownElement {
    * {@linkcode Time.fmt}
    */
   @property() format = "YYYY-MM-DD hh:mm:ss UTFZ";
-  /**
-   * Display content.
-   */
-  @property() value = "";
   /**
    * Time.
    */
@@ -35,30 +41,35 @@ export class Time extends GodownElement {
    */
   @property({ type: Number }) gap = 0;
 
-  intervalID: number;
-
-  static styles: CSSResultGroup = [
-    css`
-      :host {
-        text-align: center;
-      }
-    `,
-  ];
+  timeoutId: number;
 
   protected render(): string {
-    return this.value || Time.fmt(this.format, this.time, this.escape);
+    return Time.fmt(this.format, this.time, this.escape);
   }
 
   protected firstUpdated() {
     if (this.timeout) {
-      this.intervalID = setInterval(() => {
-        this.time = new Date(this.time.getTime() + (this.gap || this.timeout));
-      }, Math.abs(this.timeout));
+      this.timeoutId = this.startTimeout();
+    }
+  }
+
+  protected updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has("timeout")) {
+      clearInterval(this.timeoutId);
+      if (this.timeout) {
+        this.timeoutId = this.startTimeout();
+      }
     }
   }
 
   disconnectedCallback() {
-    clearInterval(this.intervalID);
+    clearInterval(this.timeoutId);
+  }
+
+  startTimeout() {
+    return setInterval(() => {
+      this.time = new Date(this.time.getTime() + (this.gap || this.timeout));
+    }, Math.abs(this.timeout));
   }
 
   /**
@@ -79,8 +90,9 @@ export class Time extends GodownElement {
     if (!fm) {
       return fm;
     }
+    tm = typeof tm === "string" ? new Date(tm) : tm;
     if (isNaN(tm.getTime())) {
-      return undefined;
+      return fm;
     }
     const rest = [];
     const replaced = `${em}${em}`;
@@ -107,11 +119,7 @@ export class Time extends GodownElement {
     const result: string[] = [];
     for (const f of fm.split("").reverse()) {
       const s = switcher[f]?.pop();
-      if (s) {
-        result.push(s);
-      } else {
-        result.push(f);
-      }
+      result.push(s ? s : f);
     }
     return result
       .reverse()
@@ -123,10 +131,3 @@ export class Time extends GodownElement {
 }
 
 export default Time;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "time-bar": Time;
-    "g-time": Time;
-  }
-}

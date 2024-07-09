@@ -1,16 +1,50 @@
-import { css, html, property, type PropertyValueMap, query, state } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
+import { css, html, property, type PropertyValueMap, query, state } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import { htmlSlot } from "../../lib/directives.js";
 import { random } from "../../lib/utils.js";
-import { createScope, GodownElement } from "../../supers/root.js";
+import { GodownElement } from "../../proto/godown-element.js";
+import { createScope } from "../../styles/global.js";
 
-const defineName = "typewriter";
-const cssvarScope = createScope(defineName);
+const protoName = "typewriter";
+const cssScope = createScope(protoName);
 
 /**
  * {@linkcode Typewriter} renders a typewriter effect to text.
  */
-@define(defineName)
+@godown(protoName)
+@styles([
+  css`
+    :host {
+      --${cssScope}--cursor-width: .05em;
+      font-family: monospace;
+      white-space: nowrap;
+    }
+
+    i {
+      border-right: var(--${cssScope}--cursor-width) solid;
+      margin-left: 0.02em;
+      animation: s 1.5s steps(1) infinite;
+    }
+
+    @keyframes s {
+      0% {
+        border-color: currentColor;
+      }
+      50% {
+        border-color: transparent;
+      }
+    }
+
+    slot {
+      display: none;
+    }
+
+    .hidden {
+      visibility: hidden;
+    }
+  `,
+])
 export class Typewriter extends GodownElement {
   /**
    * Raw text.
@@ -55,41 +89,8 @@ export class Typewriter extends GodownElement {
     return this.text.length;
   }
 
-  static styles = [
-    css`
-      :host {
-        ${cssvarScope}--cursor-width: .05em;
-        font-family: monospace;
-        white-space: nowrap;
-      }
-
-      i {
-        border-right: var(${cssvarScope}--cursor-width) solid;
-        margin-left: 0.02em;
-        animation: s 1.5s steps(1) infinite;
-      }
-
-      @keyframes s {
-        0% {
-          border-color: currentColor;
-        }
-        50% {
-          border-color: transparent;
-        }
-      }
-
-      slot {
-        display: none;
-      }
-
-      .hidden {
-        visibility: hidden;
-      }
-    `,
-  ];
-
-  protected render(): HTMLTemplate {
-    return html`${htmlSlot()}${this.content}<i class="${(this.ended && "hidden") || ""}"></i>`;
+  protected render() {
+    return html`${htmlSlot()}${this.content}<i part="cursor" class="${(this.ended && "hidden") || ""}"></i>`;
   }
 
   protected firstUpdated() {
@@ -129,10 +130,3 @@ export class Typewriter extends GodownElement {
 }
 
 export default Typewriter;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "typewriter-text": Typewriter;
-    "g-typewriter": Typewriter;
-  }
-}

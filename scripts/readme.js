@@ -1,15 +1,15 @@
 /**
  * Synchronize full and usage readme.
  */
-import fs from "fs/promises";
-import path from "path";
-import { createLog, paths } from "./deps.js";
+import { readFileSync, writeFileSync } from "fs";
+import path from "path/posix";
+import { publishDirectory } from "./_deps.js";
 
 const readme = "./README.md";
 
-const readmePublish = path.join(paths.publishDirectory, readme);
+const readmePublish = path.join(publishDirectory, readme);
 
-await fs.readFile(readme, "utf8").then(async (data) => {
-  const content = data.slice(0, data.indexOf("\n## Development") - 1);
-  await fs.writeFile(readmePublish, content).then(createLog(`readme: Updated ${readmePublish}`));
-});
+const data = readFileSync(readme).toString();
+const content = data.slice(0, data.indexOf("\n## Development") - 1);
+writeFileSync(readmePublish, content);
+console.log(`readme: Updated ${readmePublish}`);

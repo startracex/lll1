@@ -16,18 +16,14 @@ npm i godown
 <g-alert title="Alert"></g-alert>
 ```
 
-Can't use a single tag.
-
-```html
-<g-alert title="Alert"/>
-<!-- ERROR -->
-```
-
 ### JS
 
 ```js
-import { Alert } from "godown"; // import all
-// import Alert from "godown/alert"; // import one
+// import all
+import { Alert } from "godown";
+
+// import one
+import Alert from "godown/alert";
 
 const alert = new Alert();
 alert.title = "Alert";
@@ -51,7 +47,7 @@ import { Alert } from "npm:godown";
 import { Alert } from "godown/react"; // import all
 
 export default function () {
-  return <Alert title="Alert" />;
+  return <Alert title="Alert" >;
 }
 ```
 
@@ -59,30 +55,26 @@ export default function () {
 
 ### Custom element tag name
 
-The name must contain `-`.
-
 ```js
 import { defineConfig } from "godown/conf";
 
 const newNames = {
-  "old-name": "new-name",
+  "alert": "custom-alert",
 };
 
-function getName(constructorDashName: string) {
-  return newNames[constructorDashName];
+function getName(raw: string) {
+  return this.prefix + newNames[raw];
 }
 
 defineConfig({
   tag: getName,
-  prefix: "prefix-",
+  prefix: "my-",
   suffix: "",
 });
 ```
 
-The element will be renamed to `${prefix} + ${tag( ${constructorDashName} )} + ${suffix}`
-
 ```html
-<prefix-new-name title="Alert"></prefix-new-name>
+<my-custom-alert title="Alert"></my-custom-alert>
 ```
 
 ### Custom element styles
@@ -96,24 +88,18 @@ Font color and background
 }
 ```
 
-See [With CSS](#with-css).
-
-### Custom element CSS variable prefix
+### Custom CSS variable prefix
 
 ```js
 import { defineConfig } from "godown/conf";
 
 defineConfig({
-  cssvar: "ge",
+  cssvar: "x",
 });
 ```
 
-The CSS variable of the element will be `${cssvar} + element name + description`.
-
-The following CSS variables now affect element styles.
-
 ```html
-<g-button style="--ge--g-button--focus-scale: .95;"></g-button>
+<g-button style="--x-button--focus-scale: .95;"></g-button>
 ```
 
 ### Custom initial property
@@ -141,10 +127,8 @@ Assign when elements are **connected**.
 One element.
 
 ```js
-const RedGhostButton = new Button({
-  // ...
-  color: "red", // overwrite
-  ghost: true, // button property
+const RedButton = new Button({
+  classList: ["godown-element", "custom-element"],
 });
 ```
 
@@ -154,25 +138,14 @@ It can be used to set CSS variables.
 
 ```css
 .godown-element {
-  --ge--foreground-rgb: 0 0 0;
-  --ge--background-rgb: 255 255 255;
 }
 ```
 
 ## Compatibility
 
-```js
-import { defineConfig } from "godown/conf";
-defineConfig({
-  naming: "legacy", // default is "latest"
-});
-```
+Legacy names is now unavailable.
 
-Legacy names can now be used.
-
-```html
-<base-button>legacy</base-button>
-```
+Manually specify the legacy name at `tag`, return a legacy name, see[s](#custom-element-tag-name)
 
 ## Development
 
@@ -200,7 +173,13 @@ Compile and generate minified files.
 pnpm run build:min
 ```
 
-Synchronize elements export indexes.
+Generate the component metadata from the files.
+
+```sh
+pnpm run meta
+```
+
+Synchronize elements exports from metadata.
 
 ```sh
 pnpm run export

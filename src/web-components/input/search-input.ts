@@ -1,17 +1,104 @@
-import { css, type CSSResultGroup, html, property, query } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { htmlSlot, type HTMLTemplate, svgSearch } from "../../lib/templates.js";
-import { GodownInput } from "../../supers/input.js";
-import { createScope, cssvarValues } from "../../supers/root.js";
+import { css, html, ifDefined, property, query } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import { combine } from "../../lib/directives.js";
+import { htmlSlot } from "../../lib/directives.js";
+import { svgSearch } from "../../lib/icons.js";
+import GodownInput from "../../proto/super-input.js";
+import { createScope, cssGlobalVars } from "../../styles/global.js";
+import { fieldStyle, inputStyle } from "../../styles/inputStyle.js";
 
-const defineName = "search-input";
+const protoName = "search-input";
 
-const cssScope = createScope(defineName);
+const cssScope = createScope(protoName);
 
 /**
  * {@linkcode SearchInput}  used for search behavior.
  */
-@define(defineName)
+@godown(protoName)
+@styles([
+  inputStyle,
+  fieldStyle,
+  css`
+    :host {
+      --${cssScope}--width:var(--${cssGlobalVars.input}--width);
+      width: var(--${cssGlobalVars.input}--width);
+      margin: var(--${cssGlobalVars.input}-outline-width);
+      border-radius: var(--${cssGlobalVars.input}--radius);
+      background: var(--${cssGlobalVars.input}--background);
+      color: var(--${cssGlobalVars.foreground});
+      display: block;
+    }
+
+    .search {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      z-index: 2;
+      height: var(--${cssGlobalVars.input}--height);
+    }
+
+    form {
+      min-height: 100%;
+      outline: 0.145em solid transparent;
+      display: flex;
+      flex-direction: column;
+      border-radius: inherit;
+      padding: 0;
+      width: 100%;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    :host([float]) form {
+      overflow: visible;
+    }
+
+    .result {
+      list-style: none;
+      width: 100%;
+      pointer-events: none;
+      border-radius: inherit;
+      z-index: 2;
+    }
+
+    :host([float]) div.result {
+      background: var(--${cssGlobalVars.input}--background);
+      padding-top: 1.5em;
+      position: absolute;
+      z-index: 1;
+      top: 0;
+    }
+
+    :host([float]:focus) form {
+      outline: none;
+    }
+
+    :host([float]:focus) .result {
+      outline: var(--${cssGlobalVars.input}--outline);
+    }
+
+    .icon {
+      height: inherit;
+      display: flex;
+      align-items: center;
+      background: none;
+      padding-right: 0.25em;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    svg {
+      height: 1em;
+      width: 1em;
+    }
+  `,
+])
 export class SearchInput extends GodownInput {
   /**
    * Query selectors.
@@ -22,9 +109,9 @@ export class SearchInput extends GodownInput {
    */
   @property() target = "";
   /**
-   * Enable infer.
+   * @deprecated
    */
-  @property({ type: Boolean }) infer = false;
+  infer: boolean;
   /**
    * Float result.
    */
@@ -32,7 +119,7 @@ export class SearchInput extends GodownInput {
   /**
    * Form action.
    */
-  @property() action = "";
+  @property() action: string;
   /**
    * Form method.
    */
@@ -42,105 +129,34 @@ export class SearchInput extends GodownInput {
    */
   @property() name = "q";
 
+  @property() variant: "default" | "outline" = "default";
+
   @query("input") _input!: HTMLInputElement;
 
-  static styles = [
-    GodownInput.styles,
-    css`
-      :host {
-        ${cssScope}--width:var(${cssvarValues.input}--width);
-        ${cssScope}--input-padding: 0 0 0 .35em;
-        width: var(${cssvarValues.input}--width);
-        margin: var(${cssvarValues.input}-outline-width);
-        border-radius: var(${cssvarValues.input}--radius);
-        background: var(${cssvarValues.input}--background);
-      }
-
-      div {
-        padding: var(${cssScope}--input-padding);
-        height: var(${cssvarValues.input}--height);
-        flex: 1;
-        display: flex;
-        z-index: 2;
-      }
-
-      form {
-        min-height: 100%;
-        outline: 0.145em solid transparent;
-        display: flex;
-        flex-direction: column;
-        border-radius: inherit;
-        padding: 0;
-        width: 100%;
-        margin: 0;
-        position: relative;
-        overflow: hidden;
-      }
-
-      :host([float]) form {
-        overflow: visible;
-      }
-
-      :host(:focus) form {
-        outline: var(${cssvarValues.input}--outline);
-      }
-
-      ul {
-        list-style: none;
-        width: 100%;
-        pointer-events: none;
-        border-radius: inherit;
-        z-index: 2;
-      }
-
-      :host([float]) ul {
-        background: var(${cssvarValues.input}--background);
-        padding-top: 1.5em;
-        position: absolute;
-        z-index: 1;
-        top: 0;
-      }
-
-      :host([float]:focus) form {
-        outline: none;
-      }
-
-      :host([float]:focus) ul {
-        outline: var(${cssvarValues.input}--outline);
-      }
-
-      button,
-      input {
-        background: none;
-      }
-
-      button {
-        width: 1.8em;
-        height: inherit;
-      }
-
-      input {
-        flex: 1;
-        min-width: 0;
-        box-sizing: border-box;
-      }
-
-      svg {
-        height: 100%;
-        padding: 1px;
-      }
-    `,
-  ] as CSSResultGroup;
-
-  protected render(): HTMLTemplate {
-    return html`<form action="${this.action}" method="${this.method}">
-      <div>
-        <input .value="${this.value}" ?autofocus="${this.autofocus}" name="${this.name}" @focus="${this._handleInput}" @input="${this._handleInput}" title="" placeholder="${this.pla}" />
-        <button @click="${this._handleSubmit}">${htmlSlot("search", svgSearch(), this)}</button>
+  protected render() {
+    return html`<form
+      part="root"
+      class="${combine(
+        {
+          outline: this.variant === "outline",
+        },
+        "input-field",
+      )}"
+      action="${ifDefined(this.action)}"
+      method="${this.method}"
+    >
+      <div class="search">
+        <input
+          .value="${this.value}"
+          ?autofocus="${this.autofocus}"
+          name="${this.name}"
+          @focus="${this._handleInput}"
+          @input="${this._handleInput}"
+          placeholder="${this.placeholder}"
+        />
+        <div class="icon" @click="${this._handleSubmit}">${svgSearch()}</div>
       </div>
-      <ul>
-        ${htmlSlot()}
-      </ul>
+      <div class="result">${htmlSlot()}</div>
     </form>`;
   }
 
@@ -186,10 +202,3 @@ export class SearchInput extends GodownInput {
 }
 
 export default SearchInput;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "search-input": SearchInput;
-    "g-search-input": SearchInput;
-  }
-}

@@ -1,21 +1,15 @@
 {
   "files.exclude": {
+    ".editorconfig": true,
+    ".idea": true,
     ".git": true,
     ".github": true,
-    ".idea": true,
+    ".npmrc": true,
+    ".prettierrc": true,
     "node_modules": true,
     "pnpm-lock.yaml": true,
     "LICENSE": true,
-    ".npmrc": true,
-    ".eslintrc": true,
-    ".prettierrc": true
-  },
-  "files.autoSaveWhenNoErrors": true,
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "src/[!_]*.ts": true,
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -25,5 +19,7 @@
   },
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "color-highlight.markerType": "underline",
+  "lit-plugin.rules.no-invalid-css": "off"
 }

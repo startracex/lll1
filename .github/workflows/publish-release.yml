@@ -35,5 +35,3 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        with:
-          body_path: CHANGELOG.release.md

@@ -1,167 +1,89 @@
-import { css, type CSSResultGroup, html, property, query } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { htmlSlot, htmlStyle, type HTMLTemplate, svgEye } from "../../lib/templates.js";
-import { GodownInput } from "../../supers/input.js";
-import { cssvarValues } from "../../supers/root.js";
+import { css, html, property } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import { combine, htmlSlot } from "../../lib/directives.js";
+import GodownInput from "../../proto/super-input.js";
+import { cssGlobalVars } from "../../styles/global.js";
+import { fieldStyle, inputStyle } from "../../styles/inputStyle.js";
 
-const PASSWORD = "password";
-
-const styleInMedia = css`
-  label[for] {
-    justify-content: flex-start;
-    flex-direction: column;
-    align-items: inherit;
-    width: fit-content;
-  }
-  :host {
-    width: var(${cssvarValues.input}--width);
-    margin: auto;
-  }
-`;
-
-const styleNoLabel = css`
-  :host {
-    width: var(${cssvarValues.input}--width);
-  }
-`;
-
-const styleWithLabel = css`
-  :host {
-    width: calc(var(${cssvarValues.input}--width) * 2);
-  }
-`;
-
-const defineName = "label-input";
+const protoName = "label-input";
 
 /**
  * {@linkcode LabelInput } renders label and input.
  *
  * When there is a label, the layout will be adjusted according to the width of the screen.
  *
- * Otherwise it behaves similarly to the `BaseInput`.
+ * Otherwise it behaves similarly to the `Input`.
+ *
  */
-@define(defineName)
+@godown(protoName)
+@styles([
+  inputStyle,
+  fieldStyle,
+  css`
+    :host {
+      --${cssGlobalVars.input}--label-width: var(--${cssGlobalVars.input}--width);
+      width: calc(var(--${cssGlobalVars.input}--width) + var(--${cssGlobalVars.input}--label-width));
+      height: var(--${cssGlobalVars.input}--height);
+      margin: var(--${cssGlobalVars.input}--outline-width);
+      border-radius: var(--${cssGlobalVars.input}--radius);
+      margin: var(--${cssGlobalVars.input}--outline-width);
+      border-radius: var(--${cssGlobalVars.input}--radius);
+      justify-content: space-between;
+      display: flex;
+    }
+
+    div {
+      height: inherit;
+      width: var(--${cssGlobalVars.input}--width);
+    }
+
+    label {
+      display: contents;
+      border-radius: inherit;
+      height: inherit;
+    }
+
+    span {
+      flex: 1;
+      white-space: nowrap;
+      width: var(--${cssGlobalVars.input}--width);
+    }
+
+    input {
+      flex: 1;
+      width: 100%;
+      height: inherit;
+      background: transparent;
+      border-radius: inherit;
+      color: var(--${cssGlobalVars.foreground});
+    }
+    .input-field {
+      background: var(--${cssGlobalVars.input}--background);
+    }
+  `,
+])
 export class LabelInput extends GodownInput {
-  /**
-   * Conditions for adjust layout.
-   */
-  @property() mobile = "540px";
+  @property() variant: "default" | "outline" = "default";
 
-  @query("input") _input: HTMLInputElement;
-
-  static styles = [
-    GodownInput.styles,
-    css`
-      :host {
-        margin: var(${cssvarValues.input}--outline-width);
-        border-radius: var(${cssvarValues.input}--radius);
-      }
-
-      label {
-        width: 100%;
-        margin: auto;
-        box-sizing: border-box;
-        height: fit-content;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-radius: inherit;
-      }
-
-      span {
-        white-space: nowrap;
-      }
-
-      input {
-        padding: 0 0.25em;
-        background-color: transparent;
-        border-radius: inherit;
-        flex: 1;
-        width: 100%;
-        height: inherit;
-      }
-
-      fieldset:focus-within {
-        outline: var(${cssvarValues.input}--outline);
-      }
-
-      i {
-        margin: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      i > svg {
-        height: 1em;
-        width: 1em;
-        margin: 0.25em;
-      }
-
-      fieldset {
-        position: relative;
-        background-color: var(${cssvarValues.input}--background);
-        display: flex;
-        align-items: center;
-        border-radius: inherit;
-        height: var(${cssvarValues.input}--height);
-        width: var(${cssvarValues.input}--width);
-        min-width: var(${cssvarValues.input}--width);
-      }
-    `,
-  ] as CSSResultGroup;
-
-  protected render(): HTMLTemplate[] {
-    const result = html`<fieldset>
-      <i>${htmlSlot("pre")}</i>
-      <input .value="${this.value}" ?autofocus="${this.autofocus}" id="${this.name}" type="${this.type}" placeholder="${this.pla}" class="${this.type}" @input="${this._handleInput}" @change="${this._handleChange}" />
-      ${this.renderSuf()}
-    </fieldset>`;
-    if (this.label) {
-      const style = this.mobile && `${styleWithLabel}@media (max-width: ${this.mobile}){${styleInMedia}}`;
-      return [
-        html`<label for="${this.name}">
-          <span>${this.label}${htmlSlot()}</span>
-          ${result}
-        </label>`,
-        htmlStyle(style),
-      ];
-    }
-    return [result, htmlStyle(styleNoLabel.toString())];
-  }
-
-  private renderSuf(): HTMLTemplate {
-    if (this.type === PASSWORD) {
-      return html`<i
-        @mousedown="${this._passwordSwitcher}"
-        @mouseup="${() => {
-          this._changeInputType(PASSWORD);
-        }}"
-        @mouseleave="${() => {
-          this._changeInputType(PASSWORD);
-        }}"
-      >
-        ${htmlSlot("suf", svgEye(), this)}
-      </i>`;
-    } else {
-      return html`<i>${htmlSlot("suf")}</i>`;
-    }
-  }
-
-  protected _passwordSwitcher() {
-    if (this._input.type === PASSWORD) {
-      this._changeInputType("text");
-    } else {
-      this._changeInputType(PASSWORD);
-    }
+  protected render() {
+    const { makeId: htmlFor } = this;
+    return html`<label for="${htmlFor}" part="label">
+      <span part="label">${this.label}${htmlSlot()}</span>
+      <div class="${combine({ "input-field": true, outline: this.variant === "outline" })}">
+        <input
+          part="input"
+          id="${htmlFor}"
+          type="${this.type}"
+          ?autofocus="${this.autofocus}"
+          placeholder="${this.placeholder}"
+          class="${this.type}"
+          @input="${this._handleInput}"
+        />
+        ${this._renderSuffix()}
+      </div>
+    </label>`;
   }
 }
 
 export default LabelInput;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "label-input": LabelInput;
-    "g-label-input": LabelInput;
-  }
-}

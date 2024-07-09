@@ -1,7 +1,8 @@
-node_modules
-test
-.idea
+node_modules/
+test/
+.idea/
 CHANGELOG.release.md
-build
-public
+build/
+public/
+backup/
 **/*.html

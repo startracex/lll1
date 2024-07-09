@@ -1,40 +1,129 @@
-import { css, type CSSResultGroup, html, property, query } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
-import { GodownInput } from "../../supers/input.js";
-import { createScope, cssvarValues } from "../../supers/root.js";
+import { css, html, property, query } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import GodownInput from "../../proto/super-input.js";
+import { cssGlobalVars } from "../../styles/global.js";
+import { inputStyle } from "../../styles/inputStyle.js";
 
-const defineName = "switch-input";
-
-const cssScope = createScope(defineName);
+const protoName = "switch-input";
 
 /**
  * {@linkcode SwitchInput } renders a switch.
  *
  * Inspired by Steam.
  */
-@define(defineName)
+@godown(protoName)
+@styles([
+  inputStyle,
+  css`
+    :host {
+      --${cssGlobalVars.input}--width: 3em;
+      --${cssGlobalVars.input}--height: calc(var(--${cssGlobalVars.input}--width) / 2);
+      --${cssGlobalVars.input}--gap: calc(var(--${cssGlobalVars.input}--width) / 25);
+      --${cssGlobalVars.input}--transition: all .25s ease-in-out;
+      background: var(--${cssGlobalVars.input}--background);
+      width: var(--${cssGlobalVars.input}--width);
+      height: var(--${cssGlobalVars.input}--height);
+      display: inline-block;
+      vertical-align: bottom;
+    }
+
+    [part="root"],
+    span,
+    i {
+      transition: var(--${cssGlobalVars.input}--transition);
+    }
+
+    [part="root"] {
+      border-radius: inherit;
+      position: relative;
+      height: inherit;
+    }
+
+    [part="root"],
+    input,
+    i {
+      width: 100%;
+    }
+
+    input {
+      margin: 0;
+      height: 100%;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    span {
+      height: 100%;
+      display: inline-flex;
+      position: absolute;
+      left: 0;
+      width: 50%;
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    :host([round]) {
+      border-radius: calc(var(--${cssGlobalVars.input}--height) / 2);
+    }
+
+    :host([checked]) span {
+      transform: translateX(100%);
+    }
+
+    .rect * {
+      border-radius: inherit;
+    }
+
+    .rect .true {
+      background: var(--${cssGlobalVars.input}--true);
+    }
+
+    .rect .false {
+      background: var(--${cssGlobalVars.input}--false);
+    }
+
+    .round i {
+      border-radius: 100%;
+      margin: var(--${cssGlobalVars.input}--gap);
+      background: var(--${cssGlobalVars.input}--control);
+      width: calc(var(--${cssGlobalVars.input}--height) - var(--${cssGlobalVars.input}--gap) * 2);
+      height: calc(var(--${cssGlobalVars.input}--height) - var(--${cssGlobalVars.input}--gap) * 2);
+    }
+
+    .round {
+      background: var(--${cssGlobalVars.input}--false);
+    }
+
+    :host([checked]) .round {
+      background: var(--${cssGlobalVars.input}--true);
+    }
+  `,
+])
 export class SwitchInput extends GodownInput {
+  /**
+   * @deprecated
+   */
+  base: "fat" | "rect";
   /**
    * Border style.
    */
-  @property() base: "fat" | "rect" = "rect";
+  // @property() variant: "fat" | "rect" = "rect";
+  @property({ type: Boolean, reflect: true }) round = false;
   /**
    * Whether this element is selected or not.
    */
-  @property({ type: Boolean }) checked = false;
+  @property({ type: Boolean, reflect: true }) checked = false;
   /**
    * Whether this element is disabled or not.
    */
-  @property({ type: Boolean }) disabled = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
   /**
    * Parsed by JSON.parse to checked.
    */
-  @property() def = "false";
-  /**
-   * Input name.
-   */
-  @property() name = "checkbox";
+  @property() default = "false";
   /**
    * Input value.
    */
@@ -42,153 +131,34 @@ export class SwitchInput extends GodownInput {
 
   @query("input") _input: HTMLInputElement;
 
-  static styles = [
-    GodownInput.styles,
-    css`
-      :host {
-        ${cssScope}--width: 3em;
-        ${cssScope}--height: calc(var(${cssScope}--width) / 2);
-        width: var(${cssScope}--width);
-        height: var(${cssScope}--height);
-      }
-
-      :host,
-      span {
-        display: inline-flex;
-        font-size: inherit;
-        position: relative;
-        align-items: center;
-        border-radius: inherit;
-      }
-
-      span {
-        width: inherit;
-        height: inherit;
-      }
-
-      input {
-        width: inherit;
-        height: inherit;
-        margin: 0;
-        outline: none;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        position: relative;
-        font-size: inherit;
-        background: var(${cssvarValues.input}--false);
-        border-radius: inherit;
-        transition: all 0.3s;
-      }
-
-      aside {
-        pointer-events: none;
-        transition: 0.3s;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        font-size: inherit;
-        overflow: hidden;
-        border-radius: inherit;
-      }
-
-      aside div {
-        height: 100%;
-      }
-
-      input[disabled] ~ aside {
-        filter: brightness(0.87);
-      }
-
-      .rect div.always {
-        display: none;
-      }
-
-      .always {
-        position: absolute;
-      }
-
-      .rect aside {
-        height: 100%;
-        width: 100%;
-        left: 0;
-      }
-
-      .rect .true,
-      .rect .false {
-        width: 50%;
-        text-align: center;
-        transition: all 0.3s;
-      }
-
-      .rect input:checked ~ aside div.true,
-      .rect .false {
-        background-color: var(${cssvarValues.input}--true);
-      }
-
-      .rect input:checked ~ aside div.false,
-      .rect .true {
-        background: var(${cssvarValues.input}--false);
-      }
-
-      .fat aside {
-        width: 1.2em;
-        height: 1.2em;
-        border-radius: 50%;
-        background: var(${cssvarValues.input}--control);
-        transition: 0.3s;
-        left: 0.15em;
-        top: 0.15em;
-        bottom: 0.15em;
-      }
-
-      .fat {
-        border-radius: 0.75em;
-      }
-
-      .fat input:checked {
-        background: var(${cssvarValues.input}--true);
-      }
-
-      .fat input:checked ~ aside {
-        left: calc(100% - 0.15em - 1.2em);
-        right: 0.15em;
-      }
-
-      .fat input:checked ~ aside div.true,
-      .fat div.false {
-        display: block;
-      }
-
-      .fat input:checked ~ aside div.false,
-      .fat div.true {
-        display: none;
-      }
-    `,
-  ] as CSSResultGroup;
-
-  protected render(): HTMLTemplate {
-    return html`<span class="${this.base}">
-      <input @change="${this._handleChange}" ?disabled="${this.disabled}" ?checked="${this.checked}" name="${this.name}" type="checkbox" />
-      <aside>
-        <div class="false"><slot name="false"></slot></div>
-        <div class="always">${htmlSlot()}<slot name="always"></slot></div>
-        <div class="true"><slot name="true"></slot></div>
-      </aside>
-    </span>`;
+  protected render() {
+    return html`<div part="root" class="${this.round ? "round" : "rect"}">
+      <input
+        part="input"
+        @change="${this._handleChange}"
+        ?disabled="${this.disabled}"
+        ?checked="${this.checked}"
+        name="${this.name}"
+        id="${this.makeId}"
+        type="checkbox"
+      />
+      <span>
+        <i class="${this.checked}"><i></i></i>
+      </span>
+    </div>`;
   }
 
   reset() {
-    this.checked = this.def === "true";
+    this.checked = this.default === "true";
     this._input.checked = this.checked;
   }
 
   connectedCallback() {
     super.connectedCallback();
     if (this.checked) {
-      this.def = "true";
-    } else if (this.def === "true") {
+      this.default = "true";
+    }
+    if (this.default === "true") {
       this.checked = true;
     }
   }
@@ -205,10 +175,3 @@ export class SwitchInput extends GodownInput {
 }
 
 export default SwitchInput;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "switch-input": SwitchInput;
-    "g-switch-input": SwitchInput;
-  }
-}

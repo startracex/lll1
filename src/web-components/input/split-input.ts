@@ -1,20 +1,76 @@
-import { css, type CSSResultGroup, html, property, query, queryAll } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { type HTMLTemplate } from "../../lib/templates.js";
-import { GodownInput } from "../../supers/input.js";
-import { createScope, cssvarValues } from "../../supers/root.js";
+import { css, html, property, query, queryAll } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import { type HTMLEvent } from "../../proto/godown-element";
+import GodownSuperInput from "../../proto/super-input.js";
+import { createScope, cssGlobalVars } from "../../styles/global.js";
+import { inputStyle } from "../../styles/inputStyle.js";
 
 const FOCUS = "focus";
 
-const defineName = "split-input";
+const protoName = "split-input";
 
-const cssScope = createScope(defineName);
+const cssScope = createScope(protoName);
 
 /**
  * {@linkcode SplitInput } renders multiple inputs.
  */
-@define(defineName)
-export class SplitInput extends GodownInput {
+@godown(protoName)
+@styles([
+  inputStyle,
+  css`
+    :host {
+      --${cssScope}--outline: .15em solid var( --${cssGlobalVars.input}--outline-color);
+      margin: var(--${cssGlobalVars.input}--outline-width);
+      color: var(--${cssGlobalVars.foreground});
+      display: inline-block;
+      width: -moz-fit-content;
+      width: fit-content;
+      border-radius: 1px;
+    }
+
+    * {
+      font-size: 1em;
+      border-radius: inherit;
+    }
+
+    div {
+      gap: 0.25em;
+      position: relative;
+      vertical-align: top;
+      display: inline-flex;
+    }
+
+    span {
+      width: 1.45em;
+      height: 1.45em;
+      vertical-align: top;
+      display: inline-flex;
+      box-sizing: content-box;
+    }
+
+    i {
+      z-index: 1;
+      width: 100%;
+      height: inherit;
+      text-align: center;
+      background-color: var(--${cssGlobalVars.input}--background);
+    }
+
+    input {
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      background: none;
+      position: absolute;
+    }
+
+    .focus i {
+      outline: var(--${cssScope}--outline);
+    }
+  `,
+])
+export class SplitInput extends GodownSuperInput {
   /**
    * The number of simulated input boxes.
    */
@@ -29,65 +85,20 @@ export class SplitInput extends GodownInput {
   current = 0;
   currentValue: (string | null)[] = [];
 
-  static styles = [
-    GodownInput.styles,
-    css`
-      :host {
-        ${cssScope}--outline: .15em solid var( ${cssvarValues.input}--outline-color);
-        margin: var(${cssvarValues.input}--outline-width);
-        width: fit-content;
-        border-radius: 1px;
-      }
-
-      * {
-        font-size: 1em;
-        border-radius: inherit;
-      }
-
-      div {
-        vertical-align: top;
-        position: relative;
-        display: inline-flex;
-        gap: 0.25em;
-      }
-
-      span {
-        box-sizing: content-box;
-        vertical-align: top;
-        display: inline-flex;
-        width: 1.45em;
-        height: 1.45em;
-        pointer-events: all;
-      }
-
-      i {
-        height: inherit;
-        width: 100%;
-        z-index: 1;
-        background-color: var(${cssvarValues.input}--false);
-        text-align: center;
-      }
-
-      input {
-        position: absolute;
-        opacity: 0;
-        left: 0;
-        top: 0;
-      }
-
-      .focus i {
-        outline: var(${cssScope}--outline);
-      }
-    `,
-  ] as CSSResultGroup;
-
-  protected render(): HTMLTemplate {
+  protected render() {
     return html`
-      <div>
+      <div part="root">
         ${Array(this.max)
           .fill(0)
-          .map(() => html`<span><i></i></span>`)}
-        <input @input="${this._handleInput}" />
+          .map(() => html`<span part="outline"><i part="inside"></i></span>`)}
+        <input
+          part="input"
+          id="${this.makeId}"
+          @blur=${() => {
+            this.blurAt(this.current);
+          }}
+          @input="${this._handleInput}"
+        />
       </div>
     `;
   }
@@ -98,18 +109,13 @@ export class SplitInput extends GodownInput {
     this._spans.forEach((span, index) => {
       this.addEvent(span, "click", () => {
         this.current = index;
-        this.focusAt();
+        this.focusAt(this.current);
         this._input.focus();
       });
     });
-    this.addEvent(document, "click", (e) => {
-      if (!this.contains(e.target as Node)) {
-        this.blur();
-      }
-    });
   }
 
-  protected _handleInput(e: InputEvent) {
+  protected _handleInput(e: HTMLEvent<HTMLInputElement>) {
     if (e.data === null) {
       if (this.currentValue[this.current] !== null) {
         this.currentValue[this.current] = null;
@@ -118,11 +124,11 @@ export class SplitInput extends GodownInput {
         this.current = this.current - 1 < 0 ? 0 : this.current - 1;
       }
     } else {
-      this.currentValue[this.current] = e.data;
+      this.currentValue[this.current] = e.data as string;
       if (this.current + 1 >= this.max) {
         this.current = this.currentValue.indexOf(null);
         if (this.current === -1) {
-          this.blur();
+          this.blurAt(this.current);
         }
       } else {
         this.current += 1;
@@ -138,10 +144,10 @@ export class SplitInput extends GodownInput {
   }
 
   focus() {
-    this.focusAt();
+    this.focusAt(this.current);
   }
 
-  focusAt(i = this.current) {
+  focusAt(i: number) {
     this._spans.forEach((span) => {
       span.classList.remove(FOCUS);
     });
@@ -149,7 +155,11 @@ export class SplitInput extends GodownInput {
     this._input.value = "";
   }
 
-  blur(i = this.current) {
+  blur() {
+    this.blurAt(this.current);
+  }
+
+  blurAt(i: number) {
     this._spans[i]?.classList.remove(FOCUS);
     this._input.blur();
   }
@@ -166,10 +176,3 @@ export class SplitInput extends GodownInput {
 }
 
 export default SplitInput;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "split-input": SplitInput;
-    "g-split-input": SplitInput;
-  }
-}

@@ -1,130 +1,114 @@
-import { css, type CSSResultGroup, html, property, query } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { htmlSlot, type HTMLTemplate, svgDeltaSmooth } from "../../lib/templates.js";
-import { GodownOpenable } from "../../supers/openable.js";
-import { createScope, cssvarValues } from "../../supers/root.js";
+import { css, html, property, query } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import { htmlSlot } from "../../lib/directives.js";
+import { svgDeltaSmooth } from "../../lib/icons.js";
+import GodownOpenable from "../../proto/super-openable.js";
+import { createScope } from "../../styles/global.js";
 
-const defineName = "details";
+const protoName = "details";
 
-const cssvarScope = createScope(defineName);
+const cssScope = createScope(protoName);
 
 /**
  * {@linkcode Details} similar to details.
  */
-@define(defineName)
+@godown(protoName)
+@styles([
+  css`
+    :host {
+      --${cssScope}--icon-deg-open: -90deg;
+      --${cssScope}--icon-deg: 0deg;
+      --${cssScope}--summary-direction: row;
+      --${cssScope}--transition: .3s;
+      height: -moz-fit-content;
+      height: fit-content;
+      display: block;
+      transition: var(--${cssScope}--transition);
+    }
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    dl {
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    dt {
+      height: 100%;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      background: inherit;
+      align-items: center;
+      flex-direction: var(--${cssScope}--summary-direction);
+    }
+
+    dd {
+      display: grid;
+      overflow: hidden;
+      grid-template-rows: 0fr;
+      transition: var(--${cssScope}--transition);
+      transition-property:grid-template-rows;
+    }
+
+    section {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    i {
+      height: 1em;
+      width: 1em;
+      display: flex;
+      -webkit-backface-visibility: hidden;
+              backface-visibility: hidden;
+      transform: rotate(var(--${cssScope}--icon-deg));
+      transition: var(--${cssScope}--transition);
+    }
+
+    :host([open]) dd {
+      grid-template-rows: 1fr;
+    }
+
+    :host([float]) dd {
+      top: 100%;
+      position: absolute;
+    }
+
+    :host([open]) i {
+      transform: rotate(var(--${cssScope}--icon-deg-open));
+    }
+  `,
+])
 export class Details extends GodownOpenable {
   /**
    * If it is true, the summary event scope will fill the element.
    */
   @property({ type: Boolean }) fill = false;
   /**
-   * Reverse summary.
+   * Summary text.
    */
-  @property({ type: Boolean }) reverse = false;
+  @property() summary = "";
 
   @query("dd") _dd: HTMLDataListElement;
 
-  static styles = [
-    GodownOpenable.styles,
-    css`
-      :host {
-        color: var(${cssvarValues.text});
-        ${cssvarScope}--icon-deg-open: -90deg;
-        ${cssvarScope}--icon-deg: 0deg;
-        ${cssvarScope}--summary-direction: row;
-      }
-      span {
-        display: inline-flex;
-        align-items: center;
-        white-space: nowrap;
-      }
-
-      dl {
-        height: 100%;
-        position: relative;
-        overflow: hidden;
-      }
-
-      dt {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        background: inherit;
-        align-items: center;
-        height: 100%;
-        flex-direction: var(${cssvarScope}--summary-direction);
-      }
-
-      dd {
-        overflow: hidden;
-        display: grid;
-        grid-template-rows: 0fr;
-      }
-
-      * {
-        transition: inherit;
-      }
-
-      section {
-        min-height: 0;
-        overflow: hidden;
-      }
-
-      i {
-        height: 1em;
-        wdith: 1em;
-        display: flex;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        transform: rotate(var(${cssvarScope}--icon-deg));
-      }
-
-      :host([open]) dd {
-        grid-template-rows: 1fr;
-      }
-
-      :host([float]) dd {
-        top: 100%;
-        position: absolute;
-      }
-
-      :host([open]) i {
-        transform: rotate(var(${cssvarScope}--icon-deg-open));
-      }
-    `,
-  ] as CSSResultGroup;
-
-  protected render(): HTMLTemplate {
-    return html`<dl>
-      <dt @click="${this._handelClick}">
-        <span> ${this.summary || htmlSlot("summary")} </span>
-        <i>${this.renderIcon()}</i>
+  protected render() {
+    return html`<dl part="root">
+      <dt part="title" @click="${this._handelClick}">
+        <span part="summary"> ${this.summary || htmlSlot("summary")} </span>
+        <i part="open">${svgDeltaSmooth()}</i>
       </dt>
-      <dd>
-        <section>${htmlSlot()}</section>
+      <dd part="details" @click=${this.fill ? () => this.toggle() : null}>
+        <section part="slot">${htmlSlot()}</section>
       </dd>
     </dl>`;
-  }
-
-  private renderIcon(): HTMLTemplate {
-    if (this.querySelector("slot[name=icon]")) {
-      return htmlSlot("icon");
-    }
-    return svgDeltaSmooth();
-  }
-
-  protected firstUpdated() {
-    if (this.fill) {
-      this.addEvent(this._dd, "click", () => this.toggle());
-    }
   }
 }
 
 export default Details;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "open-details": Details;
-    "g-details": Details;
-  }
-}

@@ -1,48 +1,66 @@
-import { css, html, property } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { htmlSlot, htmlStyle, type HTMLTemplate } from "../../lib/templates.js";
-import { GodownElement } from "../../supers/root.js";
+import { css, property } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import { htmlSlot } from "../../lib/directives.js";
+import { htmlStyle } from "../../lib/directives.js";
+import { joinRules } from "../../lib/utils.js";
+import { GodownElement } from "../../proto/godown-element.js";
 
-const defineName = "flex-flow";
+const protoName = "flex-flow";
 
 /**
- * {@linkcode FlexFlow} controls the flex layout based on the width of the screen.
+ * {@linkcode FlexFlow} provides flex layout.
  */
-@define(defineName)
+@godown(protoName)
+@styles([
+  css`
+    :host {
+      display: flex;
+    }
+
+    :host([vertical]) {
+      flex-direction: column;
+    }
+  `,
+])
 export class FlexFlow extends GodownElement {
-  /**
-   * The flex-flow behavior.
-   */
-  @property() flexflow = "row nowrap column nowrap";
-  /**
-   * The width of the screen for the position change.
-   */
-  @property() mobile = "720px";
+  @property({
+    attribute: protoName,
+  })
+  flexFlow: string;
 
-  static styles = [
-    css`
-      :host {
-        display: flex !important;
-      }
-    `,
-  ];
+  @property() direction: string;
 
-  protected render(): HTMLTemplate {
-    const flexflow = this.flexflow.split(/\s+/);
-    const flexDirection = flexflow[0] || "row";
-    const flexWrap = flexflow[1] || "nowrap";
-    const flexDirectionM = flexflow[2] || flexDirection || "column";
-    const flexWrapM = flexflow[3] || flexWrap || "nowrap";
-    const m = this.mobile || "720px";
-    const style = `:host{flex-direction:${flexDirection};flex-wrap:${flexWrap};}@media(max-width: ${m}){:host{flex-direction:${flexDirectionM};flex-wrap:${flexWrapM}}`;
-    return html`${htmlSlot()} ${htmlStyle(style)}`;
+  @property() gap: string;
+
+  @property() flex: string;
+
+  @property() justify: string;
+
+  @property() align: string;
+
+  @property() wrap: string;
+
+  @property({ type: Boolean }) vertical: boolean;
+
+  protected render() {
+    return [
+      htmlSlot(),
+      htmlStyle(
+        joinRules({
+          ":host": {
+            "flex-direction": this.direction,
+            "flex-wrap": this.wrap,
+            gap: this.gap,
+            "align-items": this.align,
+            "justify-content": this.justify,
+            flex: this.flex,
+            "flex-flow": this.flexFlow,
+          },
+        }),
+      ),
+    ];
   }
 }
 
 export default FlexFlow;
-declare global {
-  interface HTMLElementTagNameMap {
-    "flex-flow": FlexFlow;
-    "g-flex-flow": FlexFlow;
-  }
-}

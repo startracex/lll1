@@ -1,3 +1,7 @@
 {
-  "recommendations": ["vincaslt.highlight-matching-tag"]
+  "recommendations": [
+    "vincaslt.highlight-matching-tag",
+    "naumovs.color-highlight",
+    "runem.lit-plugin"
+  ]
 }

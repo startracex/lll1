@@ -1,88 +1,113 @@
-import { css, CSSResultGroup, html, property } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
-import { type Direction8, GodownOpenable } from "../../supers/openable.js";
-import { cssvarValues } from "../../supers/root.js";
+import { css, html, property } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import { htmlSlot } from "../../lib/directives.js";
+import GodownSuperOpenable, { type Direction8 } from "../../proto/super-openable.js";
+import { createScope } from "../../styles/global.js";
 
-const defineName = "tooltip";
+const protoName = "tooltip";
+const cssScope = createScope(protoName);
 
 /**
- * {@linkcode Tooltip} provide tooltip for slot elements, summary as the tips content.
+ * {@linkcode Tooltip} provide tooltip for slot elements.
  *
  * Content can be opened in 8 directions.
+ *
+ * @slot tooltip - Tooltip element.
+ * @slot - Tooltip trigger.
+ *
  */
-@define(defineName)
-export class Tooltip extends GodownOpenable {
-  direction: Direction8 | "";
-  /**
-   * Tip content align.
-   */
-  @property() align: "center" | "flex-star" | "flex-end" | "" = "";
+@godown(protoName)
+@styles([
+  css`
+    :host {
+      --${cssScope}--tooltip-gap: .15em;
+      transition: 0.3s ease-in-out;
+      border-radius: 0.25em;
+      display: block;
+      height: 100%;
+    }
 
-  static styles: CSSResultGroup = [
-    GodownOpenable.styles,
-    css`
-      :host {
-        color: var(${cssvarValues.text});
-        display: inline-flex;
-        transition: 0.3s ease-in-out;
-        justify-content: center;
-      }
+    [part="root"] {
+      display: flex;
+      position: relative;
+      transition: inherit;
+      border-radius: inherit;
+    }
 
-      main {
-        display: inline-flex;
-        align-items: center;
-        position: relative;
-        transition: inherit;
-      }
+    [part="tooltip"] {
+      z-index: 1;
+      opacity: 0;
+      width: -moz-fit-content;
+      width: fit-content;
+      height: -moz-fit-content;
+      height: fit-content;
+      position: absolute;
+      visibility: hidden;
+      transition: inherit;
+      pointer-events: none;
+      border-radius: inherit;
+      transition-property:opacity;
+    }
 
-      main,
-      aside {
-        transition: inherit;
-        white-space: nowrap;
-      }
-
-      aside {
+    :host(:hover) [part="tooltip"],
+    :host([open]) [part="tooltip"] {
+      visibility: visible;
+      animation: open .8s forwards;
+    }
+    @keyframes open {
+      50% {
         opacity: 0;
-        position: absolute;
-        transition-property: opacity;
       }
-
-      :host(:hover) aside,
-      :host([open]) aside {
+      100% {
         opacity: 1;
       }
-    `,
-    css`
-      aside[class^="top"] {
-        bottom: 100%;
-      }
-      aside[class^="bottom"] {
-        top: 100%;
-      }
-      aside[class$="right"] {
-        left: 100%;
-      }
-      aside[class$="left"] {
-        right: 100%;
-      }
-    `,
-  ];
+    }
+  `,
+  css`
+    [direction^="top"] {
+      bottom: 100%;
+      padding-bottom: var(--${cssScope}--tooltip-gap);
+    }
+    [direction^="bottom"] {
+      top: 100%;
+      padding-top: var(--${cssScope}--tooltip-gap);
+    }
+    [direction$="right"] {
+      left: 100%;
+      padding-left: var(--${cssScope}--tooltip-gap);
+    }
+    [direction$="left"] {
+      right: 100%;
+      padding-right: var(--${cssScope}--tooltip-gap);
+    }
+  `,
+])
+export class Tooltip extends GodownSuperOpenable {
+  /**
+   * Open direction.
+   */
+  @property() direction: Direction8 = "top";
+  /**
+   * Content align.
+   */
+  @property() align: keyof typeof Tooltip.aligns | "inherit" = "center";
 
-  protected render(): HTMLTemplate {
-    return html`<main style="justify-content:${this.align || "inherit"}">
+  static aligns = {
+    start: "flex-start",
+    end: "flex-end",
+    center: "center",
+    "flex-start": "flex-start",
+    "flex-end": "flex-end",
+  };
+
+  protected render() {
+    const align = Tooltip.aligns[this.align] || "inherit";
+    return html`<div part="root" class="root" style="justify-content:${align};align-items:${align}">
       ${htmlSlot()}
-      <aside class="${this.direction || "top"}">${this.summary || htmlSlot("summary")}</aside>
-    </main>`;
+      <div part="tooltip" direction="${this.direction}">${htmlSlot("tooltip")}</div>
+    </div>`;
   }
 }
 
 export default Tooltip;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "open-tooltip": Tooltip;
-    "tool-tip": Tooltip;
-    "g-tooltip": Tooltip;
-  }
-}

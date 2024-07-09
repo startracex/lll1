@@ -1,14 +1,57 @@
-import { css, type CSSResultGroup, html, property } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { type HTMLTemplate } from "../../lib/templates.js";
-import { cssvarValues, GodownElement } from "../../supers/root.js";
+import { css, html, property } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import { GodownElement } from "../../proto/godown-element.js";
+import { cssGlobalVars } from "../../styles/global.js";
 
-const defineName = "progress";
+const protoName = "progress";
 
 /**
  * {@linkcode Progress} similar to  progress.
  */
-@define(defineName)
+@godown(protoName)
+@styles(css`
+  :host {
+    width: 100%;
+    height: 0.5em;
+    display: inline-block;
+    border-radius: 0.25em;
+    background: var(--${cssGlobalVars.passive});
+    color: var(--${cssGlobalVars.active});
+  }
+
+  [part="root"] {
+    height: inherit;
+    z-index: 1;
+    position: relative;
+    border-radius: inherit;
+  }
+
+  [part="value"] {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: inherit;
+    transition: all 0.3s;
+    animation: progress 1.5s ease-in-out infinite alternate;
+    background: currentColor;
+  }
+
+  @keyframes progress {
+    from {
+      left: 0;
+    }
+    to {
+      left: 80%;
+    }
+  }
+
+  .static [part="value"] {
+    animation: none;
+  }
+`)
 export class Progress extends GodownElement {
   /**
    * Maximum.
@@ -23,56 +66,15 @@ export class Progress extends GodownElement {
    */
   @property({ type: Number, reflect: true }) value = null;
 
-  static styles = [
-    GodownElement.styles,
-    css`
-      :host,
-      div {
-        display: inline-flex;
-        position: relative;
-        width: 10em;
-        height: 0.5em;
-        border-radius: 0.25em;
-        background: var(${cssvarValues.input}--false);
-        z-index: 1;
-      }
-
-      div i {
-        position: absolute;
-        border-radius: inherit;
-        top: 0;
-        left: 0;
-        height: 100%;
-        background: var(${cssvarValues.cssvar}--accept);
-        z-index: 2;
-        transition: all 0.3s;
-        animation: progress 1.5s ease-in-out infinite alternate;
-      }
-
-      @keyframes progress {
-        from {
-          left: 0;
-        }
-        to {
-          left: 80%;
-        }
-      }
-
-      div.v i {
-        animation: none;
-      }
-    `,
-  ] as CSSResultGroup;
-
-  protected render(): HTMLTemplate {
+  protected render() {
     let width = 20;
     let className: string;
     if (this.value !== null) {
       width = this.parsePercent(this.value);
-      className = "v";
+      className = "static";
     }
-    return html`<div class="${className}">
-      <i style="width:${width}%;"></i>
+    return html`<div part="root" class="${className}">
+      <i part="value" style="width:${width}%;"></i>
     </div>`;
   }
 
@@ -91,11 +93,3 @@ export class Progress extends GodownElement {
 }
 
 export default Progress;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "loading-progress": Progress;
-    "load-track": Progress;
-    "g-progress": Progress;
-  }
-}

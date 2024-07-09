@@ -1,143 +1,77 @@
-import { css, type CSSResultGroup, html, property, query } from "../../.deps.js";
-import { define } from "../../decorators/define.js";
-import { htmlSlot, type HTMLTemplate } from "../../lib/templates.js";
-import { each } from "../../lib/utils.js";
-import { GodownElement } from "../../supers/root.js";
+import { css, property } from "../../_deps.js";
+import { godown } from "../../decorators/godown.js";
+import { styles } from "../../decorators/styles.js";
+import { htmlSlot } from "../../lib/directives.js";
+import { GodownElement } from "../../proto/godown-element.js";
 
+const protoName = "form";
 /**
- * {@linkcode Form} gets all the names and actual values of the child element.
+ * {@linkcode Form} Gets child element key-value object,
+ * which will be nested if the child element is the same as this element.
+ *
+ * @slot - Child elements.
  */
-@define("form")
-export class Form<T extends object = object> extends GodownElement {
+@godown(protoName)
+@styles([
+  css`
+    :host {
+      display: block;
+    }
+  `,
+])
+export class Form<T = object> extends GodownElement {
   @property() name = "";
-  @property({ type: Object }) value = {} as T;
+  get value(): T {
+    return Form.buildValue(this._slot.assignedElements()) as T;
+  }
 
-  nameValue = () => this.namevalue();
-  /**
-   * Form enctype.
-   */
-  @property() enctype: "application/x-www-form-urlencoded" | "multipart/form-data" | "text/plain" = "multipart/form-data";
+  nameValue = this.namevalue;
 
-  @query("form") _form: HTMLFormElement;
-
-  static styles = [
-    css`
-      form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0;
-      }
-
-      main {
-        display: flex;
-        flex-direction: column;
-      }
-    `,
-  ] as CSSResultGroup;
-
-  protected render(): HTMLTemplate {
-    return html`<form enctype="${this.enctype}">
-      ${htmlSlot("pre")}
-      <main>${htmlSlot()}</main>
-      ${htmlSlot("suf")}
-    </form>`;
+  protected render() {
+    return htmlSlot();
   }
 
   reset() {
-    each(this._form, (node: HTMLFormElement | Form) => {
-      if (node.reset) {
-        node.reset();
+    this.deepQuerySelectorAll<HTMLElement & { reset?: () => void }>("*").forEach((el) => {
+      if (el.tagName === this.tagName) {
+        return;
+      }
+      if (el.reset) {
+        el.reset();
       }
     });
-    const form: any = document.createElement("form");
-    for (const slot of this.shadowRoot.querySelectorAll("slot")) {
-      for (const i of slot.assignedNodes() as any) {
-        if (i.reset) {
-          i.reset();
-        }
-        form.appendChild(i.cloneNode(true));
-      }
-    }
-    form.reset();
-    for (const slot of this.shadowRoot.querySelectorAll("slot")) {
-      for (const i of slot.assignedNodes() as any) {
-        if (i.name && form[i.name]) {
-          i.value = form[i.name].value;
-        }
-      }
-    }
-    form.remove();
   }
 
-  namevalue(enctype = this.enctype): [string, Record<string, any>] {
+  namevalue(): [string, T] {
+    return [this.name, this.value];
+  }
+
+  static buildValue(
+    elements: (Element & {
+      name?: string;
+      value?: unknown;
+      namevalue?: () => [string, unknown];
+    })[],
+  ): Record<string, any> {
     const result = {};
-    const tempForm = document.createElement("form");
-    tempForm.enctype = enctype;
-    for (const slot of this.shadowRoot.querySelectorAll("slot")) {
-      for (const i of slot.assignedNodes() as any) {
-        if (i.namevalue) {
-          const [name, value] = i.namevalue();
-          if (name) {
-            result[name] = value;
-          }
-        } else {
-          tempForm.appendChild(i.cloneNode(true));
-        }
-      }
-    }
-    const formData = new FormData(tempForm);
-    for (const [key, value] of formData) {
-      result[key] = value;
-    }
-    each(this._form, (node: any) => {
-      if (node.namevalue) {
-        const [name, value] = node.namevalue();
+    for (const el of elements) {
+      if (el.tagName === "FORM") {
+        Object.assign(result, Object.fromEntries(new FormData(el as HTMLFormElement).entries()));
+      } else if (el.namevalue) {
+        const [name, value] = el.namevalue();
         if (name) {
           result[name] = value;
         }
-      }
-    });
-    tempForm.remove();
-    return [this.name, result];
-  }
-
-  FormData(): FormData {
-    const temp = {};
-    const tempForm = document.createElement("form");
-    tempForm.enctype = this.enctype;
-    for (const slot of this._slots) {
-      for (const i of slot.assignedNodes() as any) {
-        if (i.FormData) {
-          for (const [key, value] of i.FormData()) {
-            temp[key] = value;
-          }
-        } else {
-          tempForm.appendChild(i.cloneNode(true));
+      } else if (el.name && el.value !== undefined) {
+        result[el.name] = el.value;
+      } else if (el.shadowRoot) {
+        for (const slot of el.shadowRoot.querySelectorAll("slot")) {
+          Object.assign(result, this.buildValue(slot.assignedElements()));
         }
       }
     }
-    const formData = new FormData(tempForm);
-    each(this._form, (node: any) => {
-      if (node.namevalue) {
-        const [name, value] = node.namevalue();
-        if (name) {
-          formData.append(name, value);
-        }
-      }
-    });
-    for (const key in temp) {
-      formData.append(key, temp[key]);
-    }
-    tempForm.remove();
-    return formData;
+    return result;
   }
 }
+
 export default Form;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "base-form": Form;
-    "g-form": Form;
-  }
-}
