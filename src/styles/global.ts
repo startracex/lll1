@@ -54,7 +54,7 @@ export const globalStyles = [
       --${cssGlobalVars.background}: rgb(var(--${cssGlobalVars.backgroundRGB}));
       --${cssGlobalVars.foregroundRGB}: ${colorRGBValues.lightgray[0]};
       --${cssGlobalVars.foreground}: rgb(var(--${cssGlobalVars.foregroundRGB}));
-      --${cssGlobalVars.active}: ${colorValues.blue[5]};
+      --${cssGlobalVars.active}: ${colorValues.blue[6]};
       --${cssGlobalVars.passive}: ${colorValues.darkgray[2]};
       --${cssGlobalVars.clipBackground}: linear-gradient(180deg, rgb(var(--${cssGlobalVars.foregroundRGB})), rgb(var(--${cssGlobalVars.foregroundRGB}) / 68%));
       --${cssvar}--selection-color: inherit;
