@@ -1,4 +1,4 @@
-import { presetsRGB } from "./presetsRGB";
+import { presetsRGB } from "./presetsRGB.js";
 
 export const presets = {} as typeof presetsRGB;
 Object.entries(presetsRGB).forEach(([key, values]) => {
