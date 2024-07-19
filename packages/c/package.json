@@ -1,0 +1,12 @@
+{
+  "name": "@lll1/c",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "pnpm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
