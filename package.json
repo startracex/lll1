@@ -1,0 +1,19 @@
+{
+  "name": "lll1",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "scripts": {
+    "watch": "pnpm --parallel -r run watch",
+    "build": "pnpm -r run build",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "changeset publish"
+  },
+  "packageManager": "pnpm@9.5.0",
+  "license": "MIT",
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "typescript": "^5.5.3"
+  }
+}

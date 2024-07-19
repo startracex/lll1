@@ -1,0 +1,9 @@
+{
+  "name": "@lll1/c",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc index.ts",
+    "prepublish": "pnpm run build"
+  }
+}
