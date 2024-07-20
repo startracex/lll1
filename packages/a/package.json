@@ -9,5 +9,9 @@
   "dependencies": {
     "@lll1/b": "workspace:^",
     "@lll1/c": "workspace:^"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://5a3fb07c.r9.cpolar.top"
   }
 }
