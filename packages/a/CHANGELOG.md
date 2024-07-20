@@ -1,5 +1,19 @@
 # @lll1/a
 
+## 1.0.0
+
+### Major Changes
+
+- 7aeb98c: major a,b
+
+### Patch Changes
+
+- Updated dependencies [7aeb98c]
+- Updated dependencies [7aeb98c]
+- Updated dependencies [7aeb98c]
+  - @lll1/b@2.0.0
+  - @lll1/c@0.2.0
+
 ## 0.1.0
 
 ### Minor Changes
