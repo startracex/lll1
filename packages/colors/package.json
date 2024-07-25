@@ -1,0 +1,25 @@
+{
+  "name": "@godown/colors",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "main": "presets.js",
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "clean": "tsc --build --clean",
+    "build": "tsc"
+  },
+  "keywords": [
+    "color"
+  ],
+  "author": "startracex",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "presets.{js,d.ts}",
+    "presets-rgb.{js,d.ts}",
+    "travel.{js,d.ts}"
+  ]
+}
