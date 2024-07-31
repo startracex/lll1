@@ -1,0 +1,43 @@
+{
+  "name": "@godown/f7-icon",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "main": "./f7-icon.js",
+  "exports": {
+    ".": "./f7-icon.js",
+    "./icons/*": {
+      "types": "./types/icon.d.ts",
+      "default": "./icons/*"
+    },
+    "./*": "./*"
+  },
+  "scripts": {
+    "build:ts": "tsc",
+    "build": "tsc && tsx build.ts",
+    "clean": "tsc --build --clean"
+  },
+  "keywords": [
+    "icons",
+    "framework7",
+    "f7"
+  ],
+  "author": "startracex",
+  "license": "MIT",
+  "dependencies": {
+    "@godown/element": "workspace:^",
+    "@iconify-json/f7": "^1.2.0",
+    "@iconify/tools": "^4.0.4",
+    "@iconify/utils": "^2.1.30",
+    "@lit/reactive-element": "^2.0.0",
+    "tslib": "^2.7.0"
+  },
+  "files": [
+    "icons/",
+    "lib/",
+    "types/",
+    "f7-icon.{js,js.map,d.ts,d.ts.map}",
+    "element.{js,js.map,d.ts,d.ts.map}",
+    "includes.json"
+  ]
+}
