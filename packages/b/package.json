@@ -1,0 +1,16 @@
+{
+  "name": "@lll1/b",
+  "version": "0.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc index.ts",
+    "prepublish": "pnpm run build"
+  },
+  "dependencies": {
+    "@lll1/c": "workspace:^"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
