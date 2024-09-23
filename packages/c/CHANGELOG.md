@@ -1,5 +1,11 @@
 # @lll1/c
 
+## 0.0.1-canary.1
+
+### Patch Changes
+
+- 4fb70cc: fix scripts
+
 ## 0.0.1-canary.0
 
 ### Patch Changes
