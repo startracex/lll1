@@ -1,5 +1,11 @@
 # @lll1/a
 
+## 0.0.2-canary.0
+
+### Patch Changes
+
+- 0a03807: patch a
+
 ## 0.0.1
 
 ### Patch Changes
