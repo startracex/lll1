@@ -1,6 +1,6 @@
 {
   "name": "@lll1/a",
-  "version": "0.0.1-canary.0",
+  "version": "0.0.1-canary.1",
   "main": "index.js",
   "type": "module",
   "scripts": {
