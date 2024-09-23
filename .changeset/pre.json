@@ -6,5 +6,7 @@
     "@lll1/b": "0.0.1",
     "@lll1/c": "0.0.1"
   },
-  "changesets": []
+  "changesets": [
+    "brown-apples-walk"
+  ]
 }
