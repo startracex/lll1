@@ -3,7 +3,7 @@ name: Publish And Release
 on:
   push:
     branches:
-      - next
+      - ali
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -23,7 +23,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
-          registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
 
       - name: Install dependencies
