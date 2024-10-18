@@ -13,8 +13,8 @@ body:
 
   - type: textarea
     attributes:
-      label: How did the error occur?
-      description: Describe in detail how the error occurred (step by step).
+      label: How did the bug occur.
+      description: Describe in detail how the bug occurred (step by step).
       value: |
         1. ...
         2. ...
@@ -31,24 +31,28 @@ body:
 
   - type: input
     attributes:
+      label: Link
+      description: Link to reproduce the error.
+    validations:
+      required: false
+
+  - type: input
+    attributes:
       label: Package
       description: The package name and version where the error occurs.
       placeholder: "godown:3.0.0"
     validations:
       required: true
 
-  - type: input
+  - type: textarea
     attributes:
-      label: Platform
-      description: Platform and version.
-      placeholder: Node.js 22, Chrome 120
-    validations:
-      required: false
-
-  - type: input
-    attributes:
-      label: Link
-      description: The links of reversible errors can be restored.
+      label: Environment.
+      description: The environment that caused the error.
+      value: |
+        - Browser: Chrome 129
+        - JavaScript runtime: Node.js 22.3
+        - Package manager: pnpm 9.11.0
+        - Other: ...
     validations:
       required: false
 
